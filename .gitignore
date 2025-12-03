@@ -1,0 +1,7 @@
+docs
+local_data
+*.o
+*.so
+.Rproj.user
+*.Rproj
+.Rhistory
