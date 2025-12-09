@@ -1,0 +1,38 @@
+Package: RmzTabM
+Title: R API for the mzTab-M Reference Implementation
+Version: 0.97.0
+Authors@R: c(
+    person(given = "Nils",
+           family = "Hoffmann",
+	   email = "nils.hoffmann@cebitec.uni-bielefeld.de",
+	   role = c("aut"),
+	   comment = c(ORCID = "0000-0002-6540-6875")),
+    person(given = "Steffen",
+           family = "Neumann",
+	   email = "sneumann@ipb-halle.de",
+	   role = c("aut"),
+	   comment = c(ORCID = "0000-0002-7899-7192")),
+    person(given = "Johannes", family = "Rainer",
+           email = "johannes.rainer@eurac.edu",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6977-7147")),
+    person(given = "Philippine", family = "Louail",
+           email = "philippine.louail@eurac.edu",
+           role = c("aut"),
+           comment = c(ORCID = "0009-0007-5429-6846")))
+Description:
+    The RmzTabM package provides functions to read and write files in mzTab-M
+    format. This package represents the reference implementation for mzTab-M
+    import/export for R.
+Depends: R (>= 4.4)
+Encoding: UTF-8
+License: Artistic-2.0
+URL: https://github.com/RforMassSpectrometry/RmzTabM
+BugReports: https://github.com/RforMassSpectrometry/RmzTabM/issues
+Suggests:
+    testthat,
+    pkgdown,
+    BiocStyle,
+    knitr,
+    rmarkdown
+RoxygenNote: 7.3.3
