@@ -16,6 +16,12 @@ max_line_length = 80
 [*.Rmd]
 indent_style = space
 indent_size = 4
+max_line_length = 80
+
+[*.qmd]
+indent_style = space
+indent_size = 4
+max_line_length = 80
 
 [Makefile]
 indent_style = tab
