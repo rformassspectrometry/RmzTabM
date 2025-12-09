@@ -1,0 +1,59 @@
+---
+title: "The R API for the mzTab-M File Format"
+package: RmzTabM
+format:
+  html:
+    minimal: true
+    theme: flatly
+vignette: >
+  %\VignetteIndexEntry{The R API for the mzTab-M File Format}
+  %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Metabolomics, Infrastructure, Quantitative}
+  %\VignettePackage{RmzTabM}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{quarto::html}
+  %\VignetteDepends{RmzTabM,BiocStyle}
+---
+
+# Introduction
+
+# Installation
+
+# R mzTab-M API
+
+... TODO ... general info, links to information ...
+
+```{r}
+library(RmzTabM)
+```
+
+## High-level, user faced functions
+
+## Low-level functions
+
+The low-level functions listed in this section provide the functionality to
+convert or format information and data for/from the [mzTab-M] format. These
+functions are designed to be re-used by other R packages and should take and
+return only basic, plain R data types.
+
+### Formatting and exporting
+
+#### Metadata
+
+The mzTab-M format defines various fields and parameters to describe the data
+and information of an experiment. The *RmzTabM* package provides a variety of
+utility functions that help defining and formatting this information.
+
+See also the [specification of the MTD
+section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
+for more information and optional and mandatory metadata fields.
+
+### Reading and importing
+
+
+### General utility functions
+
+# Session information
+
+```{r}
+sessionInfo()
+```

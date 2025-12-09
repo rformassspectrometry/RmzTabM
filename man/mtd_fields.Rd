@@ -7,26 +7,26 @@
 mtd_fields(..., field_prefix = "")
 }
 \arguments{
-\item{...}{`character` vector(s), each having the same length, with
-the values for the field(s). Parameter `field_prefix` defines the name
-of the field (e.g., `"cv"`). If names are provided (e.g.
-`label = "my label"`), these are appended to the `field_prefix` (e.g.,
-for `field_prefix = "cv"`, the returned field's name is combined to
-`"cv[1]-label"`).}
+\item{...}{\code{character} vector(s), each having the same length, with
+the values for the field(s). Parameter \code{field_prefix} defines the name
+of the field (e.g., \code{"cv"}). If names are provided (e.g.
+\code{label = "my label"}), these are appended to the \code{field_prefix} (e.g.,
+for \code{field_prefix = "cv"}, the returned field's name is combined to
+\code{"cv[1]-label"}).}
 
-\item{field_prefix}{`character(1)` defining the prefix to be used
-(e.g., `prefix = "cv"`). This is the prefix/first part of the field's
+\item{field_prefix}{\code{character(1)} defining the prefix to be used
+(e.g., \code{prefix = "cv"}). This is the prefix/first part of the field's
 name.}
 }
 \value{
-two column `character` `matrix` with the formatted elements.
+two column \code{character} \code{matrix} with the formatted elements.
 }
 \description{
 This function assists in creating and formatting information for the
 mzTab-M metadata section (MTD). It combines and formats the provided input
 values for a specific field.
 
-See [mzTab-M documentation](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
+See \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{mzTab-M documentation}
 for more information, examples and expected format.
 }
 \examples{
@@ -63,7 +63,7 @@ mtd_fields(
 
 }
 \seealso{
-[MTD-export] for other functions defining metadata information
+\link{MTD-export} for other functions defining metadata information
 }
 \author{
 Johannes Rainer, Philippine Louail

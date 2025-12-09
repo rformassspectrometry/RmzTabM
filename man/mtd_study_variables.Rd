@@ -3,7 +3,7 @@
 \name{mtd_study_variables}
 \alias{mtd_study_variables}
 \alias{mtd_define_study_variables}
-\title{mzTab-M *study variables* metadata information}
+\title{mzTab-M \emph{study variables} metadata information}
 \usage{
 mtd_study_variables(
   x,
@@ -17,63 +17,63 @@ mtd_study_variables(
 mtd_define_study_variables(x, study_variable_columns = character())
 }
 \arguments{
-\item{x}{`data.frame` with rows corresponding to individual *assays* and
+\item{x}{\code{data.frame} with rows corresponding to individual \emph{assays} and
 columns containing the experimental conditions/study variables. The
 number of rows is thus expected to be the same as the number of assays
-defined in the *assay* metadata section (using e.g., [mtd_assay()]) and
+defined in the \emph{assay} metadata section (using e.g., \code{\link[=mtd_assay]{mtd_assay()}}) and
 the order of rows is expected to match the order of assays.}
 
-\item{study_variable_columns}{`character` with the names of the columns in
-`x`to be included as study variables. If not defined (the default) a
+\item{study_variable_columns}{\code{character} with the names of the columns in
+\code{x}to be included as study variables. If not defined (the default) a
 single study variable will be defined assigning all assays to it.}
 
-\item{average_function}{optional `character` defining the function used to
+\item{average_function}{optional \code{character} defining the function used to
 calculate the study variable quantification value (reported in the
 following table(s)). Can be of length 1 or equal to the number of study
 variables (to allow defining a different function per variable). Use
-`mtd_define_study_variables()` to get the complete set of study
-variables for parameters `x` and `study_variable_columns`. Defaults
+\code{mtd_define_study_variables()} to get the complete set of study
+variables for parameters \code{x} and \code{study_variable_columns}. Defaults
 to the arithmetic mean.}
 
-\item{variation_function}{optional `character` defining the function used to
+\item{variation_function}{optional \code{character} defining the function used to
 calculate the study variable quantification variation value (reported in
 the following table(s)). Can be of length 1 or equal to the number of
 study variables (to allow defining a different function per variable).
-Use `mtd_define_study_variables()` to get the complete set of study
-variables for parameters `x` and `study_variable_columns`. Defaults
+Use \code{mtd_define_study_variables()} to get the complete set of study
+variables for parameters \code{x} and \code{study_variable_columns}. Defaults
 to the coefficient of variation.}
 
-\item{description}{`character` with a textual description of the study
+\item{description}{\code{character} with a textual description of the study
 variable. If provided, its length needs to be equal to the number of
-study variables. Use `mtd_define_study_variables()` to get the complete
-set of study variables for parameters `x` and `study_variable_columns`.
+study variables. Use \code{mtd_define_study_variables()} to get the complete
+set of study variables for parameters \code{x} and \code{study_variable_columns}.
 If not provided (the default) the description is used combines the
-column name in `x` and the value of the variable.}
+column name in \code{x} and the value of the variable.}
 
 \item{factors}{Currently not supported.}
 }
 \value{
-two-column `character` `matrix` with the content for the study
-    variables metadata section.
+two-column \code{character} \code{matrix} with the content for the study
+variables metadata section.
 }
 \description{
-A *study variable* in the mzTab-M definition is the **value** of an
-experimental variable (condition or factor), e.g., `"control"`, or
-`"2 hours"` (i.e., it is not the name of the factor). Each study variable
-**must** be reported in the following abundance tables. Each assay of a data
+A \emph{study variable} in the mzTab-M definition is the \strong{value} of an
+experimental variable (condition or factor), e.g., \code{"control"}, or
+\code{"2 hours"} (i.e., it is not the name of the factor). Each study variable
+\strong{must} be reported in the following abundance tables. Each assay of a data
 set must be referred to from at least one study variable* Even if a data set
-has no experimental variables, a study variable **must** be reported,
-linking to all assays, with the name `"undefined"`.
+has no experimental variables, a study variable \strong{must} be reported,
+linking to all assays, with the name \code{"undefined"}.
 
-Information for the mzTab-M *study variable* metadata section can be created
-using the `mtd_study_variables()` function. This function extracts the
-relevant information from an input `data.frame` in which rows are expected
-to represent *assays* (each row being one assay) and columns the experimental
+Information for the mzTab-M \emph{study variable} metadata section can be created
+using the \code{mtd_study_variables()} function. This function extracts the
+relevant information from an input \code{data.frame} in which rows are expected
+to represent \emph{assays} (each row being one assay) and columns the experimental
 factors that should be added as study variables.
 
-The `mtd_define_study_variables()` function can be used to get the set
+The \code{mtd_define_study_variables()} function can be used to get the set
 (and order) of study variables that would be generated from an input
-`data.frame` depending on the parameter `study_variable_columns`.
+\code{data.frame} depending on the parameter \code{study_variable_columns}.
 }
 \examples{
 
@@ -100,7 +100,7 @@ mtd_study_variables(x,
 mtd_study_variables(x)
 }
 \seealso{
-[MTD-export] for other functions defining metadata information
+\link{MTD-export} for other functions defining metadata information
 }
 \author{
 Philippine Louail, Johannes Rainer

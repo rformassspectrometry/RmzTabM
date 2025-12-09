@@ -2,7 +2,7 @@
 % Please edit documentation in R/MTD.R
 \name{mtd_ms_run}
 \alias{mtd_ms_run}
-\title{msTab-M *ms_run* metadata fields}
+\title{msTab-M \emph{ms_run} metadata fields}
 \usage{
 mtd_ms_run(
   location = character(),
@@ -16,56 +16,56 @@ mtd_ms_run(
 )
 }
 \arguments{
-\item{location}{`character` with the location (and file name) of the
+\item{location}{\code{character} with the location (and file name) of the
 individual runs. Each element will be one run. This parameter is
-required, set to `"null"` if the location of the file(s) is not known.}
+required, set to \code{"null"} if the location of the file(s) is not known.}
 
-\item{instrument_ref}{(optional) `integer()` with the index of the instrument
+\item{instrument_ref}{(optional) \code{integer()} with the index of the instrument
 the run was measured on.}
 
-\item{format}{(optional) `character` defining the format of the external MS
-data file. If specified, also `id_format` has be be provided. Can be of
-length 1 or equal to `length(location)`. For data file(s) in mzML format,
-`format = "[MS, MS:1000584, mzML file, ]"` can be used.}
+\item{format}{(optional) \code{character} defining the format of the external MS
+data file. If specified, also \code{id_format} has be be provided. Can be of
+length 1 or equal to \code{length(location)}. For data file(s) in mzML format,
+\code{format = "[MS, MS:1000584, mzML file, ]"} can be used.}
 
-\item{id_format}{(optional) `character` defining the id format used in the
-external data file. If specified, also `format` needs to be defined.
-Can be of length 1 or equal to `length(location)`. For data file(s) in
-mzML format, `format = "[MS, MS:1000530, mzML unique identifier, ]"`
+\item{id_format}{(optional) \code{character} defining the id format used in the
+external data file. If specified, also \code{format} needs to be defined.
+Can be of length 1 or equal to \code{length(location)}. For data file(s) in
+mzML format, \code{format = "[MS, MS:1000530, mzML unique identifier, ]"}
 can be used.}
 
-\item{fragmentation_method}{(optional) `list` of `character` defining the
+\item{fragmentation_method}{(optional) \code{list} of \code{character} defining the
 type(s) of fragmentation(s) used in a given ms run. Length must match
-length of `location` if provided. If no fragmentation was used for a
-specific file/run use `NULL` for that `list` element (position). As
+length of \code{location} if provided. If no fragmentation was used for a
+specific file/run use \code{NULL} for that \code{list} element (position). As
 example, if two runs are included, the first does not have any
 fragmentation and for the second CID and HCD was used define
-`list(NULL, c("[MS, MS:1000133, CID, ]", "[MS, MS:1000422, HCD, ]"))`.}
+\code{list(NULL, c("[MS, MS:1000133, CID, ]", "[MS, MS:1000422, HCD, ]"))}.}
 
-\item{scan_polarity}{`character` defining the polarity of a run. Can be
-either `"positive"` or `"negative"`. Can be of length 1 or equal to
-`length(location)`.}
+\item{scan_polarity}{\code{character} defining the polarity of a run. Can be
+either \code{"positive"} or \code{"negative"}. Can be of length 1 or equal to
+\code{length(location)}.}
 
-\item{hash}{(optional) `character` with the hash value of the corresponding
-external MS data file. If provided, also `hash_method` needs to be
-defined. The length of `hash` has to match the length of `location`.}
+\item{hash}{(optional) \code{character} with the hash value of the corresponding
+external MS data file. If provided, also \code{hash_method} needs to be
+defined. The length of \code{hash} has to match the length of \code{location}.}
 
-\item{hash_method}{(optional) `character` with the hash method used to
-generate the value in `hash`. If provided, also `hash` needs to be
-defined. The length of `hash_method` has to match the length of `hash`.}
+\item{hash_method}{(optional) \code{character} with the hash method used to
+generate the value in \code{hash}. If provided, also \code{hash} needs to be
+defined. The length of \code{hash_method} has to match the length of \code{hash}.}
 }
 \value{
-two column `character` `matrix` with the *ms_run* metadata fields
-    for a mzTab-M file.
+two column \code{character} \code{matrix} with the \emph{ms_run} metadata fields
+for a mzTab-M file.
 }
 \description{
-The `mtd_ms_run()` function allows to define and format the *ms_run* fields
+The \code{mtd_ms_run()} function allows to define and format the \emph{ms_run} fields
 of the mzTab-M metadata. The information is build on the actual data file
 names along with optional additional parameters to characterize the MS
 run(s).
 
-For details and expected input for the various parameter it is **strongly
-suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
+For details and expected input for the various parameter it is \strong{strongly
+suggested} to consult the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{mzTab-M} documentation.
 }
 \note{
 At present only a single polarity per run/file is supported.
@@ -87,7 +87,7 @@ mtd_ms_run(location = fls, scan_polarity = "positive",
     fragmentation_method = list(NULL, "[MS, MS:1000133, CID, ]"))
 }
 \seealso{
-[MTD-export] for other functions defining metadata information
+\link{MTD-export} for other functions defining metadata information
 }
 \author{
 Johannes Rainer, Philippine Louail

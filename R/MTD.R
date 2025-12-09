@@ -7,7 +7,7 @@
 #' @description
 #'
 #' The metadata section/table of the mzTab-M definition is comprehensive, but
-#' also tricky to define. The *rmzTabM* package provides a variety of utility
+#' also tricky to define. The *RmzTabM* package provides a variety of utility
 #' functions that help defining this information. These might be re-used for
 #' software package developers to export metabolomics results from their
 #' respective software. Importantly, the helper functions listed here only
@@ -1091,7 +1091,7 @@ mtd_sort <- function(x) {
                field_prefix = "database")
 }
 
-#' Helper function to create xxx[1]-custom[1] fields for `character` vectors
+#' Helper function to create `xxx[1]-custom[1]` fields for `character` vectors
 #' passed through `...`. It is somewhat similar to the `.mtd_multi_fields()`,
 #' but takes arbitrary many input variables, that have however all to have
 #' the same length. Thus, it is expected that for each element exactly one

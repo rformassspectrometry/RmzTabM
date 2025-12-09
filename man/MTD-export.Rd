@@ -5,48 +5,45 @@
 \title{Defining and exporting the mzTab-M metadata table}
 \description{
 The metadata section/table of the mzTab-M definition is comprehensive, but
-also tricky to define. The *rmzTabM* package provides a variety of utility
+also tricky to define. The \emph{RmzTabM} package provides a variety of utility
 functions that help defining this information. These might be re-used for
 software package developers to export metabolomics results from their
 respective software. Importantly, the helper functions listed here only
 define the core elements for the MTD section, helping with re-arranging and
-reformatting information available e.g. in `data.frame` format into the
+reformatting information available e.g. in \code{data.frame} format into the
 respective fields in the MTD section. Additional (optional) fields might
 need to be added manually depending on availability for an experiment.
 
-See also the [specification of the MTD section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
+See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{specification of the MTD section}
 for details and more information, in particular on the format of the mzTab-M
 and on mandatory or optional fields.
 
 Generally, MTD data can be categarized into the following parts:
-
-- *Core information*: general information on the experiment. A minimal
-  set can be created using the [mtd_skeleton()] function, which might be
-  further expanded with additional fields. This section allows to describe
-  the general experimental setup. Also, it should contain references to
-  **all** controlled vocabulary (CV) ontologies used and refered to in the
-  mzTab-M file.
-
-- *Sample information*: optional information on individual samples that were
-  measured with the various *assays*/*runs*. The [mtd_sample()] function
-  assists in compiling the information for this section.
-
-- *MS run information*: information on the individual MS *runs*
-  (measurements of the samples). Each data file is one run. Use the
-  [mtd_ms_run()] function to define this part of the metadata section.
-
-- *Assay information*: the [mtd_assay()] function assists in compiling the
-  assay section of the metadata. Mandatory fields are the name (ID) of the
-  assay and the reference to the *MS run* in which the assay was measured.
-  Optional information on sample reference, external links or custom
-  information can be provided too. In most cases (except multiplexed assays
-  or pre-fractionated samples) one assay will link to one MS run. Each assay
-  **must** represent one column in the following *abundance matrix* sections.
-
-- *Study variable information*: the [mtd_study_variables()] function allows
-  to format study variable information from an experiment into the mzTab-M
-  format. All study variables need to be assigned to at least one assay and
-  must also be reported in the subsequent abundance matrices.
+\itemize{
+\item \emph{Core information}: general information on the experiment. A minimal
+set can be created using the \code{\link[=mtd_skeleton]{mtd_skeleton()}} function, which might be
+further expanded with additional fields. This section allows to describe
+the general experimental setup. Also, it should contain references to
+\strong{all} controlled vocabulary (CV) ontologies used and refered to in the
+mzTab-M file.
+\item \emph{Sample information}: optional information on individual samples that were
+measured with the various \emph{assays}/\emph{runs}. The \code{\link[=mtd_sample]{mtd_sample()}} function
+assists in compiling the information for this section.
+\item \emph{MS run information}: information on the individual MS \emph{runs}
+(measurements of the samples). Each data file is one run. Use the
+\code{\link[=mtd_ms_run]{mtd_ms_run()}} function to define this part of the metadata section.
+\item \emph{Assay information}: the \code{\link[=mtd_assay]{mtd_assay()}} function assists in compiling the
+assay section of the metadata. Mandatory fields are the name (ID) of the
+assay and the reference to the \emph{MS run} in which the assay was measured.
+Optional information on sample reference, external links or custom
+information can be provided too. In most cases (except multiplexed assays
+or pre-fractionated samples) one assay will link to one MS run. Each assay
+\strong{must} represent one column in the following \emph{abundance matrix} sections.
+\item \emph{Study variable information}: the \code{\link[=mtd_study_variables]{mtd_study_variables()}} function allows
+to format study variable information from an experiment into the mzTab-M
+format. All study variables need to be assigned to at least one assay and
+must also be reported in the subsequent abundance matrices.
+}
 
 The helper function listed above can be used sequentially to create the
 metadata information. See the examples below for a general approach how to
@@ -54,20 +51,20 @@ define the MTD section of an experiment.
 
 In addition, various helper functions are available to assist in MTD data
 generation:
-
-- [mtd_sort()]: to sort the MTD `matrix` into the expected order.
-- [mtd_fields()]: helps formatting values into the mzTab-M-specific format.
+\itemize{
+\item \code{\link[=mtd_sort]{mtd_sort()}}: to sort the MTD \code{matrix} into the expected order.
+\item \code{\link[=mtd_fields]{mtd_fields()}}: helps formatting values into the mzTab-M-specific format.
+}
 }
 \note{
-The general relationship between *ms_run*, *assay* and *sample*:
-
-- one *ms_run* is the measurement of one assay.
-
-- one assay can be measured by several MS runs (if fractionated) or multiple
-  assays can be measured in the same MS run (if multiplexed).
-
-- one assay is (generally) one sample, but the same sample can be measured
-  with multiple assays.
+The general relationship between \emph{ms_run}, \emph{assay} and \emph{sample}:
+\itemize{
+\item one \emph{ms_run} is the measurement of one assay.
+\item one assay can be measured by several MS runs (if fractionated) or multiple
+assays can be measured in the same MS run (if multiplexed).
+\item one assay is (generally) one sample, but the same sample can be measured
+with multiple assays.
+}
 }
 \examples{
 
