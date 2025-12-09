@@ -6,13 +6,12 @@ format:
     minimal: true
     theme: flatly
 vignette: >
-  %\VignetteIndexEntry{The R API for the mzTab-M File Forat}
+  %\VignetteIndexEntry{The R API for the mzTab-M File Format}
   %\VignetteKeywords{Mass Spectrometry, MS, MSMS, Metabolomics, Infrastructure, Quantitative}
   %\VignettePackage{RmzTabM}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{quarto::html}
   %\VignetteDepends{RmzTabM,BiocStyle}
-
 ---
 
 # Introduction
