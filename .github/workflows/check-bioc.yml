@@ -92,6 +92,10 @@ jobs:
         if: runner.os != 'Linux'
         uses: r-lib/actions/setup-pandoc@v2
 
+      - name: Install quarto
+        if: runner.os != 'Linux'
+        uses: quarto-dev/quarto-actions/setup@v2
+
       - name: Query dependencies
         run: |
           install.packages('remotes')

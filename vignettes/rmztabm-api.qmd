@@ -44,8 +44,14 @@ The mzTab-M format defines various fields and parameters to describe the data
 and information of an experiment. The *RmzTabM* package provides a variety of
 utility functions that help defining and formatting this information.
 
+See also the [specification of the MTD
+section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
+for more information and optional and mandatory metadata fields.
+
 ### Reading and importing
 
+
+### General utility functions
 
 # Session information
 
