@@ -2,7 +2,7 @@
 % Please edit documentation in R/MTD.R
 \name{mtd_sample}
 \alias{mtd_sample}
-\title{msTab-M *sample* metadata information}
+\title{msTab-M \emph{sample} metadata information}
 \usage{
 mtd_sample(
   ...,
@@ -15,53 +15,53 @@ mtd_sample(
 )
 }
 \arguments{
-\item{...}{optional *custom* information for each individual sample. Each
-custom variable is expected to be provided as a `character` of length
-equal to the length of parameter `sample`.}
+\item{...}{optional \emph{custom} information for each individual sample. Each
+custom variable is expected to be provided as a \code{character} of length
+equal to the length of parameter \code{sample}.}
 
-\item{sample}{`character` with the labels/names of the individual samples.}
+\item{sample}{\code{character} with the labels/names of the individual samples.}
 
-\item{species}{`list` of length equal to `length(sample)` with each element
+\item{species}{\code{list} of length equal to \code{length(sample)} with each element
 providing the species (eventually multiple) for each sample. Can also
-be a `character` of `length(sample)` to assing a single species to each
-`sample`, or a `character(1)` of length one to assign the same species
+be a \code{character} of \code{length(sample)} to assing a single species to each
+\code{sample}, or a \code{character(1)} of length one to assign the same species
 to every sample.}
 
-\item{tissue}{`list` with the tissue(s) of each sample. The same format
-as described for parameter `species` can be used.}
+\item{tissue}{\code{list} with the tissue(s) of each sample. The same format
+as described for parameter \code{species} can be used.}
 
-\item{cell_type}{`list` with the cell type(s) of each sample. The same format
-as described for parameter `species` can be used.}
+\item{cell_type}{\code{list} with the cell type(s) of each sample. The same format
+as described for parameter \code{species} can be used.}
 
-\item{disease}{`list` with the disease(s) of each sample. The same format
-as described for parameter `species` can be used.}
+\item{disease}{\code{list} with the disease(s) of each sample. The same format
+as described for parameter \code{species} can be used.}
 
-\item{description}{`character` of length equal to `length(sample)` with
+\item{description}{\code{character} of length equal to \code{length(sample)} with
 optional description of each sample.}
 }
 \value{
-two column `character` `matrix` with the information formatted as
-    sample section of the mzTab-M format.
+two column \code{character} \code{matrix} with the information formatted as
+sample section of the mzTab-M format.
 }
 \description{
-The `mtd_samples()` function aids in creating and formatting the (optional)
+The \code{mtd_samples()} function aids in creating and formatting the (optional)
 sample information from the mzTab-M metadata section. If defined, the sample
-information **must** be correctly linked to from the *assay* section. In
+information \strong{must} be correctly linked to from the \emph{assay} section. In
 particular, the assays need to link to the index of the samples defined in
 this section. One entry for each originating sample should be defined
 (without information on experimental properties). For each sample one
-or more additional characteristics (such as `species`, `tissue`, `cell_type`
-or `disease`) can be provided. Thus, these parameters expect the input be
-provided as a `list`. In addition, if a single value needs to be assigned
-to each sample, a `character(1)` of length 1 can be provided with the
+or more additional characteristics (such as \code{species}, \code{tissue}, \code{cell_type}
+or \code{disease}) can be provided. Thus, these parameters expect the input be
+provided as a \code{list}. In addition, if a single value needs to be assigned
+to each sample, a \code{character(1)} of length 1 can be provided with the
 respective input parameter.
 
-**Important:** to support the optional additional parameters passed along
-with `...` **all** parameters (such as `sample`, `species` etc) have to
-be **fully** spelled out.
+\strong{Important:} to support the optional additional parameters passed along
+with \code{...} \strong{all} parameters (such as \code{sample}, \code{species} etc) have to
+be \strong{fully} spelled out.
 
-For details and expected input for the various parameter it is **strongly
-suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
+For details and expected input for the various parameter it is \strong{strongly
+suggested} to consult the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{mzTab-M} documentation.
 }
 \examples{
 
@@ -108,5 +108,5 @@ mtd_sample(sample = c("A", "B"),
       "[,,Extraction reason, liver biopsy]"))
 }
 \seealso{
-[MTD-export] for other functions defining metadata information
+\link{MTD-export} for other functions defining metadata information
 }

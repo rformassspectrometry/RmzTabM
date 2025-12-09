@@ -28,72 +28,72 @@ mtd_skeleton(
 )
 }
 \arguments{
-\item{id}{`character(1)` (**mandatory**) with the ID of the data set.}
+\item{id}{\code{character(1)} (\strong{mandatory}) with the ID of the data set.}
 
-\item{software}{`character` (**mandatory**) with the software(s) used.
+\item{software}{\code{character} (\strong{mandatory}) with the software(s) used.
 Can be of length > 1 if multiple softwares were used. Software should
 be provided in the order in which they were used.}
 
-\item{quantification_method}{`character(1)` defining the quantification
+\item{quantification_method}{\code{character(1)} defining the quantification
 method used in the experiment.}
 
-\item{cv_label}{`character` describing the labels of the controlled
+\item{cv_label}{\code{character} describing the labels of the controlled
 vocabularies/ontologies used in the mzTab file as a short-hand, e.g.
-`cv_label = "MS"` for PSI-MS.}
+\code{cv_label = "MS"} for PSI-MS.}
 
-\item{cv_full_name}{`character` with the full names of the controlled
+\item{cv_full_name}{\code{character} with the full names of the controlled
 vocabularies/ontologies used in the mzTab file.}
 
-\item{cv_version}{`character` with the version of the used
+\item{cv_version}{\code{character} with the version of the used
 vocabularies/ontologies.}
 
-\item{cv_uri}{`character` with the URIs of the vocabularies/ontologies.}
+\item{cv_uri}{\code{character} with the URIs of the vocabularies/ontologies.}
 
-\item{database}{`character` defining the database used for annotation. If no
-annotation/identification was performed then `"[,, no database, null]"`
+\item{database}{\code{character} defining the database used for annotation. If no
+annotation/identification was performed then \code{"[,, no database, null]"}
 should be used.}
 
-\item{database_prefix}{`character` defining the prefix used in the
-*identifier* column of data tables. For *no database*, `"null"` must
+\item{database_prefix}{\code{character} defining the prefix used in the
+\emph{identifier} column of data tables. For \emph{no database}, \code{"null"} must
 be used.}
 
-\item{database_version}{`character` with the database version used.}
+\item{database_version}{\code{character} with the database version used.}
 
-\item{database_uri}{`character` with the URI to the database(s). For
-*no database* `"null"` must be used.}
+\item{database_uri}{\code{character} with the URI to the database(s). For
+\emph{no database} \code{"null"} must be used.}
 
-\item{small_molecule_quantification_unit}{`character(1)` defines the type
+\item{small_molecule_quantification_unit}{\code{character(1)} defines the type
 of units are reported in the small molecule summary quantification/
 abundance fields.}
 
-\item{small_molecule_feature_quantification_unit}{`character(1)` defines
+\item{small_molecule_feature_quantification_unit}{\code{character(1)} defines
 what type of units are reported in the small molecule feature
 quantification / abundance fields.}
 
-\item{small_molecule_identification_reliability}{`character(1)` defines the
+\item{small_molecule_identification_reliability}{\code{character(1)} defines the
 system used for giving reliability / confidence codes to small molecule
 identifications MUST be specified if not using the default codes.}
 
-\item{mztab_version}{`character(1)` defining the mzTab-M version of the file.}
+\item{mztab_version}{\code{character(1)} defining the mzTab-M version of the file.}
 }
 \value{
-two-column `character` `matrix` that should be expanded with
-    additional fields (such as *title*, *description* etc) and
-    information (with the help from the `mtd_fields()` function).
+two-column \code{character} \code{matrix} that should be expanded with
+additional fields (such as \emph{title}, \emph{description} etc) and
+information (with the help from the \code{mtd_fields()} function).
 }
 \description{
-This *core* MTD section allows to describe the general experimental setup
+This \emph{core} MTD section allows to describe the general experimental setup
 and provides general information of the data set. It should contain
-references to **all** controlled vocabulary (CV) ontologies used and
+references to \strong{all} controlled vocabulary (CV) ontologies used and
 refered to in the mzTab-M file.
-The `mtd_skeleton()` function creates a two-column `matrix` with the
-basic mzTab-M *MTD* section based on the provided data. The returned
+The \code{mtd_skeleton()} function creates a two-column \code{matrix} with the
+basic mzTab-M \emph{MTD} section based on the provided data. The returned
 result contains only minimal information. It should be expanded, corrected
 and completed with additional fields and information (i.e., the
-*skeleton* returned by this function should be completed with *flesh*).
+\emph{skeleton} returned by this function should be completed with \emph{flesh}).
 
-For details and expected input for the various parameter it is **strongly
-suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
+For details and expected input for the various parameter it is \strong{strongly
+suggested} to consult the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{mzTab-M} documentation.
 }
 \examples{
 
@@ -156,7 +156,7 @@ mtd <- mtd_sort(mtd)
 mtd
 }
 \seealso{
-[MTD-export] for other functions defining metadata information
+\link{MTD-export} for other functions defining metadata information
 }
 \author{
 Philippine Louail, Johannes Rainer

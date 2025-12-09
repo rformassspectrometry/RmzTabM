@@ -2,7 +2,7 @@
 % Please edit documentation in R/MTD.R
 \name{mtd_assay}
 \alias{mtd_assay}
-\title{mzTab-M *assay* metadata information}
+\title{mzTab-M \emph{assay} metadata information}
 \usage{
 mtd_assay(
   ...,
@@ -14,45 +14,45 @@ mtd_assay(
 }
 \arguments{
 \item{...}{optional additional (custom) parameters for each assay. If
-provided, the length of the `character` vector(s) have to match the
-length of parameter `assay`.}
+provided, the length of the \code{character} vector(s) have to match the
+length of parameter \code{assay}.}
 
-\item{assay}{`character` with the names of the assay(s). Each assay **must**
+\item{assay}{\code{character} with the names of the assay(s). Each assay \strong{must}
 be reported in the following sections (e.g. the SMF section).}
 
-\item{external_uri}{optional `character` with a reference to further
+\item{external_uri}{optional \code{character} with a reference to further
 information about the assay, for example via a reference to an object
 within an ISA-TAB file. Can be of length 1 (in which case the same
 reference is assigned to every assay) or length equal to the length
-of `assay`.}
+of \code{assay}.}
 
-\item{sample_ref}{optional `character` with the ID/name of the sample for
-the assay (e.g. `"sample[1]"`). If provided, its length has to match
-the length of `assay`.}
+\item{sample_ref}{optional \code{character} with the ID/name of the sample for
+the assay (e.g. \code{"sample[1]"}). If provided, its length has to match
+the length of \code{assay}.}
 
-\item{ms_run_ref}{`character` with the ID of associated *ms_run*(s). For
+\item{ms_run_ref}{\code{character} with the ID of associated \emph{ms_run}(s). For
 multiplexed assays, different assays can refer to the same run. To
 support pre-fractionated samples, it is also possible to provide a
-`list` of `character` with the runs the assay was measured in. See
+\code{list} of \code{character} with the runs the assay was measured in. See
 examples below for more details.}
 }
 \value{
-two-column `character` `matrix` with the content for the assay
-    metadata section.
+two-column \code{character} \code{matrix} with the content for the assay
+metadata section.
 }
 \description{
-The `mtd_assay()` function assists in compiling the *assay* information of
-the metadata section. Each assay **must** be associated with at least one
-entry of the *ms_run* section (see [mtd_ms_run()]). This mapping can be
-defined with the `ms_run_ref` parameter by providing the ID/name of the
-run (e.g. `"ms_run[1]"`).
+The \code{mtd_assay()} function assists in compiling the \emph{assay} information of
+the metadata section. Each assay \strong{must} be associated with at least one
+entry of the \emph{ms_run} section (see \code{\link[=mtd_ms_run]{mtd_ms_run()}}). This mapping can be
+defined with the \code{ms_run_ref} parameter by providing the ID/name of the
+run (e.g. \code{"ms_run[1]"}).
 
-**Important:** to support the optional additional parameters passed along
-with `...` **all** parameters (such as `assay`, `sample_ref` etc) have to
-be **fully** spelled out.
+\strong{Important:} to support the optional additional parameters passed along
+with \code{...} \strong{all} parameters (such as \code{assay}, \code{sample_ref} etc) have to
+be \strong{fully} spelled out.
 
-For details and expected input for the various parameter it is **strongly
-suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
+For details and expected input for the various parameter it is \strong{strongly
+suggested} to consult the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{mzTab-M} documentation.
 }
 \examples{
 
@@ -88,7 +88,7 @@ mtd_assay(assay = c("a1", "a2", "a3"),
       "[MS, , Assay operator, Frodo]"))
 }
 \seealso{
-[MTD-export] for other functions defining metadata information
+\link{MTD-export} for other functions defining metadata information
 }
 \author{
 Johannes Rainer
