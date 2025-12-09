@@ -1,15 +1,18 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/reference/MTD-export.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/mtd_assay.html</loc></url>
-<url><loc>/reference/mtd_fields.html</loc></url>
-<url><loc>/reference/mtd_ms_run.html</loc></url>
-<url><loc>/reference/mtd_sample.html</loc></url>
-<url><loc>/reference/mtd_skeleton.html</loc></url>
-<url><loc>/reference/mtd_sort.html</loc></url>
-<url><loc>/reference/mtd_study_variables.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/404.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/articles/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/articles/rmztabm-api.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/authors.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/news/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_ms_run.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sample.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_skeleton.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sort.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtd_study_variables.html</loc></url>
 </urlset>
 
