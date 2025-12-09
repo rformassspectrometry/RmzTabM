@@ -7,7 +7,7 @@
 #' @description
 #'
 #' The metadata section/table of the mzTab-M definition is comprehensive, but
-#' also tricky to define. The *rmzTabM* package provides a variety of utility
+#' also tricky to define. The *RmzTabM* package provides a variety of utility
 #' functions that help defining this information. These might be re-used for
 #' software package developers to export metabolomics results from their
 #' respective software. Importantly, the helper functions listed here only
