@@ -24,6 +24,10 @@
 #'   compliance.
 #' - Sets the line prefix column `SFH` to `"SMF"`.
 #' - Orders columns according to the mzTab-M specification.
+#' 
+#' **Important:** to support the optional additional parameters passed along
+#' with `...` **all** parameters (such as `adduct_ion`, 
+#' `retention_time_in_seconds` etc) have to be **fully** spelled out.
 #'
 #' See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
 #' for details.
@@ -100,6 +104,7 @@
 #' head(smf_final)
 #' @export
 smf_create <- function(
+    ...,
     smf_df,
     exp_mass_to_charge = NULL,
     retention_time_in_seconds = NULL,
@@ -109,8 +114,7 @@ smf_create <- function(
     SME_ID_REF_ambiguity_code = NULL,
     charge = NULL,
     adduct_ion = NULL,
-    isotopomer = NULL,
-    ...
+    isotopomer = NULL
 ) {
     if (is.null(exp_mass_to_charge)) {
         stop(
