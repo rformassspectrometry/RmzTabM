@@ -11,7 +11,7 @@ vignette: >
   %\VignettePackage{RmzTabM}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{quarto::html}
-  %\VignetteDepends{RmzTabM,BiocStyle}
+  %\VignetteDepends{RmzTabM,BiocStyle,pander}
 ---
 
 # Introduction
