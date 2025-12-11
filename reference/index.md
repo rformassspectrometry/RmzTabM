@@ -34,3 +34,6 @@
   :
 
   mzTab-M *study variables* metadata information
+
+- [`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
+  : Create the mzTab-M Small Molecule Feature (SMF) Table
