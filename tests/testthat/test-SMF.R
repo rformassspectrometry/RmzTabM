@@ -28,7 +28,7 @@ test_that(".fill_column works", {
     expect_equal(res, c("1", "null", "3"))
     res <- .fill_column(1, 3)
     expect_equal(res, c("1", "1", "1"))
-    expect_warning(.fill_column(c(1, 2), 3), "does not match row count")
+    expect_error(.fill_column(c(1, 2), 3), "does not match row count")
 })
 
 test_that("smf_create works", {
@@ -62,7 +62,7 @@ test_that("smf_create works", {
          exp_mass_to_charge = c(100.1, 100.2)),
         "must be named"
     )
-    expect_warning(
+    expect_error(
         smf_create(
             smf_df = mat,
             exp_mass_to_charge = c(100.1, 100.2),
@@ -71,7 +71,7 @@ test_that("smf_create works", {
         "does not match row count"
     )
 
-    expect_warning(
+    expect_error(
         smf_create(
             smf_df = mat,
             exp_mass_to_charge = c(100.1, 100.2),

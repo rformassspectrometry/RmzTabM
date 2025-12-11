@@ -8,7 +8,7 @@
 #'
 #' The Small Molecule Feature (SMF) section of the mzTab-M definition captures
 #' information on the individual MS features (quantified regions, e.g.,
-#' elution profiles of specific m/z and retention times) that were measured
+#' elution profiles of specific *m/z* and retention times) that were measured
 #' across the assays.
 #'
 #' `smf_create()` provides a simplified workflow to generate this table in a
@@ -27,8 +27,11 @@
 #' 
 #' **Important:** to support the optional additional parameters passed along
 #' with `...` **all** parameters (such as `adduct_ion`, 
-#' `retention_time_in_seconds` etc) have to be **fully** spelled out.
-#'
+#' `retention_time_in_seconds` etc) have to be **fully** spelled out. All 
+#' parameters are vectorized and recycled as needed to match the number of rows
+#' in the abundance matrix, if their length is not equal to the number of rows 
+#' or 1, an error is raised.
+#' 
 #' See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
 #' for details.
 #'
@@ -70,7 +73,7 @@
 #'   the 'SFH' line prefix, standard columns ordered according to spec,
 #'   abundance columns, and any optional columns.
 #'
-#' @author Philippine Louail, Johannes Rainer
+#' @author Philippine Louail
 #'
 #' @examples
 #'
@@ -182,7 +185,7 @@ smf_create <- function(
 #' @return A `data.frame` containing the `SMF_ID` column and the renamed
 #'   abundance columns.
 #'
-#' @author Philippine Louail, Johannes Rainer
+#' @author Philippine Louail
 #'
 #' @noRd
 .smf_abundance_matrix <- function(abundance_matrix) {
@@ -216,7 +219,7 @@ smf_create <- function(
     }
     input_data[is.na(input_data)] <- "null"
     if (length(input_data) != length_out && length(input_data) != 1) {
-        warning(
+        stop(
             "Input length ",
             length(input_data),
             " does not match row count : ",

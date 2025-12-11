@@ -61,7 +61,7 @@ abundance columns, and any optional columns.
 \description{
 The Small Molecule Feature (SMF) section of the mzTab-M definition captures
 information on the individual MS features (quantified regions, e.g.,
-elution profiles of specific m/z and retention times) that were measured
+elution profiles of specific \emph{m/z} and retention times) that were measured
 across the assays.
 
 \code{smf_create()} provides a simplified workflow to generate this table in a
@@ -81,7 +81,10 @@ compliance.
 
 \strong{Important:} to support the optional additional parameters passed along
 with \code{...} \strong{all} parameters (such as \code{adduct_ion},
-\code{retention_time_in_seconds} etc) have to be \strong{fully} spelled out.
+\code{retention_time_in_seconds} etc) have to be \strong{fully} spelled out. All
+parameters are vectorized and recycled as needed to match the number of rows
+in the abundance matrix, if their length is not equal to the number of rows
+or 1, an error is raised.
 
 See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section}{specification of the SMF section}
 for details.
@@ -118,5 +121,5 @@ smf_final <- smf_create(
 head(smf_final)
 }
 \author{
-Philippine Louail, Johannes Rainer
+Philippine Louail
 }
