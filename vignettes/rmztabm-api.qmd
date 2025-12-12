@@ -11,7 +11,7 @@ vignette: >
   %\VignettePackage{RmzTabM}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{quarto::html}
-  %\VignetteDepends{RmzTabM,BiocStyle}
+  %\VignetteDepends{RmzTabM,BiocStyle,pander}
 ---
 
 # Introduction
@@ -42,7 +42,10 @@ library(RmzTabM)
 
 ## High-level, user faced functions
 
-TODO: implement these functions.
+TODO: implement these functions. These functions should simplify import/export
+taking more complex or multiple data parts (`data.frame`s, `matrix` etc) as
+input and write the formatted data directly to a mzTab-M file, or should read a
+mzTab-M file returning it's content as e.g. a `list` of elements.
 
 ## Low-level functions
 
@@ -67,13 +70,11 @@ for more information and optional and mandatory metadata fields.
 The general categories of the metadadata in the mzTab-M MTD section are *core
 information*, *sample information*, *MS run information*, *assay information*
 and *study variable information*. For each of these categories a separate R
-function is available to create and format the respective fields. These are
-presented below using a simple example. We thus define below a *sample*
-information `data.frame` in a typical format used by e.g. Bioconductor
-package. In our example we assume 3 samples (e.g. cell lines) each measured at
-two different time points. An additional column *genotype* specifies the
-genotype of the individual samples and a column *operator* the initials of the
-researcher extracting the samples.
+function is available to create and format the respective fields. As an example,
+we define below a `data.frame` with sample information. In our example we assume
+3 samples (e.g. cell lines) each measured at two different time points. An
+additional column *genotype* specifies the genotype of the individual samples
+and a column *operator* the initials of the researcher extracting the samples.
 
 ```{r}
 #' Define a simple data.frame of the measured samples of an experiment
@@ -98,7 +99,7 @@ in addition we specify the software used to process the data:
 ```{r}
 mtd <- mtd_skeleton(
     id = "EXP_001",
-    software = "[MS, MS:1001582], xcms, 4.1.0"
+    software = "[MS, MS:1001582, xcms, 4.1.0]"
 )
 mtd
 ```
@@ -209,8 +210,8 @@ supported. See the help of the `mtd_assay()` function for details on multiplexed
 or pre-fractionated samples. Mandatory information that has to be provided to
 the `mtd_assay()` function are the name (ID) of the assay and the reference to
 the MS run in which the assay was measured. For the latter, a format of
-`"ms_run[<index of the MS run>"` is expected. For our example we provide in
-addition the (optional, but suggested) reference of each assay to the original
+`"ms_run[<index of the MS run>]"` is expected. For our example we provide in
+addition also the (optional, but suggested) reference to the original
 sample. Note that each assay must represent one column in the following feature
 abundance table (SMF).
 
@@ -232,12 +233,12 @@ mtd <- rbind(mtd, mtd_a)
 
 At last we compile the **study variable information** of our example
 experiment. This should capture all experiment-relevant study variables. In R,
-in particular in Bioconductor, such information is generally encoded in a
-*sample* or *phenotype* `data.frame`, with rows being individual samples (or
-measurements thereof) and columns the sample characteristics (i.e., the study
-variables). For our example we use the `mtd_study_variables()` function to
-generate the mzTab-M study variable information, specifying with parameter
-`study_variable_columns` the names of the `data.frame` containing the relevant information.
+such information is generally encoded in a *sample* or *phenotype* `data.frame`,
+with rows being individual samples (or measurements thereof) and columns the
+sample characteristics (i.e., the study variables). For our example we use the
+`mtd_study_variables()` function to generate the mzTab-M study variable
+information, specifying with parameter `study_variable_columns` the names of the
+`data.frame` containing the relevant information.
 
 ```{r}
 mtd_svar <- mtd_study_variables(
@@ -281,7 +282,7 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 
 ### Reading and importing
 
-TODO: implement
+TODO: implement these functions moving the respective code from the legacy repo
 
 ### General utility functions
 
