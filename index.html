@@ -52,8 +52,87 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-The RmzTabM package provides functions to read and write files in mzTab-M format. This package represents the reference implementation for mzTab-M import/export for R.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="r-implementation-for-mztab-m">R implementation for mzTab-M<a class="anchor" aria-label="anchor" href="#r-implementation-for-mztab-m"></a>
+</h1></div>
+<p><a href="https://www.repostatus.org/#wip" class="external-link"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a> <a href="https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3AR-CMD-check-bioc" class="external-link"><img src="https://github.com/RforMassSpectrometry/RmzTabM/workflows/R-CMD-check-bioc/badge.svg" alt="R-CMD-check-bioc"></a></p>
+<div class="section level2">
+<h2 id="welcome-to-rmztabm">Welcome to <strong>RmzTabM</strong>!<a class="anchor" aria-label="anchor" href="#welcome-to-rmztabm"></a>
+</h2>
+<p>This is the mzTab-M R API and reference implementation.</p>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> This is an <em>early</em> development version, please use at your own risk and report issues to help improve it!</p>
+</blockquote>
+<p>mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is further intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.</p>
+<p><span class="emoji" data-emoji="pushpin">📌</span> see the <a href="https://rformassspectrometry.github.io/RmzTabM/articles/rmztabm-api.html">package vignette</a> for examples and an introduction of the provided functionality.</p>
+<p>mzTab-M has been developed with a view to support the following general tasks:</p>
+<ol style="list-style-type: decimal">
+<li><p>Facilitate the sharing of final experimental results, especially with researchers outside the field of metabolomics.</p></li>
+<li><p>Export of results to external software, including programs such as Microsoft Excel® and Open Office Spreadsheet and statistical software / coding languages such as R.</p></li>
+<li><p>Act as an output format of (web-) services that report MS-based results and thus can produce standardized result pages.</p></li>
+<li><p>Be able to link to the external experimental evidence e.g. by referencing back to mzML files.</p></li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="related-projects">Related Projects<a class="anchor" aria-label="anchor" href="#related-projects"></a>
+</h2>
+<ul>
+<li><a href="https://github.com/lifs-tools/rmzTabM" class="external-link">legacy rmzTabM package</a></li>
+<li><a href="http://github.com/HUPO-PSI/mztab" class="external-link">mzTab-M Standard Specification</a></li>
+<li><a href="https://github.com/lifs-tools/jmztab-m" class="external-link">jmzTab-M Reference Implementation and Validator</a></li>
+<li><a href="https://github.com/lifs-tools/jmztab-m-webapp" class="external-link">jmzTab-M Webapplication and Validator</a></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The R package can be installed from GitHub using the following commands:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Install required packages</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' Install the repository</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/RmzTabM"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="hammer_and_wrench-development-status">🛠️ Development status<a class="anchor" aria-label="anchor" href="#hammer_and_wrench-development-status"></a>
+</h2>
+<p><span class="emoji" data-emoji="information_source">ℹ️</span> <em>core functions</em> are expected to take and return single base R data types.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked>core functionality to format metadata (MTD section)</label></li>
+<li><label><input type="checkbox">core functionality to format small molecule feature (SMF section)</label></li>
+<li><label><input type="checkbox">core functionality to format the (SML section)</label></li>
+<li><label><input type="checkbox">core functionality to format the (SME section)</label></li>
+<li><label><input type="checkbox">core functionality to extract metadata from an mzTab-M file and reconstruct a sample/experiment <code>data.frame</code></label></li>
+<li><label><input type="checkbox">core functionality to extract the SMF data table from an mzTab-M file</label></li>
+<li><label><input type="checkbox">core functionality to extract the SME data table from an mzTab-M file</label></li>
+<li><label><input type="checkbox">core functionality to extract the SML data table from an mzTab-M file</label></li>
+<li><label><input type="checkbox">high-level functionality to simplify exporting experimental data in mzTab-M format</label></li>
+<li><label><input type="checkbox">support for mzTab-M JSON format</label></li>
+<li><label><input type="checkbox">mzTab-M file validation</label></li>
+</ul>
+<p><span class="emoji" data-emoji="eyes">👀</span> see also the package <a href="NEWS.html">NEWS</a> for updates.</p>
+</div>
+<div class="section level2">
+<h2 id="handshake-contribution">🤝 Contribution<a class="anchor" aria-label="anchor" href="#handshake-contribution"></a>
+</h2>
+<p>Please help us improving and completing the package! Any type of contribution welcome <span class="emoji" data-emoji="open_hands">👐</span> - including discussions, suggestions or actual code. Don’t be afraid - we’re friendly <span class="emoji" data-emoji="relaxed">☺️</span>! <span class="emoji" data-emoji="point_right">👉</span> get involved by opening an issue.</p>
+<p>Please also check out the <a href="https://rformassspectrometry.github.io/RforMassSpectrometry/articles/RforMassSpectrometry.html#contributions" class="external-link"><strong>RforMassSpectrometry Contributions Guide</strong></a>.</p>
+<div class="section level3">
+<h3 id="scroll-code-of-conduct">📜 Code of Conduct<a class="anchor" aria-label="anchor" href="#scroll-code-of-conduct"></a>
+</h3>
+<p>We follow the <a href="https://rformassspectrometry.github.io/RforMassSpectrometry/articles/RforMassSpectrometry.html#code-of-conduct" class="external-link"><strong>RforMassSpectrometry Code of Conduct</strong></a> to maintain an inclusive and respectful community.</p>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="raised_hands-acknowledgements">🙌 Acknowledgements<a class="anchor" aria-label="anchor" href="#raised_hands-acknowledgements"></a>
+</h2>
+<p>We thank the many researchers contributing through discussions or through code. An potentially incomplete list of people:</p>
+<p>TODO - add names of hackathon participants, etc.</p>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
