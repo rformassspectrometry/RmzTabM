@@ -2,6 +2,7 @@
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/RmzTabM/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3AR-CMD-check-bioc)
+[![codecov](https://codecov.io/gh/rformassspectrometry/RmzTabM/graph/badge.svg?token=v2UTVt3UrA)](https://codecov.io/gh/rformassspectrometry/RmzTabM)
 
 ## Welcome to **RmzTabM**!
 
@@ -61,7 +62,7 @@ BiocManager::install("RforMassSpectrometry/RmzTabM")
 base R data types.
 
 - [X] core functionality to format metadata (MTD section)
-- [ ] core functionality to format small molecule feature (SMF section)
+- [X] core functionality to format small molecule feature (SMF section)
 - [ ] core functionality to format the (SML section)
 - [ ] core functionality to format the (SME section)
 - [ ] core functionality to extract metadata from an mzTab-M file and
