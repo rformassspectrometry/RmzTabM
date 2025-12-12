@@ -279,7 +279,6 @@ library(pander)
 pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 ```
 
-
 ### Reading and importing
 
 TODO: implement these functions moving the respective code from the legacy repo

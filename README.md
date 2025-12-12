@@ -71,7 +71,8 @@ base R data types.
 - [ ] core functionality to extract the SML data table from an mzTab-M file
 - [ ] high-level functionality to simplify exporting experimental data in
       mzTab-M format
-- [ ] support for mzTab-M JSON format.
+- [ ] support for mzTab-M JSON format
+- [ ] mzTab-M file validation
 
 :eyes: see also the package [NEWS](NEWS.md) for updates.
 
