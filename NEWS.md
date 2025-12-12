@@ -1,5 +1,9 @@
 # RmzTabM version 0.97
 
+## Changes since version 0.97.2
+
+- Add vignette.
+
 ## Changes since version 0.97.1
 
 - Addition of SMF related functions to the package.
