@@ -18,7 +18,7 @@ See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_d
 for details and more information, in particular on the format of the mzTab-M
 and on mandatory or optional fields.
 
-Generally, MTD data can be categarized into the following parts:
+Generally, MTD data can be categorized into the following parts:
 \itemize{
 \item \emph{Core information}: general information on the experiment. A minimal
 set can be created using the \code{\link[=mtd_skeleton]{mtd_skeleton()}} function, which might be

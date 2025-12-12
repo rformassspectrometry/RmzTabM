@@ -25,7 +25,7 @@ test_that(".database works", {
     expect_true(is.matrix(res))
     expect_true(is.character(res))
     expect_true(nrow(res) == 0)
-    
+
     expect_error(.database("a"), "elements must match")
     res <- .database(c("a", "b"), c("ap", "bp"),
                      version = c(1, "null"), uri = c("A", "B"))
@@ -186,6 +186,36 @@ test_that("mtd_ms_run works", {
                               "[MS, MS:1000133, CID, ]",
                               "[MS, MS:1000422, HCD, ]",
                               "[MS, MS:1000129, negative scan, ]"))
+    ## Repeat polarity
+    res <- mtd_ms_run(location = c("null", "other"),
+                      scan_polarity = c("positive"),
+                      fragmentation_method = list(NULL,
+                                                  c("[MS, MS:1000133, CID, ]",
+                                                    "[MS, MS:1000422, HCD, ]")))
+    expect_equal(res[, 1L], c("ms_run[1]-location",
+                              "ms_run[1]-scan_polarity[1]",
+                              "ms_run[2]-location",
+                              "ms_run[2]-fragmentation_method[1]",
+                              "ms_run[2]-fragmentation_method[2]",
+                              "ms_run[2]-scan_polarity[1]"))
+    expect_equal(res[, 2L], c("null",
+                              "[MS, MS:1000130, positive scan, ]",
+                              "other",
+                              "[MS, MS:1000133, CID, ]",
+                              "[MS, MS:1000422, HCD, ]",
+                              "[MS, MS:1000130, positive scan, ]"))
+
+})
+
+test_that("mtd_define_study_variables works", {
+    expect_equal(mtd_define_study_variables(), NULL)
+    x <- data.frame(sex = c("male", "female", "female", "male", "male"),
+                    group = c("case", "case", "control", "case", "control"))
+    res <- mtd_define_study_variables(x, c("sex", "group"))
+    expect_equal(res, c("sex:male", "sex:female",
+                        "group:case", "group:control"))
+    res <- mtd_define_study_variables(x, c("sex"))
+    expect_equal(res, c("sex:male", "sex:female"))
 })
 
 test_that(".mtd_multi_fields works", {
@@ -205,6 +235,10 @@ test_that(".mtd_multi_fields works", {
 })
 
 test_that("mtd_sample works", {
+    res <- mtd_sample(sample = character())
+    expect_true(is.matrix(res))
+    expect_true(nrow(res) == 0)
+    expect_true(ncol(res) == 2)
     res <- mtd_sample(sample = c("a", "b", "c"))
     expect_equal(res[, 1L], c("sample[1]", "sample[2]", "sample[3]"))
     expect_equal(res[, 2L], c("a", "b", "c"))
@@ -321,7 +355,7 @@ test_that("mtd_assay works", {
         c("a", "B", "ms_run[1]",
           "b", "B", "ms_run[1]",
           "c", "B", "ms_run[2]"))
-    
+
     expect_error(mtd_assay(assay = c("a", "b"),
                            sample_ref = c("sample[1]"),
                            ms_run_ref = c("ms_run[1]", "b")),
@@ -330,7 +364,7 @@ test_that("mtd_assay works", {
     expect_equal(res[, 1L],
                  c("assay[1]", "assay[1]-sample_ref", "assay[1]-ms_run_ref"))
     expect_equal(res[, 2L], c("a", "B", "b"))
-    
+
     res <- mtd_assay(assay = c("a", "b"), ms_run_ref = c("1", "2"),
                      a = 1:2, b = 3:4)
     expect_equal(
@@ -342,7 +376,7 @@ test_that("mtd_assay works", {
     expect_equal(
         res[, 2L],
         c("a", "1", "1", "3", "b", "2", "2", "4"))
-    
+
     ## multi assignment assay->ms_run
     expect_error(mtd_assay(assay = c("a", "b"), ms_run_ref = list(1:2, NULL)),
                  "At least one")
@@ -385,7 +419,7 @@ test_that("mtd_study_variables works", {
     expect_error(
         mtd_study_variables(x, study_variable_columns = c("T2D", "A")),
         "Not all column names")
-    
+
     res <- mtd_study_variables(x, average_function = "A",
                                variation_function = "B")
     expect_equal(res[, 1L], c("study_variable[1]",
@@ -409,7 +443,7 @@ test_that("mtd_study_variables works", {
         mtd_study_variables(x, study_variable_columns = c("T2D", "timepoint"),
                             average_function = "A", variation_function = "B",
                             description = 1:2), "'description'")
-    
+
     res <- mtd_study_variables(
         x, study_variable_columns = c("T2D", "timepoint"),
         average_function = "A", variation_function = "B")
