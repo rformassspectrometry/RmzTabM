@@ -16,7 +16,7 @@ section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/m
 for details and more information, in particular on the format of the
 mzTab-M and on mandatory or optional fields.
 
-Generally, MTD data can be categarized into the following parts:
+Generally, MTD data can be categorized into the following parts:
 
 - *Core information*: general information on the experiment. A minimal
   set can be created using the
