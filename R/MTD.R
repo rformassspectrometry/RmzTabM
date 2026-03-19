@@ -1,5 +1,10 @@
 ## Code related to import/export of the MTD element
 
+################################################################################
+##    Create MTD section
+##
+################################################################################
+
 #' @title Defining and exporting the mzTab-M metadata table
 #'
 #' @name MTD-export
@@ -909,7 +914,8 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #'     variables (to allow defining a different function per variable). Use
 #'     `mtd_define_study_variables()` to get the complete set of study
 #'     variables for parameters `x` and `study_variable_columns`. Defaults
-#'     to the arithmetic mean.
+#'     to the arithmetic mean
+#'     (`average_function = "[MS, MS:1002962, mean, ]"`).
 #'
 #' @param variation_function optional `character` defining the function used to
 #'     calculate the study variable quantification variation value (reported in
@@ -917,7 +923,8 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #'     study variables (to allow defining a different function per variable).
 #'     Use `mtd_define_study_variables()` to get the complete set of study
 #'     variables for parameters `x` and `study_variable_columns`. Defaults
-#'     to the coefficient of variation.
+#'     to the coefficient of variation
+#'     (`variation_function = "[MS, MS:1002963, variation coefficient, ]"`).
 #'
 #' @param description `character` with a textual description of the study
 #'     variable. If provided, its length needs to be equal to the number of
@@ -1277,3 +1284,82 @@ mtd_sort <- function(x) {
     "colunit-small_molecule_feature",
     "colunit-small_molecule_evidence"
 )
+
+################################################################################
+##    Parse MTD section
+##
+################################################################################
+
+#' Helper to extract field values for provided field keys (names).
+#'
+#' @param x two column `data.frame` or `matrix` in the format created by
+#'     `mtd_skeleton()`, first column being the field names, second the
+#'     values.
+#'
+#' @param name `character` with the name(s) of the fields to extract.
+#'
+#' @param exact `logical(1)` whether the provided name has to be exactly
+#'     matched or only partially (default `exact = TRUE)`. See details for more
+#'     information.
+#'
+#' @param fixed `logical(1)` passed to `grep()` (only used for `exact = FALSE`).
+#'
+#' @param ... additional parameter passed to `grep()` (only used for
+#'     `exact = FALSE`).
+#'
+#' @return `list()` of length equal to `length(name)` with the values of fields
+#'     matching the provided names or `NA_character_` if the field was not
+#'     found.
+#'
+#' @noRd
+#'
+#' @examples
+#'
+#' ## Defining a dummy metadata (MTD) matrix.
+#' m <- cbind(c(
+#'     "instrument[1]-name",
+#'     "instrument[1]-source",
+#'     "instrument[2]-name",
+#'     "instrument[2]-source",
+#'     "sample[1]",
+#'     "sample[1]-species[1]",
+#'     "sample[2]",
+#'     "sample[2]-species[2]"),
+#'     c(
+#'     "instrument 1",
+#'     "instrument 1 source",
+#'     "instrument 2",
+#'     "instrument 2 source",
+#'     "first sample",
+#'     "human",
+#'     "second sample",
+#'     "human"
+#'     ))
+#'
+#' ## Get the value for the first instrument
+#' .mtd_get(m, name = "instrument[1]-name")
+#'
+#' ## Get all fields for the first instrument
+#' .mtd_get(m, name = "instrument[1]", fixed = FALSE)
+#'
+#' ## Get all fields for the
+#'
+#' ## If field is not present
+#' .mtd_get(m, name = "missing")
+.mtd_get_field <- function(x, name = character(), exact = TRUE,
+                           fixed = TRUE, ...) {
+    names(name) <- name
+    lapply(name, function(z) {
+        if (exact) {
+            idx <- match(x[, 1L], z)
+            idx <- idx[!is.na(idx)]
+        } else
+            idx <- grep(z, x[, 1L], fixed = fixed, ...)
+        if (length(idx)) {
+            res <- x[idx, 2L]
+            names(res) <- x[idx, 1L]
+            res
+        }
+        else NA_character_
+    })
+}

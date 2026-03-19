@@ -490,3 +490,52 @@ test_that("mtd_study_variables works", {
                    "B",
                    "Column: timepoint, value: 6h"))
 })
+
+test_that(".mtd_get_field works", {
+    x <- cbind(
+        c("instrument[1]-name",
+          "instrument[1]-source",
+          "instrument[2]-name",
+          "instrument[2]-source",
+          "sample[1]",
+          "sample[1]-species[1]",
+          "sample[2]",
+          "sample[2]-species[1]"),
+        c("1", "2", "3", "4", "5", "6", "7", "8"))
+    res <- .mtd_get_field(x, "other")
+    expect_true(is.list(res))
+    expect_equal(names(res), "other")
+    expect_true(is.na(res[[1L]]))
+    res <- .mtd_get_field(x, "instrument[2]", exact = TRUE)
+    expect_true(is.list(res))
+    expect_equal(names(res), "instrument[2]")
+    expect_true(is.na(res[[1L]]))
+    res <- .mtd_get_field(x, "instrument[2]", exact = FALSE)
+    expect_true(is.list(res))
+    expect_equal(names(res), "instrument[2]")
+    expect_equal(res[[1L]], c(`instrument[2]-name` = "3",
+                              `instrument[2]-source` = "4"))
+    res <- .mtd_get_field(
+        x, c("instrument[2]", "other", "instrument[1]-name"), exact = FALSE)
+    expect_true(is.list(res))
+    expect_equal(names(res), c("instrument[2]", "other", "instrument[1]-name"))
+    expect_equal(res[[1L]], c(`instrument[2]-name` = "3",
+                              `instrument[2]-source` = "4"))
+    expect_equal(res[[2L]], NA_character_)
+    expect_equal(res[[3L]], c(`instrument[1]-name` = "1"))
+    res <- .mtd_get_field(
+        x, c("instrument[2]", "other", "instrument[1]-name"), exact = TRUE)
+    expect_true(is.list(res))
+    expect_equal(names(res), c("instrument[2]", "other", "instrument[1]-name"))
+    expect_equal(res[[1L]], NA_character_)
+    expect_equal(res[[2L]], NA_character_)
+    expect_equal(res[[3L]], c(`instrument[1]-name` = "1"))
+
+    ## fixed = FALSE
+    res <- .mtd_get_field(x, c("instrument[2]"), fixed = FALSE, exact = FALSE)
+    expect_equal(res[[1L]], NA_character_)
+    res <- .mtd_get_field(x, c("instrument\\[\\d.*\\]-name"),
+                          fixed = FALSE, exact = FALSE)
+    expect_equal(res[[1L]], c(`instrument[1]-name` = "1",
+                              `instrument[2]-name` = "3"))
+})

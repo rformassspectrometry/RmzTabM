@@ -25,7 +25,8 @@ already present.}
 
 \item{smf_df}{\code{matrix} or \code{data.frame} of abundances. Rows are features,
 columns are assays. The order of columns is assumed to match the order of
-assays defined in the Metadata (MTD) section.}
+assays defined in the Metadata (MTD) section (see \code{\link[=mtd_assay]{mtd_assay()}} for more
+information).}
 
 \item{exp_mass_to_charge}{\code{numeric} vector of experimental m/z values.
 \strong{Cannot} be \code{NULL}.}
@@ -34,10 +35,12 @@ assays defined in the Metadata (MTD) section.}
 seconds. Defaults to \code{"null"}.}
 
 \item{retention_time_in_seconds_start}{\code{numeric} vector of start retention
-times in seconds. Defaults to \code{"null"}.}
+times in seconds (i.e., start retention time of the chromatographic peak
+of feature). Defaults to \code{"null"}.}
 
 \item{retention_time_in_seconds_end}{\code{numeric} vector of end retention times
-in seconds. Defaults to \code{"null"}.}
+in seconds (i.e., end retention time of the chromatographic peak or
+feature). Defaults to \code{"null"}.}
 
 \item{SME_ID_REFS}{\code{character} vector of SME IDs referencing small molecules.
 Defaults to \code{"null"}.}

@@ -1,5 +1,10 @@
 ## Code related to import/export of the SMF element
 
+################################################################################
+##    Create SMF section
+##
+################################################################################
+
 #' @title Create the mzTab-M Small Molecule Feature (SMF) Table
 #'
 #' @name smf_create
@@ -24,20 +29,21 @@
 #'   compliance.
 #' - Sets the line prefix column `SFH` to `"SMF"`.
 #' - Orders columns according to the mzTab-M specification.
-#' 
+#'
 #' **Important:** to support the optional additional parameters passed along
-#' with `...` **all** parameters (such as `adduct_ion`, 
-#' `retention_time_in_seconds` etc) have to be **fully** spelled out. All 
+#' with `...` **all** parameters (such as `adduct_ion`,
+#' `retention_time_in_seconds` etc) have to be **fully** spelled out. All
 #' parameters are vectorized and recycled as needed to match the number of rows
-#' in the abundance matrix, if their length is not equal to the number of rows 
+#' in the abundance matrix, if their length is not equal to the number of rows
 #' or 1, an error is raised.
-#' 
+#'
 #' See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
 #' for details.
 #'
 #' @param smf_df `matrix` or `data.frame` of abundances. Rows are features,
 #'   columns are assays. The order of columns is assumed to match the order of
-#'   assays defined in the Metadata (MTD) section.
+#'   assays defined in the Metadata (MTD) section (see [mtd_assay()] for more
+#'   information).
 #'
 #' @param SME_ID_REFS `character` vector of SME IDs referencing small molecules.
 #'   Defaults to `"null"`.
@@ -55,10 +61,12 @@
 #'   seconds. Defaults to `"null"`.
 #'
 #' @param retention_time_in_seconds_start `numeric` vector of start retention
-#'   times in seconds. Defaults to `"null"`.
+#'   times in seconds (i.e., start retention time of the chromatographic peak
+#'   of feature). Defaults to `"null"`.
 #'
 #' @param retention_time_in_seconds_end `numeric` vector of end retention times
-#'   in seconds. Defaults to `"null"`.
+#'   in seconds (i.e., end retention time of the chromatographic peak or
+#'   feature). Defaults to `"null"`.
 #'
 #' @param charge `integer` vector of charge states. Defaults to `"null"`.
 #'
@@ -246,3 +254,8 @@ smf_create <- function(
     "retention_time_in_seconds_start",
     "retention_time_in_seconds_end"
 )
+
+################################################################################
+##    Parse SMF section
+##
+################################################################################

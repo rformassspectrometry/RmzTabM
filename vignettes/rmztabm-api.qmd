@@ -21,6 +21,11 @@ files in mzTab-M format. The functions can be re-used and integrated by other R
 packages to support import and export of their respective
 metabolomics/lipidomics result objects in this format.
 
+For a general overview of the mzTab-M format see [this
+figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
+
+![mzTab-M format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+
 # Installation
 
 # R mzTab-M API
@@ -279,6 +284,76 @@ library(pander)
 pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 ```
 
+#### Small Molecule Feature (SMF) Table
+
+The *small molecule feature* (SMF) section captures information on the
+quantified entities (features) of an experiment. This includes the feature
+abundances across assays as well as the feature's *m/z*, retention times and
+eventual additional annotations such as the ion or the exact mass. The
+`smf_create()` function compiles and formats this section based on the provided
+abundance matrix and feature specifications.
+
+Below we create an example abundance matrix and feature characteristics data
+matching the metadata from the previous section. Generally, such information can
+be extracted from the result objects of preprocessing software. We first define
+the abundance matrix: columns are assays, rows features. Importantly, the number
+and order of the assays has to match the *assay* definition in the metadata
+(defined above with the `mtd_assay()` function). Our example data consists of
+quantification of 5 features in 6 measurements (assays) of 3 samples.
+
+```{r}
+abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8),
+                    c(260.2, 39.5, 177.4, 599.5, 5344.1),
+                    c(256.1, 904.2, 56.9, 533.1, 489.9),
+                    c(232.1, 43.3, 201.4, 434.2, 5154.1),
+                    c(264.2, 1102.4, 43.5, 514.5, 583.1),
+                    c(246.2, 52.1, 187.2, 508.3, 601.5))
+colnames(abundances) <- exp$sample_name
+rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05")
+```
+
+We next define also a `data.frame` with the feature characteristics (one row per
+feature and columns with *m/z*, retention time and, where known, also the adduct
+information and charge).
+
+```{r}
+feature_info <- data.frame(
+    mzmed = c(324.3, 127.1, 299.2, 523.1, 312.4),
+    rtmed = c(25.6, 128.4, 67.2, 219.3, 221.4),
+    rtmin = c(23.1, 125.1, 65.1, 216.3, 218.3),
+    rtmax = c(26.9, 130.3, 69.1, 223.2, 224.8),
+    adduct = c(NA, "[M+H]+", NA, "[M+Na]+", NA),
+    charge = c(NA, 1L, NA, 1L, NA)
+)
+rownames(feature_info) <- rownames(abundances)
+```
+
+We can now feed this information to the `smf_final()` function. In addition to
+the predefined, parameters, also additional feature annotations/columns can be
+passed to the function through it's `...` parameter. We provide the IDs of the
+individual features with `feature_id = `. These are then stored into a column `"opt_feature_id"`.
+
+```{r}
+smf <- smf_create(
+    smf_df = abundances,
+    exp_mass_to_charge = feature_info$mzmed,
+    retention_time_in_seconds = feature_info$rtmed,
+    retention_time_in_seconds_start = feature_info$rtmin,
+    retention_time_in_seconds_end = feature_info$rtmax,
+    charge = feature_info$charge,
+    adduct_ion = feature_info$adduct,
+    feature_id = rownames(feature_info))
+```
+
+The SMF content is:
+
+```{r}
+smf
+```
+
+#### Small Molecule (SML) Table
+
+
 ### Reading and importing
 
 TODO: implement these functions moving the respective code from the legacy repo
@@ -289,6 +364,7 @@ General utility functions include:
 
 - `mtd_fields()`: to format values in the mzTab-M-specific format.
 - `mtd_sort()`: to sort rows of the metadata `matrix` into the expected order.
+- `parse_cv_parameter()`: extract elements and values from a CV parameter.
 
 # Session information
 

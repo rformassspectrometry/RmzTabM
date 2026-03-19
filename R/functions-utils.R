@@ -62,9 +62,11 @@
 #' @return `character` of `length(x)` with the parsed CV parameter elements or
 #'     `NA_character_` if not present.
 #'
-#' @noRd
+#' @export
 #'
 #' @family mzTab-M utility functions
+#'
+#' @author Johannes Rainer
 #'
 #' @examples
 #'
