@@ -1,13 +1,3 @@
-test_that(".fill_column works", {
-    res <- .fill_column(NULL, 3)
-    expect_equal(res, c("null", "null", "null"))
-    res <- .fill_column(c(1, NA, 3), 3)
-    expect_equal(res, c("1", "null", "3"))
-    res <- .fill_column(1, 3)
-    expect_equal(res, c("1", "1", "1"))
-    expect_error(.fill_column(c(1, 2), 3), "does not match row count")
-})
-
 test_that("smf_create works", {
     mat <- matrix(1:4, nrow = 2)
     expect_error(smf_create(mat), "argument 'exp_mass_to_charge' is mandatory")

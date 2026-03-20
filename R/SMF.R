@@ -114,23 +114,16 @@
 #' ## abundances
 #' head(smf_final)
 #' @export
-smf_create <- function(
-    ...,
-    x,
-    exp_mass_to_charge = NULL,
-    retention_time_in_seconds = NULL,
-    retention_time_in_seconds_start = NULL,
-    retention_time_in_seconds_end = NULL,
-    SME_ID_REFS = NULL,
-    SME_ID_REF_ambiguity_code = NULL,
-    charge = NULL,
-    adduct_ion = NULL,
-    isotopomer = NULL) {
-    if (is.null(exp_mass_to_charge)) {
-        stop(
-            "The argument 'exp_mass_to_charge' is mandatory and cannot be NULL."
-        )
-    }
+smf_create <- function(..., x, exp_mass_to_charge = character(),
+                       retention_time_in_seconds = character(),
+                       retention_time_in_seconds_start = character(),
+                       retention_time_in_seconds_end = character(),
+                       SME_ID_REFS = character(),
+                       SME_ID_REF_ambiguity_code = character(),
+                       charge = character(), adduct_ion = character(),
+                       isotopomer = character()) {
+    if (!length(exp_mass_to_charge))
+        stop("The argument 'exp_mass_to_charge' is mandatory.")
 
     smf_df <- .abundance_matrix(x)
     cols_to_fill <- list(
@@ -169,29 +162,6 @@ smf_create <- function(
     abundance_cols <- grep("^abundance_assay", names(smf_df), value = TRUE)
     opt_cols <- grep("^opt_", names(smf_df), value = TRUE)
     smf_df[, c(.SMF, abundance_cols, opt_cols)]
-}
-
-#' @description
-#' Helper function to recycle inputs or create "null" strings for SMF columns.
-#'
-#' @param input_data Vector of data to fill or NULL.
-#' @param length_out Integer, the number of rows to fill.
-#'
-#' @noRd
-.fill_column <- function(input_data, length_out) {
-    if (is.null(input_data)) {
-        return(rep("null", length_out))
-    }
-    input_data[is.na(input_data)] <- "null"
-    if (length(input_data) != length_out && length(input_data) != 1) {
-        stop(
-            "Input length ",
-            length(input_data),
-            " does not match row count : ",
-            length_out
-        )
-    }
-    rep(input_data, length.out = length_out)
 }
 
 #' @description

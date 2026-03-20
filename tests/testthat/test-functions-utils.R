@@ -66,3 +66,13 @@ test_that(".abundance_matrix works", {
         c("SMF_ID", "abundance_assay[1]", "abundance_assay[2]")
     )
 })
+
+test_that(".fill_column works", {
+    res <- .fill_column(NULL, 3)
+    expect_equal(res, c("null", "null", "null"))
+    res <- .fill_column(c(1, NA, 3), 3)
+    expect_equal(res, c("1", "null", "3"))
+    res <- .fill_column(1, 3)
+    expect_equal(res, c("1", "1", "1"))
+    expect_error(.fill_column(c(1, 2), 3), "does not match row count")
+})

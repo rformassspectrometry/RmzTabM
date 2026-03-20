@@ -7,15 +7,15 @@
 smf_create(
   ...,
   x,
-  exp_mass_to_charge = NULL,
-  retention_time_in_seconds = NULL,
-  retention_time_in_seconds_start = NULL,
-  retention_time_in_seconds_end = NULL,
-  SME_ID_REFS = NULL,
-  SME_ID_REF_ambiguity_code = NULL,
-  charge = NULL,
-  adduct_ion = NULL,
-  isotopomer = NULL
+  exp_mass_to_charge = character(),
+  retention_time_in_seconds = character(),
+  retention_time_in_seconds_start = character(),
+  retention_time_in_seconds_end = character(),
+  SME_ID_REFS = character(),
+  SME_ID_REF_ambiguity_code = character(),
+  charge = character(),
+  adduct_ion = character(),
+  isotopomer = character()
 )
 }
 \arguments{

@@ -134,3 +134,22 @@ parse_cv_parameter <- function(x, element = 2L) {
     colnames(df) <- c(id_col, paste0("abundance_assay[", seq_len(ncol(x)), "]"))
     df
 }
+
+#' @description
+#'
+#' Helper function to recycle inputs or create "null" strings for SMF columns.
+#'
+#' @param input_data Vector of data to fill or NULL.
+#' @param length_out Integer, the number of rows to fill.
+#'
+#' @noRd
+.fill_column <- function(input_data, length_out) {
+    if (!length(input_data))
+        return(rep("null", length_out))
+    input_data[is.na(input_data)] <- "null"
+    if (length(input_data) != length_out && length(input_data) != 1) {
+        stop("Input length ", length(input_data),
+             " does not match row count : ", length_out)
+    }
+    rep(input_data, length.out = length_out)
+}
