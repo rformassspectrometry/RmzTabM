@@ -97,3 +97,40 @@ parse_cv_parameter <- function(x, element = 2L) {
     res[which(res == "")] <- NA_character_
     res
 }
+
+#' @title Internal helper to format an abundance matrix
+#'
+#' @description
+#'
+#' `.abundance_matrix()` is a helper function called by [smf_create()] or
+#' [sml_skeleton()]. It takes a numeric `matrix` or `data.frame` of
+#' quantification values and converts it into a basic data frame structure for
+#' mzTab-M.
+#'
+#' It performs the following actions:
+#'
+#' - Generates sequential `SMF_ID` or `SML_ID`s.
+#' - Renames input columns to the strictly required format `abundance_assay[n]`.
+#'
+#' @param x A `numeric` `matrix` or `data.frame` where rows
+#'   represent features and columns represent samples/assays. The order of
+#'   columns is assumed to match the order of assays defined in the Metadata
+#'   (MTD) section.
+#'
+#' @param id_col `character(1)` defining the name for the ID column.
+#'
+#' @return A `data.frame` containing the `id_col` column and the renamed
+#'   abundance columns.
+#'
+#' @author Philippine Louail
+#'
+#' @noRd
+.abundance_matrix <- function(x, id_col = "SMF_ID") {
+    if (missing(x))
+        stop("The abundance matrix must be provided with parameter 'x'")
+    if (!(is.matrix(x) | is.data.frame(x)))
+        stop("'x' must be a 'matrix' or 'data.frame'")
+    df <- data.frame(id = seq_len(nrow(x)), x, check.names = FALSE)
+    colnames(df) <- c(id_col, paste0("abundance_assay[", seq_len(ncol(x)), "]"))
+    df
+}

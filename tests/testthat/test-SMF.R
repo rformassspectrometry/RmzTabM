@@ -1,26 +1,3 @@
-test_that(".smf_abundance_matrix works", {
-    expect_error(.smf_abundance_matrix("a"), "Input must be a matrix")
-    expect_error(.smf_abundance_matrix(list(a = 1)), "Input must be a matrix")
-    mat <- matrix(c(10.1, 20.2, 30.3, 40.4), nrow = 2, byrow = TRUE)
-    res <- .smf_abundance_matrix(mat)
-
-    expect_true(is.data.frame(res))
-    expect_equal(nrow(res), 2)
-    expect_equal(ncol(res), 3) # ID + 2 assays
-    expect_equal(
-        colnames(res),
-        c("SMF_ID", "abundance_assay[1]", "abundance_assay[2]")
-    )
-    expect_equal(res$SMF_ID, c(1, 2))
-    expect_equal(res[, 2], c(10.1, 30.3))
-    df <- data.frame(a = c(1, 2), b = c(3, 4))
-    res <- .smf_abundance_matrix(df)
-    expect_equal(
-        colnames(res),
-        c("SMF_ID", "abundance_assay[1]", "abundance_assay[2]")
-    )
-})
-
 test_that(".fill_column works", {
     res <- .fill_column(NULL, 3)
     expect_equal(res, c("null", "null", "null"))

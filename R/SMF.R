@@ -132,7 +132,7 @@ smf_create <- function(
         )
     }
 
-    smf_df <- .smf_abundance_matrix(x)
+    smf_df <- .abundance_matrix(x)
     cols_to_fill <- list(
         SME_ID_REFS = SME_ID_REFS,
         SME_ID_REF_ambiguity_code = SME_ID_REF_ambiguity_code,
@@ -169,48 +169,6 @@ smf_create <- function(
     abundance_cols <- grep("^abundance_assay", names(smf_df), value = TRUE)
     opt_cols <- grep("^opt_", names(smf_df), value = TRUE)
     smf_df[, c(.SMF, abundance_cols, opt_cols)]
-}
-
-#' @title Internal helper to format abundance matrix
-#'
-#' @description
-#'
-#' `.smf_abundance_matrix()` is a helper function called by [smf_create()].
-#' It takes a numeric matrix or data frame of quantification values and
-#' converts it into a basic data frame structure for mzTab-M.
-#'
-#' It performs the following actions:
-#'
-#' - Generates sequential `SMF_ID`s.
-#' - Renames input columns to the strictly required format `abundance_assay[n]`.
-#'
-#' @param abundance_matrix A `numeric` `matrix` or `data.frame` where rows
-#'   represent features and columns represent samples/assays. The order of
-#'   columns is assumed to match the order of assays defined in the Metadata
-#'   (MTD) section.
-#'
-#' @return A `data.frame` containing the `SMF_ID` column and the renamed
-#'   abundance columns.
-#'
-#' @author Philippine Louail
-#'
-#' @noRd
-.smf_abundance_matrix <- function(abundance_matrix) {
-    if (!is.matrix(abundance_matrix) && !is.data.frame(abundance_matrix)) {
-        stop("Input must be a matrix or data frame of abundances.")
-    }
-    smf_df <- data.frame(
-        SMF_ID = seq_len(nrow(abundance_matrix)),
-        abundance_matrix,
-        check.names = FALSE,
-        stringsAsFactors = FALSE
-    )
-    colnames(smf_df)[-1] <- paste0(
-        "abundance_assay[",
-        seq_len(ncol(abundance_matrix)),
-        "]"
-    )
-    smf_df
 }
 
 #' @description

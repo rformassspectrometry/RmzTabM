@@ -42,3 +42,27 @@ test_that("parse_cv_parameter works", {
     res <- parse_cv_parameter(c("[a, , , ]", "[b,,,]"), 4L)
     expect_equal(res, c(NA_character_, NA_character_))
 })
+
+test_that(".abundance_matrix works", {
+    expect_error(.abundance_matrix("a"), "must be a")
+    expect_error(.abundance_matrix(list(a = 1)), "must be a")
+    expect_error(.abundance_matrix(), "must be provided")
+    mat <- matrix(c(10.1, 20.2, 30.3, 40.4), nrow = 2, byrow = TRUE)
+    res <- .abundance_matrix(mat)
+
+    expect_true(is.data.frame(res))
+    expect_equal(nrow(res), 2)
+    expect_equal(ncol(res), 3) # ID + 2 assays
+    expect_equal(
+        colnames(res),
+        c("SMF_ID", "abundance_assay[1]", "abundance_assay[2]")
+    )
+    expect_equal(res$SMF_ID, c(1, 2))
+    expect_equal(res[, 2], c(10.1, 30.3))
+    df <- data.frame(a = c(1, 2), b = c(3, 4))
+    res <- .abundance_matrix(df)
+    expect_equal(
+        colnames(res),
+        c("SMF_ID", "abundance_assay[1]", "abundance_assay[2]")
+    )
+})
