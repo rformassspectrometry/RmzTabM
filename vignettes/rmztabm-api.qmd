@@ -342,7 +342,9 @@ We can now feed this information to the `smf_final()` function. In addition to
 the predefined, parameters, also additional feature annotations/columns can be
 passed to the function through it's `...` parameter. We provide the IDs of the
 individual features with `feature_id = `. These are then stored into a column
-`"opt_feature_id"`.
+`"opt_feature_id"`. Note that all parameters **must** be fully named, i.e., `x =
+` or `charge = ` since the function does not support positional matching of its
+arguments.
 
 ```{r}
 smf <- smf_create(
