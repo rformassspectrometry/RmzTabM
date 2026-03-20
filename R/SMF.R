@@ -40,7 +40,7 @@
 #' See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
 #' for details.
 #'
-#' @param smf_df `matrix` or `data.frame` of abundances. Rows are features,
+#' @param x `matrix` or `data.frame` of abundances. Rows are features,
 #'   columns are assays. The order of columns is assumed to match the order of
 #'   assays defined in the Metadata (MTD) section (see [mtd_assay()] for more
 #'   information).
@@ -102,7 +102,7 @@
 #' ## Create the final dataframe ready for export
 #' ## Note: Fields not provided (like charge) are automatically set to "null"
 #' smf_final <- smf_create(
-#'     smf_df = abund_mat,
+#'     x = abund_mat,
 #'     exp_mass_to_charge = mz_values,
 #'     retention_time_in_seconds = rt_values,
 #'     adduct_ion = adducts,
@@ -116,7 +116,7 @@
 #' @export
 smf_create <- function(
     ...,
-    smf_df,
+    x,
     exp_mass_to_charge = NULL,
     retention_time_in_seconds = NULL,
     retention_time_in_seconds_start = NULL,
@@ -125,15 +125,14 @@ smf_create <- function(
     SME_ID_REF_ambiguity_code = NULL,
     charge = NULL,
     adduct_ion = NULL,
-    isotopomer = NULL
-) {
+    isotopomer = NULL) {
     if (is.null(exp_mass_to_charge)) {
         stop(
             "The argument 'exp_mass_to_charge' is mandatory and cannot be NULL."
         )
     }
 
-    smf_df <- .smf_abundance_matrix(smf_df)
+    smf_df <- .smf_abundance_matrix(x)
     cols_to_fill <- list(
         SME_ID_REFS = SME_ID_REFS,
         SME_ID_REF_ambiguity_code = SME_ID_REF_ambiguity_code,

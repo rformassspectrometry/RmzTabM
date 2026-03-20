@@ -28,6 +28,16 @@ figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/im
 
 # Installation
 
+# General information on the mzTab-M format
+
+The mzTab-M format consists of four cross-referenced data tables: metadata
+(MTD), Small Molecule (SML), Small Molecule Feature (SMF) and the Small Molecule
+Evidence (SME). The MTD and SML tables are mandatory, and for a file to contain
+any evidence about how molecules were quantified or identified by software, then
+all four tables must be present. The tables must follow the order MTD, SML, SMF
+and SME, with a blank line separating each table. The structure of each table,
+in terms of the rows and columns that must be present is tightly specified.
+
 # R mzTab-M API
 
 The *RmzTabM* package provides low level, core functions and higher-level
@@ -331,11 +341,12 @@ rownames(feature_info) <- rownames(abundances)
 We can now feed this information to the `smf_final()` function. In addition to
 the predefined, parameters, also additional feature annotations/columns can be
 passed to the function through it's `...` parameter. We provide the IDs of the
-individual features with `feature_id = `. These are then stored into a column `"opt_feature_id"`.
+individual features with `feature_id = `. These are then stored into a column
+`"opt_feature_id"`.
 
 ```{r}
 smf <- smf_create(
-    smf_df = abundances,
+    x = abundances,
     exp_mass_to_charge = feature_info$mzmed,
     retention_time_in_seconds = feature_info$rtmed,
     retention_time_in_seconds_start = feature_info$rtmin,
