@@ -6,7 +6,7 @@
 \usage{
 smf_create(
   ...,
-  smf_df,
+  x,
   exp_mass_to_charge = NULL,
   retention_time_in_seconds = NULL,
   retention_time_in_seconds_start = NULL,
@@ -23,7 +23,7 @@ smf_create(
 The function will automatically prepend \code{"opt_"} to the names if not
 already present.}
 
-\item{smf_df}{\code{matrix} or \code{data.frame} of abundances. Rows are features,
+\item{x}{\code{matrix} or \code{data.frame} of abundances. Rows are features,
 columns are assays. The order of columns is assumed to match the order of
 assays defined in the Metadata (MTD) section (see \code{\link[=mtd_assay]{mtd_assay()}} for more
 information).}
@@ -111,7 +111,7 @@ adducts <- c("[M+H]+", "[M+Na]+", "[M+H]+")
 ## Create the final dataframe ready for export
 ## Note: Fields not provided (like charge) are automatically set to "null"
 smf_final <- smf_create(
-    smf_df = abund_mat,
+    x = abund_mat,
     exp_mass_to_charge = mz_values,
     retention_time_in_seconds = rt_values,
     adduct_ion = adducts,
