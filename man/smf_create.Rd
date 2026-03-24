@@ -7,10 +7,10 @@
 smf_create(
   ...,
   x,
-  exp_mass_to_charge = character(),
-  retention_time_in_seconds = character(),
-  retention_time_in_seconds_start = character(),
-  retention_time_in_seconds_end = character(),
+  exp_mass_to_charge = numeric(),
+  retention_time_in_seconds = numeric(),
+  retention_time_in_seconds_start = numeric(),
+  retention_time_in_seconds_end = numeric(),
   SME_ID_REFS = character(),
   SME_ID_REF_ambiguity_code = character(),
   charge = character(),
@@ -28,8 +28,9 @@ columns are assays. The order of columns is assumed to match the order of
 assays defined in the Metadata (MTD) section (see \code{\link[=mtd_assay]{mtd_assay()}} for more
 information).}
 
-\item{exp_mass_to_charge}{\code{numeric} vector of experimental m/z values.
-\strong{Cannot} be \code{NULL}.}
+\item{exp_mass_to_charge}{\code{numeric} vector of experimental m/z values. This
+parameter \strong{must} be provided and can not contain any missing values. Its
+length has to match \code{nrow(x)}}
 
 \item{retention_time_in_seconds}{\code{numeric} vector of retention times in
 seconds. Defaults to \code{"null"}.}
@@ -86,7 +87,7 @@ compliance.
 with \code{...} \strong{all} parameters (such as \code{adduct_ion},
 \code{retention_time_in_seconds} etc) have to be \strong{fully} spelled out. All
 parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix, if their length is not equal to the number of rows
+in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.
 
 See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section}{specification of the SMF section}

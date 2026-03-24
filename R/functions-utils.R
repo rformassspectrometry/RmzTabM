@@ -1,11 +1,13 @@
-## Generic helper functions
+## General helper functions
 
 .prefix_zero <- function(x) {
     sprintf(paste0("%0", ceiling(log10(max(x) + 1)), "d"), x)
 }
 
-
-#' Mapping between OBO CV terms and R functions
+#' Mapping between OBO CV terms and R functions. This is used by
+#' `sml_add_study_variable_columns()` (and `resolce_fun()`) to get the function
+#' to aggregate values per study variables based on the information/CV terms
+#' specified in the mzTab-M's metadata section.
 #'
 #' @noRd
 .FUN_MAP <- c(
@@ -102,8 +104,8 @@ parse_cv_parameter <- function(x, element = 2L) {
 #'
 #' @description
 #'
-#' `.abundance_matrix()` is a helper function called by [smf_create()] or
-#' [sml_skeleton()]. It takes a numeric `matrix` or `data.frame` of
+#' `.abundance_matrix()` is a helper function called by `smf_create()` or
+#' `sml_create()`. It takes a numeric `matrix` or `data.frame` of
 #' quantification values and converts it into a basic data frame structure for
 #' mzTab-M.
 #'
@@ -137,19 +139,44 @@ parse_cv_parameter <- function(x, element = 2L) {
 
 #' @description
 #'
-#' Helper function to recycle inputs or create "null" strings for SMF columns.
+#' Helper function to recycle inputs or create "null" strings for SMF or SML
+#' columns. Parameters `lengths` and `split` allow to check for the expected
+#' number of `split`-separated elements (with `lengths` defining the expected
+#' number of elements in the input). `"null"` fields are automatically
+#' replicated to match `lengths`. This ensures compliance with the SML format
+#' and specification.
 #'
-#' @param input_data Vector of data to fill or NULL.
-#' @param length_out Integer, the number of rows to fill.
+#' @param x `vector` of data to fill or check.
+#'
+#' @param lout `integer(1)` defining the expected length of `x`.
+#'
+#' @param split `character(1)` defining the separator used. Defaults to `"|"`
+#'     used in the mzTab-M format.
+#'
+#' @param lengths optional `numeric` defining the expected number of elements
+#'     for each value in `x`. Has to match, if provided, the length of `x`.
+#'
+#' @return `x` converted to a `character` and eventually completed.
 #'
 #' @noRd
-.fill_column <- function(input_data, length_out) {
-    if (!length(input_data))
-        return(rep("null", length_out))
-    input_data[is.na(input_data)] <- "null"
-    if (length(input_data) != length_out && length(input_data) != 1) {
-        stop("Input length ", length(input_data),
-             " does not match row count : ", length_out)
+.check_fill_column <- function(x, lout, split = "|", lengths = numeric()) {
+    if (!length(x)) x <- "null"
+    if (length(x) == 1L) x <- rep(x, lout)
+    if (length(x) != lout)
+        stop("Input length ", length(x), " does not match row count : ", lout)
+    x[is.na(x)] <- "null"
+    if (length(lengths)) { # process | separated elements
+        ## paste null fields to the expected number of elements
+        nulls <- which(x == "null")
+        if (length(nulls))
+            x[nulls] <- mapply(
+                function(v, t) paste0(rep(v, t), collapse = split),
+                x[nulls], lengths[nulls], USE.NAMES = FALSE)
+        ## check that the expected number of elements are present
+        ls <- lengths(strsplit(x, split = split, fixed = TRUE))
+        if (any(ls != lengths))
+            stop("Input does not provide the expected number of elements ",
+                 "(separated by \"|\")")
     }
-    rep(input_data, length.out = length_out)
+    x
 }

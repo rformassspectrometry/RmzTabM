@@ -34,7 +34,7 @@
 #' with `...` **all** parameters (such as `adduct_ion`,
 #' `retention_time_in_seconds` etc) have to be **fully** spelled out. All
 #' parameters are vectorized and recycled as needed to match the number of rows
-#' in the abundance matrix, if their length is not equal to the number of rows
+#' in the abundance matrix. If their length is not equal to the number of rows
 #' or 1, an error is raised.
 #'
 #' See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
@@ -54,8 +54,9 @@
 #' @param adduct_ion `character` vector of adducts (e.g. `"[M+H]+"`).
 #'   Defaults to `"null"`.
 #'
-#' @param exp_mass_to_charge `numeric` vector of experimental m/z values.
-#'   **Cannot** be `NULL`.
+#' @param exp_mass_to_charge `numeric` vector of experimental m/z values. This
+#'   parameter **must** be provided and can not contain any missing values. Its
+#'   length has to match `nrow(x)`
 #'
 #' @param retention_time_in_seconds `numeric` vector of retention times in
 #'   seconds. Defaults to `"null"`.
@@ -114,17 +115,16 @@
 #' ## abundances
 #' head(smf_final)
 #' @export
-smf_create <- function(..., x, exp_mass_to_charge = character(),
-                       retention_time_in_seconds = character(),
-                       retention_time_in_seconds_start = character(),
-                       retention_time_in_seconds_end = character(),
+smf_create <- function(..., x, exp_mass_to_charge = numeric(),
+                       retention_time_in_seconds = numeric(),
+                       retention_time_in_seconds_start = numeric(),
+                       retention_time_in_seconds_end = numeric(),
                        SME_ID_REFS = character(),
                        SME_ID_REF_ambiguity_code = character(),
                        charge = character(), adduct_ion = character(),
                        isotopomer = character()) {
     if (!length(exp_mass_to_charge))
         stop("The argument 'exp_mass_to_charge' is mandatory.")
-
     smf_df <- .abundance_matrix(x)
     cols_to_fill <- list(
         SME_ID_REFS = SME_ID_REFS,
@@ -137,28 +137,21 @@ smf_create <- function(..., x, exp_mass_to_charge = character(),
         retention_time_in_seconds_start = retention_time_in_seconds_start,
         retention_time_in_seconds_end = retention_time_in_seconds_end
     )
-
     smf_df$SFH <- "SMF"
-    smf_df[names(cols_to_fill)] <- lapply(
-        cols_to_fill,
-        .fill_column,
-        length_out = nrow(smf_df)
-    )
-
+    smf_df[names(cols_to_fill)] <- lapply(cols_to_fill, .check_fill_column,
+                                          lout = nrow(smf_df))
     dots <- list(...)
     if (length(dots) > 0) {
-        if (is.null(names(dots)) || any(names(dots) == "")) {
+        if (is.null(names(dots)) || any(names(dots) == ""))
             stop("All optional arguments provided in '...' must be named.")
-        }
         nms <- names(dots)
         needs_prefix <- !grepl("^opt_", nms)
         nms[needs_prefix] <- paste0("opt_", nms[needs_prefix])
         names(dots) <- nms
         for (i in seq_along(dots)) {
-            smf_df[[nms[i]]] <- .fill_column(dots[[i]], nrow(smf_df))
+            smf_df[[nms[i]]] <- .check_fill_column(dots[[i]], nrow(smf_df))
         }
     }
-
     abundance_cols <- grep("^abundance_assay", names(smf_df), value = TRUE)
     opt_cols <- grep("^opt_", names(smf_df), value = TRUE)
     smf_df[, c(.SMF, abundance_cols, opt_cols)]

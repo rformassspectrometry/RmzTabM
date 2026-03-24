@@ -67,12 +67,26 @@ test_that(".abundance_matrix works", {
     )
 })
 
-test_that(".fill_column works", {
-    res <- .fill_column(NULL, 3)
+test_that(".check_fill_column works", {
+    res <- .check_fill_column(character(), 3)
     expect_equal(res, c("null", "null", "null"))
-    res <- .fill_column(c(1, NA, 3), 3)
+    res <- .check_fill_column(c(1, NA, 3), 3)
     expect_equal(res, c("1", "null", "3"))
-    res <- .fill_column(1, 3)
+    res <- .check_fill_column(1, 3)
     expect_equal(res, c("1", "1", "1"))
-    expect_error(.fill_column(c(1, 2), 3), "does not match row count")
+    expect_error(.check_fill_column(c(1, 2), 3), "does not match row count")
+    ## lengths.
+    res <- .check_fill_column(c("a", "b", "c"), lout = 3, lengths = c(1, 1, 1))
+    expect_equal(res, c("a", "b", "c"))
+    expect_error(
+        .check_fill_column(c("a", "b", "c"), lout = 3, lengths = c(1, 2, 1)),
+        "expected number of elements")
+    res <- .check_fill_column(
+        c("a|a2", "b", "c"), lout = 3, lengths = c(2, 1, 1))
+    expect_equal(res, c("a|a2", "b", "c"))
+    res <- .check_fill_column(
+        c("a|a2", "null", "c"), lout = 3, lengths = c(2, 3, 1))
+    expect_equal(res, c("a|a2", "null|null|null", "c"))
+    res <- .check_fill_column(character(), lout = 3, lengths = c(1, 2, 3))
+    expect_equal(res, c("null", "null|null", "null|null|null"))
 })

@@ -72,6 +72,10 @@ only basic, plain R data types.
 
 ### Formatting and exporting
 
+All formatting and export functions require that all their parameters, if
+specified, **must** be fully named, i.e., no positional matching of a function's
+arguments is supported.
+
 #### Metadata
 
 The mzTab-M format defines various fields and parameters to describe the data
