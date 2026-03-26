@@ -33,7 +33,8 @@ following table(s)). Can be of length 1 or equal to the number of study
 variables (to allow defining a different function per variable). Use
 \code{mtd_define_study_variables()} to get the complete set of study
 variables for parameters \code{x} and \code{study_variable_columns}. Defaults
-to the arithmetic mean.}
+to the arithmetic mean
+(\code{average_function = "[MS, MS:1002962, mean, ]"}).}
 
 \item{variation_function}{optional \code{character} defining the function used to
 calculate the study variable quantification variation value (reported in
@@ -41,7 +42,8 @@ the following table(s)). Can be of length 1 or equal to the number of
 study variables (to allow defining a different function per variable).
 Use \code{mtd_define_study_variables()} to get the complete set of study
 variables for parameters \code{x} and \code{study_variable_columns}. Defaults
-to the coefficient of variation.}
+to the coefficient of variation
+(\code{variation_function = "[MS, MS:1002963, variation coefficient, ]"}).}
 
 \item{description}{\code{character} with a textual description of the study
 variable. If provided, its length needs to be equal to the number of

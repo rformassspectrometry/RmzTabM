@@ -6,16 +6,16 @@
 \usage{
 smf_create(
   ...,
-  smf_df,
-  exp_mass_to_charge = NULL,
-  retention_time_in_seconds = NULL,
-  retention_time_in_seconds_start = NULL,
-  retention_time_in_seconds_end = NULL,
-  SME_ID_REFS = NULL,
-  SME_ID_REF_ambiguity_code = NULL,
-  charge = NULL,
-  adduct_ion = NULL,
-  isotopomer = NULL
+  x,
+  exp_mass_to_charge = numeric(),
+  retention_time_in_seconds = numeric(),
+  retention_time_in_seconds_start = numeric(),
+  retention_time_in_seconds_end = numeric(),
+  SME_ID_REFS = character(),
+  SME_ID_REF_ambiguity_code = character(),
+  charge = character(),
+  adduct_ion = character(),
+  isotopomer = character()
 )
 }
 \arguments{
@@ -23,21 +23,25 @@ smf_create(
 The function will automatically prepend \code{"opt_"} to the names if not
 already present.}
 
-\item{smf_df}{\code{matrix} or \code{data.frame} of abundances. Rows are features,
+\item{x}{\code{matrix} or \code{data.frame} of abundances. Rows are features,
 columns are assays. The order of columns is assumed to match the order of
-assays defined in the Metadata (MTD) section.}
+assays defined in the Metadata (MTD) section (see \code{\link[=mtd_assay]{mtd_assay()}} for more
+information).}
 
-\item{exp_mass_to_charge}{\code{numeric} vector of experimental m/z values.
-\strong{Cannot} be \code{NULL}.}
+\item{exp_mass_to_charge}{\code{numeric} vector of experimental m/z values. This
+parameter \strong{must} be provided and can not contain any missing values. Its
+length has to match \code{nrow(x)}}
 
 \item{retention_time_in_seconds}{\code{numeric} vector of retention times in
 seconds. Defaults to \code{"null"}.}
 
 \item{retention_time_in_seconds_start}{\code{numeric} vector of start retention
-times in seconds. Defaults to \code{"null"}.}
+times in seconds (i.e., start retention time of the chromatographic peak
+of feature). Defaults to \code{"null"}.}
 
 \item{retention_time_in_seconds_end}{\code{numeric} vector of end retention times
-in seconds. Defaults to \code{"null"}.}
+in seconds (i.e., end retention time of the chromatographic peak or
+feature). Defaults to \code{"null"}.}
 
 \item{SME_ID_REFS}{\code{character} vector of SME IDs referencing small molecules.
 Defaults to \code{"null"}.}
@@ -83,7 +87,7 @@ compliance.
 with \code{...} \strong{all} parameters (such as \code{adduct_ion},
 \code{retention_time_in_seconds} etc) have to be \strong{fully} spelled out. All
 parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix, if their length is not equal to the number of rows
+in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.
 
 See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section}{specification of the SMF section}
@@ -108,7 +112,7 @@ adducts <- c("[M+H]+", "[M+Na]+", "[M+H]+")
 ## Create the final dataframe ready for export
 ## Note: Fields not provided (like charge) are automatically set to "null"
 smf_final <- smf_create(
-    smf_df = abund_mat,
+    x = abund_mat,
     exp_mass_to_charge = mz_values,
     retention_time_in_seconds = rt_values,
     adduct_ion = adducts,
