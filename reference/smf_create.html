@@ -20,7 +20,7 @@ Important: to support the optional additional parameters passed along
 with ... all parameters (such as adduct_ion,
 retention_time_in_seconds etc) have to be fully spelled out. All
 parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix, if their length is not equal to the number of rows
+in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.
 See also the specification of the SMF section
 for details.'><meta property="og:description" content='The Small Molecule Feature (SMF) section of the mzTab-M definition captures
@@ -44,7 +44,7 @@ Important: to support the optional additional parameters passed along
 with ... all parameters (such as adduct_ion,
 retention_time_in_seconds etc) have to be fully spelled out. All
 parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix, if their length is not equal to the number of rows
+in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.
 See also the specification of the SMF section
 for details.'></head><body>
@@ -55,7 +55,7 @@ for details.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@ compliance.</p></li>
 with <code>...</code> <strong>all</strong> parameters (such as <code>adduct_ion</code>,
 <code>retention_time_in_seconds</code> etc) have to be <strong>fully</strong> spelled out. All
 parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix, if their length is not equal to the number of rows
+in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.</p>
 <p>See also the <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section" class="external-link">specification of the SMF section</a>
 for details.</p>
@@ -114,16 +114,16 @@ for details.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">smf_create</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
-<span>  <span class="va">smf_df</span>,</span>
-<span>  exp_mass_to_charge <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  retention_time_in_seconds <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  retention_time_in_seconds_start <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  retention_time_in_seconds_end <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  SME_ID_REFS <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  SME_ID_REF_ambiguity_code <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  charge <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  adduct_ion <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  isotopomer <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  exp_mass_to_charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  retention_time_in_seconds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  retention_time_in_seconds_start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  retention_time_in_seconds_end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  SME_ID_REFS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  SME_ID_REF_ambiguity_code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  adduct_ion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  isotopomer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -137,15 +137,17 @@ The function will automatically prepend <code>"opt_"</code> to the names if not
 already present.</p></dd>
 
 
-<dt id="arg-smf-df">smf_df<a class="anchor" aria-label="anchor" href="#arg-smf-df"></a></dt>
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>matrix</code> or <code>data.frame</code> of abundances. Rows are features,
 columns are assays. The order of columns is assumed to match the order of
-assays defined in the Metadata (MTD) section.</p></dd>
+assays defined in the Metadata (MTD) section (see <code><a href="mtd_assay.html">mtd_assay()</a></code> for more
+information).</p></dd>
 
 
 <dt id="arg-exp-mass-to-charge">exp_mass_to_charge<a class="anchor" aria-label="anchor" href="#arg-exp-mass-to-charge"></a></dt>
-<dd><p><code>numeric</code> vector of experimental m/z values.
-<strong>Cannot</strong> be <code>NULL</code>.</p></dd>
+<dd><p><code>numeric</code> vector of experimental m/z values. This
+parameter <strong>must</strong> be provided and can not contain any missing values. Its
+length has to match <code>nrow(x)</code></p></dd>
 
 
 <dt id="arg-retention-time-in-seconds">retention_time_in_seconds<a class="anchor" aria-label="anchor" href="#arg-retention-time-in-seconds"></a></dt>
@@ -155,12 +157,14 @@ seconds. Defaults to <code>"null"</code>.</p></dd>
 
 <dt id="arg-retention-time-in-seconds-start">retention_time_in_seconds_start<a class="anchor" aria-label="anchor" href="#arg-retention-time-in-seconds-start"></a></dt>
 <dd><p><code>numeric</code> vector of start retention
-times in seconds. Defaults to <code>"null"</code>.</p></dd>
+times in seconds (i.e., start retention time of the chromatographic peak
+of feature). Defaults to <code>"null"</code>.</p></dd>
 
 
 <dt id="arg-retention-time-in-seconds-end">retention_time_in_seconds_end<a class="anchor" aria-label="anchor" href="#arg-retention-time-in-seconds-end"></a></dt>
 <dd><p><code>numeric</code> vector of end retention times
-in seconds. Defaults to <code>"null"</code>.</p></dd>
+in seconds (i.e., end retention time of the chromatographic peak or
+feature). Defaults to <code>"null"</code>.</p></dd>
 
 
 <dt id="arg-sme-id-refs">SME_ID_REFS<a class="anchor" aria-label="anchor" href="#arg-sme-id-refs"></a></dt>
@@ -218,7 +222,7 @@ abundance columns, and any optional columns.</p>
 <span class="r-in"><span><span class="co">## Create the final dataframe ready for export</span></span></span>
 <span class="r-in"><span><span class="co">## Note: Fields not provided (like charge) are automatically set to "null"</span></span></span>
 <span class="r-in"><span><span class="va">smf_final</span> <span class="op">&lt;-</span> <span class="fu">smf_create</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    smf_df <span class="op">=</span> <span class="va">abund_mat</span>,</span></span>
+<span class="r-in"><span>    x <span class="op">=</span> <span class="va">abund_mat</span>,</span></span>
 <span class="r-in"><span>    exp_mass_to_charge <span class="op">=</span> <span class="va">mz_values</span>,</span></span>
 <span class="r-in"><span>    retention_time_in_seconds <span class="op">=</span> <span class="va">rt_values</span>,</span></span>
 <span class="r-in"><span>    adduct_ion <span class="op">=</span> <span class="va">adducts</span>,</span></span>

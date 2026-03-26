@@ -60,7 +60,7 @@ mtd_define_study_variables(x, study_variable_columns = character())
   defining a different function per variable). Use
   `mtd_define_study_variables()` to get the complete set of study
   variables for parameters `x` and `study_variable_columns`. Defaults to
-  the arithmetic mean.
+  the arithmetic mean (`average_function = "[MS, MS:1002962, mean, ]"`).
 
 - variation_function:
 
@@ -70,7 +70,8 @@ mtd_define_study_variables(x, study_variable_columns = character())
   variables (to allow defining a different function per variable). Use
   `mtd_define_study_variables()` to get the complete set of study
   variables for parameters `x` and `study_variable_columns`. Defaults to
-  the coefficient of variation.
+  the coefficient of variation
+  (`variation_function = "[MS, MS:1002963, variation coefficient, ]"`).
 
 - description:
 

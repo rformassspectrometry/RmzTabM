@@ -35,5 +35,8 @@
 
   mzTab-M *study variables* metadata information
 
+- [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md)
+  : Parse a CV parameter
+
 - [`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
   : Create the mzTab-M Small Molecule Feature (SMF) Table

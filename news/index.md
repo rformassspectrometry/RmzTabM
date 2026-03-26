@@ -2,6 +2,10 @@
 
 ## RmzTabM version 0.97
 
+### Changes since version 0.97.3
+
+- Add utility function `parse_cv_param()`.
+
 ### Changes since version 0.97.2
 
 - Add vignette.

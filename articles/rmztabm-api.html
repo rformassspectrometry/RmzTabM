@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,8 +71,16 @@
     <section class="section level2"><h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>The <em>RmzTabM</em> package provides the API and core functionality to read and write files in mzTab-M format. The functions can be re-used and integrated by other R packages to support import and export of their respective metabolomics/lipidomics result objects in this format.</p>
+<p>For a general overview of the mzTab-M format see <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png" class="external-link">this figure</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img src="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png"></p>
+<figcaption>mzTab-M format</figcaption></figure>
+</div>
 </section><section class="section level2"><h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+</section><section class="section level2"><h2 id="general-information-on-the-mztab-m-format">General information on the mzTab-M format<a class="anchor" aria-label="anchor" href="#general-information-on-the-mztab-m-format"></a>
+</h2>
+<p>The mzTab-M format consists of four cross-referenced data tables: metadata (MTD), Small Molecule (SML), Small Molecule Feature (SMF) and the Small Molecule Evidence (SME). The MTD section is supposed to contain all experiment and measurement relevant information. The SML section contains the final results of an analysis that should be reported, i.e., the (annotated) molecules and their respective abundances. The SMF section contains information on the measured (LC-MS) <em>features</em> and their abundance values. The SME section contains information on the annotation process (and reliability) of the molecules reported in the SML section. The SML is supposed to be a subset of the SMF table. The structure and relationship between rows in these different tables is defined by the mzTab-M standard and follows strict rules. The functions from the <em>RmzTabM</em> package assist in creating and formatting these tables.</p>
 </section><section class="section level2"><h2 id="r-mztab-m-api">R mzTab-M API<a class="anchor" aria-label="anchor" href="#r-mztab-m-api"></a>
 </h2>
 <p>The <em>RmzTabM</em> package provides low level, core functions and higher-level functions to work with files in mzTab-M format. The high-level functions are more user-oriented, simplifying the import and export of data and information from and to files in mzTab-M format. The low-level, core functions are developer-oriented, providing helper functions that can be re-used in other R packages to read and write from and to mzTab-M files.</p>
@@ -89,6 +97,7 @@
 <p>The low-level functions listed in this section provide the base functionality to convert or format information and data for/from the <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc" class="external-link">mzTab-M format</a>. These functions are designed to be re-used by other R packages and take and return only basic, plain R data types.</p>
 <section class="level3"><h4 id="formatting-and-exporting">Formatting and exporting<a class="anchor" aria-label="anchor" href="#formatting-and-exporting"></a>
 </h4>
+<p>All formatting and export functions require that all their parameters, if specified, <strong>must</strong> be fully named, i.e., no positional matching of a function’s arguments is supported.</p>
 <section class="level4"><h5 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
 </h5>
 <p>The mzTab-M format defines various fields and parameters to describe the data and information of an experiment. The <em>RmzTabM</em> package provides a variety of utility functions that help defining and formatting this information.</p>
@@ -872,7 +881,87 @@
 <td style="text-align: center;">[MS, MS:1002896, compound identification confidence level, ]</td>
 </tr>
 </tbody>
-</table></section></section><section class="level3"><h4 id="reading-and-importing">Reading and importing<a class="anchor" aria-label="anchor" href="#reading-and-importing"></a>
+</table></section><section class="level4"><h5 id="small-molecule-feature-smf-table">Small Molecule Feature (SMF) Table<a class="anchor" aria-label="anchor" href="#small-molecule-feature-smf-table"></a>
+</h5>
+<p>The <em>small molecule feature</em> (SMF) section captures information on the quantified entities (features) of an experiment. This includes the feature abundances across assays as well as the feature’s <em>m/z</em>, retention times and eventual additional annotations such as the ion or the exact mass. The <code><a href="../reference/smf_create.html">smf_create()</a></code> function compiles and formats this section based on the provided abundance matrix and feature specifications.</p>
+<p>Below we create an example abundance matrix and feature characteristics data matching the metadata from the previous section. Generally, such information can be extracted from the result objects of preprocessing software. We first define the abundance matrix: columns are assays, rows features. Importantly, the number and order of the assays has to match the <em>assay</em> definition in the metadata (defined above with the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function). Our example data consists of quantification of 5 features in 6 measurements (assays) of 3 samples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">200.1</span>, <span class="fl">1232.1</span>, <span class="fl">54.3</span>, <span class="fl">399.1</span>, <span class="fl">599.8</span><span class="op">)</span>,</span>
+<span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">260.2</span>, <span class="fl">39.5</span>, <span class="fl">177.4</span>, <span class="fl">599.5</span>, <span class="fl">5344.1</span><span class="op">)</span>,</span>
+<span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256.1</span>, <span class="fl">904.2</span>, <span class="fl">56.9</span>, <span class="fl">533.1</span>, <span class="fl">489.9</span><span class="op">)</span>,</span>
+<span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">232.1</span>, <span class="fl">43.3</span>, <span class="fl">201.4</span>, <span class="fl">434.2</span>, <span class="fl">5154.1</span><span class="op">)</span>,</span>
+<span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">264.2</span>, <span class="fl">1102.4</span>, <span class="fl">43.5</span>, <span class="fl">514.5</span>, <span class="fl">583.1</span><span class="op">)</span>,</span>
+<span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">246.2</span>, <span class="fl">52.1</span>, <span class="fl">187.2</span>, <span class="fl">508.3</span>, <span class="fl">601.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">exp</span><span class="op">$</span><span class="va">sample_name</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FT01"</span>, <span class="st">"FT02"</span>, <span class="st">"FT03"</span>, <span class="st">"FT04"</span>, <span class="st">"FT05"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>We next define also a <code>data.frame</code> with the feature characteristics (one row per feature and columns with <em>m/z</em>, retention time and, where known, also the adduct information and charge).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feature_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    mzmed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">324.3</span>, <span class="fl">127.1</span>, <span class="fl">299.2</span>, <span class="fl">523.1</span>, <span class="fl">312.4</span><span class="op">)</span>,</span>
+<span>    rtmed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25.6</span>, <span class="fl">128.4</span>, <span class="fl">67.2</span>, <span class="fl">219.3</span>, <span class="fl">221.4</span><span class="op">)</span>,</span>
+<span>    rtmin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">23.1</span>, <span class="fl">125.1</span>, <span class="fl">65.1</span>, <span class="fl">216.3</span>, <span class="fl">218.3</span><span class="op">)</span>,</span>
+<span>    rtmax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">26.9</span>, <span class="fl">130.3</span>, <span class="fl">69.1</span>, <span class="fl">223.2</span>, <span class="fl">224.8</span><span class="op">)</span>,</span>
+<span>    adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"[M+H]+"</span>, <span class="cn">NA</span>, <span class="st">"[M+Na]+"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1L</span>, <span class="cn">NA</span>, <span class="fl">1L</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">feature_info</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>We can now feed this information to the <code><a href="../reference/smf_create.html">smf_create()</a></code> function. In addition to the predefined, parameters, also additional feature annotations/columns can be passed to the function through it’s <code>...</code> parameter. We provide the IDs of the individual features with <code>feature_id =</code>. These are then stored into a column <code>"opt_feature_id"</code>. Note that all parameters <strong>must</strong> be fully named, i.e., <code>x =</code> or <code>charge =</code> since the function does not support positional matching of its arguments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smf_create.html">smf_create</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">abundances</span>,</span>
+<span>    exp_mass_to_charge <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">mzmed</span>,</span>
+<span>    retention_time_in_seconds <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">rtmed</span>,</span>
+<span>    retention_time_in_seconds_start <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">rtmin</span>,</span>
+<span>    retention_time_in_seconds_end <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">rtmax</span>,</span>
+<span>    charge <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">charge</span>,</span>
+<span>    adduct_ion <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">adduct</span>,</span>
+<span>    feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">feature_info</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>The SMF content is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smf</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
+FT01 SMF      1        null                      null       null       null
+FT02 SMF      2        null                      null     [M+H]+       null
+FT03 SMF      3        null                      null       null       null
+FT04 SMF      4        null                      null    [M+Na]+       null
+FT05 SMF      5        null                      null       null       null
+     exp_mass_to_charge charge retention_time_in_seconds
+FT01              324.3   null                      25.6
+FT02              127.1      1                     128.4
+FT03              299.2   null                      67.2
+FT04              523.1      1                     219.3
+FT05              312.4   null                     221.4
+     retention_time_in_seconds_start retention_time_in_seconds_end
+FT01                            23.1                          26.9
+FT02                           125.1                         130.3
+FT03                            65.1                          69.1
+FT04                           216.3                         223.2
+FT05                           218.3                         224.8
+     abundance_assay[1] abundance_assay[2] abundance_assay[3]
+FT01              200.1              260.2              256.1
+FT02             1232.1               39.5              904.2
+FT03               54.3              177.4               56.9
+FT04              399.1              599.5              533.1
+FT05              599.8             5344.1              489.9
+     abundance_assay[4] abundance_assay[5] abundance_assay[6] opt_feature_id
+FT01              232.1              264.2              246.2           FT01
+FT02               43.3             1102.4               52.1           FT02
+FT03              201.4               43.5              187.2           FT03
+FT04              434.2              514.5              508.3           FT04
+FT05             5154.1              583.1              601.5           FT05</code></pre>
+</div>
+</div>
+</section><section class="level4"><h5 id="small-molecule-sml-table">Small Molecule (SML) Table<a class="anchor" aria-label="anchor" href="#small-molecule-sml-table"></a>
+</h5>
+</section></section><section class="level3"><h4 id="reading-and-importing">Reading and importing<a class="anchor" aria-label="anchor" href="#reading-and-importing"></a>
 </h4>
 <p>TODO: implement these functions moving the respective code from the legacy repo</p>
 </section><section class="level3"><h4 id="general-utility-functions">General utility functions<a class="anchor" aria-label="anchor" href="#general-utility-functions"></a>
@@ -883,15 +972,17 @@
 <code><a href="../reference/mtd_fields.html">mtd_fields()</a></code>: to format values in the mzTab-M-specific format.</li>
 <li>
 <code><a href="../reference/mtd_sort.html">mtd_sort()</a></code>: to sort rows of the metadata <code>matrix</code> into the expected order.</li>
+<li>
+<code><a href="../reference/parse_cv_parameter.html">parse_cv_parameter()</a></code>: extract elements and values from a CV parameter.</li>
 </ul></section></section></section><section class="section level2"><h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R Under development (unstable) (2025-12-07 r89119)
+<pre><code>R Under development (unstable) (2026-03-22 r89674)
 Platform: x86_64-pc-linux-gnu
-Running under: Ubuntu 24.04.3 LTS
+Running under: Ubuntu 24.04.4 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -912,13 +1003,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base
 
 other attached packages:
-[1] pander_0.6.6   RmzTabM_0.97.2
+[1] pander_0.6.6   RmzTabM_0.97.3
 
 loaded via a namespace (and not attached):
  [1] compiler_4.6.0  fastmap_1.2.0   cli_3.6.5       tools_4.6.0
- [5] htmltools_0.5.9 yaml_2.3.12     Rcpp_1.1.0.8.1  rmarkdown_2.30
- [9] knitr_1.50      jsonlite_2.0.0  xfun_0.54       digest_0.6.39
-[13] rlang_1.1.6     evaluate_1.0.5 </code></pre>
+ [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1
+ [9] rmarkdown_2.30  knitr_1.51      jsonlite_2.0.0  xfun_0.57
+[13] digest_0.6.39   rlang_1.1.7     evaluate_1.0.5 </code></pre>
 </div>
 </div>
 </section><script id="quarto-html-after-body" type="application/javascript">

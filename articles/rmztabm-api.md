@@ -7,7 +7,31 @@ and write files in mzTab-M format. The functions can be re-used and
 integrated by other R packages to support import and export of their
 respective metabolomics/lipidomics result objects in this format.
 
+For a general overview of the mzTab-M format see [this
+figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
+
+![](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+
+mzTab-M format
+
 ## Installation
+
+## General information on the mzTab-M format
+
+The mzTab-M format consists of four cross-referenced data tables:
+metadata (MTD), Small Molecule (SML), Small Molecule Feature (SMF) and
+the Small Molecule Evidence (SME). The MTD section is supposed to
+contain all experiment and measurement relevant information. The SML
+section contains the final results of an analysis that should be
+reported, i.e., the (annotated) molecules and their respective
+abundances. The SMF section contains information on the measured (LC-MS)
+*features* and their abundance values. The SME section contains
+information on the annotation process (and reliability) of the molecules
+reported in the SML section. The SML is supposed to be a subset of the
+SMF table. The structure and relationship between rows in these
+different tables is defined by the mzTab-M standard and follows strict
+rules. The functions from the *RmzTabM* package assist in creating and
+formatting these tables.
 
 ## R mzTab-M API
 
@@ -46,6 +70,10 @@ These functions are designed to be re-used by other R packages and take
 and return only basic, plain R data types.
 
 #### Formatting and exporting
+
+All formatting and export functions require that all their parameters,
+if specified, **must** be fully named, i.e., no positional matching of a
+function’s arguments is supported.
 
 ##### Metadata
 
@@ -611,6 +639,119 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 | small_molecule_feature-quantification_unit | \[PRIDE, PRIDE:0000330, Arbitrary quantification unit, \] |
 | small_molecule-identification_reliability | \[MS, MS:1002896, compound identification confidence level, \] |
 
+##### Small Molecule Feature (SMF) Table
+
+The *small molecule feature* (SMF) section captures information on the
+quantified entities (features) of an experiment. This includes the
+feature abundances across assays as well as the feature’s *m/z*,
+retention times and eventual additional annotations such as the ion or
+the exact mass. The
+[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
+function compiles and formats this section based on the provided
+abundance matrix and feature specifications.
+
+Below we create an example abundance matrix and feature characteristics
+data matching the metadata from the previous section. Generally, such
+information can be extracted from the result objects of preprocessing
+software. We first define the abundance matrix: columns are assays, rows
+features. Importantly, the number and order of the assays has to match
+the *assay* definition in the metadata (defined above with the
+[`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
+function). Our example data consists of quantification of 5 features in
+6 measurements (assays) of 3 samples.
+
+``` r
+
+abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8),
+                    c(260.2, 39.5, 177.4, 599.5, 5344.1),
+                    c(256.1, 904.2, 56.9, 533.1, 489.9),
+                    c(232.1, 43.3, 201.4, 434.2, 5154.1),
+                    c(264.2, 1102.4, 43.5, 514.5, 583.1),
+                    c(246.2, 52.1, 187.2, 508.3, 601.5))
+colnames(abundances) <- exp$sample_name
+rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05")
+```
+
+We next define also a `data.frame` with the feature characteristics (one
+row per feature and columns with *m/z*, retention time and, where known,
+also the adduct information and charge).
+
+``` r
+
+feature_info <- data.frame(
+    mzmed = c(324.3, 127.1, 299.2, 523.1, 312.4),
+    rtmed = c(25.6, 128.4, 67.2, 219.3, 221.4),
+    rtmin = c(23.1, 125.1, 65.1, 216.3, 218.3),
+    rtmax = c(26.9, 130.3, 69.1, 223.2, 224.8),
+    adduct = c(NA, "[M+H]+", NA, "[M+Na]+", NA),
+    charge = c(NA, 1L, NA, 1L, NA)
+)
+rownames(feature_info) <- rownames(abundances)
+```
+
+We can now feed this information to the
+[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
+function. In addition to the predefined, parameters, also additional
+feature annotations/columns can be passed to the function through it’s
+`...` parameter. We provide the IDs of the individual features with
+`feature_id =`. These are then stored into a column `"opt_feature_id"`.
+Note that all parameters **must** be fully named, i.e., `x =` or
+`charge =` since the function does not support positional matching of
+its arguments.
+
+``` r
+
+smf <- smf_create(
+    x = abundances,
+    exp_mass_to_charge = feature_info$mzmed,
+    retention_time_in_seconds = feature_info$rtmed,
+    retention_time_in_seconds_start = feature_info$rtmin,
+    retention_time_in_seconds_end = feature_info$rtmax,
+    charge = feature_info$charge,
+    adduct_ion = feature_info$adduct,
+    feature_id = rownames(feature_info))
+```
+
+The SMF content is:
+
+``` r
+
+smf
+```
+
+         SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
+    FT01 SMF      1        null                      null       null       null
+    FT02 SMF      2        null                      null     [M+H]+       null
+    FT03 SMF      3        null                      null       null       null
+    FT04 SMF      4        null                      null    [M+Na]+       null
+    FT05 SMF      5        null                      null       null       null
+         exp_mass_to_charge charge retention_time_in_seconds
+    FT01              324.3   null                      25.6
+    FT02              127.1      1                     128.4
+    FT03              299.2   null                      67.2
+    FT04              523.1      1                     219.3
+    FT05              312.4   null                     221.4
+         retention_time_in_seconds_start retention_time_in_seconds_end
+    FT01                            23.1                          26.9
+    FT02                           125.1                         130.3
+    FT03                            65.1                          69.1
+    FT04                           216.3                         223.2
+    FT05                           218.3                         224.8
+         abundance_assay[1] abundance_assay[2] abundance_assay[3]
+    FT01              200.1              260.2              256.1
+    FT02             1232.1               39.5              904.2
+    FT03               54.3              177.4               56.9
+    FT04              399.1              599.5              533.1
+    FT05              599.8             5344.1              489.9
+         abundance_assay[4] abundance_assay[5] abundance_assay[6] opt_feature_id
+    FT01              232.1              264.2              246.2           FT01
+    FT02               43.3             1102.4               52.1           FT02
+    FT03              201.4               43.5              187.2           FT03
+    FT04              434.2              514.5              508.3           FT04
+    FT05             5154.1              583.1              601.5           FT05
+
+##### Small Molecule (SML) Table
+
 #### Reading and importing
 
 TODO: implement these functions moving the respective code from the
@@ -624,6 +765,8 @@ General utility functions include:
   to format values in the mzTab-M-specific format.
 - [`mtd_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sort.md):
   to sort rows of the metadata `matrix` into the expected order.
+- [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md):
+  extract elements and values from a CV parameter.
 
 ## Session information
 
@@ -632,9 +775,9 @@ General utility functions include:
 sessionInfo()
 ```
 
-    R Under development (unstable) (2025-12-07 r89119)
+    R Under development (unstable) (2026-03-22 r89674)
     Platform: x86_64-pc-linux-gnu
-    Running under: Ubuntu 24.04.3 LTS
+    Running under: Ubuntu 24.04.4 LTS
 
     Matrix products: default
     BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -655,10 +798,10 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6   RmzTabM_0.97.2
+    [1] pander_0.6.6   RmzTabM_0.97.3
 
     loaded via a namespace (and not attached):
      [1] compiler_4.6.0  fastmap_1.2.0   cli_3.6.5       tools_4.6.0
-     [5] htmltools_0.5.9 yaml_2.3.12     Rcpp_1.1.0.8.1  rmarkdown_2.30
-     [9] knitr_1.50      jsonlite_2.0.0  xfun_0.54       digest_0.6.39
-    [13] rlang_1.1.6     evaluate_1.0.5 
+     [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1
+     [9] rmarkdown_2.30  knitr_1.51      jsonlite_2.0.0  xfun_0.57
+    [13] digest_0.6.39   rlang_1.1.7     evaluate_1.0.5 

@@ -35,7 +35,7 @@ data.frame depending on the parameter study_variable_columns.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,7 +122,8 @@ following table(s)). Can be of length 1 or equal to the number of study
 variables (to allow defining a different function per variable). Use
 <code>mtd_define_study_variables()</code> to get the complete set of study
 variables for parameters <code>x</code> and <code>study_variable_columns</code>. Defaults
-to the arithmetic mean.</p></dd>
+to the arithmetic mean
+(<code>average_function = "[MS, MS:1002962, mean, ]"</code>).</p></dd>
 
 
 <dt id="arg-variation-function">variation_function<a class="anchor" aria-label="anchor" href="#arg-variation-function"></a></dt>
@@ -132,7 +133,8 @@ the following table(s)). Can be of length 1 or equal to the number of
 study variables (to allow defining a different function per variable).
 Use <code>mtd_define_study_variables()</code> to get the complete set of study
 variables for parameters <code>x</code> and <code>study_variable_columns</code>. Defaults
-to the coefficient of variation.</p></dd>
+to the coefficient of variation
+(<code>variation_function = "[MS, MS:1002963, variation coefficient, ]"</code>).</p></dd>
 
 
 <dt id="arg-description">description<a class="anchor" aria-label="anchor" href="#arg-description"></a></dt>
