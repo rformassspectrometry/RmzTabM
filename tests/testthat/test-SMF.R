@@ -24,26 +24,32 @@ test_that("smf_create works", {
     expect_true("opt_existing" %in% colnames(res))
     expect_false("opt_opt_existing" %in% colnames(res))
 
-    expect_error(
-        smf_create(c("bad", "arg"), x = mat,
-         exp_mass_to_charge = c(100.1, 100.2)),
-        "must be named"
-    )
-    expect_error(
-        smf_create(
-            x = mat,
-            exp_mass_to_charge = c(100.1, 100.2),
-            charge = c(1, 2, 3)
-        ),
-        "does not match row count"
-    )
+    expect_error(smf_create(c("bad", "arg"), x = mat,
+                            exp_mass_to_charge = c(100.1, 100.2)),
+                 "must be named")
+    expect_error(smf_create(x = mat, charge = c(1, 2, 3),
+                            exp_mass_to_charge = c(100.1, 100.2)),
+                 "does not match row count")
+    expect_error(smf_create(x = mat, exp_mass_to_charge = c(100.1, 100.2),
+                            my_col = c(1, 2, 3)),
+                 "does not match row count")
+})
 
-    expect_error(
-        smf_create(
-            x = mat,
-            exp_mass_to_charge = c(100.1, 100.2),
-            my_col = c(1, 2, 3)
-        ),
-        "does not match row count"
-    )
+test_that("smf_sort works and keeps all columns", {
+    df <- data.frame(SMF_ID = 1:2,
+                     opt_custom = c("A", "B"),
+                     SFH = c("SMF", "SMF"),
+                     exp_mass_to_charge = c(100.1, 100.2),
+                     charge = c(1, 2),
+                     retention_time_in_seconds = c(30, 60)
+                     )
+    res <- smf_sort(df)
+    expect_true(is.data.frame(res))
+    expect_equal(dim(res), dim(df))
+    expect_equal(colnames(res),
+                 c("SFH", "SMF_ID", "exp_mass_to_charge", "charge",
+                   "retention_time_in_seconds", "opt_custom"))
+    expect_equal(res$SFH, c("SMF", "SMF"))
+    expect_equal(res$SMF_ID, 1:2)
+    expect_equal(res$opt_custom, c("A", "B"))
 })

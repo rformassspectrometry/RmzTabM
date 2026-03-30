@@ -7,7 +7,9 @@
 
 #' @title Create the mzTab-M Small Molecule Feature (SMF) Table
 #'
-#' @name smf_create
+#' @name SMF-export
+#'
+#' @aliases smf_create
 #'
 #' @description
 #'
@@ -16,29 +18,34 @@
 #' elution profiles of specific *m/z* and retention times) that were measured
 #' across the assays.
 #'
-#' `smf_create()` provides a simplified workflow to generate this table in a
-#' single step. It takes a matrix of abundances (rows=features, columns=assays)
-#' and optional vectors defining feature properties.
+#' - `smf_create()` provides a simplified workflow to generate this table in a
+#'   single step. It takes a matrix of abundances (rows=features,
+#'   columns=assays) and optional vectors defining feature properties.
 #'
-#' It automatically:
+#'   It automatically:
 #'
-#' - Formats the abundance matrix (renaming columns to `abundance_assay[n]`).
-#' - Adds the required `SMF_ID` and standard mzTab-M columns (e.g.,
-#'   `exp_mass_to_charge`).
-#' - Populates missing mandatory columns with `"null"` strings to ensure
-#'   compliance.
-#' - Sets the line prefix column `SFH` to `"SMF"`.
-#' - Orders columns according to the mzTab-M specification.
+#'   - Formats the abundance matrix (renaming columns to `abundance_assay[n]`).
+#'   - Adds the required `SMF_ID` and standard mzTab-M columns (e.g.,
+#'     `exp_mass_to_charge`).
+#'   - Populates missing mandatory columns with `"null"` strings to ensure
+#'     compliance.
+#'   - Sets the line prefix column `SFH` to `"SMF"`.
+#'   - Orders columns according to the mzTab-M specification.
 #'
-#' **Important:** to support the optional additional parameters passed along
-#' with `...` **all** parameters (such as `adduct_ion`,
-#' `retention_time_in_seconds` etc) have to be **fully** spelled out. All
-#' parameters are vectorized and recycled as needed to match the number of rows
-#' in the abundance matrix. If their length is not equal to the number of rows
-#' or 1, an error is raised.
+#'   **Important:** to support the optional additional parameters passed along
+#'   with `...` **all** parameters (such as `adduct_ion`,
+#'   `retention_time_in_seconds` etc) have to be **fully** spelled out. All
+#'   parameters are vectorized and recycled as needed to match the number of rows
+#'   in the abundance matrix. If their length is not equal to the number of rows
+#'   or 1, an error is raised.
 #'
-#' See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
-#' for details.
+#'   See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
+#'   for details.
+#'
+#' - `smf_sort()` can be used to sort the columns of the SMF data frame
+#'   according to the standard order defined in the mzTab-M specification.
+#'   This is useful if you have added custom columns and want to ensure the
+#'   standard columns are in the correct order for export.
 #'
 #' @param x `matrix` or `data.frame` of abundances. Rows are features,
 #'   columns are assays. The order of columns is assumed to match the order of
@@ -82,6 +89,10 @@
 #'   the 'SFH' line prefix, standard columns ordered according to spec,
 #'   abundance columns, and any optional columns.
 #'
+#' @details
+#'
+#' All parameters passed to the `smf_create()` function must be **fully named**.
+#'
 #' @author Philippine Louail
 #'
 #' @examples
@@ -114,6 +125,7 @@
 #' ## The result contains the 'SFH' line prefix, standard columns, and
 #' ## abundances
 #' head(smf_final)
+#'
 #' @export
 smf_create <- function(..., x, exp_mass_to_charge = numeric(),
                        retention_time_in_seconds = numeric(),
@@ -140,39 +152,35 @@ smf_create <- function(..., x, exp_mass_to_charge = numeric(),
     smf_df$SFH <- "SMF"
     smf_df[names(cols_to_fill)] <- lapply(cols_to_fill, .check_fill_column,
                                           lout = nrow(smf_df))
-    dots <- list(...)
-    if (length(dots) > 0) {
-        if (is.null(names(dots)) || any(names(dots) == ""))
-            stop("All optional arguments provided in '...' must be named.")
-        nms <- names(dots)
-        needs_prefix <- !grepl("^opt_", nms)
-        nms[needs_prefix] <- paste0("opt_", nms[needs_prefix])
-        names(dots) <- nms
-        for (i in seq_along(dots)) {
-            smf_df[[nms[i]]] <- .check_fill_column(dots[[i]], nrow(smf_df))
-        }
-    }
-    abundance_cols <- grep("^abundance_assay", names(smf_df), value = TRUE)
-    opt_cols <- grep("^opt_", names(smf_df), value = TRUE)
-    smf_df[, c(.SMF, abundance_cols, opt_cols)]
+    smf_df <- .add_opt_cols(x = smf_df, ...)
+    smf_sort(smf_df)
+}
+
+#' @export
+#'
+#' @rdname SMF-export
+smf_sort <- function(x) {
+    x[, .sort_order(colnames(x), .SMF_ORDER), drop = FALSE]
 }
 
 #' @description
 #' Standard SMF column order defined by the mzTab-M specification.
 #'
 #' @noRd
-.SMF <- c(
-    "SFH",
-    "SMF_ID",
-    "SME_ID_REFS",
-    "SME_ID_REF_ambiguity_code",
-    "adduct_ion",
-    "isotopomer",
-    "exp_mass_to_charge",
-    "charge",
-    "retention_time_in_seconds",
-    "retention_time_in_seconds_start",
-    "retention_time_in_seconds_end"
+.SMF_ORDER <- c(
+    "^SFH",
+    "^SMF_ID",
+    "^SME_ID_REFS",
+    "^SME_ID_REF_ambiguity_code",
+    "^adduct_ion",
+    "^isotopomer",
+    "^exp_mass_to_charge",
+    "^charge",
+    "^retention_time_in_seconds",
+    "^retention_time_in_seconds_start",
+    "^retention_time_in_seconds_end",
+    "^abundance_assay\\[\\d+\\]$",
+    "^opt_"
 )
 
 ################################################################################

@@ -19,7 +19,7 @@
                                sqrt(sum(!is.na(x)))
 )
 
-#' maps/resolves a CV term to an R function.
+#' Maps/resolves a CV term to an R function.
 #'
 #' @param x `character(1)` OBO CV term to resolve to an R function.
 #'
@@ -177,6 +177,62 @@ parse_cv_parameter <- function(x, element = 2L) {
         if (any(ls != lengths))
             stop("Input does not provide the expected number of elements ",
                  "(separated by \"|\")")
+    }
+    x
+}
+
+#' @description
+#'
+#' Helper function to determine the order of elements in `x` based on an
+#' expected order `exp_order`. Elements in `x` that are not defined in
+#' `exp_order` will be ordered last (in their original order in `x`).
+#'
+#' @param x `character` with names or column names for which the order needs
+#'     to be determined.
+#'
+#' @param exp_order `character` with names in their expected order.
+#'
+#' @return `integer` with the order of the elements in `x` based on `exp_order`
+#'
+#' @noRd
+.sort_order <- function(x, exp_order) {
+    ordr <- rep(NA_integer_, length(x)) # NA will be last
+    for (i in seq_along(exp_order)) {
+        idx <- grep(exp_order[i], x)
+        if (length(idx))
+            ordr[idx] <- i
+    }
+    order(ordr)
+}
+
+#' @description
+#'
+#' Add optional columns to a `data.frame` `x`. These have to be passed as
+#' named paramters and an `"opt_"` will be prepended to their name.
+#'
+#' @param x `data.frame` to which columns should be added.
+#'
+#' @param ... **named** parameters with values that should be appended as
+#'     optional columns.
+#'
+#' @return `data.frame` with optional columns added.
+#'
+#' @author Philippine Louail
+#'
+#' @noRd
+.add_opt_cols <- function(..., x) {
+    dots <- list(...)
+    if (length(dots) > 0) {
+        if (is.null(names(dots)) || any(names(dots) == ""))
+            stop("All optional arguments provided in '...' must be named.",
+                 call. = FALSE)
+        nms <- names(dots)
+        needs_prefix <- !grepl("^opt_", nms)
+        nms[needs_prefix] <- paste0("opt_", nms[needs_prefix])
+        names(dots) <- nms
+        nx <- nrow(x)
+        for (i in seq_along(dots))
+            x[[nms[i]]] <- .check_fill_column(dots[[i]], nx)
     }
     x
 }
