@@ -431,7 +431,8 @@ anns <- data.frame(
     uri = c("http://www.hmdb.ca/metabolites/HMDB0001847",
             "http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169",
             "http://www.hmdb.ca/metabolites/HMDB0000258",
-            "http://www.hmdb.ca/metabolites/HMDB0060475")
+            "http://www.hmdb.ca/metabolites/HMDB0060475"),
+    note = c("manual curation")
 )
 ```
 
@@ -444,7 +445,9 @@ abundances_sml <- abundances[c(1, 4, 6, 7), ]
 
 With this information we can use the `sml_create()` function to compile the SML
 table. Note that (again) we **must fully name** all function arguments to which
-we pass values.
+we pass values. Any additional (named) parameters provided to the function (like
+`note = anns$note` below) will be added as *optional* columns (prefixed with
+`"opt_"`)
 
 ```{r}
 sml <- sml_create(x = abundances_sml,
@@ -452,7 +455,8 @@ sml <- sml_create(x = abundances_sml,
                   chemical_formula = anns$formula,
                   theoretical_neutral_mass = anns$neutral_mass,
                   adduct_ions = anns$adduct,
-                  uri = anns$uri)
+                  uri = anns$uri,
+                  note = anns$note)
 sml
 ```
 
