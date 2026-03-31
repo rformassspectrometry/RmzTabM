@@ -186,7 +186,7 @@
 #'
 #' All parameters passed to the `sml_create()` function must be **fully named**.
 #'
-#' @seealso [MTD-export] and [SMF-export] for creating and formating the
+#' @seealso [MTD-export] and [SMF-export] for creating and formatting the
 #'     metadata (MTD) and small molecule feature (SMF) sections.
 #'
 #' @author Johannes Rainer

@@ -284,7 +284,7 @@ sml
 ## the assay abundances and added as additional columns to the SML.
 }
 \seealso{
-\link{MTD-export} and \link{SMF-export} for creating and formating the
+\link{MTD-export} and \link{SMF-export} for creating and formatting the
 metadata (MTD) and small molecule feature (SMF) sections.
 }
 \author{

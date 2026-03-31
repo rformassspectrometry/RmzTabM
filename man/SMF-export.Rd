@@ -138,7 +138,7 @@ head(smf_final)
 
 }
 \seealso{
-\link{MTD-export} and \link{SML-export} for creating and formating the
+\link{MTD-export} and \link{SML-export} for creating and formatting the
 metadata (MTD) and small molecule (SML) sections.
 }
 \author{

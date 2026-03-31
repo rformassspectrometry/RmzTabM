@@ -95,7 +95,7 @@
 #'
 #' @author Philippine Louail
 #'
-#' @seealso [MTD-export] and [SML-export] for creating and formating the
+#' @seealso [MTD-export] and [SML-export] for creating and formatting the
 #'     metadata (MTD) and small molecule (SML) sections.
 #'
 #' @examples

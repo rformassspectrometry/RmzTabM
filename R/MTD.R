@@ -79,7 +79,7 @@
 #'
 #' @author Philippine Louail, Johannes Rainer
 #'
-#' @seealso [SMF-export] and [SML-export] for creating and formating the small
+#' @seealso [SMF-export] and [SML-export] for creating and formatting the small
 #'     molecule feature (SMF) and small molecule (SML) sections.
 #'
 #' @examples

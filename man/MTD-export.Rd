@@ -202,7 +202,7 @@ mtd <- mtd_sort(mtd)
 ## dedicated export helper functions to an mzTab-M file.
 }
 \seealso{
-\link{SMF-export} and \link{SML-export} for creating and formating the small
+\link{SMF-export} and \link{SML-export} for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.
 }
 \author{
