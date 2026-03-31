@@ -339,13 +339,6 @@ annotation (and hence a SML and SME section) adduct and charge information will
 not be available for the SMF table.
 
 ```{r}
-#' [M+H]+ of caffeine
-#' unknown
-#' unknown
-#' [M+Na]+ of glucose or mannose
-#' [M+Na]+ of caffeine
-#' [M+H]+ of sucrose
-#' [M+H]+ of DL-Glutamate
 feature_info <- data.frame(
     mzmed = c(195.088, 127.1, 299.2, 181.07, 218.077, 343.123, 148.06),
     rtmed = c(25.6, 128.4, 67.2, 127.3, 25.7, 167.2, 76.34),
