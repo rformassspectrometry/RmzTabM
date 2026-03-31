@@ -137,6 +137,10 @@ smf_final <- smf_create(
 head(smf_final)
 
 }
+\seealso{
+\link{MTD-export} and \link{SML-export} for creating and formating the
+metadata (MTD) and small molecule (SML) sections.
+}
 \author{
 Philippine Louail
 }

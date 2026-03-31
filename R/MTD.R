@@ -79,6 +79,9 @@
 #'
 #' @author Philippine Louail, Johannes Rainer
 #'
+#' @seealso [SMF-export] and [SML-export] for creating and formating the small
+#'     molecule feature (SMF) and small molecule (SML) sections.
+#'
 #' @examples
 #'
 #' ## Building the mzTab-M metadata information from a `data.frame` with sample

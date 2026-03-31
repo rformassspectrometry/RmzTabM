@@ -159,10 +159,10 @@ the primary key (unique ID) for each molecule.
 \item Orders the columns according to the mzTab-M specification.
 }
 
-After \code{sml_create()} required study variable abundance columns should
-be either added manually or using the \code{\link[=sml_add_study_variable_columns]{sml_add_study_variable_columns()}}
+After \code{sml_create()}, required study variable abundance columns should
+be either added manually or using the \code{sml_add_study_variable_columns()}
 function. These required columns contain the average and variation
-of molecule abundances across samples of a particular study variable.
+of molecule abundances across samples for a particular study variable.
 \item \code{sml_add_study_variable_columns()}: \emph{completes} the SML table created
 with \code{sml_create()} by adding columns with aggregated assay values
 (molecule abundances) per study variable(s). Study variables have to be
@@ -282,6 +282,10 @@ sml
 
 ## The average and variation for each study variable were calculated from
 ## the assay abundances and added as additional columns to the SML.
+}
+\seealso{
+\link{MTD-export} and \link{SMF-export} for creating and formating the
+metadata (MTD) and small molecule feature (SMF) sections.
 }
 \author{
 Johannes Rainer

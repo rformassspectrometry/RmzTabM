@@ -55,10 +55,10 @@
 #'   - Sets the line prefix column.
 #'   - Orders the columns according to the mzTab-M specification.
 #'
-#'   After `sml_create()` required study variable abundance columns should
-#'   be either added manually or using the [sml_add_study_variable_columns()]
+#'   After `sml_create()`, required study variable abundance columns should
+#'   be either added manually or using the `sml_add_study_variable_columns()`
 #'   function. These required columns contain the average and variation
-#'   of molecule abundances across samples of a particular study variable.
+#'   of molecule abundances across samples for a particular study variable.
 #'
 #' - `sml_add_study_variable_columns()`: *completes* the SML table created
 #'   with `sml_create()` by adding columns with aggregated assay values
@@ -185,6 +185,9 @@
 #' @details
 #'
 #' All parameters passed to the `sml_create()` function must be **fully named**.
+#'
+#' @seealso [MTD-export] and [SMF-export] for creating and formating the
+#'     metadata (MTD) and small molecule feature (SMF) sections.
 #'
 #' @author Johannes Rainer
 #'
@@ -391,7 +394,7 @@ sml_add_study_variable_columns <- function(x, mtd) {
                             FUN = .resolve_fun(svar_cv)[[1L]]))
         colnames(x) <- c(cnx, paste0("abundance_variation_", svname))
     }
-    x
+    sml_sort(x)
 }
 
 ################################################################################

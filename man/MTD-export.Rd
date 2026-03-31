@@ -201,6 +201,10 @@ mtd <- mtd_sort(mtd)
 ## This metadata information can next be exported manually, or using the
 ## dedicated export helper functions to an mzTab-M file.
 }
+\seealso{
+\link{SMF-export} and \link{SML-export} for creating and formating the small
+molecule feature (SMF) and small molecule (SML) sections.
+}
 \author{
 Philippine Louail, Johannes Rainer
 }

@@ -95,6 +95,9 @@
 #'
 #' @author Philippine Louail
 #'
+#' @seealso [MTD-export] and [SML-export] for creating and formating the
+#'     metadata (MTD) and small molecule (SML) sections.
+#'
 #' @examples
 #'
 #' ## Assume we have a matrix of abundances (e.g., from xcms or similar tools)
