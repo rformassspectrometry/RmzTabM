@@ -242,7 +242,7 @@
 #' sml <- sml_sort(sml)
 #' sml
 #'
-#' ## Add study variable abundace columns based on study variable definition
+#' ## Add study variable abundance columns based on study variable definition
 #' ## in a metadata (MTD) section.
 #' ## In the example below we first define a metadata section with the
 #' ## minimally required information for `sml_add_study_variable_columns()`:

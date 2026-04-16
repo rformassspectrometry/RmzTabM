@@ -453,7 +453,7 @@ mtd_skeleton <- function(id = character(),
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
     sk <- rbind(
         c("mzTab-version", mztab_version),
-        c("mzTab-ID", "id"),
+        c("mzTab-ID", id),
         mtd_fields(software, field_prefix = "software"),
         c("quantification_method", quantification_method),
         .cv(cv_label, cv_full_name, cv_version, cv_uri),
