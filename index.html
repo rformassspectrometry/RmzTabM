@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="R API for the mzTab-M Reference Implementation">
-<meta name="description" content="The RmzTabM package provides functions to read and write files in mzTab-M format. This package represents the reference implementation for mzTab-M import/export for R.">
-<meta property="og:description" content="The RmzTabM package provides functions to read and write files in mzTab-M format. This package represents the reference implementation for mzTab-M import/export for R.">
+<meta name="description" content="The RmzTabM package provides functions to read and write files in the HUPO-PSI mzTab-M file format. This package represents the reference implementation for mzTab-M import/export for R. Core, low level functions allow to format and parse the individual sections of the mzTab-M format. These functions are designed to be re-used by other packages implementing import/export of results in mzTab-M.">
+<meta property="og:description" content="The RmzTabM package provides functions to read and write files in the HUPO-PSI mzTab-M file format. This package represents the reference implementation for mzTab-M import/export for R. Core, low level functions allow to format and parse the individual sections of the mzTab-M format. These functions are designed to be re-used by other packages implementing import/export of results in mzTab-M.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@
 <ul class="task-list">
 <li><label><input type="checkbox" checked>core functionality to format metadata (MTD section)</label></li>
 <li><label><input type="checkbox" checked>core functionality to format small molecule feature (SMF section)</label></li>
-<li><label><input type="checkbox">core functionality to format the (SML section)</label></li>
+<li><label><input type="checkbox" checked>core functionality to format the (SML section)</label></li>
 <li><label><input type="checkbox">core functionality to format the (SME section)</label></li>
 <li><label><input type="checkbox">core functionality to extract metadata from an mzTab-M file and reconstruct a sample/experiment <code>data.frame</code></label></li>
 <li><label><input type="checkbox">core functionality to extract the SMF data table from an mzTab-M file</label></li>
@@ -163,6 +163,7 @@
 <li>Steffen Neumann <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-7899-7192" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Johannes Rainer <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6977-7147" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Philippine Louail <br><small class="roles"> Author </small> <a href="https://orcid.org/0009-0007-5429-6846" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 

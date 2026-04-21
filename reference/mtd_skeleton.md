@@ -167,7 +167,7 @@ mtd[, 1]
 ## Column 2 the respective values
 mtd[, 2]
 #>  [1] "2.0.0-M"                                                                
-#>  [2] "id"                                                                     
+#>  [2] "001"                                                                    
 #>  [3] "[MS, MS:1001582, xmcs, 4.0.0]"                                          
 #>  [4] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             
 #>  [5] "MS"                                                                     
@@ -292,7 +292,7 @@ mtd
 #> [32,] "small_molecule-identification_reliability" 
 #>       [,2]                                                                     
 #>  [1,] "2.0.0-M"                                                                
-#>  [2,] "id"                                                                     
+#>  [2,] "001"                                                                    
 #>  [3,] "My simple xcms preprocessed data"                                       
 #>  [4,] "A simple example xcms preprocessing."                                   
 #>  [5,] "[MS, MS:1000449, LTQ Orbitrap,]"                                        

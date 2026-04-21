@@ -78,6 +78,14 @@ The general relationship between *ms_run*, *assay* and *sample*:
 - one assay is (generally) one sample, but the same sample can be
   measured with multiple assays.
 
+## See also
+
+[SMF-export](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+and
+[SML-export](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+for creating and formatting the small molecule feature (SMF) and small
+molecule (SML) sections.
+
 ## Author
 
 Philippine Louail, Johannes Rainer
@@ -149,7 +157,7 @@ mtd
 #> [19,] "small_molecule-identification_reliability" 
 #>       [,2]                                                                     
 #>  [1,] "2.0.0-M"                                                                
-#>  [2,] "id"                                                                     
+#>  [2,] "EXP_001"                                                                
 #>  [3,] "[MS, MS:1001582], xcms, 4.0.0"                                          
 #>  [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             
 #>  [5,] "MS"                                                                     

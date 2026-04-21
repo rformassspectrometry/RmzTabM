@@ -158,7 +158,7 @@ mtd
     [19,] "small_molecule-identification_reliability"
           [,2]
      [1,] "2.0.0-M"
-     [2,] "id"
+     [2,] "EXP_001"
      [3,] "[MS, MS:1001582, xcms, 4.1.0]"
      [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
      [5,] "MS"
@@ -527,7 +527,7 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 |   |   |
 |:--:|:--:|
 | mzTab-version | 2.0.0-M |
-| mzTab-ID | id |
+| mzTab-ID | EXP_001 |
 | title | Experiment 1 preprocessed data |
 | description | The preprocessed data of the experiment 1. |
 | instrument\[1\]-name | \[MS, MS:1000449, LTQ Orbitrap,\] |
@@ -646,7 +646,7 @@ quantified entities (features) of an experiment. This includes the
 feature abundances across assays as well as the feature’s *m/z*,
 retention times and eventual additional annotations such as the ion or
 the exact mass. The
-[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
+[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
 function compiles and formats this section based on the provided
 abundance matrix and feature specifications.
 
@@ -657,40 +657,44 @@ software. We first define the abundance matrix: columns are assays, rows
 features. Importantly, the number and order of the assays has to match
 the *assay* definition in the metadata (defined above with the
 [`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
-function). Our example data consists of quantification of 5 features in
+function). Our example data consists of quantification of 7 features in
 6 measurements (assays) of 3 samples.
 
 ``` r
 
-abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8),
-                    c(260.2, 39.5, 177.4, 599.5, 5344.1),
-                    c(256.1, 904.2, 56.9, 533.1, 489.9),
-                    c(232.1, 43.3, 201.4, 434.2, 5154.1),
-                    c(264.2, 1102.4, 43.5, 514.5, 583.1),
-                    c(246.2, 52.1, 187.2, 508.3, 601.5))
+abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8, 23.1, NA),
+                    c(260.2, 39.5, 177.4, 599.5, 5344.1, 332.1, 43.0),
+                    c(256.1, 904.2, 56.9, 533.1, 489.9, 3231.22, 23.4),
+                    c(232.1, 43.3, 201.4, 434.2, 5154.1, 43.4, 324.3),
+                    c(264.2, 1102.4, 43.5, 514.5, 583.1, 432.3, 43.3),
+                    c(246.2, 52.1, 187.2, 508.3, 601.5, 432.2, 34.5))
 colnames(abundances) <- exp$sample_name
-rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05")
+rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05",
+                          "FT06", "FT07")
 ```
 
-We next define also a `data.frame` with the feature characteristics (one
-row per feature and columns with *m/z*, retention time and, where known,
-also the adduct information and charge).
+We next define also a `data.frame` with the feature characteristics from
+the MS measurement run (one row per feature and columns with *m/z*,
+retention time and, where known, also the adduct information and
+charge). Note that without any annotation (and hence a SML and SME
+section) adduct and charge information will not be available for the SMF
+table.
 
 ``` r
 
 feature_info <- data.frame(
-    mzmed = c(324.3, 127.1, 299.2, 523.1, 312.4),
-    rtmed = c(25.6, 128.4, 67.2, 219.3, 221.4),
-    rtmin = c(23.1, 125.1, 65.1, 216.3, 218.3),
-    rtmax = c(26.9, 130.3, 69.1, 223.2, 224.8),
-    adduct = c(NA, "[M+H]+", NA, "[M+Na]+", NA),
-    charge = c(NA, 1L, NA, 1L, NA)
+    mzmed = c(195.088, 127.1, 299.2, 181.07, 218.077, 343.123, 148.06),
+    rtmed = c(25.6, 128.4, 67.2, 127.3, 25.7, 167.2, 76.34),
+    rtmin = c(23.1, 125.1, 65.1, 122.3, 23.3, 162.3, 71.3),
+    rtmax = c(26.9, 130.3, 69.1, 134.2, 26.8, 172.1, 81.2),
+    adduct = c("[M+H]+", NA, NA, "[M+Na]+", "[M+Na]+", "[M+H]+", "[M+H]+"),
+    charge = c(1L, NA, NA, 1L, 1L, 1L, 1L)
 )
 rownames(feature_info) <- rownames(abundances)
 ```
 
 We can now feed this information to the
-[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
+[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
 function. In addition to the predefined, parameters, also additional
 feature annotations/columns can be passed to the function through it’s
 `...` parameter. We provide the IDs of the individual features with
@@ -720,37 +724,267 @@ smf
 ```
 
          SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
-    FT01 SMF      1        null                      null       null       null
-    FT02 SMF      2        null                      null     [M+H]+       null
+    FT01 SMF      1        null                      null     [M+H]+       null
+    FT02 SMF      2        null                      null       null       null
     FT03 SMF      3        null                      null       null       null
     FT04 SMF      4        null                      null    [M+Na]+       null
-    FT05 SMF      5        null                      null       null       null
+    FT05 SMF      5        null                      null    [M+Na]+       null
+    FT06 SMF      6        null                      null     [M+H]+       null
+    FT07 SMF      7        null                      null     [M+H]+       null
          exp_mass_to_charge charge retention_time_in_seconds
-    FT01              324.3   null                      25.6
-    FT02              127.1      1                     128.4
+    FT01            195.088      1                      25.6
+    FT02              127.1   null                     128.4
     FT03              299.2   null                      67.2
-    FT04              523.1      1                     219.3
-    FT05              312.4   null                     221.4
+    FT04             181.07      1                     127.3
+    FT05            218.077      1                      25.7
+    FT06            343.123      1                     167.2
+    FT07             148.06      1                     76.34
          retention_time_in_seconds_start retention_time_in_seconds_end
     FT01                            23.1                          26.9
     FT02                           125.1                         130.3
     FT03                            65.1                          69.1
-    FT04                           216.3                         223.2
-    FT05                           218.3                         224.8
+    FT04                           122.3                         134.2
+    FT05                            23.3                          26.8
+    FT06                           162.3                         172.1
+    FT07                            71.3                          81.2
          abundance_assay[1] abundance_assay[2] abundance_assay[3]
-    FT01              200.1              260.2              256.1
-    FT02             1232.1               39.5              904.2
-    FT03               54.3              177.4               56.9
-    FT04              399.1              599.5              533.1
-    FT05              599.8             5344.1              489.9
+    FT01              200.1              260.2             256.10
+    FT02             1232.1               39.5             904.20
+    FT03               54.3              177.4              56.90
+    FT04              399.1              599.5             533.10
+    FT05              599.8             5344.1             489.90
+    FT06               23.1              332.1            3231.22
+    FT07                 NA               43.0              23.40
          abundance_assay[4] abundance_assay[5] abundance_assay[6] opt_feature_id
     FT01              232.1              264.2              246.2           FT01
     FT02               43.3             1102.4               52.1           FT02
     FT03              201.4               43.5              187.2           FT03
     FT04              434.2              514.5              508.3           FT04
     FT05             5154.1              583.1              601.5           FT05
+    FT06               43.4              432.3              432.2           FT06
+    FT07              324.3               43.3               34.5           FT07
+
+Importantly,
+[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+added a column `"SMF_ID"` with an integer representing the unique
+identifier of each feature (row). These IDs can then be used for
+referencing between the SML and SME tables.
 
 ##### Small Molecule (SML) Table
+
+The Small Molecule (SML) table represents the *final* result of an
+experiment that is reported. It contains the abundances of molecules
+along with their annotations and abundance summaries for the
+experiment’s study variables. The content of the SML table is in general
+a subset of the SMF table, containing only the annotated features.
+
+Below we define a `data.frame` with annotations for features from the
+previous section’s SMF table. Such data should be compiled based on the
+results of an annotation software or workflow that used the SMF
+information as input. In our example, *FT01* and *FT05* are the
+`"[M+H]+"` and `"[M+Na]+"` ions of caffeine, *FT04* the `"[M+Na]+"` ion
+of either glucose or mannose, *FT06* the `"[M+H]+"` ion of sucrose and
+*FT07* `"[M+H]+"` ion of DL-glutamate. For *FT02* and *FT03* no
+annotation is known. For caffeine we report only one (the *main*) ion in
+the table but reference the two features in the SMF table. For the
+ambiguous annotation of *FT04* we report both annotations, separated by
+a `"|"`. The two features without annotation are not reported.
+
+``` r
+
+anns <- data.frame(
+    id = c("HMDB:HMDB0001847",
+           "HMDB:HMDB0000122|HMDB:HMDB0000169",
+           "HMDB:HMDB0000258",
+           "HMDB:HMDB0060475"),
+    formula = c("C8H10N4O2",
+                "C6H12O6|C6H12O6",
+                "C12H22O11",
+                "C5H9NO4"),
+    neutral_mass = c(194.0804,
+                     "180.0634|180.0634",
+                     342.1162,
+                     147.0531),
+    name = c("caffeine",
+             "glucose|mannose",
+             "sucrose",
+             "DL-glutamate"),
+    adduct = c("[M+H]1+",
+               "[M+Na]1+",
+               "[M+H]1+",
+               "[M+H]1+"),
+    uri = c("http://www.hmdb.ca/metabolites/HMDB0001847",
+            "http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169",
+            "http://www.hmdb.ca/metabolites/HMDB0000258",
+            "http://www.hmdb.ca/metabolites/HMDB0060475"),
+    note = c("manual curation")
+)
+```
+
+We next subset the feature abundance matrix for the selected (and
+annotated) molecules we want to report.
+
+``` r
+
+abundances_sml <- abundances[c(1, 4, 6, 7), ]
+```
+
+With this information we can use the
+[`sml_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+function to compile the SML table. Note that (again) we **must fully
+name** all function arguments to which we pass values. Any additional
+(named) parameters provided to the function (like `note = anns$note`
+below) will be added as *optional* columns (prefixed with `"opt_"`)
+
+``` r
+
+sml <- sml_create(x = abundances_sml,
+                  database_identifier = anns$id,
+                  chemical_formula = anns$formula,
+                  theoretical_neutral_mass = anns$neutral_mass,
+                  adduct_ions = anns$adduct,
+                  uri = anns$uri,
+                  note = anns$note)
+sml
+```
+
+         SMH SML_ID SMF_ID_REFS               database_identifier chemical_formula
+    FT01 SML      1        null                  HMDB:HMDB0001847        C8H10N4O2
+    FT04 SML      2        null HMDB:HMDB0000122|HMDB:HMDB0000169  C6H12O6|C6H12O6
+    FT06 SML      3        null                  HMDB:HMDB0000258        C12H22O11
+    FT07 SML      4        null                  HMDB:HMDB0060475          C5H9NO4
+            smiles     inchi chemical_name
+    FT01      null      null          null
+    FT04 null|null null|null     null|null
+    FT06      null      null          null
+    FT07      null      null          null
+                                                                                           uri
+    FT01                                            http://www.hmdb.ca/metabolites/HMDB0001847
+    FT04 http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169
+    FT06                                            http://www.hmdb.ca/metabolites/HMDB0000258
+    FT07                                            http://www.hmdb.ca/metabolites/HMDB0060475
+         theoretical_neutral_mass adduct_ions reliability
+    FT01                 194.0804     [M+H]1+        null
+    FT04        180.0634|180.0634    [M+Na]1+        null
+    FT06                 342.1162     [M+H]1+        null
+    FT07                 147.0531     [M+H]1+        null
+         best_id_confidence_measure best_id_confidence_value abundance_assay[1]
+    FT01                       null                     null              200.1
+    FT04                       null                     null              399.1
+    FT06                       null                     null               23.1
+    FT07                       null                     null                 NA
+         abundance_assay[2] abundance_assay[3] abundance_assay[4]
+    FT01              260.2             256.10              232.1
+    FT04              599.5             533.10              434.2
+    FT06              332.1            3231.22               43.4
+    FT07               43.0              23.40              324.3
+         abundance_assay[5] abundance_assay[6]        opt_note
+    FT01              264.2              246.2 manual curation
+    FT04              514.5              508.3 manual curation
+    FT06              432.3              432.2 manual curation
+    FT07               43.3               34.5 manual curation
+
+This SML is however not yet complete. We must update the relationship
+between rows in the SML and the SMF section in column `"SMF_ID_REFS"`.
+
+``` r
+
+sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
+```
+
+And finally we need to add columns with abundance average and variation
+for study variables defined in the MTD section. Here we can use the
+[`sml_add_study_variable_columns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+helper function providing both the SML and the MTD data.
+
+``` r
+
+sml <- sml_add_study_variable_columns(sml, mtd)
+sml
+```
+
+         SMH SML_ID SMF_ID_REFS               database_identifier chemical_formula
+    FT01 SML      1         1|5                  HMDB:HMDB0001847        C8H10N4O2
+    FT04 SML      2           4 HMDB:HMDB0000122|HMDB:HMDB0000169  C6H12O6|C6H12O6
+    FT06 SML      3           6                  HMDB:HMDB0000258        C12H22O11
+    FT07 SML      4           7                  HMDB:HMDB0060475          C5H9NO4
+            smiles     inchi chemical_name
+    FT01      null      null          null
+    FT04 null|null null|null     null|null
+    FT06      null      null          null
+    FT07      null      null          null
+                                                                                           uri
+    FT01                                            http://www.hmdb.ca/metabolites/HMDB0001847
+    FT04 http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169
+    FT06                                            http://www.hmdb.ca/metabolites/HMDB0000258
+    FT07                                            http://www.hmdb.ca/metabolites/HMDB0060475
+         theoretical_neutral_mass adduct_ions reliability
+    FT01                 194.0804     [M+H]1+        null
+    FT04        180.0634|180.0634    [M+Na]1+        null
+    FT06                 342.1162     [M+H]1+        null
+    FT07                 147.0531     [M+H]1+        null
+         best_id_confidence_measure best_id_confidence_value abundance_assay[1]
+    FT01                       null                     null              200.1
+    FT04                       null                     null              399.1
+    FT06                       null                     null               23.1
+    FT07                       null                     null                 NA
+         abundance_assay[2] abundance_assay[3] abundance_assay[4]
+    FT01              260.2             256.10              232.1
+    FT04              599.5             533.10              434.2
+    FT06              332.1            3231.22               43.4
+    FT07               43.0              23.40              324.3
+         abundance_assay[5] abundance_assay[6] abundance_study_variable[1]
+    FT01              264.2              246.2                    240.1333
+    FT04              514.5              508.3                    482.2333
+    FT06              432.3              432.2                   1228.8733
+    FT07               43.3               34.5                          NA
+         abundance_study_variable[2] abundance_study_variable[3]
+    FT01                    246.1667                      230.15
+    FT04                    514.0000                      499.30
+    FT06                    269.2333                      177.60
+    FT07                    133.9333                          NA
+         abundance_study_variable[4] abundance_study_variable[5]
+    FT01                     249.650                     237.125
+    FT04                     497.525                     491.475
+    FT06                    1034.780                     907.455
+    FT07                     106.375                          NA
+         abundance_study_variable[6] abundance_variation_study_variable[1]
+    FT01                      255.20                             0.1453594
+    FT04                      511.40                             0.1505366
+    FT06                      432.25                             1.4209044
+    FT07                       38.90                             0.4219318
+         abundance_variation_study_variable[2]
+    FT01                            0.05707527
+    FT04                            0.16108421
+    FT06                            0.74983276
+    FT07                            1.23133754
+         abundance_variation_study_variable[3]
+    FT01                             0.1846497
+    FT04                             0.2838057
+    FT06                             1.2302702
+    FT07                                    NA
+         abundance_variation_study_variable[4]
+    FT01                            0.05536875
+    FT04                            0.08745695
+    FT06                            1.42612166
+    FT07                            1.36790894
+         abundance_variation_study_variable[5]
+    FT01                             0.1164790
+    FT04                             0.1865403
+    FT06                             1.7142351
+    FT07                             1.2926962
+         abundance_variation_study_variable[6]        opt_note
+    FT01                          0.0498743027 manual curation
+    FT04                          0.0085726673 manual curation
+    FT06                          0.0001635875 manual curation
+    FT07                          0.1599624595 manual curation
+
+For each study variable in MTD a *abundance_study_variable* and
+*abundance_variation_study_variable* column were added, aggregating the
+abundance values from the respective assays with the aggregation and
+variation function defined in the MTD section.
+
+### SME
 
 #### Reading and importing
 
@@ -775,7 +1009,7 @@ General utility functions include:
 sessionInfo()
 ```
 
-    R Under development (unstable) (2026-03-22 r89674)
+    R Under development (unstable) (2026-04-19 r89916)
     Platform: x86_64-pc-linux-gnu
     Running under: Ubuntu 24.04.4 LTS
 
@@ -798,10 +1032,10 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6   RmzTabM_0.97.3
+    [1] pander_0.6.6   RmzTabM_0.97.5
 
     loaded via a namespace (and not attached):
-     [1] compiler_4.6.0  fastmap_1.2.0   cli_3.6.5       tools_4.6.0
-     [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1
-     [9] rmarkdown_2.30  knitr_1.51      jsonlite_2.0.0  xfun_0.57
-    [13] digest_0.6.39   rlang_1.1.7     evaluate_1.0.5 
+     [1] compiler_4.7.0  fastmap_1.2.0   cli_3.6.6       tools_4.7.0
+     [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1
+     [9] rmarkdown_2.31  knitr_1.51      jsonlite_2.0.0  xfun_0.57
+    [13] digest_0.6.39   rlang_1.2.0     evaluate_1.0.5 

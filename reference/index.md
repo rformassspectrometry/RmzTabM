@@ -5,6 +5,15 @@
 - [`MTD-export`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.md)
   : Defining and exporting the mzTab-M metadata table
 
+- [`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+  [`smf_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+  : Create the mzTab-M Small Molecule Feature (SMF) Table
+
+- [`sml_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+  [`sml_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+  [`sml_add_study_variable_columns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+  : Creating the mzTab-M Small Molecule (SML) Table
+
 - [`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
   :
 
@@ -37,6 +46,3 @@
 
 - [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md)
   : Parse a CV parameter
-
-- [`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/smf_create.md)
-  : Create the mzTab-M Small Molecule Feature (SMF) Table

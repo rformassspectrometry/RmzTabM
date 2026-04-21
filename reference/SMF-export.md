@@ -5,35 +5,40 @@ captures information on the individual MS features (quantified regions,
 e.g., elution profiles of specific *m/z* and retention times) that were
 measured across the assays.
 
-`smf_create()` provides a simplified workflow to generate this table in
-a single step. It takes a matrix of abundances (rows=features,
-columns=assays) and optional vectors defining feature properties.
+- `smf_create()` provides a simplified workflow to generate this table
+  in a single step. It takes a matrix of abundances (rows=features,
+  columns=assays) and optional vectors defining feature properties.
 
-It automatically:
+  It automatically:
 
-- Formats the abundance matrix (renaming columns to
-  `abundance_assay[n]`).
+  - Formats the abundance matrix (renaming columns to
+    `abundance_assay[n]`).
 
-- Adds the required `SMF_ID` and standard mzTab-M columns (e.g.,
-  `exp_mass_to_charge`).
+  - Adds the required `SMF_ID` and standard mzTab-M columns (e.g.,
+    `exp_mass_to_charge`).
 
-- Populates missing mandatory columns with `"null"` strings to ensure
-  compliance.
+  - Populates missing mandatory columns with `"null"` strings to ensure
+    compliance.
 
-- Sets the line prefix column `SFH` to `"SMF"`.
+  - Sets the line prefix column `SFH` to `"SMF"`.
 
-- Orders columns according to the mzTab-M specification.
+  - Orders columns according to the mzTab-M specification.
 
-**Important:** to support the optional additional parameters passed
-along with `...` **all** parameters (such as `adduct_ion`,
-`retention_time_in_seconds` etc) have to be **fully** spelled out. All
-parameters are vectorized and recycled as needed to match the number of
-rows in the abundance matrix. If their length is not equal to the number
-of rows or 1, an error is raised.
+  **Important:** to support the optional additional parameters passed
+  along with `...` **all** parameters (such as `adduct_ion`,
+  `retention_time_in_seconds` etc) have to be **fully** spelled out. All
+  parameters are vectorized and recycled as needed to match the number
+  of rows in the abundance matrix. If their length is not equal to the
+  number of rows or 1, an error is raised.
 
-See also the [specification of the SMF
-section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
-for details.
+  See also the [specification of the SMF
+  section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
+  for details.
+
+- `smf_sort()` can be used to sort the columns of the SMF data frame
+  according to the standard order defined in the mzTab-M specification.
+  This is useful if you have added custom columns and want to ensure the
+  standard columns are in the correct order for export.
 
 ## Usage
 
@@ -51,6 +56,8 @@ smf_create(
   adduct_ion = character(),
   isotopomer = character()
 )
+
+smf_sort(x)
 ```
 
 ## Arguments
@@ -118,6 +125,19 @@ smf_create(
 A complete SMF `data.frame` ready for export. The data frame contains
 the 'SFH' line prefix, standard columns ordered according to spec,
 abundance columns, and any optional columns.
+
+## Details
+
+All parameters passed to the `smf_create()` function must be **fully
+named**.
+
+## See also
+
+[MTD-export](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.md)
+and
+[SML-export](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+for creating and formatting the metadata (MTD) and small molecule (SML)
+sections.
 
 ## Author
 
