@@ -318,31 +318,34 @@ be extracted from the result objects of preprocessing software. We first define
 the abundance matrix: columns are assays, rows features. Importantly, the number
 and order of the assays has to match the *assay* definition in the metadata
 (defined above with the `mtd_assay()` function). Our example data consists of
-quantification of 5 features in 6 measurements (assays) of 3 samples.
+quantification of 7 features in 6 measurements (assays) of 3 samples.
 
 ```{r}
-abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8),
-                    c(260.2, 39.5, 177.4, 599.5, 5344.1),
-                    c(256.1, 904.2, 56.9, 533.1, 489.9),
-                    c(232.1, 43.3, 201.4, 434.2, 5154.1),
-                    c(264.2, 1102.4, 43.5, 514.5, 583.1),
-                    c(246.2, 52.1, 187.2, 508.3, 601.5))
+abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8, 23.1, NA),
+                    c(260.2, 39.5, 177.4, 599.5, 5344.1, 332.1, 43.0),
+                    c(256.1, 904.2, 56.9, 533.1, 489.9, 3231.22, 23.4),
+                    c(232.1, 43.3, 201.4, 434.2, 5154.1, 43.4, 324.3),
+                    c(264.2, 1102.4, 43.5, 514.5, 583.1, 432.3, 43.3),
+                    c(246.2, 52.1, 187.2, 508.3, 601.5, 432.2, 34.5))
 colnames(abundances) <- exp$sample_name
-rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05")
+rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05",
+                          "FT06", "FT07")
 ```
 
-We next define also a `data.frame` with the feature characteristics (one row per
-feature and columns with *m/z*, retention time and, where known, also the adduct
-information and charge).
+We next define also a `data.frame` with the feature characteristics from the MS
+measurement run (one row per feature and columns with *m/z*, retention time and,
+where known, also the adduct information and charge). Note that without any
+annotation (and hence a SML and SME section) adduct and charge information will
+not be available for the SMF table.
 
 ```{r}
 feature_info <- data.frame(
-    mzmed = c(324.3, 127.1, 299.2, 523.1, 312.4),
-    rtmed = c(25.6, 128.4, 67.2, 219.3, 221.4),
-    rtmin = c(23.1, 125.1, 65.1, 216.3, 218.3),
-    rtmax = c(26.9, 130.3, 69.1, 223.2, 224.8),
-    adduct = c(NA, "[M+H]+", NA, "[M+Na]+", NA),
-    charge = c(NA, 1L, NA, 1L, NA)
+    mzmed = c(195.088, 127.1, 299.2, 181.07, 218.077, 343.123, 148.06),
+    rtmed = c(25.6, 128.4, 67.2, 127.3, 25.7, 167.2, 76.34),
+    rtmin = c(23.1, 125.1, 65.1, 122.3, 23.3, 162.3, 71.3),
+    rtmax = c(26.9, 130.3, 69.1, 134.2, 26.8, 172.1, 81.2),
+    adduct = c("[M+H]+", NA, NA, "[M+Na]+", "[M+Na]+", "[M+H]+", "[M+H]+"),
+    charge = c(1L, NA, NA, 1L, 1L, 1L, 1L)
 )
 rownames(feature_info) <- rownames(abundances)
 ```
@@ -373,8 +376,106 @@ The SMF content is:
 smf
 ```
 
+Importantly, `smf_create()` added a column `"SMF_ID"` with an integer
+representing the unique identifier of each feature (row). These IDs can then be
+used for referencing between the SML and SME tables.
+
 #### Small Molecule (SML) Table
 
+The Small Molecule (SML) table represents the *final* result of an experiment
+that is reported. It contains the abundances of molecules along with their
+annotations and abundance summaries for the experiment's study variables. The
+content of the SML table is in general a subset of the SMF table, containing
+only the annotated features.
+
+Below we define a `data.frame` with annotations for features from the previous
+section's SMF table. Such data should be compiled based on the results of an
+annotation software or workflow that used the SMF information as input. In our
+example, *FT01* and *FT05* are the `"[M+H]+"` and `"[M+Na]+"` ions of caffeine,
+*FT04* the `"[M+Na]+"` ion of either glucose or mannose, *FT06* the `"[M+H]+"`
+ion of sucrose and *FT07* `"[M+H]+"` ion of DL-glutamate. For *FT02* and *FT03*
+no annotation is known. For caffeine we report only one (the *main*) ion in the
+table but reference the two features in the SMF table. For the ambiguous
+annotation of *FT04* we report both annotations, separated by a `"|"`. The two
+features without annotation are not reported.
+
+```{r}
+anns <- data.frame(
+    id = c("HMDB:HMDB0001847",
+           "HMDB:HMDB0000122|HMDB:HMDB0000169",
+           "HMDB:HMDB0000258",
+           "HMDB:HMDB0060475"),
+    formula = c("C8H10N4O2",
+                "C6H12O6|C6H12O6",
+                "C12H22O11",
+                "C5H9NO4"),
+    neutral_mass = c(194.0804,
+                     "180.0634|180.0634",
+                     342.1162,
+                     147.0531),
+    name = c("caffeine",
+             "glucose|mannose",
+             "sucrose",
+             "DL-glutamate"),
+    adduct = c("[M+H]1+",
+               "[M+Na]1+",
+               "[M+H]1+",
+               "[M+H]1+"),
+    uri = c("http://www.hmdb.ca/metabolites/HMDB0001847",
+            "http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169",
+            "http://www.hmdb.ca/metabolites/HMDB0000258",
+            "http://www.hmdb.ca/metabolites/HMDB0060475"),
+    note = c("manual curation")
+)
+```
+
+We next subset the feature abundance matrix for the selected (and annotated)
+molecules we want to report.
+
+```{r}
+abundances_sml <- abundances[c(1, 4, 6, 7), ]
+```
+
+With this information we can use the `sml_create()` function to compile the SML
+table. Note that (again) we **must fully name** all function arguments to which
+we pass values. Any additional (named) parameters provided to the function (like
+`note = anns$note` below) will be added as *optional* columns (prefixed with
+`"opt_"`)
+
+```{r}
+sml <- sml_create(x = abundances_sml,
+                  database_identifier = anns$id,
+                  chemical_formula = anns$formula,
+                  theoretical_neutral_mass = anns$neutral_mass,
+                  adduct_ions = anns$adduct,
+                  uri = anns$uri,
+                  note = anns$note)
+sml
+```
+
+This SML is however not yet complete. We must update the relationship between
+rows in the SML and the SMF section in column `"SMF_ID_REFS"`.
+
+```{r}
+sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
+```
+
+And finally we need to add columns with abundance average and variation for
+study variables defined in the MTD section. Here we can use the
+`sml_add_study_variable_columns()` helper function providing both the SML and
+the MTD data.
+
+```{r}
+sml <- sml_add_study_variable_columns(sml, mtd)
+sml
+```
+
+For each study variable in MTD a *abundance_study_variable* and
+*abundance_variation_study_variable* column were added, aggregating the
+abundance values from the respective assays with the aggregation and variation
+function defined in the MTD section.
+
+## SME
 
 ### Reading and importing
 

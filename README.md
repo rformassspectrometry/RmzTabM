@@ -63,7 +63,7 @@ base R data types.
 
 - [X] core functionality to format metadata (MTD section)
 - [X] core functionality to format small molecule feature (SMF section)
-- [ ] core functionality to format the (SML section)
+- [X] core functionality to format the (SML section)
 - [ ] core functionality to format the (SME section)
 - [ ] core functionality to extract metadata from an mzTab-M file and
       reconstruct a sample/experiment `data.frame`

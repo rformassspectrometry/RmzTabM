@@ -79,6 +79,9 @@
 #'
 #' @author Philippine Louail, Johannes Rainer
 #'
+#' @seealso [SMF-export] and [SML-export] for creating and formatting the small
+#'     molecule feature (SMF) and small molecule (SML) sections.
+#'
 #' @examples
 #'
 #' ## Building the mzTab-M metadata information from a `data.frame` with sample
@@ -450,7 +453,7 @@ mtd_skeleton <- function(id = character(),
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
     sk <- rbind(
         c("mzTab-version", mztab_version),
-        c("mzTab-ID", "id"),
+        c("mzTab-ID", id),
         mtd_fields(software, field_prefix = "software"),
         c("quantification_method", quantification_method),
         .cv(cv_label, cv_full_name, cv_version, cv_uri),
@@ -1052,13 +1055,7 @@ mtd_define_study_variables <- function(x, study_variable_columns = character()){
 #'
 #' @export
 mtd_sort <- function(x) {
-    ordr <- rep(NA_integer_, nrow(x)) # NA will be last
-    for (i in seq_along(.MTD_FIELD_ORDER)) {
-        idx <- grep(paste0("^", .MTD_FIELD_ORDER[i]), x[, 1L])
-        if (length(idx))
-            ordr[idx] <- i
-    }
-    x[order(ordr), , drop = FALSE]
+    x[.sort_order(x[, 1L], .MTD_FIELD_ORDER), , drop = FALSE]
 }
 
 ################################################################################
@@ -1256,33 +1253,33 @@ mtd_sort <- function(x) {
 #'
 #' @noRd
 .MTD_FIELD_ORDER <- c(
-    "mzTab-version",
-    "mzTab-ID",
-    "title",
-    "description",
-    "sample_processing",
-    "instrument",
-    "software",
-    "publication",
-    "contact",
-    "uri",
-    "external_study",
-    "quantification",
-    "sample",
-    "ms_run",
-    "assay",
-    "study_variable",
-    "custom",
-    "cv",
-    "database",
-    "derivatization",
-    "small_molecule-quantification",
-    "small_molecule_feature",
-    "small_molecule-identification",
-    "id_confidence",
-    "colunit-small_molecule",
-    "colunit-small_molecule_feature",
-    "colunit-small_molecule_evidence"
+    "^mzTab-version",
+    "^mzTab-ID",
+    "^title",
+    "^description",
+    "^sample_processing",
+    "^instrument",
+    "^software",
+    "^publication",
+    "^contact",
+    "^uri",
+    "^external_study",
+    "^quantification",
+    "^sample",
+    "^ms_run",
+    "^assay",
+    "^study_variable",
+    "^custom",
+    "^cv",
+    "^database",
+    "^derivatization",
+    "^small_molecule-quantification",
+    "^small_molecule_feature",
+    "^small_molecule-identification",
+    "^id_confidence",
+    "^colunit-small_molecule$",
+    "^colunit-small_molecule_feature",
+    "^colunit-small_molecule_evidence"
 )
 
 ################################################################################

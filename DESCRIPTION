@@ -1,6 +1,6 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.97.3
+Version: 0.97.5
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
@@ -19,11 +19,15 @@ Authors@R: c(
     person(given = "Philippine", family = "Louail",
            email = "philippine.louail@eurac.edu",
            role = c("aut"),
-           comment = c(ORCID = "0009-0007-5429-6846")))
+           comment = c(ORCID = "0009-0007-5429-6846",
+	   fnd = "European Union HORIZON-MSCA-2021 project Grant No. 101073062: HUMAN – Harmonising and Unifying Blood Metabolic Analysis Networks")))
 Description:
-    The RmzTabM package provides functions to read and write files in mzTab-M
-    format. This package represents the reference implementation for mzTab-M
-    import/export for R.
+    The RmzTabM package provides functions to read and write files in the
+    HUPO-PSI mzTab-M file format. This package represents the reference
+    implementation for mzTab-M import/export for R. Core, low level functions
+    allow to format and parse the individual sections of the mzTab-M format.
+    These functions are designed to be re-used by other packages implementing
+    import/export of results in mzTab-M.
 Depends: R (>= 4.4)
 Encoding: UTF-8
 License: Artistic-2.0

@@ -1,14 +1,23 @@
 # RmzTabM version 0.97
 
-## Changes since version 0.97.3
+## Changes in version 0.97.5
+
+- Add functionality to create/format the SML section: `sml_create()`,
+  `sml_sort()`, `sml_add_study_variable_columns()`.
+
+## Changes in version 0.97.4
+
+- Restructure helper functions to be usable across SMF and SML functionality.
+
+## Changes in version 0.97.3
 
 - Add utility function `parse_cv_param()`.
 
-## Changes since version 0.97.2
+## Changes in version 0.97.2
 
 - Add vignette.
 
-## Changes since version 0.97.1
+## Changes in version 0.97.1
 
 - Addition of SMF related functions to the package.
 
