@@ -73,14 +73,16 @@ with multiple assays.
 ## measurement of one sample (i.e., represents one *ms_run*). Columns in
 ## that `data.frame` provide the phenotypic and experimental variables of
 ## each sample. The example below represents a simple experiment in which
-## 3 samples (e.g. cell lines) were measured, each at two different time
-## points (0 and 6 hours). In addition, one sample has the genotype *WT* and
-## two *KO*. Column `"operator"` contains the initials of the researcher
-## extracting the samples
+## 3 samples (e.g. cell lines) were measured. Columns *time_point and
+## *cell_count* provide the time point (in hours) when samples were
+## collected and the number of cells per sample. In addition, one
+## sample has the genotype *WT* and two *KO*. Column `"operator"` contains
+## the initials of the researcher extracting the samples
 exp <- data.frame(
     sample_name = c("S1_T1", "S1_T2", "S2_T1", "S2_T2", "S3_T1", "S3_T2"),
     sample_id = c("S1", "S1", "S2", "S2", "S3", "S3"),
-    timepoint = c("0h", "6h", "0h", "6h", "0h", "6h"),
+    time_point = c(0, 6, 0, 6, 0, 6),
+    cell_count = c(13000, 8700, 10100, 6000, 14000, 4500),
     genotype = c("WT", "WT", "KO", "KO", "KO", "KO"),
     operator = c("BB", "BB", "BB", "BB", "FB", "FB"),
     file_name = c("s1-t1.mzML", "s1-t2.mzML", "s2-t1.mzML", "s2-t2.mzML",
@@ -184,13 +186,18 @@ mtd <- rbind(mtd, a)
 ## Study variable information
 
 ## Study variables can be defined directly from the experiment `data.frame`.
-## In our example we use the columns (information on) `"timepoint"`,
-## `"genotype"` and `"operator"`. Importantly, the order of the provided
-## `data.frame` has to match the order of the assays (and MS runs).
+## In our example we use the columns (information on) `"time_point"`,
+## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order
+## of the provided `data.frame` has to match the order of the assays (and
+## MS runs).
 svar <- mtd_study_variables(
-    exp,
-    study_variable_columns = c("timepoint", "genotype", "operator"))
+    exp, groups = c("time_point", "genotype", "cell_count", "operator"))
 svar
+
+## The individual columns got encoded to a `"study_variable_group"` with a
+## defined (statistical) type and a datatype. Both are inferred
+## automatically from the columns of the provided `data.frame`, but could
+## also be manually provided through the respective function arguments.
 
 mtd <- rbind(mtd, svar)
 

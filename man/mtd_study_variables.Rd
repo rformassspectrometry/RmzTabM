@@ -7,75 +7,112 @@
 \usage{
 mtd_study_variables(
   x,
-  study_variable_columns = character(),
+  groups = character(),
+  group_description = character(),
+  group_type = character(),
+  group_datatype = character(),
   average_function = "[MS, MS:1002962, mean, ]",
   variation_function = "[MS, MS:1002963, variation coefficient, ]",
-  description = character(),
-  factors = character()
+  description = character()
 )
 
-mtd_define_study_variables(x, study_variable_columns = character())
+mtd_define_study_variables(x = data.frame(), groups = character())
 }
 \arguments{
 \item{x}{\code{data.frame} with rows corresponding to individual \emph{assays} and
 columns containing the experimental conditions/study variables. The
 number of rows is thus expected to be the same as the number of assays
 defined in the \emph{assay} metadata section (using e.g., \code{\link[=mtd_assay]{mtd_assay()}}) and
-the order of rows is expected to match the order of assays.}
+the order of rows is expected to match the order of these.}
 
-\item{study_variable_columns}{\code{character} with the names of the columns in
-\code{x}to be included as study variables. If not defined (the default) a
-single study variable will be defined assigning all assays to it.}
+\item{groups}{\code{character} with the names of the columns in \code{x} that should
+be considered as \emph{study variable groups}. If not defined (the default)
+a single study variable group \code{"undefined"} and single study variable
+\code{"undefined"} will be used.}
+
+\item{group_description}{\code{character} with an optional description of each
+study variable group. If provided its length has to match the length
+of parameter \code{groups}.}
+
+\item{group_type}{\code{character} defining the type for each study variable
+group. If provided its length has to match the length of parameter
+\code{groups}. Supported values are
+\code{"[STATO, STATO:0000252, categorical variable]"},
+\code{"[STATO, STATO:0000228, ordinal variable]"} and
+\code{"[STATO, STATO:0000251, continuous variable]"} for categorical, ordinal
+or numerical values, respectively. If not provided (the default) the
+study variable group type will be inferred from the data type of the
+respective columns in \code{x}.}
+
+\item{group_datatype}{optional \code{character} defining the data type of the
+values (i.e., study variables) for the study variable group. If provided,
+its length has to match the length of paramter \code{groups}.
+Supported values are \code{"xsd:string"}, \code{"xsd:integer"}, \code{"xsd:decimal"},
+\code{"xsd:boolean"}, \code{"xsd:date"}, \code{"xsd:time"}, \code{"xsd:dateTime"}, and
+\code{"xsd:anyURI"}. Date,l time and dateTime values \strong{must} be encoded in
+ISO 8601 format. If not provided the type is guessed by the data type of
+the respective column in \code{x}.}
 
 \item{average_function}{optional \code{character} defining the function used to
 calculate the study variable quantification value (reported in the
 following table(s)). Can be of length 1 or equal to the number of study
 variables (to allow defining a different function per variable). Use
 \code{mtd_define_study_variables()} to get the complete set of study
-variables for parameters \code{x} and \code{study_variable_columns}. Defaults
-to the arithmetic mean
-(\code{average_function = "[MS, MS:1002962, mean, ]"}).}
+variables for parameters \code{x} and \code{groups}. Defaults to the arithmetic
+mean (\code{average_function = "[MS, MS:1002962, mean, ]"}).}
 
 \item{variation_function}{optional \code{character} defining the function used to
 calculate the study variable quantification variation value (reported in
 the following table(s)). Can be of length 1 or equal to the number of
 study variables (to allow defining a different function per variable).
 Use \code{mtd_define_study_variables()} to get the complete set of study
-variables for parameters \code{x} and \code{study_variable_columns}. Defaults
+variables for parameters \code{x} and \code{groups}. Defaults
 to the coefficient of variation
 (\code{variation_function = "[MS, MS:1002963, variation coefficient, ]"}).}
 
 \item{description}{\code{character} with a textual description of the study
 variable. If provided, its length needs to be equal to the number of
 study variables. Use \code{mtd_define_study_variables()} to get the complete
-set of study variables for parameters \code{x} and \code{study_variable_columns}.
-If not provided (the default) the description is used combines the
-column name in \code{x} and the value of the variable.}
-
-\item{factors}{Currently not supported.}
+set of study variables for parameters \code{x} and \code{groups}.
+If not provided (the default) the values for the study variable group
+and study variable are reported.}
 }
 \value{
 two-column \code{character} \code{matrix} with the content for the study
 variables metadata section.
 }
 \description{
-A \emph{study variable} in the mzTab-M definition is the \strong{value} of an
-experimental variable (condition or factor), e.g., \code{"control"}, or
-\code{"2 hours"} (i.e., it is not the name of the factor). Each study variable
-\strong{must} be reported in the following abundance tables. Each assay of a data
-set must be referred to from at least one study variable* Even if a data set
-has no experimental variables, a study variable \strong{must} be reported,
-linking to all assays, with the name \code{"undefined"}.
+mzTab-M (version >= 2.1) encodes the experimental design of a data set/study
+using \emph{study variable groups} and \emph{study variables}. The study variable group
+represents the phenotypic (or experimental) condition and the study variable
+the actual \emph{value} of a sample (or assay) for that study group.
 
-Information for the mzTab-M \emph{study variable} metadata section can be created
-using the \code{mtd_study_variables()} function. This function extracts the
-relevant information from an input \code{data.frame} in which rows are expected
-to represent \emph{assays} (each row being one assay) and columns the experimental
-factors that should be added as study variables.
+In R, the most common representation of an experimental design is a
+\code{data.frame} where rows are individual samples (assays) and columns the
+experimental or phenotypic conditions (variables). The
+\code{mtb_study_variables()} takes such a \code{data.frame} as input and encodes it
+into the mzTab-M format. Additional parameters such as \code{group_description},
+and \code{group_type} allow to provide additional information for each study
+variable group (phenotype) while parameters \code{average_function},
+\code{variation_function} and \code{description} can be used to provide properties for
+the individual study variables. For most experiments the default values of
+these parameters should suffice.
+}
+\details{
+Each study variable \strong{must} be reported in the abundance tables.
+Each assay of a data set must be referred to from at least one study
+variable. Even if a data set has no experimental variables, a study variable
+group and study variable with the name \code{"undefined"} \strong{must} be reported.
+Using \code{mtb_study_variables()} without specifying parameter \code{group} will
+create such a setup.
 
 The \code{mtd_define_study_variables()} function can be used to get the set
 (and order) of study variables that would be generated from an input
-\code{data.frame} depending on the parameter \code{study_variable_columns}.
+\code{data.frame} depending on the parameter \code{groups}.
+}
+\note{
+Datatypes \code{"xsd:date"}, \code{"xsd:time"}, \code{"xsd:dateTime"} and \code{"xsd:anyURI"} are
+currently mapped to \code{character} in R (and \emph{vice versa}).
 }
 \examples{
 
@@ -85,21 +122,28 @@ The \code{mtd_define_study_variables()} function can be used to get the set
 x <- data.frame(
     name = c("I1_0", "I2_0", "I1_6", "I2_6", "I3_0"),
     individual = c("I1", "I2", "I1", "I2", "I3"),
-    timepoint = c("0h", "6h", "0h", "6h", "0h"),
+    BMI = c(29.3, 31.4, 29.3, 31.4, 26.5),
+    timepoint = c(0, 6, 0, 6, 0),
     T2D = c(TRUE, FALSE, TRUE, FALSE, FALSE)
 )
 
-## Study variables for this data set would be `"timepoint"` and `"T2D"`:
-mtd_study_variables(x, study_variable_columns = c("timepoint", "T2D"))
+## Study variable groups for this data set could be `"individual"`, `"BMI"`,
+## `"timepoint"` and `"T2D"`
+mtd_study_variables(x, groups = c("individual", "BMI", "timepoint", "T2D"))
 
-## Specifying a different average and variation function
+## Specifying a different average and variation function and selecting
+## just two sample columns
 mtd_study_variables(x,
-    study_variable_columns = c("timepoint", "T2D"),
+    groups = c("timepoint", "T2D"),
     average_function = "[MS, MS:1002883, median, ]",
     variation_function = "[MS, MS:1002885, standard error, ]")
 
-## Creating a study variable section without defined study variables
+## Creating a study variable section without defined study variable groups
 mtd_study_variables(x)
+
+## Use `mtd_define_study_variables()` to get the definition of study
+## variables for a given `x` and `groups`
+mtd_define_study_variables(x, c("T2D", "BMI", "individual"))
 }
 \seealso{
 \link{MTD-export} for other functions defining metadata information

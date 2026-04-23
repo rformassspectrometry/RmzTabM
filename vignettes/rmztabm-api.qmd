@@ -24,7 +24,10 @@ metabolomics/lipidomics result objects in this format.
 For a general overview of the mzTab-M format see [this
 figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
 
-![mzTab-M format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+![mzTab-M
+format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+
+The *RmzTabM* package supports mzTab-M version **2.1**.
 
 # Installation
 
@@ -125,7 +128,11 @@ mtd <- mtd_skeleton(
     id = "EXP_001",
     software = "[MS, MS:1001582, xcms, 4.1.0]"
 )
-mtd
+```
+
+```{r}
+library(pander)
+pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 This represents some minimal information. The data of the MTD section is
@@ -156,7 +163,10 @@ instr <- mtd_fields(
     detector = "[MS, MS:1000253, electron multiplier,]",
     field_prefix = "instrument"
 )
-instr
+```
+
+```{r, results = "asis"}
+pandoc.table(instr, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 And we add that information to the `mtd` variable.
@@ -164,13 +174,6 @@ And we add that information to the `mtd` variable.
 ```{r}
 mtd <- rbind(mtd, instr)
 ```
-
-Note that the general information part should also contain the references to
-**all** controlled vocabulary (CV) ontologies used in the mzTab-M file. The
-default ontologies added by the `mtb_skeleton()` function are the *PSI-MS* and
-the *PRIDE* ontologies. If other vocabularies are used, they should be added
-manually (following the scheme of the others, i.e., the fields starting with
-`"cv["`).
 
 The next category of metadata information is **sample information**. This
 comprises (optional) information on individual samples that were measured with
@@ -194,11 +197,48 @@ mtd_s <- mtd_sample(
       "[,,Extraction date, 2011-12-22]",
       "[,,Extraction date, 2011-12-23]")
     )
-mtd_s
 ```
 
-We can then add this information to the `mtd` variable by simply `rbind()`ing
-it.
+```{r, results = "asis"}
+pandoc.table(mtd_s, style = "rmarkdown", split.table = Inf, justify = "ll")
+```
+
+Note that the general information part should also contain the references to
+**all** controlled vocabulary (CV) ontologies used in the mzTab-M file. The
+default ontologies added by the `mtb_skeleton()` function are the *PSI-MS*,
+*PRIDE* and *STATO* ontologies. If other vocabularies are used, they should be
+either added manually (following the scheme of the others, i.e., the fields
+starting with `"cv["`) or provided with the `cv_*` function arguments of the
+`mtb_skeleton()` function. For our example we use also the *BRENDA tissue
+ontology* (BTO) and the *NCBITaxon* ontology to define the tissue of origin and
+species of the samples and hence need to add these ontologies to the general
+metadata section. We use the `mtd_fields()` function for this. For a CV entry we
+need to provide a *label*, the *full_name*, the *version* and the *uri*:
+
+```{r}
+add_cv <- mtd_fields(
+    label = c("BTO", "NCBITaxon"),
+    full_name = c("The BRENDA Tissue Ontology (BTO)",
+                  "NCBI organismal classification"),
+    version = c("2021-10-26", "2025-12-03"),
+    uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
+            "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"),
+    field_prefix = "cv")
+add_cv
+```
+
+We need to update the index of the cv, since there are already 3 CVs (MS, PRIDE
+and STATO) defined by in the metadata part. We thus replace next the `"1"` with
+`"4"` and `"2"` with `"5"` and append this CV term to the metadata section.
+
+```{r}
+add_cv[, 1L] <- sub("1", "4", add_cv[, 1L])
+add_cv[, 1L] <- sub("2", "5", add_cv[, 1L])
+mtd <- rbind(mtd, add_cv)
+```
+
+We can then add the sample information to the `mtd` variable by simply
+`rbind()`ing it.
 
 ```{r}
 mtd <- rbind(mtd, mtd_s)
@@ -217,7 +257,10 @@ mtd_msr <- mtd_ms_run(
     format = "[MS, MS:1000584, mzML file, ]",
     id_format = "[MS, MS:1000530, mzML unique identifier, ]",
     scan_polarity = "positive")
-mtd_msr
+```
+
+```{r, results = "asis"}
+pandoc.table(mtd_msr, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 Each row in the `exp` data frame was assigned to a `"ms_run"` with the location
@@ -246,7 +289,12 @@ mtd_a <- mtd_assay(
                    "sample[3]", "sample[3]"),
     ms_run_ref = paste0("ms_run[", seq_len(nrow(exp)), "]")
 )
-mtd_a
+```
+
+The result formatted *assay information* is shown in the table below.
+
+```{r, results = "asis"}
+pandoc.table(mtd_a, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 We add this information to the `mtd` variable.
@@ -256,32 +304,44 @@ mtd <- rbind(mtd, mtd_a)
 ```
 
 At last we compile the **study variable information** of our example
-experiment. This should capture all experiment-relevant study variables. In R,
-such information is generally encoded in a *sample* or *phenotype* `data.frame`,
-with rows being individual samples (or measurements thereof) and columns the
-sample characteristics (i.e., the study variables). For our example we use the
-`mtd_study_variables()` function to generate the mzTab-M study variable
-information, specifying with parameter `study_variable_columns` the names of the
-`data.frame` containing the relevant information.
+experiment. This should capture all experiment-relevant study variables
+(phenotype or experimental conditions). In R, such information is generally
+encoded in a *sample* or *phenotype* `data.frame`, with rows being individual
+samples (or measurements thereof) and columns the sample characteristics (i.e.,
+the *study variable groups*, with the individual values of the columns being, in
+the mzTab-M definition, the *study variables*). The `mtd_study_variables()`
+function formats a sample/experiment `data.frame` into the corresponding mzTab-M
+fields. Parameter `groups` allows to select the columns of the input
+`data.frame` which represent the study variable groups (phenotype or
+experimental conditions). Additional function arguments would allow to specify
+the statistical type and the datatype for each column/study variable group, but
+the defaults should work in most situations. By default, R data types
+`character` and `factor` are mapped to the STATO type *categorical*, while the
+STATO type *continuous* is used for `numeric` and `integer` columns. If the
+`data.frame` contains *ordinal* variables it should be manually specified with
+parameter `group_type`.
 
 ```{r}
 mtd_svar <- mtd_study_variables(
-    exp,
-    study_variable_columns = c("timepoint", "genotype", "operator"))
-mtd_svar
+    exp, groups = c("timepoint", "genotype", "operator"))
 ```
 
-Each unique value in each of the specified columns is encoded as a
-`study_variable` (or rather as a *study variable value*), with its *assay_refs*
-attribute containing the rows/assays in which this value was measured. The
-variable's *description* (by default) indicates the name of the column. The
-*average_function* and *variation_function* attributes allow to define the
-function that was used to calculate the average and variance of the abundance
-values for that variable value. In upcoming versions a dedicated attribute
-*group* can be used to specify the name of the column (i.e. the study variable
-name) the study variable value is provided in.
+The formatted data is shown in the table below.
 
-We next add the study variable information to the `mtd`variable.
+```{r, results = "asis"}
+pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
+```
+
+For each column a *study variable group* was defined while each unique value in
+each of the specified columns was encoded as a `"study_variable"` (or rather as
+a *study variable value*), with its *assay_refs* attribute containing the
+rows/assays in which this value was measured. The variable's `"description"` (by
+default) indicates the name of the column. The `"average_function"` and
+`"variation_function"` attributes allow to define the function that was used to
+calculate the average and variance of the abundance values for that variable
+value.
+
+We next add the study variable information to the `mtd` variable.
 
 ```{r}
 mtd <- rbind(mtd, mtd_svar)
@@ -299,8 +359,7 @@ This two-column `matrix` could now be saved to a text file using a tabulator
 below.
 
 ```{r, results = "asis"}
-library(pander)
-pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
+pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 #### Small Molecule Feature (SMF) Table

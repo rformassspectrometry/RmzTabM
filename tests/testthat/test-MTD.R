@@ -53,8 +53,8 @@ test_that("mtd_sort works", {
     res <- mtd_sort(ref)
     expect_equal(ref, res)
 
-    ref <- ref[1:19, ]
-    res <- mtd_sort(ref[c(5:12, 1, 3, 13:16, 2, 4, 18, 19, 17), ])
+    ref <- ref[1:23, ]
+    res <- mtd_sort(ref[c(5:16, 1, 3, 17:20, 2, 4, 22, 23, 21), ])
     expect_equal(ref, res)
 })
 
@@ -208,14 +208,19 @@ test_that("mtd_ms_run works", {
 })
 
 test_that("mtd_define_study_variables works", {
-    expect_equal(mtd_define_study_variables(), NULL)
+    expect_equal(mtd_define_study_variables(),
+                 data.frame(study_variable = character(),
+                            study_variable_group = character()))
     x <- data.frame(sex = c("male", "female", "female", "male", "male"),
                     group = c("case", "case", "control", "case", "control"))
     res <- mtd_define_study_variables(x, c("sex", "group"))
-    expect_equal(res, c("sex:male", "sex:female",
-                        "group:case", "group:control"))
+    expect_equal(res,
+                 unique(data.frame(
+                     study_variable = c(x$sex, x$group),
+                     study_variable_group = rep(colnames(x), each = nrow(x)))))
     res <- mtd_define_study_variables(x, c("sex"))
-    expect_equal(res, c("sex:male", "sex:female"))
+    expect_equal(res, data.frame(study_variable = c("male", "female"),
+                                 study_variable_group = "sex"))
 })
 
 test_that(".mtd_multi_fields works", {
@@ -410,85 +415,155 @@ test_that("mtd_study_variables works", {
     x <- data.frame(
         name = c("I1_0", "I2_0", "I1_6", "I2_6", "I3_0"),
         individual = c("I1", "I2", "I1", "I2", "I3"),
-        timepoint = c("0h", "6h", "0h", "6h", "0h"),
+        timepoint = c(0, 6, 0, 6, 0),
         T2D = c(TRUE, FALSE, TRUE, FALSE, FALSE)
     )
-    expect_error(
-        mtd_study_variables(x, study_variable_columns = c("T2D"),factors = 1:3),
-        "currently not supported")
-    expect_error(
-        mtd_study_variables(x, study_variable_columns = c("T2D", "A")),
-        "Not all column names")
-
-    res <- mtd_study_variables(x, average_function = "A",
-                               variation_function = "B")
-    expect_equal(res[, 1L], c("study_variable[1]",
-                              "study_variable[1]-assay_refs",
-                              "study_variable[1]-average_function",
-                              "study_variable[1]-variation_function",
-                              "study_variable[1]-description"))
-    expect_equal(res[, 2L], c("undefined",
-                              "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
-                              "A",
-                              "B",
-                              "Undefined"))
-
-    expect_error(
-        mtd_study_variables(x, average_function = character(),
-                            variation_function = "B"), "'average_function'")
-    expect_error(
-        mtd_study_variables(x, average_function = "A",
-                            variation_function = NULL), "'variation_function'")
-    expect_error(
-        mtd_study_variables(x, study_variable_columns = c("T2D", "timepoint"),
-                            average_function = "A", variation_function = "B",
-                            description = 1:2), "'description'")
-
-    res <- mtd_study_variables(
-        x, study_variable_columns = c("T2D", "timepoint"),
-        average_function = "A", variation_function = "B")
+    ## errors
+    expect_error(mtd_study_variables(x, groups = c("name", "other")),
+                 "Not all column")
+    expect_error(mtd_study_variables(x, groups = c("name", "T2D"),
+                                     average_function = c("a", "b", "c")),
+                 "equal to the number")
+    expect_error(mtd_study_variables(x, groups = c("name", "T2D"),
+                                     variation_function = c("a", "b", "c")),
+                 "equal to the number")
+    expect_error(mtd_study_variables(x, groups = c("name", "T2D"),
+                                     description = c("a", "b", "c")),
+                 "equal to the number")
+    expect_error(mtd_study_variables(x, average_function = character(),
+                                     variation_function = "B"),
+                 "'average_function'")
+    expect_error(mtd_study_variables(x, average_function = "A",
+                                     variation_function = NULL),
+                 "'variation_function'")
+    expect_error(mtd_study_variables(x, groups = c("T2D", "timepoint"),
+                                     average_function = "A",
+                                     variation_function = "B",
+                                     description = 1:2), "'description'")
+    ## Without study variable groups
+    res <- mtd_study_variables(x)
+    expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "undefined")
+    expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "undefined")
+    expect_false(any(res[, 1L] == "study_variable_group[2]"))
+    expect_false(any(res[, 1L] == "study_variable[2]"))
+    expect_equal(res[res[, 1L] == "study_variable[1]-group_refs", 2L],
+                 "study_variable_group[1]")
+    expect_equal(res[res[, 1L] == "study_variable[1]-assay_refs", 2L],
+                 "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]")
+    ## With a single study variable group
+    res <- mtd_study_variables(x, groups = "T2D", group_datatype = "xsd:string")
+    expect_false(any(res[, 1L] == "study_variable_group[2]"))
+    expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "T2D")
+    expect_match(res[res[, 1L] == "study_variable_group[1]-type", 2L], "cate")
+    expect_equal(res[res[, 1L] == "study_variable_group[1]-datatype", 2L],
+                 "xsd:string")
+    expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "TRUE")
+    expect_equal(res[res[, 1L] == "study_variable[1]-group_refs", 2L],
+                 "study_variable_group[1]")
     expect_equal(res[, 1L],
-                 c("study_variable[1]",
+                 c("study_variable_group[1]",
+                   "study_variable_group[1]-description",
+                   "study_variable_group[1]-type",
+                   "study_variable_group[1]-datatype",
+                   "study_variable[1]",
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
                    "study_variable[1]-variation_function",
                    "study_variable[1]-description",
+                   "study_variable[1]-group_refs",
                    "study_variable[2]",
                    "study_variable[2]-assay_refs",
                    "study_variable[2]-average_function",
                    "study_variable[2]-variation_function",
                    "study_variable[2]-description",
-                   "study_variable[3]",
-                   "study_variable[3]-assay_refs",
-                   "study_variable[3]-average_function",
-                   "study_variable[3]-variation_function",
-                   "study_variable[3]-description",
-                   "study_variable[4]",
-                   "study_variable[4]-assay_refs",
-                   "study_variable[4]-average_function",
-                   "study_variable[4]-variation_function",
-                   "study_variable[4]-description"))
+                   "study_variable[2]-group_refs"
+                   ))
     expect_equal(res[, 2L],
-                 c("T2D:TRUE",
+                 c("T2D",
+                   "Sample matrix column T2D",
+                   "[STATO, STATO:0000252, categorical variable]",
+                   "xsd:string",
+                   "TRUE",
                    "assay[1]|assay[3]",
-                   "A",
-                   "B",
-                   "Column: T2D, value: TRUE",
-                   "T2D:FALSE",
+                   "[MS, MS:1002962, mean, ]",
+                   "[MS, MS:1002963, variation coefficient, ]",
+                   "Variable T2D, value TRUE",
+                   "study_variable_group[1]",
+                   "FALSE",
                    "assay[2]|assay[4]|assay[5]",
-                   "A",
-                   "B",
-                   "Column: T2D, value: FALSE",
-                   "timepoint:0h",
-                   "assay[1]|assay[3]|assay[5]",
-                   "A",
-                   "B",
-                   "Column: timepoint, value: 0h",
-                   "timepoint:6h",
-                   "assay[2]|assay[4]",
-                   "A",
-                   "B",
-                   "Column: timepoint, value: 6h"))
+                   "[MS, MS:1002962, mean, ]",
+                   "[MS, MS:1002963, variation coefficient, ]",
+                   "Variable T2D, value FALSE",
+                   "study_variable_group[1]"
+                   ))
+    ## No study variable group, full result
+    res <- mtd_study_variables(x, average_function = "A",
+                               variation_function = "B")
+    expect_equal(res[, 1L], c("study_variable_group[1]",
+                              "study_variable_group[1]-description",
+                              "study_variable_group[1]-type",
+                              "study_variable_group[1]-datatype",
+                              "study_variable[1]",
+                              "study_variable[1]-assay_refs",
+                              "study_variable[1]-average_function",
+                              "study_variable[1]-variation_function",
+                              "study_variable[1]-description",
+                              "study_variable[1]-group_refs"))
+    expect_equal(res[, 2L], c("undefined",
+                              "Sample matrix column undefined",
+                              "[STATO, STATO:0000252, categorical variable]",
+                              "xsd:string",
+                              "undefined",
+                              "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
+                              "A",
+                              "B",
+                              "Variable undefined, value undefined",
+                              "study_variable_group[1]"))
+
+    res <- mtd_study_variables(x, groups = c("T2D", "timepoint", "individual"))
+    expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "T2D")
+    expect_equal(res[res[, 1L] == "study_variable_group[2]", 2L], "timepoint")
+    expect_equal(res[res[, 1L] == "study_variable_group[3]", 2L], "individual")
+    expect_match(res[res[, 1L] == "study_variable_group[1]-type", 2L], "cate")
+    expect_match(res[res[, 1L] == "study_variable_group[2]-type", 2L], "conti")
+    expect_match(res[res[, 1L] == "study_variable_group[3]-type", 2L], "cate")
+    expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "TRUE")
+    expect_equal(res[res[, 1L] == "study_variable[2]", 2L], "FALSE")
+    expect_equal(res[res[, 1L] == "study_variable[1]-group_refs", 2L],
+                 "study_variable_group[1]")
+    expect_equal(res[res[, 1L] == "study_variable[2]-group_refs", 2L],
+                 "study_variable_group[1]")
+    expect_equal(res[res[, 1L] == "study_variable[1]-assay_refs", 2L],
+                 "assay[1]|assay[3]")
+    expect_equal(res[res[, 1L] == "study_variable[2]-assay_refs", 2L],
+                 "assay[2]|assay[4]|assay[5]")
+
+    expect_equal(res[res[, 1L] == "study_variable[3]", 2L], "0")
+    expect_equal(res[res[, 1L] == "study_variable[4]", 2L], "6")
+    expect_equal(res[res[, 1L] == "study_variable[3]-group_refs", 2L],
+                 "study_variable_group[2]")
+    expect_equal(res[res[, 1L] == "study_variable[4]-group_refs", 2L],
+                 "study_variable_group[2]")
+    expect_equal(res[res[, 1L] == "study_variable[3]-assay_refs", 2L],
+                 "assay[1]|assay[3]|assay[5]")
+    expect_equal(res[res[, 1L] == "study_variable[4]-assay_refs", 2L],
+                 "assay[2]|assay[4]")
+
+    expect_equal(res[res[, 1L] == "study_variable[5]", 2L], "I1")
+    expect_equal(res[res[, 1L] == "study_variable[6]", 2L], "I2")
+    expect_equal(res[res[, 1L] == "study_variable[7]", 2L], "I3")
+    expect_equal(res[res[, 1L] == "study_variable[5]-group_refs", 2L],
+                 "study_variable_group[3]")
+    expect_equal(res[res[, 1L] == "study_variable[6]-group_refs", 2L],
+                 "study_variable_group[3]")
+    expect_equal(res[res[, 1L] == "study_variable[7]-group_refs", 2L],
+                 "study_variable_group[3]")
+    expect_equal(res[res[, 1L] == "study_variable[5]-assay_refs", 2L],
+                 "assay[1]|assay[3]")
+    expect_equal(res[res[, 1L] == "study_variable[6]-assay_refs", 2L],
+                 "assay[2]|assay[4]")
+    expect_equal(res[res[, 1L] == "study_variable[7]-assay_refs", 2L],
+                 "assay[5]")
 })
 
 test_that(".mtd_get_field works", {
@@ -538,4 +613,66 @@ test_that(".mtd_get_field works", {
                           fixed = FALSE, exact = FALSE)
     expect_equal(res[[1L]], c(`instrument[1]-name` = "1",
                               `instrument[2]-name` = "3"))
+})
+
+test_that(".mtd_svar_group_description works", {
+    x <- data.frame(a = 1:3, b = "b")
+    res <- .mtd_svar_group_description(x)
+    expect_equal(res, c("Sample matrix column a", "Sample matrix column b"))
+    expect_error(.mtd_svar_group_description(x, c("b")), "match length")
+    expect_equal(.mtd_svar_group_description(x, c("b", "d")), c("b", "d"))
+})
+
+test_that(".mtd_svar_group_type works", {
+    x <- data.frame(sex = factor(c("M", "F", "M")),
+                    age = c(54.2, 24.1, 43.1),
+                    CKM = c(1L, 1L, 2L))
+    expect_error(.mtd_svar_group_type(x, c("[a]", "[b]")), "match the number")
+    expect_error(
+        .mtd_svar_group_type(
+            x, c("[a]", "[b]", "[STATO, STATO:0000252, categorical variable]")),
+        "not supported")
+    res <- .mtd_svar_group_type(x)
+    expect_equal(res, c("[STATO, STATO:0000252, categorical variable]",
+                        "[STATO, STATO:0000251, continuous variable]",
+                        "[STATO, STATO:0000251, continuous variable]"))
+
+    res <- .mtd_svar_group_type(x, c("[, STATO:0000252, ]",
+                                     "[, STATO:0000251, ]",
+                                     "[, STATO:0000228, ]"))
+    expect_equal(res, c("[STATO, STATO:0000252, categorical variable]",
+                        "[STATO, STATO:0000251, continuous variable]",
+                        "[STATO, STATO:0000228, ordinal variable]"))
+})
+
+test_that(".mtd_svar_group_datatype works", {
+    x <- data.frame(sex = factor(c("M", "F", "M")),
+                    age = c(54.2, 24.1, 43.1),
+                    CKM = c(1L, 1L, 2L),
+                    name = c("a", "b", "c"))
+    expect_error(.mtd_svar_group_datatype(x, c("a", "b")), "match the number")
+    expect_error(.mtd_svar_group_datatype(x, c("a", "b", "c", "d")),
+                 "not supported")
+    res <- .mtd_svar_group_datatype(x, c("xsd:string", "xsd:decimal",
+                                         "xsd:integer", "xsd:string"))
+    expect_equal(res, c("xsd:string", "xsd:decimal","xsd:integer","xsd:string"))
+    res <- .mtd_svar_group_datatype(x)
+    expect_equal(res, c("xsd:string", "xsd:decimal","xsd:integer","xsd:string"))
+})
+
+test_that(".mztab_study_variables works", {
+    x <- data.frame(T2D = c(TRUE, FALSE, FALSE), BMI = c(43.1, 32.1, 31.3),
+                    name = c("a", "b", "c"))
+    res <- .mztab_study_variables(x)
+    expect_true(is.data.frame(res))
+    expect_true(is.character(res[, 1L]))
+    expect_true(is.character(res[, 2L]))
+    expect_equal(colnames(res), c("study_variable", "study_variable_group"))
+    res <- .mztab_study_variables(x, c("T2D", "BMI"))
+    expect_true(is.data.frame(res))
+    expect_true(is.character(res[, 1L]))
+    expect_true(is.character(res[, 2L]))
+    expect_equal(colnames(res), c("study_variable", "study_variable_group"))
+    expect_equal(res$study_variable,c(as.character(x$T2D), as.character(x$BMI)))
+    expect_equal(res$study_variable_group, rep(c("T2D", "BMI"), each = 3))
 })

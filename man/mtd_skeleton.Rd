@@ -8,12 +8,14 @@ mtd_skeleton(
   id = character(),
   software = character(),
   quantification_method = "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]",
-  cv_label = c("MS", "PRIDE"),
+  cv_label = c("MS", "PRIDE", "STATO"),
   cv_full_name = c("PSI-MS controlled vocabulary",
-    "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"),
-  cv_version = c("4.1.138", "16:10:2023 11:38"),
+    "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary",
+    "General purpose STATistics Ontology"),
+  cv_version = c("4.1.138", "16:10:2023 11:38", "2026-04-20"),
   cv_uri = c("https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo",
-    "https://www.ebi.ac.uk/ols/ontologies/pride"),
+    "https://www.ebi.ac.uk/ols/ontologies/pride",
+    "https://www.ebi.ac.uk/ols4/ontologies/stato"),
   database = c("[,, \\"no database\\", null ]"),
   database_prefix = c("null"),
   database_version = c("Unknown"),
@@ -24,7 +26,7 @@ mtd_skeleton(
     "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
   small_molecule_identification_reliability =
     "[MS, MS:1002896, compound identification confidence level, ]",
-  mztab_version = "2.0.0-M"
+  mztab_version = "2.1.0-M"
 )
 }
 \arguments{
