@@ -116,3 +116,9 @@ test_that(".add_opt_cols works", {
     expect_equal(res$opt_bla, as.character(1:3))
     expect_error(.add_opt_cols(x = x, other = numeric(), 1:4), "must be named")
 })
+
+test_that("is_cv_parameter works", {
+    vals <- c("", "[]", "[a]", "[a,a]", "[a,a,a]", "[a,a,a,a]", "[a,a,a,a,a]")
+    expect_equal(is_cv_parameter(vals), c(FALSE, FALSE, FALSE, FALSE, FALSE,
+                                          TRUE, FALSE))
+})

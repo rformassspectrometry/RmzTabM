@@ -38,7 +38,7 @@
     else .FUN_MAP[idx]
 }
 
-#' @title Parse a CV parameter
+#' @title Utility functions for CV parameters
 #'
 #' @description
 #'
@@ -48,6 +48,12 @@
 #' where only the *name* and *value* are provided are supported, but it is
 #' recommendet to use full CV parameters where possible.
 #'
+#' `parse_cv_parameter()` allows to extract individual fields from a CV
+#' parameter.
+#'
+#' `is_cv_parameter()` tests whether a string is in the expected (CV parameter)
+#' format.
+#'
 #' @note
 #'
 #' While mzTab supports `","` in the *name* and *value* field (in which case
@@ -55,7 +61,7 @@
 #' supported. Thus, CV label and term (accession) are expected to be correctly
 #' extracted, the name and value field might not if `","` are present in them.
 #'
-#' @param x `character` with the CV parameter(s) to parse.
+#' @param x `character` with the CV parameter(s) to parse or test.
 #'
 #' @param element `integer(1)` defining which *element* to extract: `1` for the
 #'     CV label, `2` for the CV term (accession), `3` for the name and `4` for
@@ -86,6 +92,9 @@
 #' parse_cv_parameter("[, , user, value]")
 #' parse_cv_parameter("[, , user, value]", 3)
 #' parse_cv_parameter("[, , user, value]", 4)
+#'
+#' ## Check validity of CV parameters
+#' is_cv_parameter(c(x, "[a, b, c, d, e]", "d"))
 parse_cv_parameter <- function(x, element = 2L) {
     if (!all(grepl("^\\[.*\\]$", x)))
         stop("Unexpected CV parameter format: string is expected to start with",
@@ -98,6 +107,13 @@ parse_cv_parameter <- function(x, element = 2L) {
                   NA_character_, USE.NAMES = FALSE)
     res[which(res == "")] <- NA_character_
     res
+}
+
+#' @export
+#'
+#' @rdname parse_cv_parameter
+is_cv_parameter <- function(x) {
+    grepl("^\\[([^,]*,){3}[^,]*\\]$", x)
 }
 
 #' @title Internal helper to format an abundance matrix
