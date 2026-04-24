@@ -946,11 +946,11 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #' @param group_type `character` defining the type for each study variable
 #'     group. If provided its length has to match the length of parameter
 #'     `groups`. Supported values are
-#'     `"[STATO, STATO:0000252, categorical variable]"`,
-#'     `"[STATO, STATO:0000228, ordinal variable]"` and
-#'     `"[STATO, STATO:0000251, continuous variable]"` for categorical, ordinal
-#'     or numerical values, respectively. If not provided (the default) the
-#'     study variable group type will be inferred from the data type of the
+#'     `"[STATO, STATO:0000252, categorical variable, ]"`,
+#'     `"[STATO, STATO:0000228, ordinal variable, ]"` and
+#'     `"[STATO, STATO:0000251, continuous variable, ]"` for categorical,
+#'     ordinal or numerical values, respectively. If not provided (the default)
+#'     the study variable group type will be inferred from the data type of the
 #'     respective columns in `x`.
 #'
 #' @param group_datatype optional `character` defining the data type of the
@@ -961,6 +961,12 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #'     `"xsd:anyURI"`. Date,l time and dateTime values **must** be encoded in
 #'     ISO 8601 format. If not provided the type is guessed by the data type of
 #'     the respective column in `x`.
+#'
+#' @param group_unit optional `character` defining the unit of the group
+#'     variable (for numeric data types). If provided, its length has to match
+#'     the length of parameter `groups`. `NA` or `""` has to be provided for
+#'     groups for which no unit should be reported. By default
+#'     (`group_unit = character()`) no unit is reported for any group.
 #'
 #' @param average_function optional `character` defining the function used to
 #'     calculate the study variable quantification value (reported in the
@@ -1029,6 +1035,7 @@ mtd_study_variables <- function(x, groups = character(),
                                 group_description = character(),
                                 group_type = character(),
                                 group_datatype = character(),
+                                group_unit = character(),
                                 average_function = "[MS, MS:1002962, mean, ]",
                                 variation_function = "[MS, MS:1002963, variation coefficient, ]",
                                 description = character()) {
@@ -1042,12 +1049,16 @@ mtd_study_variables <- function(x, groups = character(),
     x <- as.data.frame(x[, groups, drop = FALSE])
     svg <- c(groups, .mtd_svar_group_description(x, group_description),
              .mtd_svar_group_type(x, group_type),
-             .mtd_svar_group_datatype(x, group_datatype))
+             .mtd_svar_group_datatype(x, group_datatype),
+             .mtd_svar_group_unit(x, group_unit))
     ## build study variable group content
     res <- cbind(paste0("study_variable_group[",
-                        rep(seq_along(groups), each = 4L),
-                        c("]", "]-description", "]-type", "]-datatype")),
-                 svg[order(rep(seq_along(groups), 4L))])
+                        rep(seq_along(groups), each = 5L),
+                        c("]", "]-description", "]-type",
+                          "]-datatype", "]-unit")),
+                 svg[order(rep(seq_along(groups), 5L))])
+    ## drop rows with empty unit
+    res <- res[!(grepl("-unit$", res[, 1L]) & res[, 2L] == ""), , drop = FALSE]
     svar_df <- .mztab_study_variables(x, groups)
     svars <- unique(svar_df)
     l <- nrow(svars)
@@ -1482,7 +1493,7 @@ mtd_sort <- function(x) {
         idx <- match(dtype, .STUDY_VARIABLE_GROUP_TYPE$r)
         if (anyNA(idx))
             stop("Group type(s) ", paste0(dtype[is.na(idx)], collapse = ", "),
-                 " are not supported", call. = TRUE)
+                 " are not supported", call. = FALSE)
         .STUDY_VARIABLE_GROUP_TYPE$stato[idx]
     }
 }
@@ -1496,12 +1507,12 @@ mtd_sort <- function(x) {
 #' @noRd
 .STUDY_VARIABLE_GROUP_TYPE <- data.frame(
     r = c("character", "factor", "logical", "numeric", "integer", "integer"),
-    stato = c("[STATO, STATO:0000252, categorical variable]",
-              "[STATO, STATO:0000252, categorical variable]",
-              "[STATO, STATO:0000252, categorical variable]",
-              "[STATO, STATO:0000251, continuous variable]",
-              "[STATO, STATO:0000251, continuous variable]",
-              "[STATO, STATO:0000228, ordinal variable]")
+    stato = c("[STATO, STATO:0000252, categorical variable, ]",
+              "[STATO, STATO:0000252, categorical variable, ]",
+              "[STATO, STATO:0000252, categorical variable, ]",
+              "[STATO, STATO:0000251, continuous variable, ]",
+              "[STATO, STATO:0000251, continuous variable, ]",
+              "[STATO, STATO:0000228, ordinal variable, ]")
 )
 
 #' Helper function to check or define the datatype for study variable groups.
@@ -1534,9 +1545,31 @@ mtd_sort <- function(x) {
         idx <- match(dtype, .STUDY_VARIABLE_GROUP_DATATYPE$r)
         if (anyNA(idx))
             stop("Group datatype(s) ", paste0(dtype[is.na(idx)],collapse =", "),
-                 " are not supported", call. = TRUE)
+                 " are not supported", call. = FALSE)
         .STUDY_VARIABLE_GROUP_DATATYPE$xsd[idx]
     }
+}
+
+#' Helper function to check that provided values are parameters, `""` or `NA`.
+#'
+#' @return throws an error or returns `group_unit`
+#'
+#' @noRd
+.mtd_svar_group_unit <- function(x, group_unit = character()) {
+    if (length(group_unit)) {
+        if (length(group_unit) != ncol(x))
+            stop("If provided, the length of 'group_unit' has to match the ",
+                 "number of study variable groups. Use an empty string or NA ",
+                 "for study variable groups (columns in x) for which you do ",
+                 "**not** want to define a unit.", call. = FALSE)
+        group_unit[is.na(group_unit)] <- ""
+        idx <- which(nchar(group_unit) > 0)
+        if (length(idx) && any(i <- !is_cv_parameter(group_unit[idx])))
+            stop("Provided value(s) in 'group_unit': ",
+                 paste0("\"", group_unit[idx][i], "\"", collapse = ", "),
+                 " is/are not a CV parameter.", call. = FALSE)
+        group_unit
+    } else rep("", ncol(x))
 }
 
 .STUDY_VARIABLE_GROUP_DATATYPE <- data.frame(

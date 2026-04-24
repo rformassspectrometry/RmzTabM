@@ -11,6 +11,7 @@ mtd_study_variables(
   group_description = character(),
   group_type = character(),
   group_datatype = character(),
+  group_unit = character(),
   average_function = "[MS, MS:1002962, mean, ]",
   variation_function = "[MS, MS:1002963, variation coefficient, ]",
   description = character()
@@ -37,11 +38,11 @@ of parameter \code{groups}.}
 \item{group_type}{\code{character} defining the type for each study variable
 group. If provided its length has to match the length of parameter
 \code{groups}. Supported values are
-\code{"[STATO, STATO:0000252, categorical variable]"},
-\code{"[STATO, STATO:0000228, ordinal variable]"} and
-\code{"[STATO, STATO:0000251, continuous variable]"} for categorical, ordinal
-or numerical values, respectively. If not provided (the default) the
-study variable group type will be inferred from the data type of the
+\code{"[STATO, STATO:0000252, categorical variable, ]"},
+\code{"[STATO, STATO:0000228, ordinal variable, ]"} and
+\code{"[STATO, STATO:0000251, continuous variable, ]"} for categorical,
+ordinal or numerical values, respectively. If not provided (the default)
+the study variable group type will be inferred from the data type of the
 respective columns in \code{x}.}
 
 \item{group_datatype}{optional \code{character} defining the data type of the
@@ -52,6 +53,12 @@ Supported values are \code{"xsd:string"}, \code{"xsd:integer"}, \code{"xsd:decim
 \code{"xsd:anyURI"}. Date,l time and dateTime values \strong{must} be encoded in
 ISO 8601 format. If not provided the type is guessed by the data type of
 the respective column in \code{x}.}
+
+\item{group_unit}{optional \code{character} defining the unit of the group
+variable (for numeric data types). If provided, its length has to match
+the length of parameter \code{groups}. \code{NA} or \code{""} has to be provided for
+groups for which no unit should be reported. By default
+(\code{group_unit = character()}) no unit is reported for any group.}
 
 \item{average_function}{optional \code{character} defining the function used to
 calculate the study variable quantification value (reported in the

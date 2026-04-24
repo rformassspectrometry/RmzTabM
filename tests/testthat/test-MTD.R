@@ -440,6 +440,11 @@ test_that("mtd_study_variables works", {
                                      average_function = "A",
                                      variation_function = "B",
                                      description = 1:2), "'description'")
+    expect_error(mtd_study_variables(x, groups = colnames(x), group_unit = "a"),
+                 "match the number")
+    expect_error(mtd_study_variables(x, groups = c("T2D", "timepoint"),
+                                     group_unit = c(NA, "[a,b,c,d,e]")),
+                 "not a CV parameter")
     ## Without study variable groups
     res <- mtd_study_variables(x)
     expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "undefined")
@@ -481,7 +486,7 @@ test_that("mtd_study_variables works", {
     expect_equal(res[, 2L],
                  c("T2D",
                    "Sample matrix column T2D",
-                   "[STATO, STATO:0000252, categorical variable]",
+                   "[STATO, STATO:0000252, categorical variable, ]",
                    "xsd:string",
                    "TRUE",
                    "assay[1]|assay[3]",
@@ -495,6 +500,79 @@ test_that("mtd_study_variables works", {
                    "[MS, MS:1002963, variation coefficient, ]",
                    "Variable T2D, value FALSE",
                    "study_variable_group[1]"
+                   ))
+    ## Two groups and providing group_unit
+    res <- mtd_study_variables(x, groups = c("T2D", "timepoint"),
+                               group_unit = c("", "[,,hours,]"))
+    expect_equal(res[, 1L],
+                 c("study_variable_group[1]",
+                   "study_variable_group[1]-description",
+                   "study_variable_group[1]-type",
+                   "study_variable_group[1]-datatype",
+                   "study_variable_group[2]",
+                   "study_variable_group[2]-description",
+                   "study_variable_group[2]-type",
+                   "study_variable_group[2]-datatype",
+                   "study_variable_group[2]-unit",
+                   "study_variable[1]",
+                   "study_variable[1]-assay_refs",
+                   "study_variable[1]-average_function",
+                   "study_variable[1]-variation_function",
+                   "study_variable[1]-description",
+                   "study_variable[1]-group_refs",
+                   "study_variable[2]",
+                   "study_variable[2]-assay_refs",
+                   "study_variable[2]-average_function",
+                   "study_variable[2]-variation_function",
+                   "study_variable[2]-description",
+                   "study_variable[2]-group_refs",
+                   "study_variable[3]",
+                   "study_variable[3]-assay_refs",
+                   "study_variable[3]-average_function",
+                   "study_variable[3]-variation_function",
+                   "study_variable[3]-description",
+                   "study_variable[3]-group_refs",
+                   "study_variable[4]",
+                   "study_variable[4]-assay_refs",
+                   "study_variable[4]-average_function",
+                   "study_variable[4]-variation_function",
+                   "study_variable[4]-description",
+                   "study_variable[4]-group_refs"
+                   ))
+    expect_equal(res[, 2L],
+                 c("T2D",
+                   "Sample matrix column T2D",
+                   "[STATO, STATO:0000252, categorical variable, ]",
+                   "xsd:boolean",
+                   "timepoint",
+                   "Sample matrix column timepoint",
+                   "[STATO, STATO:0000251, continuous variable, ]",
+                   "xsd:decimal",
+                   "[,,hours,]",
+                   "TRUE",
+                   "assay[1]|assay[3]",
+                   "[MS, MS:1002962, mean, ]",
+                   "[MS, MS:1002963, variation coefficient, ]",
+                   "Variable T2D, value TRUE",
+                   "study_variable_group[1]",
+                   "FALSE",
+                   "assay[2]|assay[4]|assay[5]",
+                   "[MS, MS:1002962, mean, ]",
+                   "[MS, MS:1002963, variation coefficient, ]",
+                   "Variable T2D, value FALSE",
+                   "study_variable_group[1]",
+                   "0",
+                   "assay[1]|assay[3]|assay[5]",
+                   "[MS, MS:1002962, mean, ]",
+                   "[MS, MS:1002963, variation coefficient, ]",
+                   "Variable timepoint, value 0",
+                   "study_variable_group[2]",
+                   "6",
+                   "assay[2]|assay[4]",
+                   "[MS, MS:1002962, mean, ]",
+                   "[MS, MS:1002963, variation coefficient, ]",
+                   "Variable timepoint, value 6",
+                   "study_variable_group[2]"
                    ))
     ## No study variable group, full result
     res <- mtd_study_variables(x, average_function = "A",
@@ -511,7 +589,7 @@ test_that("mtd_study_variables works", {
                               "study_variable[1]-group_refs"))
     expect_equal(res[, 2L], c("undefined",
                               "Sample matrix column undefined",
-                              "[STATO, STATO:0000252, categorical variable]",
+                              "[STATO, STATO:0000252, categorical variable, ]",
                               "xsd:string",
                               "undefined",
                               "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
@@ -630,19 +708,19 @@ test_that(".mtd_svar_group_type works", {
     expect_error(.mtd_svar_group_type(x, c("[a]", "[b]")), "match the number")
     expect_error(
         .mtd_svar_group_type(
-            x, c("[a]", "[b]", "[STATO, STATO:0000252, categorical variable]")),
+            x, c("[a]","[b]","[STATO, STATO:0000252, categorical variable, ]")),
         "not supported")
     res <- .mtd_svar_group_type(x)
-    expect_equal(res, c("[STATO, STATO:0000252, categorical variable]",
-                        "[STATO, STATO:0000251, continuous variable]",
-                        "[STATO, STATO:0000251, continuous variable]"))
+    expect_equal(res, c("[STATO, STATO:0000252, categorical variable, ]",
+                        "[STATO, STATO:0000251, continuous variable, ]",
+                        "[STATO, STATO:0000251, continuous variable, ]"))
 
-    res <- .mtd_svar_group_type(x, c("[, STATO:0000252, ]",
-                                     "[, STATO:0000251, ]",
-                                     "[, STATO:0000228, ]"))
-    expect_equal(res, c("[STATO, STATO:0000252, categorical variable]",
-                        "[STATO, STATO:0000251, continuous variable]",
-                        "[STATO, STATO:0000228, ordinal variable]"))
+    res <- .mtd_svar_group_type(x, c("[, STATO:0000252, , ]",
+                                     "[, STATO:0000251,, ]",
+                                     "[, STATO:0000228,, ]"))
+    expect_equal(res, c("[STATO, STATO:0000252, categorical variable, ]",
+                        "[STATO, STATO:0000251, continuous variable, ]",
+                        "[STATO, STATO:0000228, ordinal variable, ]"))
 })
 
 test_that(".mtd_svar_group_datatype works", {
@@ -675,4 +753,15 @@ test_that(".mztab_study_variables works", {
     expect_equal(colnames(res), c("study_variable", "study_variable_group"))
     expect_equal(res$study_variable,c(as.character(x$T2D), as.character(x$BMI)))
     expect_equal(res$study_variable_group, rep(c("T2D", "BMI"), each = 3))
+})
+
+test_that(".mtd_svar_group_unit works", {
+    x <- data.frame(T2D = c(TRUE, FALSE, FALSE), BMI = c(43.1, 32.1, 31.3),
+                    name = c("a", "b", "c"))
+    expect_equal(.mtd_svar_group_unit(x), c("", "", ""))
+    expect_equal(.mtd_svar_group_unit(x, c("", NA, "")), c("", "", ""))
+    expect_equal(.mtd_svar_group_unit(x, c("[a ,b,c,d]", NA, "")),
+                 c("[a ,b,c,d]", "", ""))
+    expect_error(.mtd_svar_group_unit(x, c("a", "", "")), "not a CV")
+    expect_error(.mtd_svar_group_unit(x, c("a", "")), "has to match")
 })

@@ -313,17 +313,20 @@ the mzTab-M definition, the *study variables*). The `mtd_study_variables()`
 function formats a sample/experiment `data.frame` into the corresponding mzTab-M
 fields. Parameter `groups` allows to select the columns of the input
 `data.frame` which represent the study variable groups (phenotype or
-experimental conditions). Additional function arguments would allow to specify
+experimental conditions). Additional function arguments allow to specify
 the statistical type and the datatype for each column/study variable group, but
 the defaults should work in most situations. By default, R data types
 `character` and `factor` are mapped to the STATO type *categorical*, while the
 STATO type *continuous* is used for `numeric` and `integer` columns. If the
 `data.frame` contains *ordinal* variables it should be manually specified with
-parameter `group_type`.
+parameter `group_type`. In our example we define in addition an optional *unit*
+for the study variable *timepoint*. Units have to be provided in CV parameter
+format; for study variable groups without unit `""` or `NA` has to be used.
 
 ```{r}
 mtd_svar <- mtd_study_variables(
-    exp, groups = c("timepoint", "genotype", "operator"))
+    exp, groups = c("timepoint", "genotype", "operator"),
+    group_unit = c("[, , hours, ]", "", ""))
 ```
 
 The formatted data is shown in the table below.
@@ -547,6 +550,8 @@ General utility functions include:
 - `mtd_fields()`: to format values in the mzTab-M-specific format.
 - `mtd_sort()`: to sort rows of the metadata `matrix` into the expected order.
 - `parse_cv_parameter()`: extract elements and values from a CV parameter.
+- `is_cv_parameter()`: checks whether a `character` is in the expected CV
+  parameter format.
 
 # Session information
 

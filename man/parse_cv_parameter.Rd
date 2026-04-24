@@ -2,12 +2,15 @@
 % Please edit documentation in R/functions-utils.R
 \name{parse_cv_parameter}
 \alias{parse_cv_parameter}
-\title{Parse a CV parameter}
+\alias{is_cv_parameter}
+\title{Utility functions for CV parameters}
 \usage{
 parse_cv_parameter(x, element = 2L)
+
+is_cv_parameter(x)
 }
 \arguments{
-\item{x}{\code{character} with the CV parameter(s) to parse.}
+\item{x}{\code{character} with the CV parameter(s) to parse or test.}
 
 \item{element}{\code{integer(1)} defining which \emph{element} to extract: \code{1} for the
 CV label, \code{2} for the CV term (accession), \code{3} for the name and \code{4} for
@@ -23,6 +26,12 @@ are expected to be provided in the format
 \code{"[CV label, accession, name, value]"}. In addition, also \emph{user parameters}
 where only the \emph{name} and \emph{value} are provided are supported, but it is
 recommendet to use full CV parameters where possible.
+
+\code{parse_cv_parameter()} allows to extract individual fields from a CV
+parameter.
+
+\code{is_cv_parameter()} tests whether a string is in the expected (CV parameter)
+format.
 }
 \note{
 While mzTab supports \code{","} in the \emph{name} and \emph{value} field (in which case
@@ -46,6 +55,9 @@ parse_cv_parameter(x, 4)
 parse_cv_parameter("[, , user, value]")
 parse_cv_parameter("[, , user, value]", 3)
 parse_cv_parameter("[, , user, value]", 4)
+
+## Check validity of CV parameters
+is_cv_parameter(c(x, "[a, b, c, d, e]", "d"))
 }
 \author{
 Johannes Rainer
