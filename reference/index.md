@@ -45,4 +45,5 @@
   mzTab-M *study variables* metadata information
 
 - [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md)
-  : Parse a CV parameter
+  [`is_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md)
+  : Utility functions for CV parameters

@@ -14,6 +14,8 @@ figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/im
 
 mzTab-M format
 
+The *RmzTabM* package supports mzTab-M version **2.1**.
+
 ## Installation
 
 ## General information on the mzTab-M format
@@ -133,49 +135,40 @@ mtd <- mtd_skeleton(
     id = "EXP_001",
     software = "[MS, MS:1001582, xcms, 4.1.0]"
 )
-mtd
 ```
 
-          [,1]
-     [1,] "mzTab-version"
-     [2,] "mzTab-ID"
-     [3,] "software[1]"
-     [4,] "quantification_method"
-     [5,] "cv[1]-label"
-     [6,] "cv[1]-full_name"
-     [7,] "cv[1]-version"
-     [8,] "cv[1]-uri"
-     [9,] "cv[2]-label"
-    [10,] "cv[2]-full_name"
-    [11,] "cv[2]-version"
-    [12,] "cv[2]-uri"
-    [13,] "database[1]"
-    [14,] "database[1]-prefix"
-    [15,] "database[1]-version"
-    [16,] "database[1]-uri"
-    [17,] "small_molecule-quantification_unit"
-    [18,] "small_molecule_feature-quantification_unit"
-    [19,] "small_molecule-identification_reliability"
-          [,2]
-     [1,] "2.0.0-M"
-     [2,] "EXP_001"
-     [3,] "[MS, MS:1001582, xcms, 4.1.0]"
-     [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
-     [5,] "MS"
-     [6,] "PSI-MS controlled vocabulary"
-     [7,] "4.1.138"
-     [8,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo"
-     [9,] "PRIDE"
-    [10,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
-    [11,] "16:10:2023 11:38"
-    [12,] "https://www.ebi.ac.uk/ols/ontologies/pride"
-    [13,] "[,, \"no database\", null ]"
-    [14,] "null"
-    [15,] "Unknown"
-    [16,] "null"
-    [17,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"
-    [18,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"
-    [19,] "[MS, MS:1002896, compound identification confidence level, ]"           
+``` r
+
+library(pander)
+pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
+```
+
+
+    |                                            |                                                                         |
+    |:-------------------------------------------|:------------------------------------------------------------------------|
+    | mzTab-version                              | 2.1.0-M                                                                 |
+    | mzTab-ID                                   | EXP_001                                                                 |
+    | software[1]                                | [MS, MS:1001582, xcms, 4.1.0]                                           |
+    | quantification_method                      | [MS, MS:1001834, LC-MS label-free quantitation analysis, ]              |
+    | cv[1]-label                                | MS                                                                      |
+    | cv[1]-full_name                            | PSI-MS controlled vocabulary                                            |
+    | cv[1]-version                              | 4.1.138                                                                 |
+    | cv[1]-uri                                  | https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo  |
+    | cv[2]-label                                | PRIDE                                                                   |
+    | cv[2]-full_name                            | PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary |
+    | cv[2]-version                              | 16:10:2023 11:38                                                        |
+    | cv[2]-uri                                  | https://www.ebi.ac.uk/ols/ontologies/pride                              |
+    | cv[3]-label                                | STATO                                                                   |
+    | cv[3]-full_name                            | General purpose STATistics Ontology                                     |
+    | cv[3]-version                              | 2026-04-20                                                              |
+    | cv[3]-uri                                  | https://www.ebi.ac.uk/ols4/ontologies/stato                             |
+    | database[1]                                | [,, "no database", null ]                                               |
+    | database[1]-prefix                         | null                                                                    |
+    | database[1]-version                        | Unknown                                                                 |
+    | database[1]-uri                            | null                                                                    |
+    | small_molecule-quantification_unit         | [PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]                 |
+    | small_molecule_feature-quantification_unit | [PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]                 |
+    | small_molecule-identification_reliability  | [MS, MS:1002896, compound identification confidence level, ]            |
 
 This represents some minimal information. The data of the MTD section is
 formatted as a `character` 2-column `matrix`. We could now either change
@@ -209,14 +202,19 @@ instr <- mtd_fields(
     detector = "[MS, MS:1000253, electron multiplier,]",
     field_prefix = "instrument"
 )
-instr
 ```
 
-         [,1]                        [,2]
-    [1,] "instrument[1]-name"        "[MS, MS:1000449, LTQ Orbitrap,]"
-    [2,] "instrument[1]-source"      "[MS, MS:1000073, ESI,]"
-    [3,] "instrument[1]-analyzer[1]" "[MS, MS:1000291, linear ion trap,]"
-    [4,] "instrument[1]-detector"    "[MS, MS:1000253, electron multiplier,]"
+``` r
+
+pandoc.table(instr, style = "rmarkdown", split.table = Inf, justify = "ll")
+```
+
+|                               |                                          |
+|:------------------------------|:-----------------------------------------|
+| instrument\[1\]-name          | \[MS, MS:1000449, LTQ Orbitrap,\]        |
+| instrument\[1\]-source        | \[MS, MS:1000073, ESI,\]                 |
+| instrument\[1\]-analyzer\[1\] | \[MS, MS:1000291, linear ion trap,\]     |
+| instrument\[1\]-detector      | \[MS, MS:1000253, electron multiplier,\] |
 
 And we add that information to the `mtd` variable.
 
@@ -224,13 +222,6 @@ And we add that information to the `mtd` variable.
 
 mtd <- rbind(mtd, instr)
 ```
-
-Note that the general information part should also contain the
-references to **all** controlled vocabulary (CV) ontologies used in the
-mzTab-M file. The default ontologies added by the `mtb_skeleton()`
-function are the *PSI-MS* and the *PRIDE* ontologies. If other
-vocabularies are used, they should be added manually (following the
-scheme of the others, i.e., the fields starting with `"cv["`).
 
 The next category of metadata information is **sample information**.
 This comprises (optional) information on individual samples that were
@@ -264,27 +255,78 @@ mtd_s <- mtd_sample(
 
 ``` r
 
-mtd_s
+pandoc.table(mtd_s, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
+|                            |                                               |
+|:---------------------------|:----------------------------------------------|
+| sample\[1\]                | S1                                            |
+| sample\[1\]-species\[1\]   | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
+| sample\[1\]-tissue\[1\]    | \[BTO, BTO:0000759, liver, \]                 |
+| sample\[1\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \]              |
+| sample\[1\]-custom\[1\]    | \[,,Extraction date, 2011-12-21\]             |
+| sample\[2\]                | S2                                            |
+| sample\[2\]-species\[1\]   | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
+| sample\[2\]-tissue\[1\]    | \[BTO, BTO:0000759, liver, \]                 |
+| sample\[2\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \]              |
+| sample\[2\]-custom\[1\]    | \[,,Extraction date, 2011-12-22\]             |
+| sample\[3\]                | S3                                            |
+| sample\[3\]-species\[1\]   | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
+| sample\[3\]-tissue\[1\]    | \[BTO, BTO:0000759, liver, \]                 |
+| sample\[3\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \]              |
+| sample\[3\]-custom\[1\]    | \[,,Extraction date, 2011-12-23\]             |
 
-     [1,] "sample[1]"              "S1"
-     [2,] "sample[1]-species[1]"   "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
-     [3,] "sample[1]-tissue[1]"    "[BTO, BTO:0000759, liver, ]"
-     [4,] "sample[1]-cell_type[1]" "[CL, CL:0000182, hepatocyte, ]"
-     [5,] "sample[1]-custom[1]"    "[,,Extraction date, 2011-12-21]"
-     [6,] "sample[2]"              "S2"
-     [7,] "sample[2]-species[1]"   "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
-     [8,] "sample[2]-tissue[1]"    "[BTO, BTO:0000759, liver, ]"
-     [9,] "sample[2]-cell_type[1]" "[CL, CL:0000182, hepatocyte, ]"
-    [10,] "sample[2]-custom[1]"    "[,,Extraction date, 2011-12-22]"
-    [11,] "sample[3]"              "S3"
-    [12,] "sample[3]-species[1]"   "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
-    [13,] "sample[3]-tissue[1]"    "[BTO, BTO:0000759, liver, ]"
-    [14,] "sample[3]-cell_type[1]" "[CL, CL:0000182, hepatocyte, ]"
-    [15,] "sample[3]-custom[1]"    "[,,Extraction date, 2011-12-23]"            
+Note that the general information part should also contain the
+references to **all** controlled vocabulary (CV) ontologies used in the
+mzTab-M file. The default ontologies added by the `mtb_skeleton()`
+function are the *PSI-MS*, *PRIDE* and *STATO* ontologies. If other
+vocabularies are used, they should be either added manually (following
+the scheme of the others, i.e., the fields starting with `"cv["`) or
+provided with the `cv_*` function arguments of the `mtb_skeleton()`
+function. For our example we use also the *BRENDA tissue ontology* (BTO)
+and the *NCBITaxon* ontology to define the tissue of origin and species
+of the samples and hence need to add these ontologies to the general
+metadata section. We use the
+[`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md)
+function for this. For a CV entry we need to provide a *label*, the
+*full_name*, the *version* and the *uri*:
 
-We can then add this information to the `mtd` variable by simply
+``` r
+
+add_cv <- mtd_fields(
+    label = c("BTO", "NCBITaxon"),
+    full_name = c("The BRENDA Tissue Ontology (BTO)",
+                  "NCBI organismal classification"),
+    version = c("2021-10-26", "2025-12-03"),
+    uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
+            "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"),
+    field_prefix = "cv")
+add_cv
+```
+
+         [,1]              [,2]
+    [1,] "cv[1]-label"     "BTO"
+    [2,] "cv[1]-full_name" "The BRENDA Tissue Ontology (BTO)"
+    [3,] "cv[1]-version"   "2021-10-26"
+    [4,] "cv[1]-uri"       "https://www.ebi.ac.uk/ols4/ontologies/bto"
+    [5,] "cv[2]-label"     "NCBITaxon"
+    [6,] "cv[2]-full_name" "NCBI organismal classification"
+    [7,] "cv[2]-version"   "2025-12-03"
+    [8,] "cv[2]-uri"       "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"
+
+We need to update the index of the cv, since there are already 3 CVs
+(MS, PRIDE and STATO) defined by in the metadata part. We thus replace
+next the `"1"` with `"4"` and `"2"` with `"5"` and append this CV term
+to the metadata section.
+
+``` r
+
+add_cv[, 1L] <- sub("1", "4", add_cv[, 1L])
+add_cv[, 1L] <- sub("2", "5", add_cv[, 1L])
+mtd <- rbind(mtd, add_cv)
+```
+
+We can then add the sample information to the `mtd` variable by simply
 [`rbind()`](https://rdrr.io/r/base/cbind.html)ing it.
 
 ``` r
@@ -307,34 +349,39 @@ mtd_msr <- mtd_ms_run(
     format = "[MS, MS:1000584, mzML file, ]",
     id_format = "[MS, MS:1000530, mzML unique identifier, ]",
     scan_polarity = "positive")
-mtd_msr
 ```
 
-                                       values
-     [1,] "ms_run[1]-location"         "s1-t1.mzML"
-     [2,] "ms_run[1]-format"           "[MS, MS:1000584, mzML file, ]"
-     [3,] "ms_run[1]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-     [4,] "ms_run[1]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-     [5,] "ms_run[2]-location"         "s1-t2.mzML"
-     [6,] "ms_run[2]-format"           "[MS, MS:1000584, mzML file, ]"
-     [7,] "ms_run[2]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-     [8,] "ms_run[2]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-     [9,] "ms_run[3]-location"         "s2-t1.mzML"
-    [10,] "ms_run[3]-format"           "[MS, MS:1000584, mzML file, ]"
-    [11,] "ms_run[3]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-    [12,] "ms_run[3]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-    [13,] "ms_run[4]-location"         "s2-t2.mzML"
-    [14,] "ms_run[4]-format"           "[MS, MS:1000584, mzML file, ]"
-    [15,] "ms_run[4]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-    [16,] "ms_run[4]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-    [17,] "ms_run[5]-location"         "s3-t1.mzML"
-    [18,] "ms_run[5]-format"           "[MS, MS:1000584, mzML file, ]"
-    [19,] "ms_run[5]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-    [20,] "ms_run[5]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-    [21,] "ms_run[6]-location"         "s3-t2.mzML"
-    [22,] "ms_run[6]-format"           "[MS, MS:1000584, mzML file, ]"
-    [23,] "ms_run[6]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-    [24,] "ms_run[6]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"         
+``` r
+
+pandoc.table(mtd_msr, style = "rmarkdown", split.table = Inf, justify = "ll")
+```
+
+|   | values |
+|:---|:---|
+| ms_run\[1\]-location | s1-t1.mzML |
+| ms_run\[1\]-format | \[MS, MS:1000584, mzML file, \] |
+| ms_run\[1\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
+| ms_run\[1\]-scan_polarity\[1\] | \[MS, MS:1000130, positive scan, \] |
+| ms_run\[2\]-location | s1-t2.mzML |
+| ms_run\[2\]-format | \[MS, MS:1000584, mzML file, \] |
+| ms_run\[2\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
+| ms_run\[2\]-scan_polarity\[1\] | \[MS, MS:1000130, positive scan, \] |
+| ms_run\[3\]-location | s2-t1.mzML |
+| ms_run\[3\]-format | \[MS, MS:1000584, mzML file, \] |
+| ms_run\[3\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
+| ms_run\[3\]-scan_polarity\[1\] | \[MS, MS:1000130, positive scan, \] |
+| ms_run\[4\]-location | s2-t2.mzML |
+| ms_run\[4\]-format | \[MS, MS:1000584, mzML file, \] |
+| ms_run\[4\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
+| ms_run\[4\]-scan_polarity\[1\] | \[MS, MS:1000130, positive scan, \] |
+| ms_run\[5\]-location | s3-t1.mzML |
+| ms_run\[5\]-format | \[MS, MS:1000584, mzML file, \] |
+| ms_run\[5\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
+| ms_run\[5\]-scan_polarity\[1\] | \[MS, MS:1000130, positive scan, \] |
+| ms_run\[6\]-location | s3-t2.mzML |
+| ms_run\[6\]-format | \[MS, MS:1000584, mzML file, \] |
+| ms_run\[6\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
+| ms_run\[6\]-scan_polarity\[1\] | \[MS, MS:1000130, positive scan, \] |
 
 Each row in the `exp` data frame was assigned to a `"ms_run"` with the
 location and format of the respective file as well as the polarity in
@@ -372,30 +419,33 @@ mtd_a <- mtd_assay(
 
     0
 
+The result formatted *assay information* is shown in the table below.
+
 ``` r
 
-mtd_a
+pandoc.table(mtd_a, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
-
-     [1,] "assay[1]"            "S1_T1"
-     [2,] "assay[1]-sample_ref" "sample[1]"
-     [3,] "assay[1]-ms_run_ref" "ms_run[1]"
-     [4,] "assay[2]"            "S1_T2"
-     [5,] "assay[2]-sample_ref" "sample[1]"
-     [6,] "assay[2]-ms_run_ref" "ms_run[2]"
-     [7,] "assay[3]"            "S2_T1"
-     [8,] "assay[3]-sample_ref" "sample[2]"
-     [9,] "assay[3]-ms_run_ref" "ms_run[3]"
-    [10,] "assay[4]"            "S2_T2"
-    [11,] "assay[4]-sample_ref" "sample[2]"
-    [12,] "assay[4]-ms_run_ref" "ms_run[4]"
-    [13,] "assay[5]"            "S3_T1"
-    [14,] "assay[5]-sample_ref" "sample[3]"
-    [15,] "assay[5]-ms_run_ref" "ms_run[5]"
-    [16,] "assay[6]"            "S3_T2"
-    [17,] "assay[6]-sample_ref" "sample[3]"
-    [18,] "assay[6]-ms_run_ref" "ms_run[6]"
+|                       |             |
+|:----------------------|:------------|
+| assay\[1\]            | S1_T1       |
+| assay\[1\]-sample_ref | sample\[1\] |
+| assay\[1\]-ms_run_ref | ms_run\[1\] |
+| assay\[2\]            | S1_T2       |
+| assay\[2\]-sample_ref | sample\[1\] |
+| assay\[2\]-ms_run_ref | ms_run\[2\] |
+| assay\[3\]            | S2_T1       |
+| assay\[3\]-sample_ref | sample\[2\] |
+| assay\[3\]-ms_run_ref | ms_run\[3\] |
+| assay\[4\]            | S2_T2       |
+| assay\[4\]-sample_ref | sample\[2\] |
+| assay\[4\]-ms_run_ref | ms_run\[4\] |
+| assay\[5\]            | S3_T1       |
+| assay\[5\]-sample_ref | sample\[3\] |
+| assay\[5\]-ms_run_ref | ms_run\[5\] |
+| assay\[6\]            | S3_T2       |
+| assay\[6\]-sample_ref | sample\[3\] |
+| assay\[6\]-ms_run_ref | ms_run\[6\] |
 
 We add this information to the `mtd` variable.
 
@@ -405,99 +455,104 @@ mtd <- rbind(mtd, mtd_a)
 ```
 
 At last we compile the **study variable information** of our example
-experiment. This should capture all experiment-relevant study variables.
-In R, such information is generally encoded in a *sample* or *phenotype*
-`data.frame`, with rows being individual samples (or measurements
-thereof) and columns the sample characteristics (i.e., the study
-variables). For our example we use the
+experiment. This should capture all experiment-relevant study variables
+(phenotype or experimental conditions). In R, such information is
+generally encoded in a *sample* or *phenotype* `data.frame`, with rows
+being individual samples (or measurements thereof) and columns the
+sample characteristics (i.e., the *study variable groups*, with the
+individual values of the columns being, in the mzTab-M definition, the
+*study variables*). The
 [`mtd_study_variables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_study_variables.md)
-function to generate the mzTab-M study variable information, specifying
-with parameter `study_variable_columns` the names of the `data.frame`
-containing the relevant information.
+function formats a sample/experiment `data.frame` into the corresponding
+mzTab-M fields. Parameter `groups` allows to select the columns of the
+input `data.frame` which represent the study variable groups (phenotype
+or experimental conditions). Additional function arguments allow to
+specify the statistical type and the datatype for each column/study
+variable group, but the defaults should work in most situations. By
+default, R data types `character` and `factor` are mapped to the STATO
+type *categorical*, while the STATO type *continuous* is used for
+`numeric` and `integer` columns. If the `data.frame` contains *ordinal*
+variables it should be manually specified with parameter `group_type`.
+In our example we define in addition an optional *unit* for the study
+variable *timepoint*. Units have to be provided in CV parameter format;
+for study variable groups without unit `""` or `NA` has to be used.
 
 ``` r
 
 mtd_svar <- mtd_study_variables(
-    exp,
-    study_variable_columns = c("timepoint", "genotype", "operator"))
-mtd_svar
+    exp, groups = c("timepoint", "genotype", "operator"),
+    group_unit = c("[, , hours, ]", "", ""))
 ```
 
-          [,1]
-     [1,] "study_variable[1]"
-     [2,] "study_variable[1]-assay_refs"
-     [3,] "study_variable[1]-average_function"
-     [4,] "study_variable[1]-variation_function"
-     [5,] "study_variable[1]-description"
-     [6,] "study_variable[2]"
-     [7,] "study_variable[2]-assay_refs"
-     [8,] "study_variable[2]-average_function"
-     [9,] "study_variable[2]-variation_function"
-    [10,] "study_variable[2]-description"
-    [11,] "study_variable[3]"
-    [12,] "study_variable[3]-assay_refs"
-    [13,] "study_variable[3]-average_function"
-    [14,] "study_variable[3]-variation_function"
-    [15,] "study_variable[3]-description"
-    [16,] "study_variable[4]"
-    [17,] "study_variable[4]-assay_refs"
-    [18,] "study_variable[4]-average_function"
-    [19,] "study_variable[4]-variation_function"
-    [20,] "study_variable[4]-description"
-    [21,] "study_variable[5]"
-    [22,] "study_variable[5]-assay_refs"
-    [23,] "study_variable[5]-average_function"
-    [24,] "study_variable[5]-variation_function"
-    [25,] "study_variable[5]-description"
-    [26,] "study_variable[6]"
-    [27,] "study_variable[6]-assay_refs"
-    [28,] "study_variable[6]-average_function"
-    [29,] "study_variable[6]-variation_function"
-    [30,] "study_variable[6]-description"
-          [,2]
-     [1,] "timepoint:0h"
-     [2,] "assay[1]|assay[3]|assay[5]"
-     [3,] "[MS, MS:1002962, mean, ]"
-     [4,] "[MS, MS:1002963, variation coefficient, ]"
-     [5,] "Column: timepoint, value: 0h"
-     [6,] "timepoint:6h"
-     [7,] "assay[2]|assay[4]|assay[6]"
-     [8,] "[MS, MS:1002962, mean, ]"
-     [9,] "[MS, MS:1002963, variation coefficient, ]"
-    [10,] "Column: timepoint, value: 6h"
-    [11,] "genotype:WT"
-    [12,] "assay[1]|assay[2]"
-    [13,] "[MS, MS:1002962, mean, ]"
-    [14,] "[MS, MS:1002963, variation coefficient, ]"
-    [15,] "Column: genotype, value: WT"
-    [16,] "genotype:KO"
-    [17,] "assay[3]|assay[4]|assay[5]|assay[6]"
-    [18,] "[MS, MS:1002962, mean, ]"
-    [19,] "[MS, MS:1002963, variation coefficient, ]"
-    [20,] "Column: genotype, value: KO"
-    [21,] "operator:BB"
-    [22,] "assay[1]|assay[2]|assay[3]|assay[4]"
-    [23,] "[MS, MS:1002962, mean, ]"
-    [24,] "[MS, MS:1002963, variation coefficient, ]"
-    [25,] "Column: operator, value: BB"
-    [26,] "operator:FB"
-    [27,] "assay[5]|assay[6]"
-    [28,] "[MS, MS:1002962, mean, ]"
-    [29,] "[MS, MS:1002963, variation coefficient, ]"
-    [30,] "Column: operator, value: FB"              
+The formatted data is shown in the table below.
 
-Each unique value in each of the specified columns is encoded as a
-`study_variable` (or rather as a *study variable value*), with its
+``` r
+
+pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
+```
+
+|  |  |
+|:---|:---|
+| study_variable_group\[1\] | timepoint |
+| study_variable_group\[1\]-description | Sample matrix column timepoint |
+| study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
+| study_variable_group\[1\]-datatype | xsd:string |
+| study_variable_group\[1\]-unit | \[, , hours, \] |
+| study_variable_group\[2\] | genotype |
+| study_variable_group\[2\]-description | Sample matrix column genotype |
+| study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
+| study_variable_group\[2\]-datatype | xsd:string |
+| study_variable_group\[3\] | operator |
+| study_variable_group\[3\]-description | Sample matrix column operator |
+| study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
+| study_variable_group\[3\]-datatype | xsd:string |
+| study_variable\[1\] | 0h |
+| study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
+| study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
+| study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[1\]-description | Variable timepoint, value 0h |
+| study_variable\[1\]-group_refs | study_variable_group\[1\] |
+| study_variable\[2\] | 6h |
+| study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
+| study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
+| study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[2\]-description | Variable timepoint, value 6h |
+| study_variable\[2\]-group_refs | study_variable_group\[1\] |
+| study_variable\[3\] | WT |
+| study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
+| study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
+| study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[3\]-description | Variable genotype, value WT |
+| study_variable\[3\]-group_refs | study_variable_group\[2\] |
+| study_variable\[4\] | KO |
+| study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
+| study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
+| study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[4\]-description | Variable genotype, value KO |
+| study_variable\[4\]-group_refs | study_variable_group\[2\] |
+| study_variable\[5\] | BB |
+| study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
+| study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
+| study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[5\]-description | Variable operator, value BB |
+| study_variable\[5\]-group_refs | study_variable_group\[3\] |
+| study_variable\[6\] | FB |
+| study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
+| study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
+| study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[6\]-description | Variable operator, value FB |
+| study_variable\[6\]-group_refs | study_variable_group\[3\] |
+
+For each column a *study variable group* was defined while each unique
+value in each of the specified columns was encoded as a
+`"study_variable"` (or rather as a *study variable value*), with its
 *assay_refs* attribute containing the rows/assays in which this value
-was measured. The variable’s *description* (by default) indicates the
-name of the column. The *average_function* and *variation_function*
+was measured. The variable’s `"description"` (by default) indicates the
+name of the column. The `"average_function"` and `"variation_function"`
 attributes allow to define the function that was used to calculate the
-average and variance of the abundance values for that variable value. In
-upcoming versions a dedicated attribute *group* can be used to specify
-the name of the column (i.e. the study variable name) the study variable
-value is provided in.
+average and variance of the abundance values for that variable value.
 
-We next add the study variable information to the `mtd`variable.
+We next add the study variable information to the `mtd` variable.
 
 ``` r
 
@@ -520,13 +575,12 @@ shown in the table below.
 
 ``` r
 
-library(pander)
-pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
+pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
 |   |   |
-|:--:|:--:|
-| mzTab-version | 2.0.0-M |
+|:---|:---|
+| mzTab-version | 2.1.0-M |
 | mzTab-ID | EXP_001 |
 | title | Experiment 1 preprocessed data |
 | description | The preprocessed data of the experiment 1. |
@@ -593,36 +647,55 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 | assay\[6\] | S3_T2 |
 | assay\[6\]-sample_ref | sample\[3\] |
 | assay\[6\]-ms_run_ref | ms_run\[6\] |
-| study_variable\[1\] | timepoint:0h |
+| study_variable_group\[1\] | timepoint |
+| study_variable_group\[1\]-description | Sample matrix column timepoint |
+| study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
+| study_variable_group\[1\]-datatype | xsd:string |
+| study_variable_group\[1\]-unit | \[, , hours, \] |
+| study_variable_group\[2\] | genotype |
+| study_variable_group\[2\]-description | Sample matrix column genotype |
+| study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
+| study_variable_group\[2\]-datatype | xsd:string |
+| study_variable_group\[3\] | operator |
+| study_variable_group\[3\]-description | Sample matrix column operator |
+| study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
+| study_variable_group\[3\]-datatype | xsd:string |
+| study_variable\[1\] | 0h |
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
-| study_variable\[1\]-description | Column: timepoint, value: 0h |
-| study_variable\[2\] | timepoint:6h |
+| study_variable\[1\]-description | Variable timepoint, value 0h |
+| study_variable\[1\]-group_refs | study_variable_group\[1\] |
+| study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
-| study_variable\[2\]-description | Column: timepoint, value: 6h |
-| study_variable\[3\] | genotype:WT |
+| study_variable\[2\]-description | Variable timepoint, value 6h |
+| study_variable\[2\]-group_refs | study_variable_group\[1\] |
+| study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
-| study_variable\[3\]-description | Column: genotype, value: WT |
-| study_variable\[4\] | genotype:KO |
+| study_variable\[3\]-description | Variable genotype, value WT |
+| study_variable\[3\]-group_refs | study_variable_group\[2\] |
+| study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
-| study_variable\[4\]-description | Column: genotype, value: KO |
-| study_variable\[5\] | operator:BB |
+| study_variable\[4\]-description | Variable genotype, value KO |
+| study_variable\[4\]-group_refs | study_variable_group\[2\] |
+| study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
-| study_variable\[5\]-description | Column: operator, value: BB |
-| study_variable\[6\] | operator:FB |
+| study_variable\[5\]-description | Variable operator, value BB |
+| study_variable\[5\]-group_refs | study_variable_group\[3\] |
+| study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
-| study_variable\[6\]-description | Column: operator, value: FB |
+| study_variable\[6\]-description | Variable operator, value FB |
+| study_variable\[6\]-group_refs | study_variable_group\[3\] |
 | cv\[1\]-label | MS |
 | cv\[1\]-full_name | PSI-MS controlled vocabulary |
 | cv\[1\]-version | 4.1.138 |
@@ -631,6 +704,18 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf)
 | cv\[2\]-full_name | PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary |
 | cv\[2\]-version | 16:10:2023 11:38 |
 | cv\[2\]-uri | https://www.ebi.ac.uk/ols/ontologies/pride |
+| cv\[3\]-label | STATO |
+| cv\[3\]-full_name | General purpose STATistics Ontology |
+| cv\[3\]-version | 2026-04-20 |
+| cv\[3\]-uri | https://www.ebi.ac.uk/ols4/ontologies/stato |
+| cv\[4\]-label | BTO |
+| cv\[4\]-full_name | The BRENDA Tissue Ontology (BTO) |
+| cv\[4\]-version | 2021-10-26 |
+| cv\[4\]-uri | https://www.ebi.ac.uk/ols4/ontologies/bto |
+| cv\[5\]-label | NCBITaxon |
+| cv\[5\]-full_name | NCBI organismal classification |
+| cv\[5\]-version | 2025-12-03 |
+| cv\[5\]-uri | https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon |
 | database\[1\] | \[,, “no database”, null \] |
 | database\[1\]-prefix | null |
 | database\[1\]-version | Unknown |
@@ -1001,6 +1086,8 @@ General utility functions include:
   to sort rows of the metadata `matrix` into the expected order.
 - [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md):
   extract elements and values from a CV parameter.
+- [`is_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md):
+  checks whether a `character` is in the expected CV parameter format.
 
 ## Session information
 
@@ -1032,10 +1119,10 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6   RmzTabM_0.97.5
+    [1] pander_0.6.6   RmzTabM_0.97.6
 
     loaded via a namespace (and not attached):
      [1] compiler_4.7.0  fastmap_1.2.0   cli_3.6.6       tools_4.7.0
-     [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1
+     [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1.1
      [9] rmarkdown_2.31  knitr_1.51      jsonlite_2.0.0  xfun_0.57
     [13] digest_0.6.39   rlang_1.2.0     evaluate_1.0.5 

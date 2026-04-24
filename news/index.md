@@ -2,6 +2,11 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.6
+
+- MTD: add *study_variable_group* support (mzTab-M \>= 2.1).
+- MTD: add STATO as one of the default CV ontologies.
+
 ### Changes in version 0.97.5
 
 - Add functionality to create/format the SML section:

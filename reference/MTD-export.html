@@ -99,7 +99,7 @@ mtd_fields(): helps formatting values into the mzTab-M-specific format.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -200,27 +200,29 @@ molecule feature (SMF) and small molecule (SML) sections.</p></div>
 <span class="r-in"><span><span class="co">## measurement of one sample (i.e., represents one *ms_run*). Columns in</span></span></span>
 <span class="r-in"><span><span class="co">## that `data.frame` provide the phenotypic and experimental variables of</span></span></span>
 <span class="r-in"><span><span class="co">## each sample. The example below represents a simple experiment in which</span></span></span>
-<span class="r-in"><span><span class="co">## 3 samples (e.g. cell lines) were measured, each at two different time</span></span></span>
-<span class="r-in"><span><span class="co">## points (0 and 6 hours). In addition, one sample has the genotype *WT* and</span></span></span>
-<span class="r-in"><span><span class="co">## two *KO*. Column `"operator"` contains the initials of the researcher</span></span></span>
-<span class="r-in"><span><span class="co">## extracting the samples</span></span></span>
+<span class="r-in"><span><span class="co">## 3 samples (e.g. cell lines) were measured. Columns *time_point and</span></span></span>
+<span class="r-in"><span><span class="co">## *cell_count* provide the time point (in hours) when samples were</span></span></span>
+<span class="r-in"><span><span class="co">## collected and the number of cells per sample. In addition, one</span></span></span>
+<span class="r-in"><span><span class="co">## sample has the genotype *WT* and two *KO*. Column `"operator"` contains</span></span></span>
+<span class="r-in"><span><span class="co">## the initials of the researcher extracting the samples</span></span></span>
 <span class="r-in"><span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    sample_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S1_T1"</span>, <span class="st">"S1_T2"</span>, <span class="st">"S2_T1"</span>, <span class="st">"S2_T2"</span>, <span class="st">"S3_T1"</span>, <span class="st">"S3_T2"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    sample_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S1"</span>, <span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span>, <span class="st">"S3"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    timepoint <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0h"</span>, <span class="st">"6h"</span>, <span class="st">"0h"</span>, <span class="st">"6h"</span>, <span class="st">"0h"</span>, <span class="st">"6h"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    time_point <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">0</span>, <span class="fl">6</span>, <span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    cell_count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13000</span>, <span class="fl">8700</span>, <span class="fl">10100</span>, <span class="fl">6000</span>, <span class="fl">14000</span>, <span class="fl">4500</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    genotype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"WT"</span>, <span class="st">"KO"</span>, <span class="st">"KO"</span>, <span class="st">"KO"</span>, <span class="st">"KO"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    operator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BB"</span>, <span class="st">"BB"</span>, <span class="st">"BB"</span>, <span class="st">"BB"</span>, <span class="st">"FB"</span>, <span class="st">"FB"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    file_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"s1-t1.mzML"</span>, <span class="st">"s1-t2.mzML"</span>, <span class="st">"s2-t1.mzML"</span>, <span class="st">"s2-t2.mzML"</span>,</span></span>
 <span class="r-in"><span>                  <span class="st">"s3-t1.mzML"</span>, <span class="st">"s3-t2.mzML"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">exp</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sample_name sample_id timepoint genotype operator  file_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       S1_T1        S1        0h       WT       BB s1-t1.mzML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       S1_T2        S1        6h       WT       BB s1-t2.mzML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       S2_T1        S2        0h       KO       BB s2-t1.mzML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       S2_T2        S2        6h       KO       BB s2-t2.mzML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       S3_T1        S3        0h       KO       FB s3-t1.mzML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       S3_T2        S3        6h       KO       FB s3-t2.mzML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sample_name sample_id time_point cell_count genotype operator  file_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       S1_T1        S1          0      13000       WT       BB s1-t1.mzML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       S1_T2        S1          6       8700       WT       BB s1-t2.mzML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       S2_T1        S2          0      10100       KO       BB s2-t1.mzML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       S2_T2        S2          6       6000       KO       BB s2-t2.mzML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       S3_T1        S3          0      14000       KO       FB s3-t1.mzML</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       S3_T2        S3          6       4500       KO       FB s3-t2.mzML</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#############################################################################</span></span></span>
@@ -249,15 +251,19 @@ molecule feature (SMF) and small molecule (SML) sections.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "cv[2]-full_name"                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "cv[2]-version"                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "cv[2]-uri"                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "database[1]"                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "database[1]-prefix"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "database[1]-version"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "database[1]-uri"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "small_molecule-quantification_unit"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "small_molecule_feature-quantification_unit"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "small_molecule-identification_reliability" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "cv[3]-label"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "cv[3]-full_name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "cv[3]-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "cv[3]-uri"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "database[1]"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "database[1]-prefix"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "database[1]-version"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "database[1]-uri"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "small_molecule-quantification_unit"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "small_molecule_feature-quantification_unit"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "small_molecule-identification_reliability" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "2.0.0-M"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "2.1.0-M"                                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "EXP_001"                                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[MS, MS:1001582], xcms, 4.0.0"                                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             </span>
@@ -269,13 +275,17 @@ molecule feature (SMF) and small molecule (SML) sections.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "16:10:2023 11:38"                                                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "https://www.ebi.ac.uk/ols/ontologies/pride"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "[,, \"no database\", null ]"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "null"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "Unknown"                                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "null"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "STATO"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "General purpose STATistics Ontology"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "2026-04-20"                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "[,, \"no database\", null ]"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "Unknown"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We next manually add a title and description for the experiment.</span></span></span>
 <span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span></span>
@@ -400,75 +410,196 @@ molecule feature (SMF) and small molecule (SML) sections.</p></div>
 <span class="r-in"><span><span class="co">## Study variable information</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Study variables can be defined directly from the experiment `data.frame`.</span></span></span>
-<span class="r-in"><span><span class="co">## In our example we use the columns (information on) `"timepoint"`,</span></span></span>
-<span class="r-in"><span><span class="co">## `"genotype"` and `"operator"`. Importantly, the order of the provided</span></span></span>
-<span class="r-in"><span><span class="co">## `data.frame` has to match the order of the assays (and MS runs).</span></span></span>
+<span class="r-in"><span><span class="co">## In our example we use the columns (information on) `"time_point"`,</span></span></span>
+<span class="r-in"><span><span class="co">## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order</span></span></span>
+<span class="r-in"><span><span class="co">## of the provided `data.frame` has to match the order of the assays (and</span></span></span>
+<span class="r-in"><span><span class="co">## MS runs).</span></span></span>
 <span class="r-in"><span><span class="va">svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_study_variables.html">mtd_study_variables</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">exp</span>,</span></span>
-<span class="r-in"><span>    study_variable_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"timepoint"</span>, <span class="st">"genotype"</span>, <span class="st">"operator"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">exp</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"time_point"</span>, <span class="st">"genotype"</span>, <span class="st">"cell_count"</span>, <span class="st">"operator"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">svar</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "study_variable[1]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "study_variable[1]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "study_variable[1]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "study_variable[1]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "study_variable[1]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "study_variable[2]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "study_variable[2]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "study_variable[2]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "study_variable[2]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "study_variable[2]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "study_variable[3]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "study_variable[3]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "study_variable[3]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "study_variable[3]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "study_variable[3]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "study_variable[4]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "study_variable[4]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "study_variable[4]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "study_variable[4]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "study_variable[4]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "study_variable[5]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable[5]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable[5]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "study_variable[5]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "study_variable[5]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable[6]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "study_variable[6]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable[6]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable[6]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable[6]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "timepoint:0h"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "assay[1]|assay[3]|assay[5]"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[MS, MS:1002962, mean, ]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "[MS, MS:1002963, variation coefficient, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "Column: timepoint, value: 0h"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "timepoint:6h"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "assay[2]|assay[4]|assay[6]"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "[MS, MS:1002962, mean, ]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "[MS, MS:1002963, variation coefficient, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "Column: timepoint, value: 6h"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "genotype:WT"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "assay[1]|assay[2]"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "[MS, MS:1002962, mean, ]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "[MS, MS:1002963, variation coefficient, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "Column: genotype, value: WT"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "genotype:KO"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "assay[3]|assay[4]|assay[5]|assay[6]"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "[MS, MS:1002962, mean, ]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "[MS, MS:1002963, variation coefficient, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "Column: genotype, value: KO"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "operator:BB"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "assay[1]|assay[2]|assay[3]|assay[4]"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "[MS, MS:1002962, mean, ]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "[MS, MS:1002963, variation coefficient, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "Column: operator, value: BB"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "operator:FB"                              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "assay[5]|assay[6]"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "[MS, MS:1002962, mean, ]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "[MS, MS:1002963, variation coefficient, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "Column: operator, value: FB"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "study_variable_group[1]"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "study_variable_group[1]-description"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "study_variable_group[1]-type"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "study_variable_group[1]-datatype"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "study_variable_group[2]"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "study_variable_group[2]-description"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "study_variable_group[2]-type"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "study_variable_group[2]-datatype"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "study_variable_group[3]"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "study_variable_group[3]-description"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "study_variable_group[3]-type"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "study_variable_group[3]-datatype"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "study_variable_group[4]"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "study_variable_group[4]-description"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "study_variable_group[4]-type"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "study_variable_group[4]-datatype"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "study_variable[1]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "study_variable[1]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "study_variable[1]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "study_variable[1]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "study_variable[1]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable[1]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable[2]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "study_variable[2]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "study_variable[2]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable[2]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "study_variable[2]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable[2]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable[3]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable[3]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "study_variable[3]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "study_variable[3]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "study_variable[3]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "study_variable[3]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "study_variable[4]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "study_variable[4]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "study_variable[4]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "study_variable[4]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "study_variable[4]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "study_variable[4]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "study_variable[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "study_variable[5]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "study_variable[5]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "study_variable[5]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "study_variable[5]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "study_variable[5]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [47,] "study_variable[6]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [48,] "study_variable[6]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49,] "study_variable[6]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50,] "study_variable[6]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51,] "study_variable[6]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [52,] "study_variable[6]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [53,] "study_variable[7]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [54,] "study_variable[7]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55,] "study_variable[7]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56,] "study_variable[7]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57,] "study_variable[7]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [58,] "study_variable[7]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [59,] "study_variable[8]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [60,] "study_variable[8]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61,] "study_variable[8]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [62,] "study_variable[8]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [63,] "study_variable[8]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64,] "study_variable[8]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [65,] "study_variable[9]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66,] "study_variable[9]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [67,] "study_variable[9]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [68,] "study_variable[9]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [69,] "study_variable[9]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [70,] "study_variable[9]-group_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71,] "study_variable[10]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [72,] "study_variable[10]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73,] "study_variable[10]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [74,] "study_variable[10]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [75,] "study_variable[10]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76,] "study_variable[10]-group_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [77,] "study_variable[11]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [78,] "study_variable[11]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [79,] "study_variable[11]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [80,] "study_variable[11]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [81,] "study_variable[11]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [82,] "study_variable[11]-group_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [83,] "study_variable[12]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [84,] "study_variable[12]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [85,] "study_variable[12]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [86,] "study_variable[12]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [87,] "study_variable[12]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [88,] "study_variable[12]-group_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "time_point"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "Sample matrix column time_point"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[STATO, STATO:0000251, continuous variable, ]" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "xsd:decimal"                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "genotype"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "Sample matrix column genotype"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "[STATO, STATO:0000252, categorical variable, ]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "xsd:string"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "cell_count"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "Sample matrix column cell_count"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "[STATO, STATO:0000251, continuous variable, ]" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "xsd:decimal"                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "operator"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "Sample matrix column operator"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "[STATO, STATO:0000252, categorical variable, ]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "xsd:string"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "0"                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "assay[1]|assay[3]|assay[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "Variable time_point, value 0"                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "6"                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "assay[2]|assay[4]|assay[6]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "Variable time_point, value 6"                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "WT"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "assay[1]|assay[2]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "Variable genotype, value WT"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "KO"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "assay[3]|assay[4]|assay[5]|assay[6]"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "Variable genotype, value KO"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "13000"                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "assay[1]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "Variable cell_count, value 13000"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [47,] "8700"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [48,] "assay[2]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51,] "Variable cell_count, value 8700"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [52,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [53,] "10100"                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [54,] "assay[3]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57,] "Variable cell_count, value 10100"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [58,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [59,] "6000"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [60,] "assay[4]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [62,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [63,] "Variable cell_count, value 6000"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [65,] "14000"                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66,] "assay[5]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [67,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [68,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [69,] "Variable cell_count, value 14000"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [70,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71,] "4500"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [72,] "assay[6]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [74,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [75,] "Variable cell_count, value 4500"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [77,] "BB"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [78,] "assay[1]|assay[2]|assay[3]|assay[4]"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [79,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [80,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [81,] "Variable operator, value BB"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [82,] "study_variable_group[4]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [83,] "FB"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [84,] "assay[5]|assay[6]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [85,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [86,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [87,] "Variable operator, value FB"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [88,] "study_variable_group[4]"                       </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## The individual columns got encoded to a `"study_variable_group"` with a</span></span></span>
+<span class="r-in"><span><span class="co">## defined (statistical) type and a datatype. Both are inferred</span></span></span>
+<span class="r-in"><span><span class="co">## automatically from the columns of the provided `data.frame`, but could</span></span></span>
+<span class="r-in"><span><span class="co">## also be manually provided through the respective function arguments.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">svar</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

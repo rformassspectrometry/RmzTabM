@@ -1,4 +1,4 @@
-# Parse a CV parameter
+# Utility functions for CV parameters
 
 mzTab-M makes use of controlled vocabulary (CV) parameters. These
 parameters are expected to be provided in the format
@@ -7,17 +7,25 @@ parameters* where only the *name* and *value* are provided are
 supported, but it is recommendet to use full CV parameters where
 possible.
 
+`parse_cv_parameter()` allows to extract individual fields from a CV
+parameter.
+
+`is_cv_parameter()` tests whether a string is in the expected (CV
+parameter) format.
+
 ## Usage
 
 ``` r
 parse_cv_parameter(x, element = 2L)
+
+is_cv_parameter(x)
 ```
 
 ## Arguments
 
 - x:
 
-  `character` with the CV parameter(s) to parse.
+  `character` with the CV parameter(s) to parse or test.
 
 - element:
 
@@ -67,4 +75,8 @@ parse_cv_parameter("[, , user, value]", 3)
 #> [1] "user"
 parse_cv_parameter("[, , user, value]", 4)
 #> [1] "value"
+
+## Check validity of CV parameters
+is_cv_parameter(c(x, "[a, b, c, d, e]", "d"))
+#> [1]  TRUE  TRUE FALSE FALSE
 ```

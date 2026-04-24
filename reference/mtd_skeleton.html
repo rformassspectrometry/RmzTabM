@@ -27,7 +27,7 @@ suggested to consult the mzTab-M documentation."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,12 +77,14 @@ suggested</strong> to consult the <a href="https://github.com/HUPO-PSI/mzTab-M/b
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  software <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  quantification_method <span class="op">=</span> <span class="st">"[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"</span>,</span>
-<span>  cv_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MS"</span>, <span class="st">"PRIDE"</span><span class="op">)</span>,</span>
+<span>  cv_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MS"</span>, <span class="st">"PRIDE"</span>, <span class="st">"STATO"</span><span class="op">)</span>,</span>
 <span>  cv_full_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PSI-MS controlled vocabulary"</span>,</span>
-<span>    <span class="st">"PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"</span><span class="op">)</span>,</span>
-<span>  cv_version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"4.1.138"</span>, <span class="st">"16:10:2023 11:38"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"</span>,</span>
+<span>    <span class="st">"General purpose STATistics Ontology"</span><span class="op">)</span>,</span>
+<span>  cv_version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"4.1.138"</span>, <span class="st">"16:10:2023 11:38"</span>, <span class="st">"2026-04-20"</span><span class="op">)</span>,</span>
 <span>  cv_uri <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo"</span>,</span>
-<span>    <span class="st">"https://www.ebi.ac.uk/ols/ontologies/pride"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"https://www.ebi.ac.uk/ols/ontologies/pride"</span>,</span>
+<span>    <span class="st">"https://www.ebi.ac.uk/ols4/ontologies/stato"</span><span class="op">)</span>,</span>
 <span>  database <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[,, \"no database\", null ]"</span><span class="op">)</span>,</span>
 <span>  database_prefix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"null"</span><span class="op">)</span>,</span>
 <span>  database_version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Unknown"</span><span class="op">)</span>,</span>
@@ -93,7 +95,7 @@ suggested</strong> to consult the <a href="https://github.com/HUPO-PSI/mzTab-M/b
 <span>    <span class="st">"[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"</span>,</span>
 <span>  small_molecule_identification_reliability <span class="op">=</span></span>
 <span>    <span class="st">"[MS, MS:1002896, compound identification confidence level, ]"</span>,</span>
-<span>  mztab_version <span class="op">=</span> <span class="st">"2.0.0-M"</span></span>
+<span>  mztab_version <span class="op">=</span> <span class="st">"2.1.0-M"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -214,17 +216,21 @@ information (with the help from the <code><a href="mtd_fields.html">mtd_fields()
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10] "cv[2]-full_name"                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "cv[2]-version"                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12] "cv[2]-uri"                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "database[1]"                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "database[1]-prefix"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "database[1]-version"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "database[1]-uri"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "small_molecule-quantification_unit"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "small_molecule_feature-quantification_unit"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "small_molecule-identification_reliability" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "cv[3]-label"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "cv[3]-full_name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "cv[3]-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "cv[3]-uri"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "database[1]"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "database[1]-prefix"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "database[1]-version"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "database[1]-uri"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "small_molecule-quantification_unit"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "small_molecule_feature-quantification_unit"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "small_molecule-identification_reliability" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Column 2 the respective values</span></span></span>
 <span class="r-in"><span><span class="va">mtd</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "2.0.0-M"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "2.1.0-M"                                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "001"                                                                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "[MS, MS:1001582, xmcs, 4.0.0]"                                          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             </span>
@@ -236,13 +242,17 @@ information (with the help from the <code><a href="mtd_fields.html">mtd_fields()
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "16:10:2023 11:38"                                                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12] "https://www.ebi.ac.uk/ols/ontologies/pride"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "[,, \"no database\", null ]"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "null"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "Unknown"                                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "null"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "STATO"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "General purpose STATistics Ontology"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "2026-04-20"                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "[,, \"no database\", null ]"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "Unknown"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Add additional fields as defined in the mzTab-M definition</span></span></span>
 <span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span></span>
@@ -252,19 +262,19 @@ information (with the help from the <code><a href="mtd_fields.html">mtd_fields()
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">mtd</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "database[1]-uri"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "small_molecule-quantification_unit"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "small_molecule_feature-quantification_unit"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "small_molecule-identification_reliability" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "title"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "description"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "database[1]-uri"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "small_molecule-quantification_unit"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "small_molecule_feature-quantification_unit"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "small_molecule-identification_reliability" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "title"                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "description"                               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "null"                                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "[MS, MS:1002896, compound identification confidence level, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "My simple xcms preprocessed data"                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "A simple example xcms preprocessing."                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "null"                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "[MS, MS:1002896, compound identification confidence level, ]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "My simple xcms preprocessed data"                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "A simple example xcms preprocessing."                        </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Add instrument information</span></span></span>
 <span class="r-in"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_fields.html">mtd_fields</a></span><span class="op">(</span></span></span>
@@ -341,15 +351,19 @@ information (with the help from the <code><a href="mtd_fields.html">mtd_fields()
 <span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "cv[3]-full_name"                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "cv[3]-version"                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "cv[3]-uri"                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "database[1]"                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "database[1]-prefix"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "database[1]-version"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "database[1]-uri"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "small_molecule-quantification_unit"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "small_molecule_feature-quantification_unit"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "small_molecule-identification_reliability" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "cv[3]-label"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "cv[3]-full_name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "cv[3]-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "cv[3]-uri"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "database[1]"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "database[1]-prefix"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "database[1]-version"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "database[1]-uri"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "small_molecule-quantification_unit"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "small_molecule_feature-quantification_unit"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "small_molecule-identification_reliability" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "2.0.0-M"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "2.1.0-M"                                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "001"                                                                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "My simple xcms preprocessed data"                                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "A simple example xcms preprocessing."                                   </span>
@@ -370,17 +384,21 @@ information (with the help from the <code><a href="mtd_fields.html">mtd_fields()
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "16:10:2023 11:38"                                                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "https://www.ebi.ac.uk/ols/ontologies/pride"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "MSIO"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "Metabolomics Standards Initiative Ontology"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "1.0.1"                                                                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "http://purl.obolibrary.org/obo/msio.owl"                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "[,, \"no database\", null ]"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "null"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "Unknown"                                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "null"                                                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "STATO"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "General purpose STATistics Ontology"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "2026-04-20"                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "MSIO"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "Metabolomics Standards Initiative Ontology"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "1.0.1"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "http://purl.obolibrary.org/obo/msio.owl"                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "[,, \"no database\", null ]"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "Unknown"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -99,27 +99,29 @@ Philippine Louail, Johannes Rainer
 ## measurement of one sample (i.e., represents one *ms_run*). Columns in
 ## that `data.frame` provide the phenotypic and experimental variables of
 ## each sample. The example below represents a simple experiment in which
-## 3 samples (e.g. cell lines) were measured, each at two different time
-## points (0 and 6 hours). In addition, one sample has the genotype *WT* and
-## two *KO*. Column `"operator"` contains the initials of the researcher
-## extracting the samples
+## 3 samples (e.g. cell lines) were measured. Columns *time_point and
+## *cell_count* provide the time point (in hours) when samples were
+## collected and the number of cells per sample. In addition, one
+## sample has the genotype *WT* and two *KO*. Column `"operator"` contains
+## the initials of the researcher extracting the samples
 exp <- data.frame(
     sample_name = c("S1_T1", "S1_T2", "S2_T1", "S2_T2", "S3_T1", "S3_T2"),
     sample_id = c("S1", "S1", "S2", "S2", "S3", "S3"),
-    timepoint = c("0h", "6h", "0h", "6h", "0h", "6h"),
+    time_point = c(0, 6, 0, 6, 0, 6),
+    cell_count = c(13000, 8700, 10100, 6000, 14000, 4500),
     genotype = c("WT", "WT", "KO", "KO", "KO", "KO"),
     operator = c("BB", "BB", "BB", "BB", "FB", "FB"),
     file_name = c("s1-t1.mzML", "s1-t2.mzML", "s2-t1.mzML", "s2-t2.mzML",
                   "s3-t1.mzML", "s3-t2.mzML")
 )
 exp
-#>   sample_name sample_id timepoint genotype operator  file_name
-#> 1       S1_T1        S1        0h       WT       BB s1-t1.mzML
-#> 2       S1_T2        S1        6h       WT       BB s1-t2.mzML
-#> 3       S2_T1        S2        0h       KO       BB s2-t1.mzML
-#> 4       S2_T2        S2        6h       KO       BB s2-t2.mzML
-#> 5       S3_T1        S3        0h       KO       FB s3-t1.mzML
-#> 6       S3_T2        S3        6h       KO       FB s3-t2.mzML
+#>   sample_name sample_id time_point cell_count genotype operator  file_name
+#> 1       S1_T1        S1          0      13000       WT       BB s1-t1.mzML
+#> 2       S1_T2        S1          6       8700       WT       BB s1-t2.mzML
+#> 3       S2_T1        S2          0      10100       KO       BB s2-t1.mzML
+#> 4       S2_T2        S2          6       6000       KO       BB s2-t2.mzML
+#> 5       S3_T1        S3          0      14000       KO       FB s3-t1.mzML
+#> 6       S3_T2        S3          6       4500       KO       FB s3-t2.mzML
 
 
 #############################################################################
@@ -148,15 +150,19 @@ mtd
 #> [10,] "cv[2]-full_name"                           
 #> [11,] "cv[2]-version"                             
 #> [12,] "cv[2]-uri"                                 
-#> [13,] "database[1]"                               
-#> [14,] "database[1]-prefix"                        
-#> [15,] "database[1]-version"                       
-#> [16,] "database[1]-uri"                           
-#> [17,] "small_molecule-quantification_unit"        
-#> [18,] "small_molecule_feature-quantification_unit"
-#> [19,] "small_molecule-identification_reliability" 
+#> [13,] "cv[3]-label"                               
+#> [14,] "cv[3]-full_name"                           
+#> [15,] "cv[3]-version"                             
+#> [16,] "cv[3]-uri"                                 
+#> [17,] "database[1]"                               
+#> [18,] "database[1]-prefix"                        
+#> [19,] "database[1]-version"                       
+#> [20,] "database[1]-uri"                           
+#> [21,] "small_molecule-quantification_unit"        
+#> [22,] "small_molecule_feature-quantification_unit"
+#> [23,] "small_molecule-identification_reliability" 
 #>       [,2]                                                                     
-#>  [1,] "2.0.0-M"                                                                
+#>  [1,] "2.1.0-M"                                                                
 #>  [2,] "EXP_001"                                                                
 #>  [3,] "[MS, MS:1001582], xcms, 4.0.0"                                          
 #>  [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             
@@ -168,13 +174,17 @@ mtd
 #> [10,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [11,] "16:10:2023 11:38"                                                       
 #> [12,] "https://www.ebi.ac.uk/ols/ontologies/pride"                             
-#> [13,] "[,, \"no database\", null ]"                                            
-#> [14,] "null"                                                                   
-#> [15,] "Unknown"                                                                
-#> [16,] "null"                                                                   
-#> [17,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
-#> [18,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
-#> [19,] "[MS, MS:1002896, compound identification confidence level, ]"           
+#> [13,] "STATO"                                                                  
+#> [14,] "General purpose STATistics Ontology"                                    
+#> [15,] "2026-04-20"                                                             
+#> [16,] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            
+#> [17,] "[,, \"no database\", null ]"                                            
+#> [18,] "null"                                                                   
+#> [19,] "Unknown"                                                                
+#> [20,] "null"                                                                   
+#> [21,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [22,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [23,] "[MS, MS:1002896, compound identification confidence level, ]"           
 
 ## We next manually add a title and description for the experiment.
 mtd <- rbind(
@@ -299,75 +309,196 @@ mtd <- rbind(mtd, a)
 ## Study variable information
 
 ## Study variables can be defined directly from the experiment `data.frame`.
-## In our example we use the columns (information on) `"timepoint"`,
-## `"genotype"` and `"operator"`. Importantly, the order of the provided
-## `data.frame` has to match the order of the assays (and MS runs).
+## In our example we use the columns (information on) `"time_point"`,
+## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order
+## of the provided `data.frame` has to match the order of the assays (and
+## MS runs).
 svar <- mtd_study_variables(
-    exp,
-    study_variable_columns = c("timepoint", "genotype", "operator"))
+    exp, groups = c("time_point", "genotype", "cell_count", "operator"))
 svar
-#>       [,1]                                  
-#>  [1,] "study_variable[1]"                   
-#>  [2,] "study_variable[1]-assay_refs"        
-#>  [3,] "study_variable[1]-average_function"  
-#>  [4,] "study_variable[1]-variation_function"
-#>  [5,] "study_variable[1]-description"       
-#>  [6,] "study_variable[2]"                   
-#>  [7,] "study_variable[2]-assay_refs"        
-#>  [8,] "study_variable[2]-average_function"  
-#>  [9,] "study_variable[2]-variation_function"
-#> [10,] "study_variable[2]-description"       
-#> [11,] "study_variable[3]"                   
-#> [12,] "study_variable[3]-assay_refs"        
-#> [13,] "study_variable[3]-average_function"  
-#> [14,] "study_variable[3]-variation_function"
-#> [15,] "study_variable[3]-description"       
-#> [16,] "study_variable[4]"                   
-#> [17,] "study_variable[4]-assay_refs"        
-#> [18,] "study_variable[4]-average_function"  
-#> [19,] "study_variable[4]-variation_function"
-#> [20,] "study_variable[4]-description"       
-#> [21,] "study_variable[5]"                   
-#> [22,] "study_variable[5]-assay_refs"        
-#> [23,] "study_variable[5]-average_function"  
-#> [24,] "study_variable[5]-variation_function"
-#> [25,] "study_variable[5]-description"       
-#> [26,] "study_variable[6]"                   
-#> [27,] "study_variable[6]-assay_refs"        
-#> [28,] "study_variable[6]-average_function"  
-#> [29,] "study_variable[6]-variation_function"
-#> [30,] "study_variable[6]-description"       
-#>       [,2]                                       
-#>  [1,] "timepoint:0h"                             
-#>  [2,] "assay[1]|assay[3]|assay[5]"               
-#>  [3,] "[MS, MS:1002962, mean, ]"                 
-#>  [4,] "[MS, MS:1002963, variation coefficient, ]"
-#>  [5,] "Column: timepoint, value: 0h"             
-#>  [6,] "timepoint:6h"                             
-#>  [7,] "assay[2]|assay[4]|assay[6]"               
-#>  [8,] "[MS, MS:1002962, mean, ]"                 
-#>  [9,] "[MS, MS:1002963, variation coefficient, ]"
-#> [10,] "Column: timepoint, value: 6h"             
-#> [11,] "genotype:WT"                              
-#> [12,] "assay[1]|assay[2]"                        
-#> [13,] "[MS, MS:1002962, mean, ]"                 
-#> [14,] "[MS, MS:1002963, variation coefficient, ]"
-#> [15,] "Column: genotype, value: WT"              
-#> [16,] "genotype:KO"                              
-#> [17,] "assay[3]|assay[4]|assay[5]|assay[6]"      
-#> [18,] "[MS, MS:1002962, mean, ]"                 
-#> [19,] "[MS, MS:1002963, variation coefficient, ]"
-#> [20,] "Column: genotype, value: KO"              
-#> [21,] "operator:BB"                              
-#> [22,] "assay[1]|assay[2]|assay[3]|assay[4]"      
-#> [23,] "[MS, MS:1002962, mean, ]"                 
-#> [24,] "[MS, MS:1002963, variation coefficient, ]"
-#> [25,] "Column: operator, value: BB"              
-#> [26,] "operator:FB"                              
-#> [27,] "assay[5]|assay[6]"                        
-#> [28,] "[MS, MS:1002962, mean, ]"                 
-#> [29,] "[MS, MS:1002963, variation coefficient, ]"
-#> [30,] "Column: operator, value: FB"              
+#>       [,1]                                   
+#>  [1,] "study_variable_group[1]"              
+#>  [2,] "study_variable_group[1]-description"  
+#>  [3,] "study_variable_group[1]-type"         
+#>  [4,] "study_variable_group[1]-datatype"     
+#>  [5,] "study_variable_group[2]"              
+#>  [6,] "study_variable_group[2]-description"  
+#>  [7,] "study_variable_group[2]-type"         
+#>  [8,] "study_variable_group[2]-datatype"     
+#>  [9,] "study_variable_group[3]"              
+#> [10,] "study_variable_group[3]-description"  
+#> [11,] "study_variable_group[3]-type"         
+#> [12,] "study_variable_group[3]-datatype"     
+#> [13,] "study_variable_group[4]"              
+#> [14,] "study_variable_group[4]-description"  
+#> [15,] "study_variable_group[4]-type"         
+#> [16,] "study_variable_group[4]-datatype"     
+#> [17,] "study_variable[1]"                    
+#> [18,] "study_variable[1]-assay_refs"         
+#> [19,] "study_variable[1]-average_function"   
+#> [20,] "study_variable[1]-variation_function" 
+#> [21,] "study_variable[1]-description"        
+#> [22,] "study_variable[1]-group_refs"         
+#> [23,] "study_variable[2]"                    
+#> [24,] "study_variable[2]-assay_refs"         
+#> [25,] "study_variable[2]-average_function"   
+#> [26,] "study_variable[2]-variation_function" 
+#> [27,] "study_variable[2]-description"        
+#> [28,] "study_variable[2]-group_refs"         
+#> [29,] "study_variable[3]"                    
+#> [30,] "study_variable[3]-assay_refs"         
+#> [31,] "study_variable[3]-average_function"   
+#> [32,] "study_variable[3]-variation_function" 
+#> [33,] "study_variable[3]-description"        
+#> [34,] "study_variable[3]-group_refs"         
+#> [35,] "study_variable[4]"                    
+#> [36,] "study_variable[4]-assay_refs"         
+#> [37,] "study_variable[4]-average_function"   
+#> [38,] "study_variable[4]-variation_function" 
+#> [39,] "study_variable[4]-description"        
+#> [40,] "study_variable[4]-group_refs"         
+#> [41,] "study_variable[5]"                    
+#> [42,] "study_variable[5]-assay_refs"         
+#> [43,] "study_variable[5]-average_function"   
+#> [44,] "study_variable[5]-variation_function" 
+#> [45,] "study_variable[5]-description"        
+#> [46,] "study_variable[5]-group_refs"         
+#> [47,] "study_variable[6]"                    
+#> [48,] "study_variable[6]-assay_refs"         
+#> [49,] "study_variable[6]-average_function"   
+#> [50,] "study_variable[6]-variation_function" 
+#> [51,] "study_variable[6]-description"        
+#> [52,] "study_variable[6]-group_refs"         
+#> [53,] "study_variable[7]"                    
+#> [54,] "study_variable[7]-assay_refs"         
+#> [55,] "study_variable[7]-average_function"   
+#> [56,] "study_variable[7]-variation_function" 
+#> [57,] "study_variable[7]-description"        
+#> [58,] "study_variable[7]-group_refs"         
+#> [59,] "study_variable[8]"                    
+#> [60,] "study_variable[8]-assay_refs"         
+#> [61,] "study_variable[8]-average_function"   
+#> [62,] "study_variable[8]-variation_function" 
+#> [63,] "study_variable[8]-description"        
+#> [64,] "study_variable[8]-group_refs"         
+#> [65,] "study_variable[9]"                    
+#> [66,] "study_variable[9]-assay_refs"         
+#> [67,] "study_variable[9]-average_function"   
+#> [68,] "study_variable[9]-variation_function" 
+#> [69,] "study_variable[9]-description"        
+#> [70,] "study_variable[9]-group_refs"         
+#> [71,] "study_variable[10]"                   
+#> [72,] "study_variable[10]-assay_refs"        
+#> [73,] "study_variable[10]-average_function"  
+#> [74,] "study_variable[10]-variation_function"
+#> [75,] "study_variable[10]-description"       
+#> [76,] "study_variable[10]-group_refs"        
+#> [77,] "study_variable[11]"                   
+#> [78,] "study_variable[11]-assay_refs"        
+#> [79,] "study_variable[11]-average_function"  
+#> [80,] "study_variable[11]-variation_function"
+#> [81,] "study_variable[11]-description"       
+#> [82,] "study_variable[11]-group_refs"        
+#> [83,] "study_variable[12]"                   
+#> [84,] "study_variable[12]-assay_refs"        
+#> [85,] "study_variable[12]-average_function"  
+#> [86,] "study_variable[12]-variation_function"
+#> [87,] "study_variable[12]-description"       
+#> [88,] "study_variable[12]-group_refs"        
+#>       [,2]                                            
+#>  [1,] "time_point"                                    
+#>  [2,] "Sample matrix column time_point"               
+#>  [3,] "[STATO, STATO:0000251, continuous variable, ]" 
+#>  [4,] "xsd:decimal"                                   
+#>  [5,] "genotype"                                      
+#>  [6,] "Sample matrix column genotype"                 
+#>  [7,] "[STATO, STATO:0000252, categorical variable, ]"
+#>  [8,] "xsd:string"                                    
+#>  [9,] "cell_count"                                    
+#> [10,] "Sample matrix column cell_count"               
+#> [11,] "[STATO, STATO:0000251, continuous variable, ]" 
+#> [12,] "xsd:decimal"                                   
+#> [13,] "operator"                                      
+#> [14,] "Sample matrix column operator"                 
+#> [15,] "[STATO, STATO:0000252, categorical variable, ]"
+#> [16,] "xsd:string"                                    
+#> [17,] "0"                                             
+#> [18,] "assay[1]|assay[3]|assay[5]"                    
+#> [19,] "[MS, MS:1002962, mean, ]"                      
+#> [20,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [21,] "Variable time_point, value 0"                  
+#> [22,] "study_variable_group[1]"                       
+#> [23,] "6"                                             
+#> [24,] "assay[2]|assay[4]|assay[6]"                    
+#> [25,] "[MS, MS:1002962, mean, ]"                      
+#> [26,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [27,] "Variable time_point, value 6"                  
+#> [28,] "study_variable_group[1]"                       
+#> [29,] "WT"                                            
+#> [30,] "assay[1]|assay[2]"                             
+#> [31,] "[MS, MS:1002962, mean, ]"                      
+#> [32,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [33,] "Variable genotype, value WT"                   
+#> [34,] "study_variable_group[2]"                       
+#> [35,] "KO"                                            
+#> [36,] "assay[3]|assay[4]|assay[5]|assay[6]"           
+#> [37,] "[MS, MS:1002962, mean, ]"                      
+#> [38,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [39,] "Variable genotype, value KO"                   
+#> [40,] "study_variable_group[2]"                       
+#> [41,] "13000"                                         
+#> [42,] "assay[1]"                                      
+#> [43,] "[MS, MS:1002962, mean, ]"                      
+#> [44,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [45,] "Variable cell_count, value 13000"              
+#> [46,] "study_variable_group[3]"                       
+#> [47,] "8700"                                          
+#> [48,] "assay[2]"                                      
+#> [49,] "[MS, MS:1002962, mean, ]"                      
+#> [50,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [51,] "Variable cell_count, value 8700"               
+#> [52,] "study_variable_group[3]"                       
+#> [53,] "10100"                                         
+#> [54,] "assay[3]"                                      
+#> [55,] "[MS, MS:1002962, mean, ]"                      
+#> [56,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [57,] "Variable cell_count, value 10100"              
+#> [58,] "study_variable_group[3]"                       
+#> [59,] "6000"                                          
+#> [60,] "assay[4]"                                      
+#> [61,] "[MS, MS:1002962, mean, ]"                      
+#> [62,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [63,] "Variable cell_count, value 6000"               
+#> [64,] "study_variable_group[3]"                       
+#> [65,] "14000"                                         
+#> [66,] "assay[5]"                                      
+#> [67,] "[MS, MS:1002962, mean, ]"                      
+#> [68,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [69,] "Variable cell_count, value 14000"              
+#> [70,] "study_variable_group[3]"                       
+#> [71,] "4500"                                          
+#> [72,] "assay[6]"                                      
+#> [73,] "[MS, MS:1002962, mean, ]"                      
+#> [74,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [75,] "Variable cell_count, value 4500"               
+#> [76,] "study_variable_group[3]"                       
+#> [77,] "BB"                                            
+#> [78,] "assay[1]|assay[2]|assay[3]|assay[4]"           
+#> [79,] "[MS, MS:1002962, mean, ]"                      
+#> [80,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [81,] "Variable operator, value BB"                   
+#> [82,] "study_variable_group[4]"                       
+#> [83,] "FB"                                            
+#> [84,] "assay[5]|assay[6]"                             
+#> [85,] "[MS, MS:1002962, mean, ]"                      
+#> [86,] "[MS, MS:1002963, variation coefficient, ]"     
+#> [87,] "Variable operator, value FB"                   
+#> [88,] "study_variable_group[4]"                       
+
+## The individual columns got encoded to a `"study_variable_group"` with a
+## defined (statistical) type and a datatype. Both are inferred
+## automatically from the columns of the provided `data.frame`, but could
+## also be manually provided through the respective function arguments.
 
 mtd <- rbind(mtd, svar)
 

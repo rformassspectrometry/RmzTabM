@@ -22,12 +22,14 @@ mtd_skeleton(
   id = character(),
   software = character(),
   quantification_method = "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]",
-  cv_label = c("MS", "PRIDE"),
+  cv_label = c("MS", "PRIDE", "STATO"),
   cv_full_name = c("PSI-MS controlled vocabulary",
-    "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"),
-  cv_version = c("4.1.138", "16:10:2023 11:38"),
+    "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary",
+    "General purpose STATistics Ontology"),
+  cv_version = c("4.1.138", "16:10:2023 11:38", "2026-04-20"),
   cv_uri = c("https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo",
-    "https://www.ebi.ac.uk/ols/ontologies/pride"),
+    "https://www.ebi.ac.uk/ols/ontologies/pride",
+    "https://www.ebi.ac.uk/ols4/ontologies/stato"),
   database = c("[,, \"no database\", null ]"),
   database_prefix = c("null"),
   database_version = c("Unknown"),
@@ -38,7 +40,7 @@ mtd_skeleton(
     "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
   small_molecule_identification_reliability =
     "[MS, MS:1002896, compound identification confidence level, ]",
-  mztab_version = "2.0.0-M"
+  mztab_version = "2.1.0-M"
 )
 ```
 
@@ -156,17 +158,21 @@ mtd[, 1]
 #> [10] "cv[2]-full_name"                           
 #> [11] "cv[2]-version"                             
 #> [12] "cv[2]-uri"                                 
-#> [13] "database[1]"                               
-#> [14] "database[1]-prefix"                        
-#> [15] "database[1]-version"                       
-#> [16] "database[1]-uri"                           
-#> [17] "small_molecule-quantification_unit"        
-#> [18] "small_molecule_feature-quantification_unit"
-#> [19] "small_molecule-identification_reliability" 
+#> [13] "cv[3]-label"                               
+#> [14] "cv[3]-full_name"                           
+#> [15] "cv[3]-version"                             
+#> [16] "cv[3]-uri"                                 
+#> [17] "database[1]"                               
+#> [18] "database[1]-prefix"                        
+#> [19] "database[1]-version"                       
+#> [20] "database[1]-uri"                           
+#> [21] "small_molecule-quantification_unit"        
+#> [22] "small_molecule_feature-quantification_unit"
+#> [23] "small_molecule-identification_reliability" 
 
 ## Column 2 the respective values
 mtd[, 2]
-#>  [1] "2.0.0-M"                                                                
+#>  [1] "2.1.0-M"                                                                
 #>  [2] "001"                                                                    
 #>  [3] "[MS, MS:1001582, xmcs, 4.0.0]"                                          
 #>  [4] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             
@@ -178,13 +184,17 @@ mtd[, 2]
 #> [10] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [11] "16:10:2023 11:38"                                                       
 #> [12] "https://www.ebi.ac.uk/ols/ontologies/pride"                             
-#> [13] "[,, \"no database\", null ]"                                            
-#> [14] "null"                                                                   
-#> [15] "Unknown"                                                                
-#> [16] "null"                                                                   
-#> [17] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
-#> [18] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
-#> [19] "[MS, MS:1002896, compound identification confidence level, ]"           
+#> [13] "STATO"                                                                  
+#> [14] "General purpose STATistics Ontology"                                    
+#> [15] "2026-04-20"                                                             
+#> [16] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            
+#> [17] "[,, \"no database\", null ]"                                            
+#> [18] "null"                                                                   
+#> [19] "Unknown"                                                                
+#> [20] "null"                                                                   
+#> [21] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [22] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [23] "[MS, MS:1002896, compound identification confidence level, ]"           
 
 ## Add additional fields as defined in the mzTab-M definition
 mtd <- rbind(
@@ -194,19 +204,19 @@ mtd <- rbind(
 
 tail(mtd)
 #>       [,1]                                        
-#> [16,] "database[1]-uri"                           
-#> [17,] "small_molecule-quantification_unit"        
-#> [18,] "small_molecule_feature-quantification_unit"
-#> [19,] "small_molecule-identification_reliability" 
-#> [20,] "title"                                     
-#> [21,] "description"                               
+#> [20,] "database[1]-uri"                           
+#> [21,] "small_molecule-quantification_unit"        
+#> [22,] "small_molecule_feature-quantification_unit"
+#> [23,] "small_molecule-identification_reliability" 
+#> [24,] "title"                                     
+#> [25,] "description"                               
 #>       [,2]                                                          
-#> [16,] "null"                                                        
-#> [17,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     
-#> [18,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     
-#> [19,] "[MS, MS:1002896, compound identification confidence level, ]"
-#> [20,] "My simple xcms preprocessed data"                            
-#> [21,] "A simple example xcms preprocessing."                        
+#> [20,] "null"                                                        
+#> [21,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     
+#> [22,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"     
+#> [23,] "[MS, MS:1002896, compound identification confidence level, ]"
+#> [24,] "My simple xcms preprocessed data"                            
+#> [25,] "A simple example xcms preprocessing."                        
 
 ## Add instrument information
 instr <- mtd_fields(
@@ -283,15 +293,19 @@ mtd
 #> [23,] "cv[3]-full_name"                           
 #> [24,] "cv[3]-version"                             
 #> [25,] "cv[3]-uri"                                 
-#> [26,] "database[1]"                               
-#> [27,] "database[1]-prefix"                        
-#> [28,] "database[1]-version"                       
-#> [29,] "database[1]-uri"                           
-#> [30,] "small_molecule-quantification_unit"        
-#> [31,] "small_molecule_feature-quantification_unit"
-#> [32,] "small_molecule-identification_reliability" 
+#> [26,] "cv[3]-label"                               
+#> [27,] "cv[3]-full_name"                           
+#> [28,] "cv[3]-version"                             
+#> [29,] "cv[3]-uri"                                 
+#> [30,] "database[1]"                               
+#> [31,] "database[1]-prefix"                        
+#> [32,] "database[1]-version"                       
+#> [33,] "database[1]-uri"                           
+#> [34,] "small_molecule-quantification_unit"        
+#> [35,] "small_molecule_feature-quantification_unit"
+#> [36,] "small_molecule-identification_reliability" 
 #>       [,2]                                                                     
-#>  [1,] "2.0.0-M"                                                                
+#>  [1,] "2.1.0-M"                                                                
 #>  [2,] "001"                                                                    
 #>  [3,] "My simple xcms preprocessed data"                                       
 #>  [4,] "A simple example xcms preprocessing."                                   
@@ -312,15 +326,19 @@ mtd
 #> [19,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [20,] "16:10:2023 11:38"                                                       
 #> [21,] "https://www.ebi.ac.uk/ols/ontologies/pride"                             
-#> [22,] "MSIO"                                                                   
-#> [23,] "Metabolomics Standards Initiative Ontology"                             
-#> [24,] "1.0.1"                                                                  
-#> [25,] "http://purl.obolibrary.org/obo/msio.owl"                                
-#> [26,] "[,, \"no database\", null ]"                                            
-#> [27,] "null"                                                                   
-#> [28,] "Unknown"                                                                
-#> [29,] "null"                                                                   
-#> [30,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
-#> [31,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
-#> [32,] "[MS, MS:1002896, compound identification confidence level, ]"           
+#> [22,] "STATO"                                                                  
+#> [23,] "General purpose STATistics Ontology"                                    
+#> [24,] "2026-04-20"                                                             
+#> [25,] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            
+#> [26,] "MSIO"                                                                   
+#> [27,] "Metabolomics Standards Initiative Ontology"                             
+#> [28,] "1.0.1"                                                                  
+#> [29,] "http://purl.obolibrary.org/obo/msio.owl"                                
+#> [30,] "[,, \"no database\", null ]"                                            
+#> [31,] "null"                                                                   
+#> [32,] "Unknown"                                                                
+#> [33,] "null"                                                                   
+#> [34,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [35,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [36,] "[MS, MS:1002896, compound identification confidence level, ]"           
 ```

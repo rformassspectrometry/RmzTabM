@@ -20,13 +20,13 @@ Source:
 [`DESCRIPTION`](https://github.com/RforMassSpectrometry/RmzTabM/blob/main/DESCRIPTION)
 
 Hoffmann N, Neumann S, Rainer J, Louail P (2026). *RmzTabM: R API for
-the mzTab-M Reference Implementation*. R package version 0.97.5,
+the mzTab-M Reference Implementation*. R package version 0.97.6,
 <https://github.com/RforMassSpectrometry/RmzTabM>.
 
     @Manual{,
       title = {RmzTabM: R API for the mzTab-M Reference Implementation},
       author = {Nils Hoffmann and Steffen Neumann and Johannes Rainer and Philippine Louail},
       year = {2026},
-      note = {R package version 0.97.5},
+      note = {R package version 0.97.6},
       url = {https://github.com/RforMassSpectrometry/RmzTabM},
     }

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,6 +76,7 @@
 <figure><p><img src="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png"></p>
 <figcaption>mzTab-M format</figcaption></figure>
 </div>
+<p>The <em>RmzTabM</em> package supports mzTab-M version <strong>2.1</strong>.</p>
 </section><section class="section level2"><h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 </section><section class="section level2"><h2 id="general-information-on-the-mztab-m-format">General information on the mzTab-M format<a class="anchor" aria-label="anchor" href="#general-information-on-the-mztab-m-format"></a>
@@ -132,54 +133,44 @@
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_skeleton.html">mtd_skeleton</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="st">"EXP_001"</span>,</span>
 <span>    software <span class="op">=</span> <span class="st">"[MS, MS:1001582, xcms, 4.1.0]"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">mtd</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rapporter.github.io/pander/" class="external-link">pander</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      [,1]
- [1,] "mzTab-version"
- [2,] "mzTab-ID"
- [3,] "software[1]"
- [4,] "quantification_method"
- [5,] "cv[1]-label"
- [6,] "cv[1]-full_name"
- [7,] "cv[1]-version"
- [8,] "cv[1]-uri"
- [9,] "cv[2]-label"
-[10,] "cv[2]-full_name"
-[11,] "cv[2]-version"
-[12,] "cv[2]-uri"
-[13,] "database[1]"
-[14,] "database[1]-prefix"
-[15,] "database[1]-version"
-[16,] "database[1]-uri"
-[17,] "small_molecule-quantification_unit"
-[18,] "small_molecule_feature-quantification_unit"
-[19,] "small_molecule-identification_reliability"
-      [,2]
- [1,] "2.0.0-M"
- [2,] "EXP_001"
- [3,] "[MS, MS:1001582, xcms, 4.1.0]"
- [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
- [5,] "MS"
- [6,] "PSI-MS controlled vocabulary"
- [7,] "4.1.138"
- [8,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo"
- [9,] "PRIDE"
-[10,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
-[11,] "16:10:2023 11:38"
-[12,] "https://www.ebi.ac.uk/ols/ontologies/pride"
-[13,] "[,, \"no database\", null ]"
-[14,] "null"
-[15,] "Unknown"
-[16,] "null"
-[17,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"
-[18,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"
-[19,] "[MS, MS:1002896, compound identification confidence level, ]"           </code></pre>
+<pre><code>
+|                                            |                                                                         |
+|:-------------------------------------------|:------------------------------------------------------------------------|
+| mzTab-version                              | 2.1.0-M                                                                 |
+| mzTab-ID                                   | EXP_001                                                                 |
+| software[1]                                | [MS, MS:1001582, xcms, 4.1.0]                                           |
+| quantification_method                      | [MS, MS:1001834, LC-MS label-free quantitation analysis, ]              |
+| cv[1]-label                                | MS                                                                      |
+| cv[1]-full_name                            | PSI-MS controlled vocabulary                                            |
+| cv[1]-version                              | 4.1.138                                                                 |
+| cv[1]-uri                                  | https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo  |
+| cv[2]-label                                | PRIDE                                                                   |
+| cv[2]-full_name                            | PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary |
+| cv[2]-version                              | 16:10:2023 11:38                                                        |
+| cv[2]-uri                                  | https://www.ebi.ac.uk/ols/ontologies/pride                              |
+| cv[3]-label                                | STATO                                                                   |
+| cv[3]-full_name                            | General purpose STATistics Ontology                                     |
+| cv[3]-version                              | 2026-04-20                                                              |
+| cv[3]-uri                                  | https://www.ebi.ac.uk/ols4/ontologies/stato                             |
+| database[1]                                | [,, "no database", null ]                                               |
+| database[1]-prefix                         | null                                                                    |
+| database[1]-version                        | Unknown                                                                 |
+| database[1]-uri                            | null                                                                    |
+| small_molecule-quantification_unit         | [PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]                 |
+| small_molecule_feature-quantification_unit | [PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]                 |
+| small_molecule-identification_reliability  | [MS, MS:1002896, compound identification confidence level, ]            |</code></pre>
 </div>
 </div>
 <p>This represents some minimal information. The data of the MTD section is formatted as a <code>character</code> 2-column <code>matrix</code>. We could now either change the value (i.e., the elements in the second column of this matrix) of existing fields, or also manually add additional fields/information. As an example we add a title and description for the experiment. See also the <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section" class="external-link">mzTab-M</a> format definition for other supported fields.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>    <span class="va">mtd</span>,</span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"Experiment 1 preprocessed data"</span><span class="op">)</span>,</span>
@@ -188,32 +179,43 @@
 </div>
 <p>To help with formatting we can also use the <code><a href="../reference/mtd_fields.html">mtd_fields()</a></code> function. Below we use this function to add information about the MS instrumentation to the MTD section:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_fields.html">mtd_fields</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"[MS, MS:1000449, LTQ Orbitrap,]"</span>,</span>
 <span>    source <span class="op">=</span> <span class="st">"[MS, MS:1000073, ESI,]"</span>,</span>
 <span>    `analyzer[1]` <span class="op">=</span> <span class="st">"[MS, MS:1000291, linear ion trap,]"</span>,</span>
 <span>    detector <span class="op">=</span> <span class="st">"[MS, MS:1000253, electron multiplier,]"</span>,</span>
 <span>    field_prefix <span class="op">=</span> <span class="st">"instrument"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">instr</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1]                        [,2]
-[1,] "instrument[1]-name"        "[MS, MS:1000449, LTQ Orbitrap,]"
-[2,] "instrument[1]-source"      "[MS, MS:1000073, ESI,]"
-[3,] "instrument[1]-analyzer[1]" "[MS, MS:1000291, linear ion trap,]"
-[4,] "instrument[1]-detector"    "[MS, MS:1000253, electron multiplier,]"</code></pre>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">instr</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
+<table class="table caption-top"><tbody>
+<tr class="odd">
+<td style="text-align: left;">instrument[1]-name</td>
+<td style="text-align: left;">[MS, MS:1000449, LTQ Orbitrap,]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">instrument[1]-source</td>
+<td style="text-align: left;">[MS, MS:1000073, ESI,]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">instrument[1]-analyzer[1]</td>
+<td style="text-align: left;">[MS, MS:1000291, linear ion trap,]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">instrument[1]-detector</td>
+<td style="text-align: left;">[MS, MS:1000253, electron multiplier,]</td>
+</tr>
+</tbody></table>
 <p>And we add that information to the <code>mtd</code> variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">instr</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Note that the general information part should also contain the references to <strong>all</strong> controlled vocabulary (CV) ontologies used in the mzTab-M file. The default ontologies added by the <code>mtb_skeleton()</code> function are the <em>PSI-MS</em> and the <em>PRIDE</em> ontologies. If other vocabularies are used, they should be added manually (following the scheme of the others, i.e., the fields starting with <code>"cv["</code>).</p>
 <p>The next category of metadata information is <strong>sample information</strong>. This comprises (optional) information on individual samples that were measured with the various assays/runs. We use the <code><a href="../reference/mtd_sample.html">mtd_sample()</a></code> function to assist in compiling this information. Parameters <code>sample</code>, <code>species</code>, <code>tissue</code> and <code>cell_type</code>, <code>disease</code> and <code>description</code> allow to provide pre-defined sample properties. Additional sample annotations and details can be provided through the function’s <code>...</code>. For the example below we define some of these properties and in addition provide a custom field for the extraction data. Be aware that <code><a href="../reference/mtd_sample.html">mtd_sample()</a></code> does <strong>not</strong> support partial or positional matching of parameters; for each of the parameters the <strong>full parameter name</strong> has to be used (i.e., <code>sample = ...</code> instead of <code>sam = ...</code> or <code>s = ...</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_sample.html">mtd_sample</a></span><span class="op">(</span></span>
 <span>    sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">sample_id</span><span class="op">)</span>,</span>
 <span>    species <span class="op">=</span> <span class="st">"[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"</span>,</span>
@@ -226,77 +228,240 @@
 <div class="cell-output cell-output-stderr">
 <pre><code><span><span class="fl">1</span></span></code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_s</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
- [1,] "sample[1]"              "S1"
- [2,] "sample[1]-species[1]"   "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
- [3,] "sample[1]-tissue[1]"    "[BTO, BTO:0000759, liver, ]"
- [4,] "sample[1]-cell_type[1]" "[CL, CL:0000182, hepatocyte, ]"
- [5,] "sample[1]-custom[1]"    "[,,Extraction date, 2011-12-21]"
- [6,] "sample[2]"              "S2"
- [7,] "sample[2]-species[1]"   "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
- [8,] "sample[2]-tissue[1]"    "[BTO, BTO:0000759, liver, ]"
- [9,] "sample[2]-cell_type[1]" "[CL, CL:0000182, hepatocyte, ]"
-[10,] "sample[2]-custom[1]"    "[,,Extraction date, 2011-12-22]"
-[11,] "sample[3]"              "S3"
-[12,] "sample[3]-species[1]"   "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
-[13,] "sample[3]-tissue[1]"    "[BTO, BTO:0000759, liver, ]"
-[14,] "sample[3]-cell_type[1]" "[CL, CL:0000182, hepatocyte, ]"
-[15,] "sample[3]-custom[1]"    "[,,Extraction date, 2011-12-23]"            </code></pre>
 </div>
-</div>
-<p>We can then add this information to the <code>mtd</code> variable by simply <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>ing it.</p>
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd_s</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
+<table class="table caption-top">
+<thead><tr class="header">
+<th style="text-align: left;"> </th>
+<th style="text-align: left;"> </th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sample[1]</td>
+<td style="text-align: left;">S1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[1]-species[1]</td>
+<td style="text-align: left;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[1]-tissue[1]</td>
+<td style="text-align: left;">[BTO, BTO:0000759, liver, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[1]-cell_type[1]</td>
+<td style="text-align: left;">[CL, CL:0000182, hepatocyte, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[1]-custom[1]</td>
+<td style="text-align: left;">[,,Extraction date, 2011-12-21]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[2]</td>
+<td style="text-align: left;">S2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[2]-species[1]</td>
+<td style="text-align: left;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[2]-tissue[1]</td>
+<td style="text-align: left;">[BTO, BTO:0000759, liver, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[2]-cell_type[1]</td>
+<td style="text-align: left;">[CL, CL:0000182, hepatocyte, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[2]-custom[1]</td>
+<td style="text-align: left;">[,,Extraction date, 2011-12-22]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[3]</td>
+<td style="text-align: left;">S3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[3]-species[1]</td>
+<td style="text-align: left;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[3]-tissue[1]</td>
+<td style="text-align: left;">[BTO, BTO:0000759, liver, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample[3]-cell_type[1]</td>
+<td style="text-align: left;">[CL, CL:0000182, hepatocyte, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sample[3]-custom[1]</td>
+<td style="text-align: left;">[,,Extraction date, 2011-12-23]</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the general information part should also contain the references to <strong>all</strong> controlled vocabulary (CV) ontologies used in the mzTab-M file. The default ontologies added by the <code>mtb_skeleton()</code> function are the <em>PSI-MS</em>, <em>PRIDE</em> and <em>STATO</em> ontologies. If other vocabularies are used, they should be either added manually (following the scheme of the others, i.e., the fields starting with <code>"cv["</code>) or provided with the <code>cv_*</code> function arguments of the <code>mtb_skeleton()</code> function. For our example we use also the <em>BRENDA tissue ontology</em> (BTO) and the <em>NCBITaxon</em> ontology to define the tissue of origin and species of the samples and hence need to add these ontologies to the general metadata section. We use the <code><a href="../reference/mtd_fields.html">mtd_fields()</a></code> function for this. For a CV entry we need to provide a <em>label</em>, the <em>full_name</em>, the <em>version</em> and the <em>uri</em>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">add_cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_fields.html">mtd_fields</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BTO"</span>, <span class="st">"NCBITaxon"</span><span class="op">)</span>,</span>
+<span>    full_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The BRENDA Tissue Ontology (BTO)"</span>,</span>
+<span>                  <span class="st">"NCBI organismal classification"</span><span class="op">)</span>,</span>
+<span>    version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2021-10-26"</span>, <span class="st">"2025-12-03"</span><span class="op">)</span>,</span>
+<span>    uri <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://www.ebi.ac.uk/ols4/ontologies/bto"</span>,</span>
+<span>            <span class="st">"https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"</span><span class="op">)</span>,</span>
+<span>    field_prefix <span class="op">=</span> <span class="st">"cv"</span><span class="op">)</span></span>
+<span><span class="va">add_cv</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]              [,2]
+[1,] "cv[1]-label"     "BTO"
+[2,] "cv[1]-full_name" "The BRENDA Tissue Ontology (BTO)"
+[3,] "cv[1]-version"   "2021-10-26"
+[4,] "cv[1]-uri"       "https://www.ebi.ac.uk/ols4/ontologies/bto"
+[5,] "cv[2]-label"     "NCBITaxon"
+[6,] "cv[2]-full_name" "NCBI organismal classification"
+[7,] "cv[2]-version"   "2025-12-03"
+[8,] "cv[2]-uri"       "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"</code></pre>
+</div>
+</div>
+<p>We need to update the index of the cv, since there are already 3 CVs (MS, PRIDE and STATO) defined by in the metadata part. We thus replace next the <code>"1"</code> with <code>"4"</code> and <code>"2"</code> with <code>"5"</code> and append this CV term to the metadata section.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">add_cv</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"4"</span>, <span class="va">add_cv</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">add_cv</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"2"</span>, <span class="st">"5"</span>, <span class="va">add_cv</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">add_cv</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>We can then add the sample information to the <code>mtd</code> variable by simply <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>ing it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_s</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Next we compile <strong>MS run information</strong> of the experiment using the <code><a href="../reference/mtd_ms_run.html">mtd_ms_run()</a></code> helper function. This should comprise all (MS-specific) information related to the measurement of each sample - including also the MS data file names and locations. For our example we use the file names reported in the sample data frame and specify the polarity of the measurement runs.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd_msr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_ms_run.html">mtd_ms_run</a></span><span class="op">(</span></span>
 <span>    location <span class="op">=</span> <span class="va">exp</span><span class="op">$</span><span class="va">file_name</span>,</span>
 <span>    format <span class="op">=</span> <span class="st">"[MS, MS:1000584, mzML file, ]"</span>,</span>
 <span>    id_format <span class="op">=</span> <span class="st">"[MS, MS:1000530, mzML unique identifier, ]"</span>,</span>
-<span>    scan_polarity <span class="op">=</span> <span class="st">"positive"</span><span class="op">)</span></span>
-<span><span class="va">mtd_msr</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                                   values
- [1,] "ms_run[1]-location"         "s1-t1.mzML"
- [2,] "ms_run[1]-format"           "[MS, MS:1000584, mzML file, ]"
- [3,] "ms_run[1]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
- [4,] "ms_run[1]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
- [5,] "ms_run[2]-location"         "s1-t2.mzML"
- [6,] "ms_run[2]-format"           "[MS, MS:1000584, mzML file, ]"
- [7,] "ms_run[2]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
- [8,] "ms_run[2]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
- [9,] "ms_run[3]-location"         "s2-t1.mzML"
-[10,] "ms_run[3]-format"           "[MS, MS:1000584, mzML file, ]"
-[11,] "ms_run[3]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-[12,] "ms_run[3]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-[13,] "ms_run[4]-location"         "s2-t2.mzML"
-[14,] "ms_run[4]-format"           "[MS, MS:1000584, mzML file, ]"
-[15,] "ms_run[4]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-[16,] "ms_run[4]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-[17,] "ms_run[5]-location"         "s3-t1.mzML"
-[18,] "ms_run[5]-format"           "[MS, MS:1000584, mzML file, ]"
-[19,] "ms_run[5]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-[20,] "ms_run[5]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
-[21,] "ms_run[6]-location"         "s3-t2.mzML"
-[22,] "ms_run[6]-format"           "[MS, MS:1000584, mzML file, ]"
-[23,] "ms_run[6]-id_format"        "[MS, MS:1000530, mzML unique identifier, ]"
-[24,] "ms_run[6]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"         </code></pre>
+<span>    scan_polarity <span class="op">=</span> <span class="st">"positive"</span><span class="op">)</span></span></code></pre></div>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd_msr</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;"> </th>
+<th style="text-align: left;">values</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ms_run[1]-location</td>
+<td style="text-align: left;">s1-t1.mzML</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[1]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[1]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[1]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[2]-location</td>
+<td style="text-align: left;">s1-t2.mzML</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[2]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[2]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[2]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[3]-location</td>
+<td style="text-align: left;">s2-t1.mzML</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[3]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[3]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[3]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[4]-location</td>
+<td style="text-align: left;">s2-t2.mzML</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[4]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[4]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[4]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[5]-location</td>
+<td style="text-align: left;">s3-t1.mzML</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[5]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[5]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[5]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[6]-location</td>
+<td style="text-align: left;">s3-t2.mzML</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[6]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ms_run[6]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ms_run[6]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
+</tr>
+</tbody>
+</table>
 <p>Each row in the <code>exp</code> data frame was assigned to a <code>"ms_run"</code> with the location and format of the respective file as well as the polarity in which the data was acquired. We can combine this data with the <code>mtd</code> variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_msr</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Next we define the <strong>assay information</strong>. Generally, each measurement (MS run) is associated to one assay, but also more complex configurations are supported. See the help of the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function for details on multiplexed or pre-fractionated samples. Mandatory information that has to be provided to the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function are the name (ID) of the assay and the reference to the MS run in which the assay was measured. For the latter, a format of <code>"ms_run[&lt;index of the MS run&gt;]"</code> is expected. For our example we provide in addition also the (optional, but suggested) reference to the original sample. Note that each assay must represent one column in the following feature abundance table (SMF).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_assay.html">mtd_assay</a></span><span class="op">(</span></span>
 <span>    assay <span class="op">=</span> <span class="va">exp</span><span class="op">$</span><span class="va">sample_name</span>,</span>
 <span>    sample_ref <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sample[1]"</span>, <span class="st">"sample[1]"</span>, <span class="st">"sample[2]"</span>, <span class="st">"sample[2]"</span>,</span>
@@ -306,579 +471,904 @@
 <div class="cell-output cell-output-stderr">
 <pre><code><span><span class="fl">0</span></span></code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_a</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
- [1,] "assay[1]"            "S1_T1"
- [2,] "assay[1]-sample_ref" "sample[1]"
- [3,] "assay[1]-ms_run_ref" "ms_run[1]"
- [4,] "assay[2]"            "S1_T2"
- [5,] "assay[2]-sample_ref" "sample[1]"
- [6,] "assay[2]-ms_run_ref" "ms_run[2]"
- [7,] "assay[3]"            "S2_T1"
- [8,] "assay[3]-sample_ref" "sample[2]"
- [9,] "assay[3]-ms_run_ref" "ms_run[3]"
-[10,] "assay[4]"            "S2_T2"
-[11,] "assay[4]-sample_ref" "sample[2]"
-[12,] "assay[4]-ms_run_ref" "ms_run[4]"
-[13,] "assay[5]"            "S3_T1"
-[14,] "assay[5]-sample_ref" "sample[3]"
-[15,] "assay[5]-ms_run_ref" "ms_run[5]"
-[16,] "assay[6]"            "S3_T2"
-[17,] "assay[6]-sample_ref" "sample[3]"
-[18,] "assay[6]-ms_run_ref" "ms_run[6]"</code></pre>
 </div>
-</div>
+<p>The result formatted <em>assay information</em> is shown in the table below.</p>
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd_a</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
+<table class="table caption-top">
+<thead><tr class="header">
+<th style="text-align: left;"> </th>
+<th style="text-align: left;"> </th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">assay[1]</td>
+<td style="text-align: left;">S1_T1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[1]-sample_ref</td>
+<td style="text-align: left;">sample[1]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[1]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[2]</td>
+<td style="text-align: left;">S1_T2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[2]-sample_ref</td>
+<td style="text-align: left;">sample[1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[2]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[2]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[3]</td>
+<td style="text-align: left;">S2_T1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[3]-sample_ref</td>
+<td style="text-align: left;">sample[2]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[3]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[3]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[4]</td>
+<td style="text-align: left;">S2_T2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[4]-sample_ref</td>
+<td style="text-align: left;">sample[2]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[4]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[4]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[5]</td>
+<td style="text-align: left;">S3_T1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[5]-sample_ref</td>
+<td style="text-align: left;">sample[3]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[5]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[5]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[6]</td>
+<td style="text-align: left;">S3_T2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">assay[6]-sample_ref</td>
+<td style="text-align: left;">sample[3]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assay[6]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[6]</td>
+</tr>
+</tbody>
+</table>
 <p>We add this information to the <code>mtd</code> variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_a</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>At last we compile the <strong>study variable information</strong> of our example experiment. This should capture all experiment-relevant study variables. In R, such information is generally encoded in a <em>sample</em> or <em>phenotype</em> <code>data.frame</code>, with rows being individual samples (or measurements thereof) and columns the sample characteristics (i.e., the study variables). For our example we use the <code><a href="../reference/mtd_study_variables.html">mtd_study_variables()</a></code> function to generate the mzTab-M study variable information, specifying with parameter <code>study_variable_columns</code> the names of the <code>data.frame</code> containing the relevant information.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_study_variables.html">mtd_study_variables</a></span><span class="op">(</span></span>
-<span>    <span class="va">exp</span>,</span>
-<span>    study_variable_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"timepoint"</span>, <span class="st">"genotype"</span>, <span class="st">"operator"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">mtd_svar</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      [,1]
- [1,] "study_variable[1]"
- [2,] "study_variable[1]-assay_refs"
- [3,] "study_variable[1]-average_function"
- [4,] "study_variable[1]-variation_function"
- [5,] "study_variable[1]-description"
- [6,] "study_variable[2]"
- [7,] "study_variable[2]-assay_refs"
- [8,] "study_variable[2]-average_function"
- [9,] "study_variable[2]-variation_function"
-[10,] "study_variable[2]-description"
-[11,] "study_variable[3]"
-[12,] "study_variable[3]-assay_refs"
-[13,] "study_variable[3]-average_function"
-[14,] "study_variable[3]-variation_function"
-[15,] "study_variable[3]-description"
-[16,] "study_variable[4]"
-[17,] "study_variable[4]-assay_refs"
-[18,] "study_variable[4]-average_function"
-[19,] "study_variable[4]-variation_function"
-[20,] "study_variable[4]-description"
-[21,] "study_variable[5]"
-[22,] "study_variable[5]-assay_refs"
-[23,] "study_variable[5]-average_function"
-[24,] "study_variable[5]-variation_function"
-[25,] "study_variable[5]-description"
-[26,] "study_variable[6]"
-[27,] "study_variable[6]-assay_refs"
-[28,] "study_variable[6]-average_function"
-[29,] "study_variable[6]-variation_function"
-[30,] "study_variable[6]-description"
-      [,2]
- [1,] "timepoint:0h"
- [2,] "assay[1]|assay[3]|assay[5]"
- [3,] "[MS, MS:1002962, mean, ]"
- [4,] "[MS, MS:1002963, variation coefficient, ]"
- [5,] "Column: timepoint, value: 0h"
- [6,] "timepoint:6h"
- [7,] "assay[2]|assay[4]|assay[6]"
- [8,] "[MS, MS:1002962, mean, ]"
- [9,] "[MS, MS:1002963, variation coefficient, ]"
-[10,] "Column: timepoint, value: 6h"
-[11,] "genotype:WT"
-[12,] "assay[1]|assay[2]"
-[13,] "[MS, MS:1002962, mean, ]"
-[14,] "[MS, MS:1002963, variation coefficient, ]"
-[15,] "Column: genotype, value: WT"
-[16,] "genotype:KO"
-[17,] "assay[3]|assay[4]|assay[5]|assay[6]"
-[18,] "[MS, MS:1002962, mean, ]"
-[19,] "[MS, MS:1002963, variation coefficient, ]"
-[20,] "Column: genotype, value: KO"
-[21,] "operator:BB"
-[22,] "assay[1]|assay[2]|assay[3]|assay[4]"
-[23,] "[MS, MS:1002962, mean, ]"
-[24,] "[MS, MS:1002963, variation coefficient, ]"
-[25,] "Column: operator, value: BB"
-[26,] "operator:FB"
-[27,] "assay[5]|assay[6]"
-[28,] "[MS, MS:1002962, mean, ]"
-[29,] "[MS, MS:1002963, variation coefficient, ]"
-[30,] "Column: operator, value: FB"              </code></pre>
-</div>
-</div>
-<p>Each unique value in each of the specified columns is encoded as a <code>study_variable</code> (or rather as a <em>study variable value</em>), with its <em>assay_refs</em> attribute containing the rows/assays in which this value was measured. The variable’s <em>description</em> (by default) indicates the name of the column. The <em>average_function</em> and <em>variation_function</em> attributes allow to define the function that was used to calculate the average and variance of the abundance values for that variable value. In upcoming versions a dedicated attribute <em>group</em> can be used to specify the name of the column (i.e. the study variable name) the study variable value is provided in.</p>
-<p>We next add the study variable information to the <code>mtd</code>variable.</p>
+<p>At last we compile the <strong>study variable information</strong> of our example experiment. This should capture all experiment-relevant study variables (phenotype or experimental conditions). In R, such information is generally encoded in a <em>sample</em> or <em>phenotype</em> <code>data.frame</code>, with rows being individual samples (or measurements thereof) and columns the sample characteristics (i.e., the <em>study variable groups</em>, with the individual values of the columns being, in the mzTab-M definition, the <em>study variables</em>). The <code><a href="../reference/mtd_study_variables.html">mtd_study_variables()</a></code> function formats a sample/experiment <code>data.frame</code> into the corresponding mzTab-M fields. Parameter <code>groups</code> allows to select the columns of the input <code>data.frame</code> which represent the study variable groups (phenotype or experimental conditions). Additional function arguments allow to specify the statistical type and the datatype for each column/study variable group, but the defaults should work in most situations. By default, R data types <code>character</code> and <code>factor</code> are mapped to the STATO type <em>categorical</em>, while the STATO type <em>continuous</em> is used for <code>numeric</code> and <code>integer</code> columns. If the <code>data.frame</code> contains <em>ordinal</em> variables it should be manually specified with parameter <code>group_type</code>. In our example we define in addition an optional <em>unit</em> for the study variable <em>timepoint</em>. Units have to be provided in CV parameter format; for study variable groups without unit <code>""</code> or <code>NA</code> has to be used.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mtd_svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_study_variables.html">mtd_study_variables</a></span><span class="op">(</span></span>
+<span>    <span class="va">exp</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"timepoint"</span>, <span class="st">"genotype"</span>, <span class="st">"operator"</span><span class="op">)</span>,</span>
+<span>    group_unit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[, , hours, ]"</span>, <span class="st">""</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>The formatted data is shown in the table below.</p>
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd_svar</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 55%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[1]</td>
+<td style="text-align: left;">timepoint</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[1]-description</td>
+<td style="text-align: left;">Sample matrix column timepoint</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[1]-type</td>
+<td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[1]-datatype</td>
+<td style="text-align: left;">xsd:string</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[1]-unit</td>
+<td style="text-align: left;">[, , hours, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[2]</td>
+<td style="text-align: left;">genotype</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[2]-description</td>
+<td style="text-align: left;">Sample matrix column genotype</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[2]-type</td>
+<td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[2]-datatype</td>
+<td style="text-align: left;">xsd:string</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[3]</td>
+<td style="text-align: left;">operator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[3]-description</td>
+<td style="text-align: left;">Sample matrix column operator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[3]-type</td>
+<td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[3]-datatype</td>
+<td style="text-align: left;">xsd:string</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[1]</td>
+<td style="text-align: left;">0h</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[1]-assay_refs</td>
+<td style="text-align: left;">assay[1]|assay[3]|assay[5]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[1]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[1]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[1]-description</td>
+<td style="text-align: left;">Variable timepoint, value 0h</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[1]-group_refs</td>
+<td style="text-align: left;">study_variable_group[1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[2]</td>
+<td style="text-align: left;">6h</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[2]-assay_refs</td>
+<td style="text-align: left;">assay[2]|assay[4]|assay[6]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[2]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[2]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[2]-description</td>
+<td style="text-align: left;">Variable timepoint, value 6h</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[2]-group_refs</td>
+<td style="text-align: left;">study_variable_group[1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[3]</td>
+<td style="text-align: left;">WT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[3]-assay_refs</td>
+<td style="text-align: left;">assay[1]|assay[2]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[3]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[3]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[3]-description</td>
+<td style="text-align: left;">Variable genotype, value WT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[3]-group_refs</td>
+<td style="text-align: left;">study_variable_group[2]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[4]</td>
+<td style="text-align: left;">KO</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[4]-assay_refs</td>
+<td style="text-align: left;">assay[3]|assay[4]|assay[5]|assay[6]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[4]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[4]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[4]-description</td>
+<td style="text-align: left;">Variable genotype, value KO</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[4]-group_refs</td>
+<td style="text-align: left;">study_variable_group[2]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[5]</td>
+<td style="text-align: left;">BB</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[5]-assay_refs</td>
+<td style="text-align: left;">assay[1]|assay[2]|assay[3]|assay[4]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[5]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[5]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[5]-description</td>
+<td style="text-align: left;">Variable operator, value BB</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[5]-group_refs</td>
+<td style="text-align: left;">study_variable_group[3]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[6]</td>
+<td style="text-align: left;">FB</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[6]-assay_refs</td>
+<td style="text-align: left;">assay[5]|assay[6]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[6]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[6]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[6]-description</td>
+<td style="text-align: left;">Variable operator, value FB</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[6]-group_refs</td>
+<td style="text-align: left;">study_variable_group[3]</td>
+</tr>
+</tbody>
+</table>
+<p>For each column a <em>study variable group</em> was defined while each unique value in each of the specified columns was encoded as a <code>"study_variable"</code> (or rather as a <em>study variable value</em>), with its <em>assay_refs</em> attribute containing the rows/assays in which this value was measured. The variable’s <code>"description"</code> (by default) indicates the name of the column. The <code>"average_function"</code> and <code>"variation_function"</code> attributes allow to define the function that was used to calculate the average and variance of the abundance values for that variable value.</p>
+<p>We next add the study variable information to the <code>mtd</code> variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_svar</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>At last we sort the elements according to the expected order in the MTD section using the <code><a href="../reference/mtd_sort.html">mtd_sort()</a></code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_sort.html">mtd_sort</a></span><span class="op">(</span><span class="va">mtd</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>This two-column <code>matrix</code> could now be saved to a text file using a tabulator (<code>"\t"</code>) as a field separator. The full metadata header is shown in the table below.</p>
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rapporter.github.io/pander/" class="external-link">pander</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
 <table class="table caption-top">
 <colgroup>
 <col style="width: 37%">
 <col style="width: 62%">
 </colgroup>
 <thead><tr class="header">
-<th style="text-align: center;"> </th>
-<th style="text-align: center;"> </th>
+<th style="text-align: left;"> </th>
+<th style="text-align: left;"> </th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">mzTab-version</td>
-<td style="text-align: center;">2.0.0-M</td>
+<td style="text-align: left;">mzTab-version</td>
+<td style="text-align: left;">2.1.0-M</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">mzTab-ID</td>
-<td style="text-align: center;">EXP_001</td>
+<td style="text-align: left;">mzTab-ID</td>
+<td style="text-align: left;">EXP_001</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">title</td>
-<td style="text-align: center;">Experiment 1 preprocessed data</td>
+<td style="text-align: left;">title</td>
+<td style="text-align: left;">Experiment 1 preprocessed data</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">description</td>
-<td style="text-align: center;">The preprocessed data of the experiment 1.</td>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">The preprocessed data of the experiment 1.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">instrument[1]-name</td>
-<td style="text-align: center;">[MS, MS:1000449, LTQ Orbitrap,]</td>
+<td style="text-align: left;">instrument[1]-name</td>
+<td style="text-align: left;">[MS, MS:1000449, LTQ Orbitrap,]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">instrument[1]-source</td>
-<td style="text-align: center;">[MS, MS:1000073, ESI,]</td>
+<td style="text-align: left;">instrument[1]-source</td>
+<td style="text-align: left;">[MS, MS:1000073, ESI,]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">instrument[1]-analyzer[1]</td>
-<td style="text-align: center;">[MS, MS:1000291, linear ion trap,]</td>
+<td style="text-align: left;">instrument[1]-analyzer[1]</td>
+<td style="text-align: left;">[MS, MS:1000291, linear ion trap,]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">instrument[1]-detector</td>
-<td style="text-align: center;">[MS, MS:1000253, electron multiplier,]</td>
+<td style="text-align: left;">instrument[1]-detector</td>
+<td style="text-align: left;">[MS, MS:1000253, electron multiplier,]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">software[1]</td>
-<td style="text-align: center;">[MS, MS:1001582, xcms, 4.1.0]</td>
+<td style="text-align: left;">software[1]</td>
+<td style="text-align: left;">[MS, MS:1001582, xcms, 4.1.0]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">quantification_method</td>
-<td style="text-align: center;">[MS, MS:1001834, LC-MS label-free quantitation analysis, ]</td>
+<td style="text-align: left;">quantification_method</td>
+<td style="text-align: left;">[MS, MS:1001834, LC-MS label-free quantitation analysis, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[1]</td>
-<td style="text-align: center;">S1</td>
+<td style="text-align: left;">sample[1]</td>
+<td style="text-align: left;">S1</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[1]-species[1]</td>
-<td style="text-align: center;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
+<td style="text-align: left;">sample[1]-species[1]</td>
+<td style="text-align: left;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[1]-tissue[1]</td>
-<td style="text-align: center;">[BTO, BTO:0000759, liver, ]</td>
+<td style="text-align: left;">sample[1]-tissue[1]</td>
+<td style="text-align: left;">[BTO, BTO:0000759, liver, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[1]-cell_type[1]</td>
-<td style="text-align: center;">[CL, CL:0000182, hepatocyte, ]</td>
+<td style="text-align: left;">sample[1]-cell_type[1]</td>
+<td style="text-align: left;">[CL, CL:0000182, hepatocyte, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[1]-custom[1]</td>
-<td style="text-align: center;">[,,Extraction date, 2011-12-21]</td>
+<td style="text-align: left;">sample[1]-custom[1]</td>
+<td style="text-align: left;">[,,Extraction date, 2011-12-21]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[2]</td>
-<td style="text-align: center;">S2</td>
+<td style="text-align: left;">sample[2]</td>
+<td style="text-align: left;">S2</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[2]-species[1]</td>
-<td style="text-align: center;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
+<td style="text-align: left;">sample[2]-species[1]</td>
+<td style="text-align: left;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[2]-tissue[1]</td>
-<td style="text-align: center;">[BTO, BTO:0000759, liver, ]</td>
+<td style="text-align: left;">sample[2]-tissue[1]</td>
+<td style="text-align: left;">[BTO, BTO:0000759, liver, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[2]-cell_type[1]</td>
-<td style="text-align: center;">[CL, CL:0000182, hepatocyte, ]</td>
+<td style="text-align: left;">sample[2]-cell_type[1]</td>
+<td style="text-align: left;">[CL, CL:0000182, hepatocyte, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[2]-custom[1]</td>
-<td style="text-align: center;">[,,Extraction date, 2011-12-22]</td>
+<td style="text-align: left;">sample[2]-custom[1]</td>
+<td style="text-align: left;">[,,Extraction date, 2011-12-22]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[3]</td>
-<td style="text-align: center;">S3</td>
+<td style="text-align: left;">sample[3]</td>
+<td style="text-align: left;">S3</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[3]-species[1]</td>
-<td style="text-align: center;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
+<td style="text-align: left;">sample[3]-species[1]</td>
+<td style="text-align: left;">[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[3]-tissue[1]</td>
-<td style="text-align: center;">[BTO, BTO:0000759, liver, ]</td>
+<td style="text-align: left;">sample[3]-tissue[1]</td>
+<td style="text-align: left;">[BTO, BTO:0000759, liver, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">sample[3]-cell_type[1]</td>
-<td style="text-align: center;">[CL, CL:0000182, hepatocyte, ]</td>
+<td style="text-align: left;">sample[3]-cell_type[1]</td>
+<td style="text-align: left;">[CL, CL:0000182, hepatocyte, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">sample[3]-custom[1]</td>
-<td style="text-align: center;">[,,Extraction date, 2011-12-23]</td>
+<td style="text-align: left;">sample[3]-custom[1]</td>
+<td style="text-align: left;">[,,Extraction date, 2011-12-23]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[1]-location</td>
-<td style="text-align: center;">s1-t1.mzML</td>
+<td style="text-align: left;">ms_run[1]-location</td>
+<td style="text-align: left;">s1-t1.mzML</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[1]-format</td>
-<td style="text-align: center;">[MS, MS:1000584, mzML file, ]</td>
+<td style="text-align: left;">ms_run[1]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[1]-id_format</td>
-<td style="text-align: center;">[MS, MS:1000530, mzML unique identifier, ]</td>
+<td style="text-align: left;">ms_run[1]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[1]-scan_polarity[1]</td>
-<td style="text-align: center;">[MS, MS:1000130, positive scan, ]</td>
+<td style="text-align: left;">ms_run[1]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[2]-location</td>
-<td style="text-align: center;">s1-t2.mzML</td>
+<td style="text-align: left;">ms_run[2]-location</td>
+<td style="text-align: left;">s1-t2.mzML</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[2]-format</td>
-<td style="text-align: center;">[MS, MS:1000584, mzML file, ]</td>
+<td style="text-align: left;">ms_run[2]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[2]-id_format</td>
-<td style="text-align: center;">[MS, MS:1000530, mzML unique identifier, ]</td>
+<td style="text-align: left;">ms_run[2]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[2]-scan_polarity[1]</td>
-<td style="text-align: center;">[MS, MS:1000130, positive scan, ]</td>
+<td style="text-align: left;">ms_run[2]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[3]-location</td>
-<td style="text-align: center;">s2-t1.mzML</td>
+<td style="text-align: left;">ms_run[3]-location</td>
+<td style="text-align: left;">s2-t1.mzML</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[3]-format</td>
-<td style="text-align: center;">[MS, MS:1000584, mzML file, ]</td>
+<td style="text-align: left;">ms_run[3]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[3]-id_format</td>
-<td style="text-align: center;">[MS, MS:1000530, mzML unique identifier, ]</td>
+<td style="text-align: left;">ms_run[3]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[3]-scan_polarity[1]</td>
-<td style="text-align: center;">[MS, MS:1000130, positive scan, ]</td>
+<td style="text-align: left;">ms_run[3]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[4]-location</td>
-<td style="text-align: center;">s2-t2.mzML</td>
+<td style="text-align: left;">ms_run[4]-location</td>
+<td style="text-align: left;">s2-t2.mzML</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[4]-format</td>
-<td style="text-align: center;">[MS, MS:1000584, mzML file, ]</td>
+<td style="text-align: left;">ms_run[4]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[4]-id_format</td>
-<td style="text-align: center;">[MS, MS:1000530, mzML unique identifier, ]</td>
+<td style="text-align: left;">ms_run[4]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[4]-scan_polarity[1]</td>
-<td style="text-align: center;">[MS, MS:1000130, positive scan, ]</td>
+<td style="text-align: left;">ms_run[4]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[5]-location</td>
-<td style="text-align: center;">s3-t1.mzML</td>
+<td style="text-align: left;">ms_run[5]-location</td>
+<td style="text-align: left;">s3-t1.mzML</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[5]-format</td>
-<td style="text-align: center;">[MS, MS:1000584, mzML file, ]</td>
+<td style="text-align: left;">ms_run[5]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[5]-id_format</td>
-<td style="text-align: center;">[MS, MS:1000530, mzML unique identifier, ]</td>
+<td style="text-align: left;">ms_run[5]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[5]-scan_polarity[1]</td>
-<td style="text-align: center;">[MS, MS:1000130, positive scan, ]</td>
+<td style="text-align: left;">ms_run[5]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[6]-location</td>
-<td style="text-align: center;">s3-t2.mzML</td>
+<td style="text-align: left;">ms_run[6]-location</td>
+<td style="text-align: left;">s3-t2.mzML</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[6]-format</td>
-<td style="text-align: center;">[MS, MS:1000584, mzML file, ]</td>
+<td style="text-align: left;">ms_run[6]-format</td>
+<td style="text-align: left;">[MS, MS:1000584, mzML file, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">ms_run[6]-id_format</td>
-<td style="text-align: center;">[MS, MS:1000530, mzML unique identifier, ]</td>
+<td style="text-align: left;">ms_run[6]-id_format</td>
+<td style="text-align: left;">[MS, MS:1000530, mzML unique identifier, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">ms_run[6]-scan_polarity[1]</td>
-<td style="text-align: center;">[MS, MS:1000130, positive scan, ]</td>
+<td style="text-align: left;">ms_run[6]-scan_polarity[1]</td>
+<td style="text-align: left;">[MS, MS:1000130, positive scan, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[1]</td>
-<td style="text-align: center;">S1_T1</td>
+<td style="text-align: left;">assay[1]</td>
+<td style="text-align: left;">S1_T1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[1]-sample_ref</td>
-<td style="text-align: center;">sample[1]</td>
+<td style="text-align: left;">assay[1]-sample_ref</td>
+<td style="text-align: left;">sample[1]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[1]-ms_run_ref</td>
-<td style="text-align: center;">ms_run[1]</td>
+<td style="text-align: left;">assay[1]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[2]</td>
-<td style="text-align: center;">S1_T2</td>
+<td style="text-align: left;">assay[2]</td>
+<td style="text-align: left;">S1_T2</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[2]-sample_ref</td>
-<td style="text-align: center;">sample[1]</td>
+<td style="text-align: left;">assay[2]-sample_ref</td>
+<td style="text-align: left;">sample[1]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[2]-ms_run_ref</td>
-<td style="text-align: center;">ms_run[2]</td>
+<td style="text-align: left;">assay[2]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[2]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[3]</td>
-<td style="text-align: center;">S2_T1</td>
+<td style="text-align: left;">assay[3]</td>
+<td style="text-align: left;">S2_T1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[3]-sample_ref</td>
-<td style="text-align: center;">sample[2]</td>
+<td style="text-align: left;">assay[3]-sample_ref</td>
+<td style="text-align: left;">sample[2]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[3]-ms_run_ref</td>
-<td style="text-align: center;">ms_run[3]</td>
+<td style="text-align: left;">assay[3]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[3]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[4]</td>
-<td style="text-align: center;">S2_T2</td>
+<td style="text-align: left;">assay[4]</td>
+<td style="text-align: left;">S2_T2</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[4]-sample_ref</td>
-<td style="text-align: center;">sample[2]</td>
+<td style="text-align: left;">assay[4]-sample_ref</td>
+<td style="text-align: left;">sample[2]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[4]-ms_run_ref</td>
-<td style="text-align: center;">ms_run[4]</td>
+<td style="text-align: left;">assay[4]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[4]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[5]</td>
-<td style="text-align: center;">S3_T1</td>
+<td style="text-align: left;">assay[5]</td>
+<td style="text-align: left;">S3_T1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[5]-sample_ref</td>
-<td style="text-align: center;">sample[3]</td>
+<td style="text-align: left;">assay[5]-sample_ref</td>
+<td style="text-align: left;">sample[3]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[5]-ms_run_ref</td>
-<td style="text-align: center;">ms_run[5]</td>
+<td style="text-align: left;">assay[5]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[5]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[6]</td>
-<td style="text-align: center;">S3_T2</td>
+<td style="text-align: left;">assay[6]</td>
+<td style="text-align: left;">S3_T2</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">assay[6]-sample_ref</td>
-<td style="text-align: center;">sample[3]</td>
+<td style="text-align: left;">assay[6]-sample_ref</td>
+<td style="text-align: left;">sample[3]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">assay[6]-ms_run_ref</td>
-<td style="text-align: center;">ms_run[6]</td>
+<td style="text-align: left;">assay[6]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[6]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[1]</td>
-<td style="text-align: center;">timepoint:0h</td>
+<td style="text-align: left;">study_variable_group[1]</td>
+<td style="text-align: left;">timepoint</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[1]-assay_refs</td>
-<td style="text-align: center;">assay[1]|assay[3]|assay[5]</td>
+<td style="text-align: left;">study_variable_group[1]-description</td>
+<td style="text-align: left;">Sample matrix column timepoint</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[1]-average_function</td>
-<td style="text-align: center;">[MS, MS:1002962, mean, ]</td>
+<td style="text-align: left;">study_variable_group[1]-type</td>
+<td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[1]-variation_function</td>
-<td style="text-align: center;">[MS, MS:1002963, variation coefficient, ]</td>
+<td style="text-align: left;">study_variable_group[1]-datatype</td>
+<td style="text-align: left;">xsd:string</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[1]-description</td>
-<td style="text-align: center;">Column: timepoint, value: 0h</td>
+<td style="text-align: left;">study_variable_group[1]-unit</td>
+<td style="text-align: left;">[, , hours, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[2]</td>
-<td style="text-align: center;">timepoint:6h</td>
+<td style="text-align: left;">study_variable_group[2]</td>
+<td style="text-align: left;">genotype</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[2]-assay_refs</td>
-<td style="text-align: center;">assay[2]|assay[4]|assay[6]</td>
+<td style="text-align: left;">study_variable_group[2]-description</td>
+<td style="text-align: left;">Sample matrix column genotype</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[2]-average_function</td>
-<td style="text-align: center;">[MS, MS:1002962, mean, ]</td>
+<td style="text-align: left;">study_variable_group[2]-type</td>
+<td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[2]-variation_function</td>
-<td style="text-align: center;">[MS, MS:1002963, variation coefficient, ]</td>
+<td style="text-align: left;">study_variable_group[2]-datatype</td>
+<td style="text-align: left;">xsd:string</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[2]-description</td>
-<td style="text-align: center;">Column: timepoint, value: 6h</td>
+<td style="text-align: left;">study_variable_group[3]</td>
+<td style="text-align: left;">operator</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[3]</td>
-<td style="text-align: center;">genotype:WT</td>
+<td style="text-align: left;">study_variable_group[3]-description</td>
+<td style="text-align: left;">Sample matrix column operator</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[3]-assay_refs</td>
-<td style="text-align: center;">assay[1]|assay[2]</td>
+<td style="text-align: left;">study_variable_group[3]-type</td>
+<td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[3]-average_function</td>
-<td style="text-align: center;">[MS, MS:1002962, mean, ]</td>
+<td style="text-align: left;">study_variable_group[3]-datatype</td>
+<td style="text-align: left;">xsd:string</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[3]-variation_function</td>
-<td style="text-align: center;">[MS, MS:1002963, variation coefficient, ]</td>
+<td style="text-align: left;">study_variable[1]</td>
+<td style="text-align: left;">0h</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[3]-description</td>
-<td style="text-align: center;">Column: genotype, value: WT</td>
+<td style="text-align: left;">study_variable[1]-assay_refs</td>
+<td style="text-align: left;">assay[1]|assay[3]|assay[5]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[4]</td>
-<td style="text-align: center;">genotype:KO</td>
+<td style="text-align: left;">study_variable[1]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[4]-assay_refs</td>
-<td style="text-align: center;">assay[3]|assay[4]|assay[5]|assay[6]</td>
+<td style="text-align: left;">study_variable[1]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[4]-average_function</td>
-<td style="text-align: center;">[MS, MS:1002962, mean, ]</td>
+<td style="text-align: left;">study_variable[1]-description</td>
+<td style="text-align: left;">Variable timepoint, value 0h</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[4]-variation_function</td>
-<td style="text-align: center;">[MS, MS:1002963, variation coefficient, ]</td>
+<td style="text-align: left;">study_variable[1]-group_refs</td>
+<td style="text-align: left;">study_variable_group[1]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[4]-description</td>
-<td style="text-align: center;">Column: genotype, value: KO</td>
+<td style="text-align: left;">study_variable[2]</td>
+<td style="text-align: left;">6h</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[5]</td>
-<td style="text-align: center;">operator:BB</td>
+<td style="text-align: left;">study_variable[2]-assay_refs</td>
+<td style="text-align: left;">assay[2]|assay[4]|assay[6]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[5]-assay_refs</td>
-<td style="text-align: center;">assay[1]|assay[2]|assay[3]|assay[4]</td>
+<td style="text-align: left;">study_variable[2]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[5]-average_function</td>
-<td style="text-align: center;">[MS, MS:1002962, mean, ]</td>
+<td style="text-align: left;">study_variable[2]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[5]-variation_function</td>
-<td style="text-align: center;">[MS, MS:1002963, variation coefficient, ]</td>
+<td style="text-align: left;">study_variable[2]-description</td>
+<td style="text-align: left;">Variable timepoint, value 6h</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[5]-description</td>
-<td style="text-align: center;">Column: operator, value: BB</td>
+<td style="text-align: left;">study_variable[2]-group_refs</td>
+<td style="text-align: left;">study_variable_group[1]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[6]</td>
-<td style="text-align: center;">operator:FB</td>
+<td style="text-align: left;">study_variable[3]</td>
+<td style="text-align: left;">WT</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[6]-assay_refs</td>
-<td style="text-align: center;">assay[5]|assay[6]</td>
+<td style="text-align: left;">study_variable[3]-assay_refs</td>
+<td style="text-align: left;">assay[1]|assay[2]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[6]-average_function</td>
-<td style="text-align: center;">[MS, MS:1002962, mean, ]</td>
+<td style="text-align: left;">study_variable[3]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">study_variable[6]-variation_function</td>
-<td style="text-align: center;">[MS, MS:1002963, variation coefficient, ]</td>
+<td style="text-align: left;">study_variable[3]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">study_variable[6]-description</td>
-<td style="text-align: center;">Column: operator, value: FB</td>
+<td style="text-align: left;">study_variable[3]-description</td>
+<td style="text-align: left;">Variable genotype, value WT</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">cv[1]-label</td>
-<td style="text-align: center;">MS</td>
+<td style="text-align: left;">study_variable[3]-group_refs</td>
+<td style="text-align: left;">study_variable_group[2]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">cv[1]-full_name</td>
-<td style="text-align: center;">PSI-MS controlled vocabulary</td>
+<td style="text-align: left;">study_variable[4]</td>
+<td style="text-align: left;">KO</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">cv[1]-version</td>
-<td style="text-align: center;">4.1.138</td>
+<td style="text-align: left;">study_variable[4]-assay_refs</td>
+<td style="text-align: left;">assay[3]|assay[4]|assay[5]|assay[6]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">cv[1]-uri</td>
-<td style="text-align: center;">https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo</td>
+<td style="text-align: left;">study_variable[4]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">cv[2]-label</td>
-<td style="text-align: center;">PRIDE</td>
+<td style="text-align: left;">study_variable[4]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">cv[2]-full_name</td>
-<td style="text-align: center;">PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary</td>
+<td style="text-align: left;">study_variable[4]-description</td>
+<td style="text-align: left;">Variable genotype, value KO</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">cv[2]-version</td>
-<td style="text-align: center;">16:10:2023 11:38</td>
+<td style="text-align: left;">study_variable[4]-group_refs</td>
+<td style="text-align: left;">study_variable_group[2]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">cv[2]-uri</td>
-<td style="text-align: center;">https://www.ebi.ac.uk/ols/ontologies/pride</td>
+<td style="text-align: left;">study_variable[5]</td>
+<td style="text-align: left;">BB</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">database[1]</td>
-<td style="text-align: center;">[,, “no database”, null ]</td>
+<td style="text-align: left;">study_variable[5]-assay_refs</td>
+<td style="text-align: left;">assay[1]|assay[2]|assay[3]|assay[4]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">database[1]-prefix</td>
-<td style="text-align: center;">null</td>
+<td style="text-align: left;">study_variable[5]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">database[1]-version</td>
-<td style="text-align: center;">Unknown</td>
+<td style="text-align: left;">study_variable[5]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">database[1]-uri</td>
-<td style="text-align: center;">null</td>
+<td style="text-align: left;">study_variable[5]-description</td>
+<td style="text-align: left;">Variable operator, value BB</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">small_molecule-quantification_unit</td>
-<td style="text-align: center;">[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]</td>
+<td style="text-align: left;">study_variable[5]-group_refs</td>
+<td style="text-align: left;">study_variable_group[3]</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">small_molecule_feature-quantification_unit</td>
-<td style="text-align: center;">[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]</td>
+<td style="text-align: left;">study_variable[6]</td>
+<td style="text-align: left;">FB</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">small_molecule-identification_reliability</td>
-<td style="text-align: center;">[MS, MS:1002896, compound identification confidence level, ]</td>
+<td style="text-align: left;">study_variable[6]-assay_refs</td>
+<td style="text-align: left;">assay[5]|assay[6]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[6]-average_function</td>
+<td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[6]-variation_function</td>
+<td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[6]-description</td>
+<td style="text-align: left;">Variable operator, value FB</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[6]-group_refs</td>
+<td style="text-align: left;">study_variable_group[3]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[1]-label</td>
+<td style="text-align: left;">MS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[1]-full_name</td>
+<td style="text-align: left;">PSI-MS controlled vocabulary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[1]-version</td>
+<td style="text-align: left;">4.1.138</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[1]-uri</td>
+<td style="text-align: left;">https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[2]-label</td>
+<td style="text-align: left;">PRIDE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[2]-full_name</td>
+<td style="text-align: left;">PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[2]-version</td>
+<td style="text-align: left;">16:10:2023 11:38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[2]-uri</td>
+<td style="text-align: left;">https://www.ebi.ac.uk/ols/ontologies/pride</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[3]-label</td>
+<td style="text-align: left;">STATO</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[3]-full_name</td>
+<td style="text-align: left;">General purpose STATistics Ontology</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[3]-version</td>
+<td style="text-align: left;">2026-04-20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[3]-uri</td>
+<td style="text-align: left;">https://www.ebi.ac.uk/ols4/ontologies/stato</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[4]-label</td>
+<td style="text-align: left;">BTO</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[4]-full_name</td>
+<td style="text-align: left;">The BRENDA Tissue Ontology (BTO)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[4]-version</td>
+<td style="text-align: left;">2021-10-26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[4]-uri</td>
+<td style="text-align: left;">https://www.ebi.ac.uk/ols4/ontologies/bto</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[5]-label</td>
+<td style="text-align: left;">NCBITaxon</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[5]-full_name</td>
+<td style="text-align: left;">NCBI organismal classification</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cv[5]-version</td>
+<td style="text-align: left;">2025-12-03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cv[5]-uri</td>
+<td style="text-align: left;">https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">database[1]</td>
+<td style="text-align: left;">[,, “no database”, null ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">database[1]-prefix</td>
+<td style="text-align: left;">null</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">database[1]-version</td>
+<td style="text-align: left;">Unknown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">database[1]-uri</td>
+<td style="text-align: left;">null</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">small_molecule-quantification_unit</td>
+<td style="text-align: left;">[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">small_molecule_feature-quantification_unit</td>
+<td style="text-align: left;">[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">small_molecule-identification_reliability</td>
+<td style="text-align: left;">[MS, MS:1002896, compound identification confidence level, ]</td>
 </tr>
 </tbody>
 </table></section><section class="level4"><h5 id="small-molecule-feature-smf-table">Small Molecule Feature (SMF) Table<a class="anchor" aria-label="anchor" href="#small-molecule-feature-smf-table"></a>
@@ -886,7 +1376,7 @@
 <p>The <em>small molecule feature</em> (SMF) section captures information on the quantified entities (features) of an experiment. This includes the feature abundances across assays as well as the feature’s <em>m/z</em>, retention times and eventual additional annotations such as the ion or the exact mass. The <code><a href="../reference/SMF-export.html">smf_create()</a></code> function compiles and formats this section based on the provided abundance matrix and feature specifications.</p>
 <p>Below we create an example abundance matrix and feature characteristics data matching the metadata from the previous section. Generally, such information can be extracted from the result objects of preprocessing software. We first define the abundance matrix: columns are assays, rows features. Importantly, the number and order of the assays has to match the <em>assay</em> definition in the metadata (defined above with the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function). Our example data consists of quantification of 7 features in 6 measurements (assays) of 3 samples.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">200.1</span>, <span class="fl">1232.1</span>, <span class="fl">54.3</span>, <span class="fl">399.1</span>, <span class="fl">599.8</span>, <span class="fl">23.1</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">260.2</span>, <span class="fl">39.5</span>, <span class="fl">177.4</span>, <span class="fl">599.5</span>, <span class="fl">5344.1</span>, <span class="fl">332.1</span>, <span class="fl">43.0</span><span class="op">)</span>,</span>
 <span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">256.1</span>, <span class="fl">904.2</span>, <span class="fl">56.9</span>, <span class="fl">533.1</span>, <span class="fl">489.9</span>, <span class="fl">3231.22</span>, <span class="fl">23.4</span><span class="op">)</span>,</span>
@@ -899,7 +1389,7 @@
 </div>
 <p>We next define also a <code>data.frame</code> with the feature characteristics from the MS measurement run (one row per feature and columns with <em>m/z</em>, retention time and, where known, also the adduct information and charge). Note that without any annotation (and hence a SML and SME section) adduct and charge information will not be available for the SMF table.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feature_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    mzmed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">195.088</span>, <span class="fl">127.1</span>, <span class="fl">299.2</span>, <span class="fl">181.07</span>, <span class="fl">218.077</span>, <span class="fl">343.123</span>, <span class="fl">148.06</span><span class="op">)</span>,</span>
 <span>    rtmed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25.6</span>, <span class="fl">128.4</span>, <span class="fl">67.2</span>, <span class="fl">127.3</span>, <span class="fl">25.7</span>, <span class="fl">167.2</span>, <span class="fl">76.34</span><span class="op">)</span>,</span>
@@ -912,7 +1402,7 @@
 </div>
 <p>We can now feed this information to the <code><a href="../reference/SMF-export.html">smf_create()</a></code> function. In addition to the predefined, parameters, also additional feature annotations/columns can be passed to the function through it’s <code>...</code> parameter. We provide the IDs of the individual features with <code>feature_id =</code>. These are then stored into a column <code>"opt_feature_id"</code>. Note that all parameters <strong>must</strong> be fully named, i.e., <code>x =</code> or <code>charge =</code> since the function does not support positional matching of its arguments.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SMF-export.html">smf_create</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">abundances</span>,</span>
 <span>    exp_mass_to_charge <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">mzmed</span>,</span>
@@ -925,7 +1415,7 @@
 </div>
 <p>The SMF content is:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">smf</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
@@ -976,7 +1466,7 @@ FT07              324.3               43.3               34.5           FT07</co
 <p>The Small Molecule (SML) table represents the <em>final</em> result of an experiment that is reported. It contains the abundances of molecules along with their annotations and abundance summaries for the experiment’s study variables. The content of the SML table is in general a subset of the SMF table, containing only the annotated features.</p>
 <p>Below we define a <code>data.frame</code> with annotations for features from the previous section’s SMF table. Such data should be compiled based on the results of an annotation software or workflow that used the SMF information as input. In our example, <em>FT01</em> and <em>FT05</em> are the <code>"[M+H]+"</code> and <code>"[M+Na]+"</code> ions of caffeine, <em>FT04</em> the <code>"[M+Na]+"</code> ion of either glucose or mannose, <em>FT06</em> the <code>"[M+H]+"</code> ion of sucrose and <em>FT07</em> <code>"[M+H]+"</code> ion of DL-glutamate. For <em>FT02</em> and <em>FT03</em> no annotation is known. For caffeine we report only one (the <em>main</em>) ion in the table but reference the two features in the SMF table. For the ambiguous annotation of <em>FT04</em> we report both annotations, separated by a <code>"|"</code>. The two features without annotation are not reported.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HMDB:HMDB0001847"</span>,</span>
 <span>           <span class="st">"HMDB:HMDB0000122|HMDB:HMDB0000169"</span>,</span>
@@ -1007,12 +1497,12 @@ FT07              324.3               43.3               34.5           FT07</co
 </div>
 <p>We next subset the feature abundance matrix for the selected (and annotated) molecules we want to report.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">abundances_sml</span> <span class="op">&lt;-</span> <span class="va">abundances</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div>
 </div>
 <p>With this information we can use the <code><a href="../reference/SML-export.html">sml_create()</a></code> function to compile the SML table. Note that (again) we <strong>must fully name</strong> all function arguments to which we pass values. Any additional (named) parameters provided to the function (like <code>note = anns$note</code> below) will be added as <em>optional</em> columns (prefixed with <code>"opt_"</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SML-export.html">sml_create</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">abundances_sml</span>,</span>
 <span>                  database_identifier <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>                  chemical_formula <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">formula</span>,</span>
@@ -1061,12 +1551,12 @@ FT07               43.3               34.5 manual curation</code></pre>
 </div>
 <p>This SML is however not yet complete. We must update the relationship between rows in the SML and the SMF section in column <code>"SMF_ID_REFS"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sml</span><span class="op">$</span><span class="va">SMF_ID_REFS</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1|5"</span>, <span class="st">"4"</span>, <span class="st">"6"</span>, <span class="st">"7"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>And finally we need to add columns with abundance average and variation for study variables defined in the MTD section. Here we can use the <code><a href="../reference/SML-export.html">sml_add_study_variable_columns()</a></code> helper function providing both the SML and the MTD data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SML-export.html">sml_add_study_variable_columns</a></span><span class="op">(</span><span class="va">sml</span>, <span class="va">mtd</span><span class="op">)</span></span>
 <span><span class="va">sml</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1163,10 +1653,12 @@ FT07                          0.1599624595 manual curation</code></pre>
 <code><a href="../reference/mtd_sort.html">mtd_sort()</a></code>: to sort rows of the metadata <code>matrix</code> into the expected order.</li>
 <li>
 <code><a href="../reference/parse_cv_parameter.html">parse_cv_parameter()</a></code>: extract elements and values from a CV parameter.</li>
+<li>
+<code><a href="../reference/parse_cv_parameter.html">is_cv_parameter()</a></code>: checks whether a <code>character</code> is in the expected CV parameter format.</li>
 </ul></section></section></section><section class="section level2"><h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R Under development (unstable) (2026-04-19 r89916)
@@ -1192,11 +1684,11 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base
 
 other attached packages:
-[1] pander_0.6.6   RmzTabM_0.97.5
+[1] pander_0.6.6   RmzTabM_0.97.6
 
 loaded via a namespace (and not attached):
  [1] compiler_4.7.0  fastmap_1.2.0   cli_3.6.6       tools_4.7.0
- [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1
+ [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1.1
  [9] rmarkdown_2.31  knitr_1.51      jsonlite_2.0.0  xfun_0.57
 [13] digest_0.6.39   rlang_1.2.0     evaluate_1.0.5 </code></pre>
 </div>
