@@ -1,0 +1,59 @@
+---
+title: "mzTab-M import/export playground"
+---
+
+Code examples to export and import mzTab-M files using *RmzTabM*. This is the
+playground to test implementations for higher-level import/export functionality
+and to evaluate that results are compatible with the standard.
+
+# Exporting through *RmzTabM*
+
+## *xcms* result objects
+
+### FAAH KO example file
+
+Loading an example *xcms* result object.
+
+```{r}
+library(MsExperiment)
+library(xcms)
+xmse <- loadXcmsData()
+
+#' sample/metadata information:
+#'
+#' Add additional column for "experiment", but then restrict to:
+#' - sample_group
+#' - experiment
+#' - weight
+#' - sample_name (? really?)
+sampleData(xmse)$experiment <- c("exp1", "exp2", "exp3", "exp4",
+                                 "exp1", "exp2", "exp3", "exp4")
+sampleData(xmse)$weight <- c(45.2, 56.3, 36.1, 55.1, 62.4, 65.2, 58.2, 56.8)
+sampleData(xmse)
+
+#' feature (SMF) information:
+#'
+#' use mz and rt information, don't consider the others
+featureDefinitions(xmse)
+
+#' abundance values:
+featureValues(xmse, method = "sum") |> head()
+
+```
+
+We next export this data to an mzTab-M file using *RmzTabM*...
+
+
+### *Metabonaut* example file?
+
+Here we would have some tentative annotations (only very few though) and a data
+set with more phenotypic information (age, sex). Plus: we could add a dedicated
+vignette with the mzTab-M export to *Metabonaut*.
+
+# Importing through *RmzTabM*
+
+# Session information
+
+```{r}
+sessionInfo()
+```
