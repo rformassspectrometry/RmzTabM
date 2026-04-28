@@ -1096,7 +1096,7 @@ General utility functions include:
 sessionInfo()
 ```
 
-    R Under development (unstable) (2026-04-19 r89916)
+    R version 4.6.0 (2026-04-24)
     Platform: x86_64-pc-linux-gnu
     Running under: Ubuntu 24.04.4 LTS
 
@@ -1122,7 +1122,7 @@ sessionInfo()
     [1] pander_0.6.6   RmzTabM_0.97.6
 
     loaded via a namespace (and not attached):
-     [1] compiler_4.7.0  fastmap_1.2.0   cli_3.6.6       tools_4.7.0
+     [1] compiler_4.6.0  fastmap_1.2.0   cli_3.6.6       tools_4.6.0
      [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1.1
      [9] rmarkdown_2.31  knitr_1.51      jsonlite_2.0.0  xfun_0.57
     [13] digest_0.6.39   rlang_1.2.0     evaluate_1.0.5 
