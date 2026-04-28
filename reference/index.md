@@ -5,6 +5,12 @@
 - [`MTD-export`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.md)
   : Defining and exporting the mzTab-M metadata table
 
+- [`sme_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  [`sme_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  [`sme_id_confidence_measure()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  [`sme_spectra_ref_validator()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  : Creating the mzTab-M Small Molecule (SME) Table
+
 - [`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
   [`smf_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
   : Create the mzTab-M Small Molecule Feature (SMF) Table
