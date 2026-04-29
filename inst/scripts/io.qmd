@@ -41,8 +41,249 @@ featureValues(xmse, method = "sum") |> head()
 
 ```
 
-We next export this data to an mzTab-M file using *RmzTabM*...
+We next export this data to an mzTab-M file using *RmzTabM*.
+In order todo:
+    - Create MTD table.
+    - Create SML table. (all `"null"` since is not exported by *xcms*)
+    - Create SMF table.
+    - Create SME table. (For the moment do not export. Prepare the check)
+    - Create a unique df with all section.
+    - Write tsv
 
+
+#### Create MTD table
+```{r}
+devtools::load_all()
+
+## Parameter
+id_exp <- "test_xcms_save"
+xmse <- xmse
+title <- character()
+description <- character()
+instrument = NULL
+col_species = character()
+col_tissue = character()
+col_cell_type = character()
+col_disease = character()
+col_description = character()
+ms_run_polarity = character()
+groups = c("sample_group", "experiment", "sample_type")
+group_unit = c("", "", "")
+
+## TODO?: add all parameters of sub functions?
+mtd_xcms_export <- function(id_exp, xmse, title = character(),
+            description = character(), instrument = NULL,
+            col_species = character(), col_tissue = character(),
+            col_cell_type = character(), col_disease = character(),
+            col_description = character(), ms_run_polarity = character(),
+            groups = character(), group_unit = character(),
+            group_description = character(), group_type = character(),
+            group_datatype = character(),
+            average_function = "[MS, MS:1002962, mean, ]",
+            variation_function = "[MS, MS:1002963, variation coefficient, ]",
+            svar_description = character()){
+    ## MTD section: sampleData()
+    mtd_sample_data <- sampleData(xmse)
+
+    ## TODO: expand with the other fields.
+    xcms_v <- paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]")
+    mtd <- mtd_skeleton(
+        id = id_exp,
+        software = xcms_v
+    )
+    if(length(title))
+        mtd <- rbind(mtd, c("title", title))
+    if(length(description))
+        mtd <- rbind(mtd, c("description", description))
+
+    ## INSTRUMENT
+    if(!is.null(instrument)) {
+        instr <- .mtd_get_field(instrument, "^instrument\\[\\d+\\]",
+                                exact = FALSE, fixed = FALSE)[[1]]
+        if (any(is.na(instr)))
+            wanirng("No valid \"instrument\" fields detected in the
+                    \"instrument\" parameter. Skip the saving.")
+        else {
+            rbind(mtd, instrument[instrument[, 1] %in% names(instr), ])
+        }
+    }
+
+    ## SAMPLE INFORMATION
+    species = ifelse(length(col_species), mtd_sample_data[, eval(col_species)],
+                     list())
+    tissue = ifelse(length(col_tissue), mtd_sample_data[, eval(col_tissue)],
+                     list())
+    cell_type = ifelse(length(col_cell_type),
+                        mtd_sample_data[, eval(col_cell_type)],
+                        list())
+    disease = ifelse(length(col_disease), mtd_sample_data[, eval(col_disease)],
+                     list())
+    description_sample = if(length(col_description)){
+                            mtd_sample_data[, eval(col_description)]
+                        } else {character()}
+    mtd_s <- mtd_sample(sample = mtd_sample_data$sample_name,
+                        species = species,
+                        tissue = tissue,
+                        cell_type = cell_type,
+                        disease = disease,
+                        description = description_sample)
+    mtd <- rbind(mtd, mtd_s)
+    ## Add sample[1-n] to correct sample in mtd_sample_data
+    sample_ref <- .mtd_get_field(mtd_s, "^sample\\[\\d+\\]$",
+                                 exact = FALSE, fixed = FALSE)[[1]]
+    mtd_sample_data$sample_ref <- names(sample_ref[match(sample_ref,
+                                                mtd_sample_data$sample_name)])
+
+    ## MS_RUNS
+    ## TODO: get correct scan_polarity from xcms
+    ## TODO: parse all parameters from xcms
+    mtd_msr <- mtd_ms_run(location = mtd_sample_data$spectraOrigin,
+                            scan_polarity = ms_run_polarity)
+    mtd <- rbind(mtd, mtd_msr)
+    ## Add ms_runs[1-n] to correct sample in mtd_sample_data
+    ms_runs_ref <- .mtd_get_field(mtd_msr, "^ms_run\\[\\d+\\]-location$",
+                                exact = FALSE, fixed = FALSE)[[1]]
+    mtd_sample_data$ms_runs_ref <- names(ms_runs_ref[match(ms_runs_ref,
+                                                        mtd_sample_data$spectraOrigin)])
+    mtd_sample_data$ms_runs_ref <- unlist(lapply(strsplit(mtd_sample_data$ms_runs_ref,
+                                                    "-"), function(x){x[1]}))
+
+    ## ASSAY
+    ## sample_ref not mandatory
+    mtd_a <- mtd_assay(assay = mtd_sample_data$sample_name,
+                        sample_ref = mtd_sample_data$sample_ref,
+                        ms_run_ref = mtd_sample_data$ms_runs_ref)
+    mtd <- rbind(mtd, mtd_a)
+
+    ## STUDY VARIABLES
+    mtd_svar <- mtd_study_variables(mtd_sample_data,
+                                    groups = groups,
+                                    group_unit = group_unit,
+                                    group_description = group_description,
+                                    group_type = group_type,
+                                    group_datatype = group_datatype,
+                                    average_function = average_function,
+                                    variation_function = variation_function,
+                                    description = svar_description)
+    mtd <- rbind(mtd, mtd_svar)
+
+    mtd <- mtd_sort(mtd)
+    mtd
+}
+```
+
+#### Create SML
+
+```{r}
+sml_xcms_export <- function(xmse, mtd) {
+    ## To implement since right now is not exported byt xcms
+    abundance <- matrix("null", nrow = 1, ncol = nrow(sampleData(xmse)))
+    sml <- sml_create(x = abundance)
+    ## TODO: put a random reliability to pass validator.
+    ## TODO: create issue in the valdiator
+    sml$reliability <- 4
+    sml <- sml_add_study_variable_columns(sml, mtd)
+    sml[is.na(sml)] <- "null"
+    sml
+}
+
+```
+
+#### Create SMF
+
+```{r}
+matrix_integer_to_character <- function(m) {
+    if (!is.matrix(m)) stop("Input must be a matrix")
+    out <- matrix(as.character(m), nrow = nrow(m), ncol = ncol(m),
+                    dimnames = dimnames(m))
+    out[is.na(m)] <- "null"
+    out
+}
+
+smf_xcms_export <- function(xmse) {
+    ## use mz and rt information, don't consider the others
+    feature_info <- featureDefinitions(xmse)
+    ## abundance values:
+    abundance <- matrix_integer_to_character(featureValues(xmse,
+                                                           method = "sum"))
+
+    charge = ifelse("charge" %in% names(feature_info), feature_info$charge,
+                    character())
+    adduct_ion = ifelse("adduct_ion" %in% names(feature_info),
+                        feature_info$adduct_ion, character())
+    isotopomer = ifelse("isotopomer" %in% names(feature_info),
+                        feature_info$isotopomer, character())
+    ## TODO: add SME_ID_REFS, SME_ID_REF_ambiguity_code
+    smf <- smf_create(x = abundance,
+                        exp_mass_to_charge = feature_info$mzmed,
+                        retention_time_in_seconds = feature_info$rtmed,
+                        retention_time_in_seconds_start = feature_info$rtmin,
+                        retention_time_in_seconds_end = feature_info$rtmax,
+                        charge = charge,
+                        adduct_ion = adduct_ion,
+                        isotopomer = isotopomer,
+                        global_feature_id = rownames(feature_info))
+    smf
+}
+```
+
+#### Create SME
+
+```{r}
+sme_xcms_export <- function(xmse) {
+    ## TODO: add SME. Default empty data.frame
+    sme <- data.frame()
+    sme
+}
+```
+
+
+##### Create unique table and save tsv
+
+```{r}
+mtd <- mtd_xcms_export("xcms_mzTab-M_2-1", xmse,
+                        ms_run_polarity = "positive",
+                        groups = c("sample_group", "experiment"),
+                        group_unit = c("", ""))
+sml <- sml_xcms_export(xmse, mtd)
+smf <- smf_xcms_export(xmse)
+sme <- sme_xcms_export(xmse)
+
+path <- "./inst/mztabm/out"
+if(!dir.exists(path))
+    dir.create(path, showWarnings = FALSE)
+
+filename = file.path(path,
+                    paste0(.mtd_get_field(mtd, "^mzTab-ID$",
+                                        exact = FALSE, fixed = FALSE),
+                    ".mzTab"))
+
+write.table(cbind(data.frame(rep("MTD", nrow(mtd))), mtd),
+            file = filename, sep = "\t", row.names = FALSE,
+            col.names = FALSE, quote = FALSE, fileEncoding = "UTF-8")
+write.table("", file = filename, sep = "\t", row.names = FALSE,
+            col.names = FALSE, append = TRUE, quote = FALSE,
+            fileEncoding = "UTF-8")
+suppressWarnings(write.table(sml, file = filename, sep = "\t",
+                             row.names = FALSE, append = TRUE, quote = FALSE,
+                             fileEncoding = "UTF-8"))
+write.table("", file = filename, sep = "\t", row.names = FALSE,
+            col.names = FALSE, append = TRUE, quote = FALSE,
+            fileEncoding = "UTF-8")
+if(nrow(smf)) {
+    suppressWarnings(write.table(smf, file = filename, sep = "\t",
+                                 row.names = FALSE, append = TRUE,
+                                 quote = FALSE, fileEncoding = "UTF-8"))
+    write.table("", file = filename, sep = "\t", row.names = FALSE,
+                col.names = FALSE, append = TRUE, quote = FALSE,
+                fileEncoding = "UTF-8")
+}
+if(nrow(sme)) {
+    suppressWarnings(write.table(sme, file = filename, sep = "\t",
+                                 row.names = FALSE, append = TRUE,
+                                 quote = FALSE, fileEncoding = "UTF-8"))
+}
+```
 
 ### *Metabonaut* example file?
 
