@@ -2,10 +2,14 @@
 title: "Export the RIKEN_LIPIDOMICS test file to mzTab-M"
 ---
 
-# Kozo's example files used for the agentic export
+Kozo's example files used for the agentic export.
 
 The data files are available
 [here](https://github.com/kozo2/hupopsi-pymztabm-handson/tree/main/RIKEN_LIPIDOMICS).
+
+
+# MTD + SML
+
 
 Complications:
 
@@ -123,6 +127,7 @@ mtd <- rbind(
                "[,, RT similarity,]",
                field_prefix = "id_confidence_measure")
 )
+mtd <- mtd_sort(mtd)
 ```
 
 OK, done with MTD.
@@ -184,6 +189,56 @@ suppressWarnings(
 )
 ```
 
+
+# MTD + SML + SMF + SME from `SummarizedExperiment`
+
+Going the full path, putting the input data into a `SummarizedExperiment`.
+
+```{r}
+library(RmzTabM)
+
+#' Sample information
+sd <- read.table("inst/tsv/1_Mouse_Adrenal_gland_1_forMTD.tsv", header = TRUE,
+                 sep = "\t", quote = "", check.names = FALSE, row.names = 1L)
+sd <- t(sd)
+
+#' Abundance data and feature annotation
+vals <- read.table("inst/tsv/1_Mouse_Adrenal_gland_1_forSMLSMF.tsv",
+                   header = TRUE, sep = "\t", quote = "", check.names = FALSE)
+all(rownames(sd) %in% colnames(vals))
+fdef <- vals[, !colnames(vals) %in% rownames(sd)]
+vals <- vals[, colnames(vals) %in% rownames(sd)]
+
+library(SummarizedExperiment)
+
+#' rowData
+rownames(fdef) <- fdef$`Alignment ID` # feature ID.
+
+#' assay
+vals <- as.matrix(vals)
+rownames(vals) <- rownames(fdef)
+
+se <- SummarizedExperiment(rowData = fdef, colData = sd, assay = list(vals))
+```
+
+## MTD
+
+### Autogenerating MTD
+
+```{r}
+mtd <- function(x, id = character(), software = character(),
+                sampleColumns = colnames(colData(x))) {
+    m <- mtd_skeleton(id = id, software = software)
+    ## add samples
+    ## add ms_run
+    ## add assay
+    ## add study variables
+}
+```
+
+### Manual MTD completion
+
+- need to provide annotation confidence and similar things.
 
 # Session information
 

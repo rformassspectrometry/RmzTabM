@@ -1,37 +1,10 @@
 MTD	mzTab-version	2.1.0-M
 MTD	mzTab-ID	RIKEN_LIPIDOMICS
-MTD	software[1]	[MS, MS:1003082, MS-DIAL, ]
-MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
-MTD	cv[1]-label	MS
-MTD	cv[1]-full_name	PSI-MS controlled vocabulary
-MTD	cv[1]-version	4.1.138
-MTD	cv[1]-uri	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
-MTD	cv[2]-label	PRIDE
-MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary
-MTD	cv[2]-version	16:10:2023 11:38
-MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/pride
-MTD	cv[3]-label	STATO
-MTD	cv[3]-full_name	General purpose STATistics Ontology
-MTD	cv[3]-version	2026-04-20
-MTD	cv[3]-uri	https://www.ebi.ac.uk/ols4/ontologies/stato
-MTD	database[1]	[,, in-house reference data, ]
-MTD	database[1]-prefix	null
-MTD	database[1]-version	Unknown
-MTD	database[1]-uri	null
-MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
-MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
-MTD	small_molecule-identification_reliability	[MS, MS:1002955, hr-ms compound identification confidence level,]
 MTD	title	Export of example file with RmzTabM
 MTD	description	Example export of a RIKEN_LIPIDOMICS data set
+MTD	software[1]	[MS, MS:1003082, MS-DIAL, ]
 MTD	uri[1]	https://metabography.riken.jp/menta.cgi/lipidomics/download_data_set
-MTD	cv[4]-label	BTO
-MTD	cv[4]-full_name	The BRENDA Tissue Ontology (BTO)
-MTD	cv[4]-version	2021-10-26
-MTD	cv[4]-uri	https://www.ebi.ac.uk/ols4/ontologies/bto
-MTD	cv[5]-label	NCBITaxon
-MTD	cv[5]-full_name	NCBI organismal classification
-MTD	cv[5]-version	2025-12-03
-MTD	cv[5]-uri	https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon
+MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
 MTD	sample[1]	blank
 MTD	sample[1]-species[1]	null
 MTD	sample[1]-tissue[1]	null
@@ -162,6 +135,33 @@ MTD	study_variable[8]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[8]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[8]-description	Variable Biological replicate, value 3
 MTD	study_variable[8]-group_refs	study_variable_group[3]
+MTD	cv[1]-label	MS
+MTD	cv[1]-full_name	PSI-MS controlled vocabulary
+MTD	cv[1]-version	4.1.138
+MTD	cv[1]-uri	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+MTD	cv[2]-label	PRIDE
+MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary
+MTD	cv[2]-version	16:10:2023 11:38
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/pride
+MTD	cv[3]-label	STATO
+MTD	cv[3]-full_name	General purpose STATistics Ontology
+MTD	cv[3]-version	2026-04-20
+MTD	cv[3]-uri	https://www.ebi.ac.uk/ols4/ontologies/stato
+MTD	cv[4]-label	BTO
+MTD	cv[4]-full_name	The BRENDA Tissue Ontology (BTO)
+MTD	cv[4]-version	2021-10-26
+MTD	cv[4]-uri	https://www.ebi.ac.uk/ols4/ontologies/bto
+MTD	cv[5]-label	NCBITaxon
+MTD	cv[5]-full_name	NCBI organismal classification
+MTD	cv[5]-version	2025-12-03
+MTD	cv[5]-uri	https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon
+MTD	database[1]	[,, in-house reference data, ]
+MTD	database[1]-prefix	null
+MTD	database[1]-version	Unknown
+MTD	database[1]-uri	null
+MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
+MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
+MTD	small_molecule-identification_reliability	[MS, MS:1002955, hr-ms compound identification confidence level,]
 MTD	id_confidence_measure[1]	[MS, MS:1003304, spectral dot product, ]
 MTD	id_confidence_measure[1]	[,, RT similarity,]
 

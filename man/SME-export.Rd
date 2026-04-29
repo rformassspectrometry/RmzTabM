@@ -42,11 +42,11 @@ passed through \code{...} has to match \code{nrow(x)} and the arguments \strong{
 to be named. The name of the argument is used for the column name,
 prefixed with \code{"opt_"}.}
 
-\item{evidence_input_id}{\code{character} with the file unique identifier for the
-input data used to support this identification e.g. fragment spectrum,
-RT and m/z pair, isotope profile that was used for the identification
-process, to serve as a grouping mechanism, whereby multiple rows of
-results from the same input data share the same ID. The identifiers
+\item{evidence_input_id}{\code{character} with the within-file unique identifier
+for the input data used to support this identification e.g. fragment
+spectrum, RT and m/z pair, isotope profile that was used for the
+identification process. Multiple rows can share the same ID, i.e., if
+multiple (alternative) annotations would be possible. The identifiers
 may be human readable but should not be assumed to be interpretable. For
 example, if fragmentation spectra have been searched then the ID may be
 the spectrum reference, or for accurate mass search, the
@@ -58,9 +58,10 @@ This could include additionally a chemical class or an identifier to a
 spectral library entity, even if its actual identity is unknown.
 Has to be in the format \emph{\if{html}{\out{<SOURCE>}}:\if{html}{\out{<ID>}}} to provide the database/source
 of annotation and the ID (e.g. \code{"HMDB:HMDB0001847"}).
-Can be \code{"null"} or \code{NA} for molecules without annotations. The length
-of \code{database_identifier} has to match the number of rows of \code{x}. If not
-provided (the default) \code{"null"} is assigned to each row/molecule.}
+Can be \code{"null"} or \code{NA} for molecules without annotations. If provided,
+the length of \code{database_identifier} has to match the length of
+\code{evidence_input_id}. If not provided (the default) \code{"null"} is assigned
+to each row/molecule.}
 
 \item{chemical_formula}{\code{character} with the chemical formula of the
 compound. This should be specified in Hill notation (EA Hill 1900), i.e.
@@ -70,26 +71,26 @@ avoid confusion (e.g., \verb{“CO”} vs. \verb{“Co”}). The chemical formul
 should refer to the neutral form. Charge state is reported by the charge
 field. For example: \code{"N-acetylglucosamine"} would be encoded by the
 string \verb{“C8H15NO6”}. Can be \code{"null"} but, if provided, its length has to
-match the number of rows of \code{x}.}
+match the length of \code{evidence_input_id}.}
 
 \item{smiles}{\code{character} with the potential molecule structures in the
 simplified molecular-input line-entry system (SMILES) for the small
 molecule. Can be \code{"null"} but, if provided, its length has to match the
-number of rows of \code{x}.}
+length of \code{evidence_input_id}.}
 
 \item{inchi}{\code{character} with the potential standard IUPAC International
 Chemical Identifier (InChI) of the given substance. Can be \code{"null"} but,
-if provided, its length has to match the number of rows of \code{x}.}
+if provided, its length has to match the length of \code{evidence_input_id}.}
 
 \item{chemical_name}{\code{character} with the possible chemical/common names for
 the small molecule, or general description if a chemical name is
 unavailable. Can be \code{"null"} but, if provided, its length has to match
-the number of rows of \code{x}.}
+the length of \code{evidence_input_id}.}
 
 \item{uri}{\code{character} with the URI pointing to the small molecule’s entry
 in a reference database (e.g., the small molecule’s HMDB or KEGG entry).
-Can be \code{"null"} but, if provided, its length has to match the number of
-rows of \code{x}.}
+Can be \code{"null"} but, if provided, its length has to match the length of
+\code{evidence_input_id}.}
 
 \item{derivatized_form}{\code{character} with the derivatized form that has been
 analysed by MS, then the functional group attached to the molecule
@@ -100,7 +101,7 @@ molecule’s adduct ion after detection, following the general style in
 the 2013 IUPAC recommendations on terms relating to MS (e.g.
 \code{"[M+Na]1"}, \code{"[M+NH4]1+"}, \code{"[M-H]1-"}, \code{"[M+Cl]1-"}).
 Can be \code{"null"} (or \code{NA}) but, if provided, its length has to match the
-number of rows of \code{x}.}
+length of \code{evidence_input_id}.}
 
 \item{exp_mass_to_charge}{\code{numeric} with the experimental mass/charge value
 for the precursor ion. If multiple adduct forms have been combined into
@@ -131,7 +132,7 @@ used: \code{"quality estimation by manual validation"} \code{MS:1001058}.}
 
 \item{ms_level}{\code{character} with the highest MS level used to inform
 identification (e.g. from an MS2 fragmentation spectrum =
-\verb{""[MS, MS:1000511, ms level, 2]""}. For direct fragmentation
+\code{"[MS, MS:1000511, ms level, 2]"}. For direct fragmentation
 or data independent approaches where fragmentation data is used,
 appropriate CV terms SHOULD be used.}
 
@@ -139,7 +140,7 @@ appropriate CV terms SHOULD be used.}
 for the identification. The metadata section reports the type of score
 used, as \code{"id_confidence_measure[1-n]"}.}
 
-\item{rank}{\code{numeric}with the rank of this identification from
+\item{rank}{\code{numeric} with the rank of this identification from
 this approach as increasing integers from 1 (best ranked
 identification). Ties (equal score) are represented by using the same
 rank, defaults to \code{"1"} if there is no ranking system used.}
@@ -163,17 +164,18 @@ the 'SEH' line prefix, standard columns ordered according to spec, and any
 optional columns.
 }
 \description{
-The Small Molecule (SME) table is representing evidence for identifications
-of small molecules/features, from database search or any other process used
-to give putative identifications to molecules. In a typical case, each row
-represents one result from a single search or intepretation of a piece of
-evidence (e.g. a database search with a fragmentation spectrum). Multiple
-results from a given input data item (e.g. one fragment spectrum) SHOULD
-share the same value under \code{"evidence_input_id"}.
-The small molecule evidence section MUST always come after the
-\code{"Small Molecule Feature"} (SMF) Table. There MUST NOT be any empty cells
-and missing values MUST be reported using \code{"null"}. All columns are
-MANDATORY except for \code{"opt_"} columns.
+The Small Molecule (SME) table contains evidence for annotation
+(identification) of small molecule features (defined in the SMF section
+\link{SMF-export}). These annotations can result from database searches using MS2
+spectra or retention time and \emph{m/z} searches against an in-house annotation
+database. Each row provides the evidence for one match. Multiple
+matches/annotations for the same input information can be reported in
+separate rows (but using the \strong{same} value in the \code{"evidence_input_id"}
+column).
+
+The small molecule evidence section \strong{must} always come after the
+\code{"Small Molecule Feature"} (SMF) Table. All columns are
+\strong{mandatory} except for \code{"opt_"} columns.
 
 A detailed description of the SME format and its columns is provided in the
 \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section}{respective section}
@@ -190,6 +192,7 @@ It automatically:
 \code{evidence_input_id}).
 \item Populates missing mandatory columns with \code{"null"} strings to ensure
 compliance.
+\item Checks content against information available in the MTD section.
 \item Sets the line prefix column \code{SEH} to \code{"SME"}.
 \item Orders columns according to the mzTab-M specification.
 }
