@@ -2,6 +2,11 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.7
+
+- Add SME section code.
+- Add scripts to test export of mzTab-M 2.1 files.
+
 ### Changes in version 0.97.6
 
 - MTD: add *study_variable_group* support (mzTab-M \>= 2.1).

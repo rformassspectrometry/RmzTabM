@@ -1119,7 +1119,7 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6   RmzTabM_0.97.6
+    [1] pander_0.6.6   RmzTabM_0.97.7
 
     loaded via a namespace (and not attached):
      [1] compiler_4.6.0  fastmap_1.2.0   cli_3.6.6       tools_4.6.0

@@ -1,16 +1,18 @@
 # Creating the mzTab-M Small Molecule (SME) Table
 
-The Small Molecule (SME) table is representing evidence for
-identifications of small molecules/features, from database search or any
-other process used to give putative identifications to molecules. In a
-typical case, each row represents one result from a single search or
-intepretation of a piece of evidence (e.g. a database search with a
-fragmentation spectrum). Multiple results from a given input data item
-(e.g. one fragment spectrum) SHOULD share the same value under
-`"evidence_input_id"`. The small molecule evidence section MUST always
-come after the `"Small Molecule Feature"` (SMF) Table. There MUST NOT be
-any empty cells and missing values MUST be reported using `"null"`. All
-columns are MANDATORY except for `"opt_"` columns.
+The Small Molecule (SME) table contains evidence for annotation
+(identification) of small molecule features (defined in the SMF section
+[SMF-export](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)).
+These annotations can result from database searches using MS2 spectra or
+retention time and *m/z* searches against an in-house annotation
+database. Each row provides the evidence for one match. Multiple
+matches/annotations for the same input information can be reported in
+separate rows (but using the **same** value in the `"evidence_input_id"`
+column).
+
+The small molecule evidence section **must** always come after the
+`"Small Molecule Feature"` (SMF) Table. All columns are **mandatory**
+except for `"opt_"` columns.
 
 A detailed description of the SME format and its columns is provided in
 the [respective
@@ -29,6 +31,8 @@ The functions to create and format the SME content are:
 
   - Populates missing mandatory columns with `"null"` strings to ensure
     compliance.
+
+  - Checks content against information available in the MTD section.
 
   - Sets the line prefix column `SEH` to `"SME"`.
 
@@ -92,13 +96,13 @@ sme_spectra_ref_validator(x, mtd)
 
 - evidence_input_id:
 
-  `character` with the file unique identifier for the input data used to
-  support this identification e.g. fragment spectrum, RT and m/z pair,
-  isotope profile that was used for the identification process, to serve
-  as a grouping mechanism, whereby multiple rows of results from the
-  same input data share the same ID. The identifiers may be human
-  readable but should not be assumed to be interpretable. For example,
-  if fragmentation spectra have been searched then the ID may be the
+  `character` with the within-file unique identifier for the input data
+  used to support this identification e.g. fragment spectrum, RT and m/z
+  pair, isotope profile that was used for the identification process.
+  Multiple rows can share the same ID, i.e., if multiple (alternative)
+  annotations would be possible. The identifiers may be human readable
+  but should not be assumed to be interpretable. For example, if
+  fragmentation spectra have been searched then the ID may be the
   spectrum reference, or for accurate mass search, the
   `"ms_run[2]:458.75"`.
 
@@ -110,9 +114,9 @@ sme_spectra_ref_validator(x, mtd)
   its actual identity is unknown. Has to be in the format *:* to provide
   the database/source of annotation and the ID (e.g.
   `"HMDB:HMDB0001847"`). Can be `"null"` or `NA` for molecules without
-  annotations. The length of `database_identifier` has to match the
-  number of rows of `x`. If not provided (the default) `"null"` is
-  assigned to each row/molecule.
+  annotations. If provided, the length of `database_identifier` has to
+  match the length of `evidence_input_id`. If not provided (the default)
+  `"null"` is assigned to each row/molecule.
 
 - chemical_formula:
 
@@ -124,34 +128,34 @@ sme_spectra_ref_validator(x, mtd)
   to the neutral form. Charge state is reported by the charge field. For
   example: `"N-acetylglucosamine"` would be encoded by the string
   `“C8H15NO6”`. Can be `"null"` but, if provided, its length has to
-  match the number of rows of `x`.
+  match the length of `evidence_input_id`.
 
 - smiles:
 
   `character` with the potential molecule structures in the simplified
   molecular-input line-entry system (SMILES) for the small molecule. Can
-  be `"null"` but, if provided, its length has to match the number of
-  rows of `x`.
+  be `"null"` but, if provided, its length has to match the length of
+  `evidence_input_id`.
 
 - inchi:
 
   `character` with the potential standard IUPAC International Chemical
   Identifier (InChI) of the given substance. Can be `"null"` but, if
-  provided, its length has to match the number of rows of `x`.
+  provided, its length has to match the length of `evidence_input_id`.
 
 - chemical_name:
 
   `character` with the possible chemical/common names for the small
   molecule, or general description if a chemical name is unavailable.
-  Can be `"null"` but, if provided, its length has to match the number
-  of rows of `x`.
+  Can be `"null"` but, if provided, its length has to match the length
+  of `evidence_input_id`.
 
 - uri:
 
   `character` with the URI pointing to the small molecule’s entry in a
   reference database (e.g., the small molecule’s HMDB or KEGG entry).
-  Can be `"null"` but, if provided, its length has to match the number
-  of rows of `x`.
+  Can be `"null"` but, if provided, its length has to match the length
+  of `evidence_input_id`.
 
 - derivatized_form:
 
@@ -166,7 +170,7 @@ sme_spectra_ref_validator(x, mtd)
   following the general style in the 2013 IUPAC recommendations on terms
   relating to MS (e.g. `"[M+Na]1"`, `"[M+NH4]1+"`, `"[M-H]1-"`,
   `"[M+Cl]1-"`). Can be `"null"` (or `NA`) but, if provided, its length
-  has to match the number of rows of `x`.
+  has to match the length of `evidence_input_id`.
 
 - exp_mass_to_charge:
 
@@ -209,7 +213,7 @@ sme_spectra_ref_validator(x, mtd)
 
   `character` with the highest MS level used to inform identification
   (e.g. from an MS2 fragmentation spectrum =
-  `""[MS, MS:1000511, ms level, 2]""`. For direct fragmentation or data
+  `"[MS, MS:1000511, ms level, 2]"`. For direct fragmentation or data
   independent approaches where fragmentation data is used, appropriate
   CV terms SHOULD be used.
 
@@ -221,7 +225,7 @@ sme_spectra_ref_validator(x, mtd)
 
 - rank:
 
-  `numeric`with the rank of this identification from this approach as
+  `numeric` with the rank of this identification from this approach as
   increasing integers from 1 (best ranked identification). Ties (equal
   score) are represented by using the same rank, defaults to `"1"` if
   there is no ranking system used.
@@ -320,14 +324,14 @@ sme_final <- sme_create(
 
 ## The result contains the 'SEH' line prefix and standard columns
 head(sme_final)
-#>   SEH               evidence_input_id database_identifier chemical_formula
-#> 1 SME ms_run[1]:mass=700.5255;rt=20·5                null             null
-#> 2 SME ms_run[2]:mass=452.2782;rt=35.1                null             null
-#> 3 SME ms_run[3]:mass=882.6210;rt=40.0                null             null
-#>   smiles inchi chemical_name  uri derivatized_form adduct_ions
-#> 1   null  null          null null             null        null
-#> 2   null  null          null null             null        null
-#> 3   null  null          null null             null        null
+#>   SEH SME_ID               evidence_input_id database_identifier
+#> 1 SME      1 ms_run[1]:mass=700.5255;rt=20·5                null
+#> 2 SME      2 ms_run[2]:mass=452.2782;rt=35.1                null
+#> 3 SME      3 ms_run[3]:mass=882.6210;rt=40.0                null
+#>   chemical_formula smiles inchi chemical_name  uri derivatized_form adduct_ions
+#> 1             null   null  null          null null             null        null
+#> 2             null   null  null          null null             null        null
+#> 3             null   null  null          null null             null        null
 #>   exp_mass_to_charge charge theoretical_mass_to_charge
 #> 1           700.5255      1                   700.5281
 #> 2           452.2782      1                   452.2777
