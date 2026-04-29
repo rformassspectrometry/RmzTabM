@@ -103,7 +103,7 @@ test_that("sme_create works", {
                                 "[MS, MS:1000511, ms level, 2]"))
     expect_equal(res$rank, c("1", "1", "1"))
 
-    expect_equal(colnames(res), c("SEH", "evidence_input_id",
+    expect_equal(colnames(res), c("SEH", "SME_ID", "evidence_input_id",
                 "database_identifier", "chemical_formula", "smiles", "inchi",
                 "chemical_name", "uri", "derivatized_form", "adduct_ions",
                 "exp_mass_to_charge", "charge", "theoretical_mass_to_charge",

@@ -23,17 +23,18 @@
 #'
 #' @description
 #'
-#' The Small Molecule (SME) table is representing evidence for identifications
-#' of small molecules/features, from database search or any other process used
-#' to give putative identifications to molecules. In a typical case, each row
-#' represents one result from a single search or intepretation of a piece of
-#' evidence (e.g. a database search with a fragmentation spectrum). Multiple
-#' results from a given input data item (e.g. one fragment spectrum) SHOULD
-#' share the same value under `"evidence_input_id"`.
-#' The small molecule evidence section MUST always come after the
-#' `"Small Molecule Feature"` (SMF) Table. There MUST NOT be any empty cells
-#' and missing values MUST be reported using `"null"`. All columns are
-#' MANDATORY except for `"opt_"` columns.
+#' The Small Molecule (SME) table contains evidence for annotation
+#' (identification) of small molecule features (defined in the SMF section
+#' [SMF-export]). These annotations can result from database searches using MS2
+#' spectra or retention time and *m/z* searches against an in-house annotation
+#' database. Each row provides the evidence for one match. Multiple
+#' matches/annotations for the same input information can be reported in
+#' separate rows (but using the **same** value in the `"evidence_input_id"`
+#' column).
+#'
+#' The small molecule evidence section **must** always come after the
+#' `"Small Molecule Feature"` (SMF) Table. All columns are
+#' **mandatory** except for `"opt_"` columns.
 #'
 #' A detailed description of the SME format and its columns is provided in the
 #' [respective section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section)
@@ -50,6 +51,7 @@
 #'     `evidence_input_id`).
 #'   - Populates missing mandatory columns with `"null"` strings to ensure
 #'     compliance.
+#'   - Checks content against information available in the MTD section.
 #'   - Sets the line prefix column `SEH` to `"SME"`.
 #'   - Orders columns according to the mzTab-M specification.
 #'
@@ -72,11 +74,11 @@
 #'     to be named. The name of the argument is used for the column name,
 #'     prefixed with `"opt_"`.
 #'
-#' @param evidence_input_id `character` with the file unique identifier for the
-#'     input data used to support this identification e.g. fragment spectrum,
-#'     RT and m/z pair, isotope profile that was used for the identification
-#'     process, to serve as a grouping mechanism, whereby multiple rows of
-#'     results from the same input data share the same ID. The identifiers
+#' @param evidence_input_id `character` with the within-file unique identifier
+#'     for the input data used to support this identification e.g. fragment
+#'     spectrum, RT and m/z pair, isotope profile that was used for the
+#'     identification process. Multiple rows can share the same ID, i.e., if
+#'     multiple (alternative) annotations would be possible. The identifiers
 #'     may be human readable but should not be assumed to be interpretable. For
 #'     example, if fragmentation spectra have been searched then the ID may be
 #'     the spectrum reference, or for accurate mass search, the
@@ -88,9 +90,10 @@
 #'     spectral library entity, even if its actual identity is unknown.
 #'     Has to be in the format *<SOURCE>:<ID>* to provide the database/source
 #'     of annotation and the ID (e.g. `"HMDB:HMDB0001847"`).
-#'     Can be `"null"` or `NA` for molecules without annotations. The length
-#'     of `database_identifier` has to match the number of rows of `x`. If not
-#'     provided (the default) `"null"` is assigned to each row/molecule.
+#'     Can be `"null"` or `NA` for molecules without annotations. If provided,
+#'     the length of `database_identifier` has to match the length of
+#'     `evidence_input_id`. If not provided (the default) `"null"` is assigned
+#'     to each row/molecule.
 #'
 #' @param chemical_formula `character` with the chemical formula of the
 #'     compound. This should be specified in Hill notation (EA Hill 1900), i.e.
@@ -100,26 +103,26 @@
 #'     should refer to the neutral form. Charge state is reported by the charge
 #'     field. For example: `"N-acetylglucosamine"` would be encoded by the
 #'     string `“C8H15NO6”`. Can be `"null"` but, if provided, its length has to
-#'     match the number of rows of `x`.
+#'     match the length of `evidence_input_id`.
 #'
 #' @param smiles `character` with the potential molecule structures in the
 #'     simplified molecular-input line-entry system (SMILES) for the small
 #'     molecule. Can be `"null"` but, if provided, its length has to match the
-#'     number of rows of `x`.
+#'     length of `evidence_input_id`.
 #'
 #' @param inchi `character` with the potential standard IUPAC International
 #'     Chemical Identifier (InChI) of the given substance. Can be `"null"` but,
-#'     if provided, its length has to match the number of rows of `x`.
+#'     if provided, its length has to match the length of `evidence_input_id`.
 #'
 #' @param chemical_name `character` with the possible chemical/common names for
 #'     the small molecule, or general description if a chemical name is
 #'     unavailable. Can be `"null"` but, if provided, its length has to match
-#'     the number of rows of `x`.
+#'     the length of `evidence_input_id`.
 #'
 #' @param uri `character` with the URI pointing to the small molecule’s entry
 #'     in a reference database (e.g., the small molecule’s HMDB or KEGG entry).
-#'     Can be `"null"` but, if provided, its length has to match the number of
-#'     rows of `x`.
+#'     Can be `"null"` but, if provided, its length has to match the length of
+#'     `evidence_input_id`.
 #'
 #' @param derivatized_form `character` with the derivatized form that has been
 #'     analysed by MS, then the functional group attached to the molecule
@@ -130,7 +133,7 @@
 #'     the 2013 IUPAC recommendations on terms relating to MS (e.g.
 #'     `"[M+Na]1"`, `"[M+NH4]1+"`, `"[M-H]1-"`, `"[M+Cl]1-"`).
 #'     Can be `"null"` (or `NA`) but, if provided, its length has to match the
-#'     number of rows of `x`.
+#'     length of `evidence_input_id`.
 #'
 #' @param exp_mass_to_charge `numeric` with the experimental mass/charge value
 #'     for the precursor ion. If multiple adduct forms have been combined into
@@ -161,7 +164,7 @@
 #'
 #' @param ms_level `character` with the highest MS level used to inform
 #'     identification (e.g. from an MS2 fragmentation spectrum =
-#'     `""[MS, MS:1000511, ms level, 2]""`. For direct fragmentation
+#'     `"[MS, MS:1000511, ms level, 2]"`. For direct fragmentation
 #'     or data independent approaches where fragmentation data is used,
 #'     appropriate CV terms SHOULD be used.
 #'
@@ -169,7 +172,7 @@
 #'     for the identification. The metadata section reports the type of score
 #'     used, as `"id_confidence_measure[1-n]"`.
 #'
-#' @param rank `numeric`with the rank of this identification from
+#' @param rank `numeric` with the rank of this identification from
 #'     this approach as increasing integers from 1 (best ranked
 #'     identification). Ties (equal score) are represented by using the same
 #'     rank, defaults to `"1"` if there is no ranking system used.
@@ -281,7 +284,7 @@ sme_create <- function(..., evidence_input_id = character(),
     if (!length(rank))
         stop("The argument 'rank' is mandatory.")
     l = length(evidence_input_id)
-    x <- data.frame(SEH = rep("SME", l))
+    x <- data.frame(SEH = rep("SME", l), SME_ID = seq_len(l))
     x$evidence_input_id <- .check_fill_column(evidence_input_id, lout = l)
     x$database_identifier <- .check_fill_column(database_identifier, lout = l)
     x$chemical_formula <- .check_fill_column(chemical_formula, l)
@@ -351,7 +354,8 @@ sme_sort <- function(x) {
 ################################################################################
 ##    Parse SME section
 ##
-#################################################################################' @rdname SME-export
+################################################################################
+#' @rdname SME-export
 #'
 #' @export
 sme_id_confidence_measure <- function(x, mtd, nr = numeric()) {

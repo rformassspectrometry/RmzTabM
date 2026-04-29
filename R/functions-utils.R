@@ -180,7 +180,7 @@ is_cv_parameter <- function(x) {
     if (length(x) == 1L) x <- rep(x, lout)
     if (length(x) != lout)
         stop("Input length ", length(x), " does not match row count : ", lout)
-    x[is.na(x)] <- "null"
+    x[is.na(x) | x == ""] <- "null"
     if (length(lengths)) { # process | separated elements
         ## paste null fields to the expected number of elements
         nulls <- which(x == "null")

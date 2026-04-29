@@ -1,0 +1,274 @@
+---
+title: "Export the RIKEN_LIPIDOMICS test file to mzTab-M"
+---
+
+Kozo's example files used for the agentic export.
+
+The data files are available
+[here](https://github.com/kozo2/hupopsi-pymztabm-handson/tree/main/RIKEN_LIPIDOMICS).
+
+
+# MTD + SML
+
+
+Complications:
+
+- we're missing a database identifier (for the annotations)
+- we're missing an identifier or information on the reference annotation used;
+  assuming it is an in-house database with standards.
+- we don't have identifiers for the MS/MS spectra used for identification.
+
+## MTD section
+
+```{r}
+library(RmzTabM)
+
+#' Sample information
+sd <- read.table("inst/tsv/1_Mouse_Adrenal_gland_1_forMTD.tsv", header = TRUE,
+                 sep = "\t", quote = "", check.names = FALSE, row.names = 1L)
+sd <- t(sd)
+
+#' Abundance data and feature annotation
+vals <- read.table("inst/tsv/1_Mouse_Adrenal_gland_1_forSMLSMF.tsv",
+                   header = TRUE, sep = "\t", quote = "", check.names = FALSE)
+all(rownames(sd) %in% colnames(vals))
+fdef <- vals[, !colnames(vals) %in% rownames(sd)]
+vals <- vals[, colnames(vals) %in% rownames(sd)]
+```
+
+For the present experiment we will encode MTD, SML and SME section. Let's start
+with the general information in the MTD section. We use the the Schymanski score
+for identification confidence level.
+
+```{r}
+mtd <- mtd_skeleton(
+    id = "RIKEN_LIPIDOMICS",
+    software = "[MS, MS:1003082, MS-DIAL, ]",
+    database = "[,, in-house reference data, ]",
+    small_molecule_identification_reliability =
+        "[MS, MS:1002955, hr-ms compound identification confidence level,]")
+mtd <- rbind(
+    mtd,
+    c("title", "Export of example file with RmzTabM"),
+    c("description", "Example export of a RIKEN_LIPIDOMICS data set"),
+    c("uri[1]", "https://metabography.riken.jp/menta.cgi/lipidomics/download_data_set"))
+#' Manually add the BTO and NCBITaxon CVs
+add_cv <- mtd_fields(
+    label = c("BTO", "NCBITaxon"),
+    full_name = c("The BRENDA Tissue Ontology (BTO)",
+                  "NCBI organismal classification"),
+    version = c("2021-10-26", "2025-12-03"),
+    uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
+            "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"),
+    field_prefix = "cv")
+add_cv[, 1L] <- sub("1", "4", add_cv[, 1L])
+add_cv[, 1L] <- sub("2", "5", add_cv[, 1L])
+mtd <- rbind(mtd, add_cv)
+```
+
+We next add sample information.
+
+```{r}
+mtd_s <- mtd_sample(
+    sample = c("blank", "fads2_Adr_G_1", "fads2_Adr_G_2", "fads2_Adr_G_3",
+               "WT_Adr_G_1", "WT_Adr_G_2", "WT_Adr_G_3"),
+    species = c("null", rep("[NCBITaxon, NCBITaxon:10090, Mus musculus, ]", 6)),
+    tissue = c("null", rep("[BTO, BTO:0000047, Adrenal gland, ]", 6))
+)
+mtd <- rbind(mtd, mtd_s)
+```
+
+Next we add the MS run information and assay information, assuming each sample
+was measured in one run and hence each sample is assigned to one mzML file. We
+could (should?) also add the MS runs mentioned in the `"Spectrum reference file
+name"` column which contained the MS/MS used for annotation of the
+compound. This would be needed if an SME section was provided, which we don't do
+here (since we don't have a SMF section).
+
+```{r}
+msr <- union(rownames(sd), unique(fdef$`Spectrum reference file name`))
+
+mtd_a <- rbind(
+    mtd_ms_run(
+        location = rownames(sd),
+        format = "[MS, MS:1000584, mzML file, ]",
+        id_format = "[MS, MS:1000530, mzML unique identifier, ]",
+        scan_polarity = "positive"),
+    mtd_assay(
+        assay = rownames(sd),
+        sample_ref = paste0("sample[", seq_len(nrow(sd)), "]"),
+        ms_run_ref = paste0("ms_run[", seq_len(nrow(sd)), "]"))
+)
+mtd <- rbind(mtd, mtd_a)
+```
+
+Finally, we need to add the experimental information.
+
+```{r}
+mtd_svar <- mtd_study_variables(
+    sd, groups = c("Genotype/Background", "Diet/Culture",
+                   "Biological replicate")
+)
+mtd <- rbind(mtd, mtd_svar)
+```
+
+We have molecule annotations, so we must add also the `id_confidence_measure`
+CV terms. Without much more information we guess that the data was matched
+against on in-house library of standards. Thus RT + MS/MS matches would classify
+the annotation as Schymanski level 1. Without RT or against only a reference
+database it would be 2a. We have columns *Dot product* and *RT similarity*
+available and we will use the CV terms `"[MS, MS:1003304, spectral dot product,
+]"` and `"[,, RT similarity, ]"` for these.
+
+```{r}
+mtd <- rbind(
+    mtd,
+    mtd_fields("[MS, MS:1003304, spectral dot product, ]",
+               "[,, RT similarity,]",
+               field_prefix = "id_confidence_measure")
+)
+mtd <- mtd_sort(mtd)
+```
+
+OK, done with MTD.
+
+## SML
+
+For the SML we need also to provide the annotation/identification
+confidence. This is encoded in column `"reliability"` for which we use the
+Schymanski levels. As `id_confidence_measures` we have the MS/MS similarity and
+the RT similarity (we use the first as the *best* confidence measure). Assuming
+the annotation was performed against an in-house library of pure standards
+(since RT are available and matched against) we assign a level 1 to all
+annotations with RT and MS/MS matches.
+
+Also, we add the following columns as `"opt_"` columns:
+
+- `"Alignment ID"`
+- `"INCHIKEY"`
+- `"Average Mz"`
+- `"Average Rt(min)"`
+- `"Dot product"`
+- `"RT similarity"`
+
+```{r}
+#' Defining the id reliability:
+rel <- rep("5", nrow(fdef)) # m/z match
+rel[fdef$`MS/MS matched`] <- "2a"
+rel[fdef$`MS/MS matched` & fdef$`RT matched`] <- "1"
+
+sml <- sml_create(
+    x = vals,
+    SMF_ID_REFS = rep("null", nrow(fdef)),        # no SMF section
+    database_identifier = fdef$`Metabolite name`, # nothing else available
+    chemical_formula = fdef$Formula,
+    smiles = fdef$SMILES,
+    chemical_name = fdef$`Metabolite name`,
+    adduct_ions = fdef$`Adduct type`,
+    reliability = rel,
+    best_id_confidence_measure = "[MS, MS:1003304, spectral dot product, ]",
+    best_id_confidence_value = fdef$`Dot product`,
+    alignment_id = fdef$`Alignment ID`,
+    inchikey = fdef$INCHIKEY,
+    exp_mz = fdef$`Average Mz`,
+    exp_rt = fdef$`Average Rt(min)`,
+    similarity_ms2 = fdef$`Dot product`,
+    similarity_rt = fdef$`RT similarity`)
+#' Add study variable columns
+sml <- sml_add_study_variable_columns(sml, mtd)
+```
+
+## Final export
+
+```{r}
+fl <- "inst/mztabm/out/riken-lipidomics-r-mtd-sml.mztab"
+writeLines(c(paste("MTD", mtd[, 1L], mtd[, 2L], sep = "\t"), ""), con = fl)
+suppressWarnings(
+    write.table(sml, file = fl, append = TRUE,
+                row.names = FALSE, quote = FALSE)
+)
+```
+
+
+# MTD + SML + SMF + SME from `SummarizedExperiment`
+
+Going the full path, putting the input data into a `SummarizedExperiment`.
+
+```{r}
+library(RmzTabM)
+
+#' Sample information
+sd <- read.table("inst/tsv/1_Mouse_Adrenal_gland_1_forMTD.tsv", header = TRUE,
+                 sep = "\t", quote = "", check.names = FALSE, row.names = 1L)
+sd <- t(sd)
+
+#' Abundance data and feature annotation
+vals <- read.table("inst/tsv/1_Mouse_Adrenal_gland_1_forSMLSMF.tsv",
+                   header = TRUE, sep = "\t", quote = "", check.names = FALSE)
+all(rownames(sd) %in% colnames(vals))
+fdef <- vals[, !colnames(vals) %in% rownames(sd)]
+vals <- vals[, colnames(vals) %in% rownames(sd)]
+
+library(SummarizedExperiment)
+
+#' rowData
+rownames(fdef) <- fdef$`Alignment ID` # feature ID.
+
+#' assay
+vals <- as.matrix(vals)
+rownames(vals) <- rownames(fdef)
+
+se <- SummarizedExperiment(rowData = fdef, colData = sd, assay = list(vals))
+```
+
+## MTD
+
+### Autogenerating MTD
+
+```{r}
+.mtd <- function(x, id = character(), software = character(),
+                 studyVariables = colnames(colData(x)),
+                 polarity = character()) {
+    l <- ncol(x)
+    sl <- seq_len(l)
+    m <- mtd_skeleton(id = id, software = software)
+    ## add samples; for now only the sample name.
+    m <- rbind(m, mtd_sample(sample = rownames(colData(x))))
+    ## add ms_run
+    if (!length(polarity)) {
+        ## guess polarity from sample name
+        pos <- grepl("pos", rownames(colData(x)), ignore.case = TRUE)
+        neg <- grepl("neg", rownames(colData(x)), ignore.case = TRUE)
+        if (all(pos | neg)) {
+            polarity <- rep("negative", l)
+            polarity[which(pos)] <- "positive"
+        }
+    }
+    m <- rbind(m, mtd_ms_run(location = rownames(colData(x)),
+                             scan_polarity = polarity))
+    ## add assay
+    m <- rbind(m, mtd_assay(
+                      assay = rownames(colData(x)),
+                      sample_ref = paste0("sample[", sl, "]"),
+                      ms_run_ref = paste0("ms_run[", sl, "]")))
+    ## add study variables
+    m <- rbind(m, mtd_study_variables(
+                      data.frame(colData(x), check.names = FALSE),
+                      groups = studyVariables))
+    mtd_sort(m)
+}
+
+mtd <- .mtd(se, id = "my_study", software = "my software")
+```
+
+### Manual MTD completion
+
+- need to provide annotation confidence and similar things.
+
+
+
+# Session information
+
+```{r}
+sessionInfo()
+```
