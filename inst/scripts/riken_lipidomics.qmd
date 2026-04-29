@@ -226,19 +226,46 @@ se <- SummarizedExperiment(rowData = fdef, colData = sd, assay = list(vals))
 ### Autogenerating MTD
 
 ```{r}
-mtd <- function(x, id = character(), software = character(),
-                sampleColumns = colnames(colData(x))) {
+.mtd <- function(x, id = character(), software = character(),
+                 studyVariables = colnames(colData(x)),
+                 polarity = character()) {
+    l <- ncol(x)
+    sl <- seq_len(l)
     m <- mtd_skeleton(id = id, software = software)
-    ## add samples
+    ## add samples; for now only the sample name.
+    m <- rbind(m, mtd_sample(sample = rownames(colData(x))))
     ## add ms_run
+    if (!length(polarity)) {
+        ## guess polarity from sample name
+        pos <- grepl("pos", rownames(colData(x)), ignore.case = TRUE)
+        neg <- grepl("neg", rownames(colData(x)), ignore.case = TRUE)
+        if (all(pos | neg)) {
+            polarity <- rep("negative", l)
+            polarity[which(pos)] <- "positive"
+        }
+    }
+    m <- rbind(m, mtd_ms_run(location = rownames(colData(x)),
+                             scan_polarity = polarity))
     ## add assay
+    m <- rbind(m, mtd_assay(
+                      assay = rownames(colData(x)),
+                      sample_ref = paste0("sample[", sl, "]"),
+                      ms_run_ref = paste0("ms_run[", sl, "]")))
     ## add study variables
+    m <- rbind(m, mtd_study_variables(
+                      data.frame(colData(x), check.names = FALSE),
+                      groups = studyVariables))
+    mtd_sort(m)
 }
+
+mtd <- .mtd(se, id = "my_study", software = "my software")
 ```
 
 ### Manual MTD completion
 
 - need to provide annotation confidence and similar things.
+
+
 
 # Session information
 
