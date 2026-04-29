@@ -52,7 +52,7 @@ smf_create(
   retention_time_in_seconds_end = numeric(),
   SME_ID_REFS = character(),
   SME_ID_REF_ambiguity_code = character(),
-  charge = character(),
+  charge = numeric(),
   adduct_ion = character(),
   isotopomer = character()
 )
