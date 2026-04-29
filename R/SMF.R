@@ -136,7 +136,7 @@ smf_create <- function(..., x, exp_mass_to_charge = numeric(),
                        retention_time_in_seconds_end = numeric(),
                        SME_ID_REFS = character(),
                        SME_ID_REF_ambiguity_code = character(),
-                       charge = character(), adduct_ion = character(),
+                       charge = numeric(), adduct_ion = character(),
                        isotopomer = character()) {
     if (!length(exp_mass_to_charge))
         stop("The argument 'exp_mass_to_charge' is mandatory.")
