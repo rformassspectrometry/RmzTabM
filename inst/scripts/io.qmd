@@ -429,7 +429,7 @@ updateMtdContent <- function(mtd, field, value) {
 ##### Create unique table and save tsv
 
 ```{r}
-## Generate the base MTD based on the xmse object with the mandatory fields
+## Generate the base MTD based on the xmse object with the mandatory fields (xcms specific package)
 mtd <- .mtd(x = quantify(xmse),
             id = "test_jo_mtd",
             software = paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]"),
@@ -437,38 +437,38 @@ mtd <- .mtd(x = quantify(xmse),
             polarity = "positive")
 mtd <- updateMtdContent(mtd, "mzTab-ID", "xcms_mzTab-M_2-1_v2")
 
-## Intrument
+## Intrument  (Rmztabm)
 mtd <- mtdInstrument(x = mtd,
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
     analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
     detector = "[MS, MS:1000253, electron multiplier,]", add = TRUE)
 
-## Database
+## Database (Rmztabm)
 mtd <- mtdDatabase(x = mtd,
                     name = "[MIRIAM, MIR:00100079, HMDB, ]",
                     prefix = "hmdb",
                     version = "3.6",
                     uri = "http://www.hmdb.ca/")
 
-## CV
+## CV (Rmztabm)
 mtd <- mtdCv(x = mtd,
                 label = "MS_test",
                 full_name = "PSI-MS controlled vocabulary",
                 version = "4.1.11",
                 uri = "https://purl.obolibrary.org/obo/ms.obo")
 
-## Contact
+## Contact (Rmztabm)
 mtd <- mtdContact(x = mtd,
                     name = c("author_1","author_2"),
                     affiliation = c("EURAC","EURAC"),
                     email = c("author_1@mail.com","author_2@mail.com"))
 
-## Single fields like "publication"
+## Single fields like "publication" (Rmztabm)
 mtd <- mtdField(x = mtd, field = "publication",
                 value = c("test pub","test pub 2"))
 
-## Generate SML, SMF, SME
+## Generate SML, SMF, SME (xcms specific package)
 sml <- sml_xcms_export(xmse, mtd)
 smf <- smf_xcms_export(xmse)
 sme <- sme_xcms_export(xmse)

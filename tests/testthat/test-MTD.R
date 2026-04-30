@@ -765,3 +765,262 @@ test_that(".mtd_svar_group_unit works", {
     expect_error(.mtd_svar_group_unit(x, c("a", "", "")), "not a CV")
     expect_error(.mtd_svar_group_unit(x, c("a", "")), "has to match")
 })
+
+test_that("mtdInstrument works", {
+    x <- matrix()
+    res <- mtdInstrument(x)
+    expect_equal(res, x)
+
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    res <- mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+        source = "[MS, MS:1000073, ESI,]",
+        analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+        detector = "[MS, MS:1000253, electron multiplier,]"
+    )
+    expect_true(any(grepl("instrument\\[1\\]-name", res[, 1])))
+    expect_true(any(grepl("instrument\\[1\\]-source", res[, 1])))
+    expect_true(any(grepl("instrument\\[1\\]-analyzer\\[1\\]", res[, 1])))
+    expect_true(any(grepl("instrument\\[1\\]-detector", res[, 1])))
+    expect_true(any(grepl("[MS, MS:1000449, LTQ Orbitrap,]", res[, 2])))
+    expect_true(any(grepl("[MS, MS:1000073, ESI,]", res[, 2])))
+    expect_true(any(grepl("[MS, MS:1000291, linear ion trap,]", res[, 2])))
+    expect_true(any(grepl("[MS, MS:1000253, electron multiplier,]", res[, 2])))
+
+    ## Missing paramenters
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    expect_error(mtdInstrument(x), "name")
+    expect_error(mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]"),
+        "source"
+    )
+    expect_error(mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+                               source = "[MS, MS:1000073, ESI,]"),
+                 "analyzed"
+    )
+    expect_error(mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+            source = "[MS, MS:1000073, ESI,]",
+            analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]")),
+        "detector"
+    )
+
+    ## Append instrument
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    mtd <- mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+        source = "[MS, MS:1000073, ESI,]",
+        analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+        detector = "[MS, MS:1000253, electron multiplier,]"
+    )
+    mtd2 <- mtdInstrument(mtd, name = "[MS, MS:1000031, instrument model,]",
+        source = "[MS, MS:1000008, ionization type,]",
+        analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+        detector = "[MS, MS:1000253, electron multiplier,]",
+        add = TRUE
+    )
+    name_rows <- mtd2[grepl("instrument.*name", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 2L)
+
+    ## Replace instrument
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    mtd <- mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+        source = "[MS, MS:1000073, ESI,]",
+        analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+        detector = "[MS, MS:1000253, electron multiplier,]"
+    )
+    mtd2 <- mtdInstrument(mtd, name = "[MS, MS:1000031, instrument model,]",
+        source = "[MS, MS:1000008, ionization type,]",
+        analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+        detector = "[MS, MS:1000253, electron multiplier,]",
+        add = FALSE
+    )
+    name_rows <- mtd2[grepl("instrument.*name", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 1L)
+    expect_equal(mtd2[grepl("instrument.*name", mtd2[, 1]), 2],
+                 "[MS, MS:1000031, instrument model,]")
+})
+
+
+test_that("mtdDatabase works", {
+    x <- matrix()
+    res <- mtdDatabase(x)
+    expect_equal(res, x)
+
+    ##mtdDatabase errors when parameter is missing
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    expect_error(mtdDatabase(x), "name")
+    expect_error(mtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]"),
+                 "prefix")
+    expect_error(mtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+                             prefix = "hmdb"),
+                 "version")
+    expect_error(mtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+                             prefix = "hmdb", version = "3.6"),
+                 "uri")
+
+    ##mtdDatabase adds database metadata fields to a valid MTD object
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    res <- mtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+                        prefix = "hmdb", version = "3.6",
+                        uri = "http://www.hmdb.ca/")
+    expect_true(any(grepl("database\\[1\\]", res[, 1])))
+    expect_true(any(grepl("database\\[1\\]-prefix", res[, 1])))
+    expect_true(any(grepl("database\\[1\\]-version", res[, 1])))
+    expect_true(any(grepl("database\\[1\\]-uri", res[, 1])))
+    expect_true(any(grepl("[MIRIAM, MIR:00100079, HMDB, ]", res[, 2])))
+    expect_true(any(grepl("hmdb", res[, 2])))
+    expect_true(any(grepl("3.6", res[, 2])))
+    expect_true(any(grepl("http://www.hmdb.ca/", res[, 2])))
+
+    ##mtdDatabase appends new database metadata when add = TRUE
+    mtd2 <- mtdDatabase(res, name = "[MIRIAM, MIR:00100030, ChEBI, ]",
+                        prefix = "chebi", version = "2023",
+                        uri = "https://www.ebi.ac.uk/chebi/", add = TRUE)
+    name_rows <- mtd2[grepl("database\\[\\d+\\]$", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 2L)
+
+    ##mtdDatabase replaces existing database metadata when add = FALSE
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    mtd <- mtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+                        prefix = "hmdb", version = "3.6",
+                        uri = "http://www.hmdb.ca/")
+    mtd2 <- mtdDatabase(mtd, name = "[MIRIAM, MIR:00100030, ChEBI, ]",
+                        prefix = "chebi", version = "2023",
+                        uri = "https://www.ebi.ac.uk/chebi/", add = FALSE)
+    name_rows <- mtd2[grepl("database\\[\\d+\\]$", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 1L)
+    expect_equal(mtd2[grepl("database\\[\\d+\\]$", mtd2[, 1]), 2],
+                 "[MIRIAM, MIR:00100030, ChEBI, ]")
+})
+
+test_that("mtdCv works", {
+    x <- matrix()
+    res <- mtdCv(x)
+    expect_equal(res, x)
+
+    ##mtdCv errors when parametr is missing
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    expect_error(mtdCv(x), "label")
+    expect_error(mtdCv(x, label = "MS"), "full_name")
+    expect_error(mtdCv(x, label = "MS",
+                       full_name = "PSI-MS controlled vocabulary"),
+                 "version")
+    expect_error(mtdCv(x, label = "MS",
+                       full_name = "PSI-MS controlled vocabulary",
+                       version = "4.1.11"),
+                 "uri")
+
+    ##mtdCv adds CV metadata fields to a valid MTD object when add = TRUE
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    result <- mtdCv(x, label = "MS",
+                    full_name = "PSI-MS controlled vocabulary",
+                    version = "4.1.11",
+                    uri = "https://purl.obolibrary.org/obo/ms.obo",
+                    add = TRUE)
+    expect_true(any(grepl("cv\\[1\\]-label", result[, 1])))
+    expect_true(any(grepl("cv\\[1\\]-full_name", result[, 1])))
+    expect_true(any(grepl("cv\\[1\\]-version", result[, 1])))
+    expect_true(any(grepl("cv\\[1\\]-uri", result[, 1])))
+    expect_true(any(grepl("MS", result[, 2])))
+    expect_true(any(grepl("PSI-MS controlled vocabulary", result[, 2])))
+    expect_true(any(grepl("4.1.11", result[, 2])))
+    expect_true(any(grepl("https://purl.obolibrary.org/obo/ms.obo",
+                          result[, 2])))
+    label_rows <- result[grepl("cv.*label$", result[, 1]), , drop = FALSE]
+    expect_equal(nrow(label_rows), 4L)
+
+    ##mtdCv replaces existing CV metadata when add = FALSE
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    mtd <- mtdCv(x, label = "MS", full_name = "PSI-MS controlled vocabulary",
+                 version = "4.1.11",
+                 uri = "https://purl.obolibrary.org/obo/ms.obo",
+                 add = FALSE)
+    label_rows <- mtd[grepl("cv.*label$", mtd[, 1]), , drop = FALSE]
+    expect_equal(nrow(label_rows), 1L)
+    expect_equal(mtd[grepl("cv.*label$", mtd[, 1]), 2], "MS")
+})
+
+test_that("mtdContact works", {
+    x <- matrix()
+    result <- mtdContact(x)
+    expect_equal(result, x)
+
+    ## mtdContact errors when parameter is missing
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    expect_error(mtdContact(x), "name")
+    expect_error(mtdContact(x, name = "Name Surname"), "affiliation")
+    expect_error(mtdContact(x, name = "Name Surname", affiliation = "PSI-MS"),
+                 "email")
+
+    ## mtdContact adds contact metadata fields to a valid MTD object
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    result <- mtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
+                         email = "name.surname@mail.com")
+    expect_true(any(grepl("contact\\[1\\]-name", result[, 1])))
+    expect_true(any(grepl("contact\\[1\\]-affiliation", result[, 1])))
+    expect_true(any(grepl("contact\\[1\\]-email", result[, 1])))
+    expect_true(any(grepl("Name Surname", result[, 2])))
+    expect_true(any(grepl("PSI-MS", result[, 2])))
+    expect_true(any(grepl("name.surname@mail.com", result[, 2])))
+
+    ## mtdContact appends new contact metadata when add = TRUE
+    mtd2 <- mtdContact(result, name = "Person 2", affiliation = "Lab B",
+        email = "person2@mail.com", add = TRUE)
+    name_rows <- mtd2[grepl("contact.*name$", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 2L)
+
+    ## mtdContact replaces existing contact metadata when add = FALSE
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    mtd <- mtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
+                      email = "name.surname@mail.com")
+    mtd2 <- mtdContact(mtd, name = "Person 2", affiliation = "Lab B",
+                       email = "person2@mail.com", add = FALSE)
+    name_rows <- mtd2[grepl("contact.*name$", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 1L)
+    expect_equal(mtd2[grepl("contact.*name$", mtd2[, 1]), 2], "Person 2")
+})
+
+test_that("mtdField works", {
+  x <- matrix()
+  result <- mtdField(x, field = "publication", value = "https://doi.org/123")
+  expect_equal(result, x)
+
+  ## mtdField errors on invalid field name
+  x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+  expect_error(mtdField(x, field = "not_a_valid_field", value = "some_value"),
+               "Provide a valid MTD field")
+
+  ## mtdField adds a new metadata field to a valid MTD object
+  result <- mtdField(x, field = "publication",
+                value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
+  expect_true(any(grepl("publication\\[1\\]", result[, 1])))
+  expect_equal(result[grepl("publication\\[1\\]", result[, 1]), 2],
+               "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
+
+  ## mtdField appends new values when add = TRUE
+  mtd <- mtdField(result, field = "publication",
+                  value = "https://doi.org/second", add = TRUE)
+  pub_rows <- mtd[grepl("publication\\[\\d+\\]", mtd[, 1]), , drop = FALSE]
+  expect_equal(nrow(pub_rows), 2L)
+
+  ## mtdField replaces existing field values when add = FALSE
+  x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+  mtd <- mtdField(x, field = "publication",
+                value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
+  mtd2 <- mtdField(mtd, field = "publication",
+                   value = "https://doi.org/second", add = FALSE)
+  pub_rows <- mtd2[grepl("publication\\[\\d+\\]", mtd2[, 1]), , drop = FALSE]
+  expect_equal(nrow(pub_rows), 1L)
+  expect_equal(pub_rows[1, 2], "https://doi.org/second")
+})
+
+test_that("updateMtdContent works", {
+    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    expect_error(updateMtdContent(x, field = "nonexistent_field", value = "x"),
+                 "Field \"nonexistent_field\" not detected")
+
+    result <- updateMtdContent(x, field = "mzTab-ID", value = "new-id-001")
+    expect_equal(result[result[, 1] == "mzTab-ID", 2], "new-id-001")
+    expect_equal(dim(result), dim(x))
+
+    result <- updateMtdContent(x, field = "cv[1]-label", value = "new-cv-001")
+    expect_equal(result[result[, 1] == "cv[1]-label", 2], "new-cv-001")
+    expect_equal(dim(result), dim(x))
+})

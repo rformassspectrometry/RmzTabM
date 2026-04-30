@@ -64,6 +64,13 @@
 #'
 #' - [mtd_sort()]: to sort the MTD `matrix` into the expected order.
 #' - [mtd_fields()]: helps formatting values into the mzTab-M-specific format.
+#' - [mtdInstrument()]: add/update Instrument Metadata in an MTD Object.
+#' - [mtdDatabase()]: add/update Database Metadata in an MTD Object.
+#' - [mtdCv()]: add/update Controlled Vocabularies (CV) Metadata in an MTD
+#'       Object.
+#' - [mtdContact()]: add/update contact Metadata in an MTD Object.
+#' - [mtdField()]: add/update a Metadata Field in an MTD Object.
+#' - [updateMtdContent()]: update the value of an existing MTD field
 #'
 #' @note
 #'
@@ -81,6 +88,9 @@
 #'
 #' @seealso [SMF-export] and [SML-export] for creating and formatting the small
 #'     molecule feature (SMF) and small molecule (SML) sections.
+#'
+#' @seealso [mtdInstrument()], [mtdDatabase()], [mtdCv()], [mtdContact()],
+#'     [mtdField()] and [updateMtdContent()].
 #'
 #' @examples
 #'
@@ -1578,3 +1588,461 @@ mtd_sort <- function(x) {
     xsd = c("xsd:string", "xsd:integer", "xsd:decimal", "xsd:boolean",
             "xsd:string", "xsd:dateTime", "xsd:date", "xsd:time", "xsd:anyURI")
 )
+
+
+#' @title Add or Update Instrument Metadata in an MTD Object
+#'
+#' @description
+#'
+#' Sets or updates instrument-related metadata fields within an MTD (metadata)
+#' in a MTD object. When instrument metadata already exists, the function
+#' can either replace it entirely or append new values to the existing ones.
+#'
+#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#'     If all values are `NA`, the function returns `x` unchanged.
+#'
+#' @param name `character` with the name of the instrument used in the
+#'     experiment. (e.g., `"[MS, MS:1000449, LTQ Orbitrap,]"`).
+#'
+#' @param source `character` with the instrument’s source used in the
+#'     experiment. (e.g., `"[MS, MS:1000073, ESI,]"`).
+#'
+#' @param analyzed `character` with the instrument’s analyzer type(s) used in
+#'     the experiment.
+#'     (e.g., `c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")`).
+#'
+#' @param detector `character` with the instrument’s detector type used in the
+#'     experiment. (e.g., `"[MS, MS:1000253, electron multiplier,]"`).
+#'
+#' @param add `logical` flag controlling how pre-existing instrument
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `TRUE` (default): new values are appended to any existing
+#'         values.
+#'         \item `FALSE`: existing instrument metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return The input object `x` updated to include the new or merged instrument
+#'     metadata fields. If `x` is empty, the empty `x`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' ## Add instrument metadata to an existing mzTab object
+#' mtd <- mtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+#'           source = "[MS, MS:1000073, ESI,]",
+#'           analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           detector = "[MS, MS:1000253, electron multiplier,]")
+#'
+#' ## Replace all existing instrument metadata
+#' mtd <- mtdInstrument(mtd, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+#'           source = "[MS, MS:1000073, ESI,]",
+#'           analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           detector = "[MS, MS:1000253, electron multiplier,]",
+#'           add = FALSE)
+#'
+#' @export
+mtdInstrument <- function(x = matrix(), name = character(),
+                          source = character(), analyzed = character(),
+                          detector = character(), add = TRUE) {
+    if(!all(is.na(x))) {
+        if(!length(name))
+            stop("Missing \"name\", provide a valid one.")
+
+        if(!length(source))
+            stop("Missing \"source\", provide a valid one.")
+
+        if(!length(analyzed))
+            stop("Missing \"analyzed\", provide a valid one.")
+
+        if(!length(detector))
+            stop("Missing \"detector\", provide a valid one.")
+
+        instr <- .mtd_get_field(x, "^instrument\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+        list_param <- c(list(name = name, source = source, detector = detector),
+                        as.list(analyzed))
+        if (!all(is.na(instr))) {
+            if (add) {
+                list_param <- Map(function(f) {
+                                c(instr[grep(f, names(instr), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(instr)), ]
+        }
+        new_instr <- do.call(mtd_fields, c(list(field_prefix = "instrument"),
+                                            list_param))
+        x <- mtd_sort(rbind(x, new_instr))
+    }
+    x
+}
+
+#' @title Add or Update Database Metadata in an MTD Object
+#'
+#' @description
+#'
+#' Sets or updates database-related metadata fields within an MTD (metadata)
+#' in a MTD object. When database metadata already exists, the function
+#' can either replace it entirely or append new values to the existing ones.
+#'
+#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#'     If all values are `NA`, the function returns `x` unchanged.
+#'
+#' @param name `character` with the description of databases used. For cases,
+#'     where a known database has not been used for identification.
+#'     (e.g., `"[MIRIAM, MIR:00100079, HMDB, ]"`).
+#'
+#' @param prefix `character` with the prefix used in the “identifier” column of
+#'     data tables. (e.g., `"hmdb"`).
+#'
+#' @param version `character` with the database version is mandatory where
+#'     identification has been performed. This may be a formal version number
+#'     (`"1.4.1"`), a date of access (`"2016-10-27"`) (ISO-8601 format) or
+#'     (`"Unknown"`) if there is no suitable version that can be annotated.
+#'
+#' @param uri `character` with the URI to the database.
+#'
+#' @param add `logical` flag controlling how pre-existing database
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `TRUE` (default): new values are appended to any existing
+#'         values.
+#'         \item `FALSE`: existing database metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return The input object `x` updated to include the new or merged database
+#'     metadata fields. If `x` is empty, the empty `x`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' ## Add database metadata to an existing mzTab object
+#' mtd <- mtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+#'           prefix = "hmdb",
+#'           version = "3.6",
+#'           uri = "http://www.hmdb.ca/")
+#'
+#' ## Replace all existing database metadata
+#' mtd <- mtdDatabase(mtd, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+#'           prefix = "hmdb",
+#'           version = "3.6",
+#'           uri = "http://www.hmdb.ca/",
+#'           add = FALSE)
+#'
+#' @export
+mtdDatabase <- function(x = matrix(), name = character(), prefix = character(),
+                        version = character(), uri = character(), add = TRUE) {
+    if(!all(is.na(x))) {
+        if(!length(name))
+            stop("Missing \"name\", provide a valid one.")
+
+        if(!length(prefix))
+            stop("Missing \"prefix\", provide a valid one.")
+
+        if(!length(version))
+            stop("Missing \"version\", provide a valid one.")
+
+        if(!length(uri))
+            stop("Missing \"uri\", provide a valid one.")
+
+        db <- .mtd_get_field(x, "^database\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+        list_param <- list(name = name, prefix = prefix,
+                            version = version, uri = uri)
+        if (!all(is.na(db))) {
+            if (add & db[1] != "[,, \"no database\", null ]") {
+                list_param <- Map(function(f) {
+                                if(f == "name") {
+                                    c(db[grep("database\\[\\d+\\]$",
+                                         names(db))],
+                                      list_param[[f]])
+                                } else {
+                                    c(db[grep(f, names(db), fixed = TRUE)],
+                                      list_param[[f]])
+                                }},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(db)), ]
+        }
+        new_db <- .database(list_param$name, list_param$prefix,
+                            list_param$version, list_param$uri)
+        x <- mtd_sort(rbind(x, new_db))
+    }
+    x
+}
+
+#' @title Add or Update Controlled Vocabularies (CV) Metadata in an MTD Object
+#'
+#' @description
+#'
+#' Sets or updates CV-related metadata fields within an MTD (metadata)
+#' in a MTD object. When CV metadata already exists, the function
+#' can either replace it entirely or append new values to the existing ones.
+#'
+#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#'     If all values are `NA`, the function returns `x` unchanged.
+#'
+#' @param label `character` describing the labels of the controlled
+#'     vocabularies/ontologies used in the *mzTab-M* file (e.g. `"MS"` for
+#'     PSI-MS).
+#'
+#' @param full_name `character` describing the full names of the controlled
+#'     vocabularies/ontologies used.
+#'
+#' @param version `character` describing the version of the controlled
+#'     vocabularies/ontologies used. (e.g. `"4.1.11"`)
+#'
+#' @param uri `character` containing the URIs of the controlled vocabularies/
+#'     ontologies used in the mzTab file. Note: For OBO ontologies, always use
+#'     an OBO PURL rather than raw repository links to ensure long-term
+#'     stability (e.g. `"https://purl.obolibrary.org/obo/ms.obo"`). For other
+#'     ontology formats, please use the fully qualified PURL pointing to the
+#'     ontology file.
+#'
+#' @param add `logical` flag controlling how pre-existing CV
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `TRUE` (default): new values are appended to any existing
+#'         values.
+#'         \item `FALSE`: existing CV metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return The input object `x` updated to include the new or merged CV
+#'     metadata fields. If `x` is empty, the empty `x`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' ## Add CV metadata to an existing mzTab object
+#' mtd <- mtdCv(x, label = "MS",
+#'           full_name = "PSI-MS controlled vocabulary",
+#'           version = "4.1.11",
+#'           uri = "https://purl.obolibrary.org/obo/ms.obo")
+#'
+#' ## Replace all existing CV metadata
+#' mtd <- mtdCv(mtd, label = "MS",
+#'           full_name = "PSI-MS controlled vocabulary",
+#'           version = "4.1.11",
+#'           uri = "https://purl.obolibrary.org/obo/ms.obo",
+#'           add = FALSE)
+#'
+#' @export
+mtdCv <- function(x = matrix(), label = character(), full_name = character(),
+                  version = character(), uri = character(), add = TRUE) {
+    if(!all(is.na(x))) {
+        if(!length(label))
+            stop("Missing \"label\", provide a valid one.")
+
+        if(!length(full_name))
+            stop("Missing \"full_name\", provide a valid one.")
+
+        if(!length(version))
+            stop("Missing \"version\", provide a valid one.")
+
+        if(!length(uri))
+            stop("Missing \"uri\", provide a valid one.")
+
+        cv <- .mtd_get_field(x, "^cv\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+        list_param <- list(label = label, full_name = full_name,
+                            version = version, uri = uri)
+        if (!all(is.na(cv))) {
+            if (add) {
+                list_param <- Map(function(f) {
+                                c(cv[grep(f, names(cv), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(cv)), ]
+        }
+        new_cv <- .cv(list_param$label, list_param$full_name,
+                        list_param$version, list_param$uri)
+        x <- mtd_sort(rbind(x, new_cv))
+    }
+    x
+}
+
+#' @title Add or Update contact Metadata in an MTD Object
+#'
+#' @description
+#'
+#' Sets or updates contact-related metadata fields within an MTD (metadata)
+#' in a MTD object. When contact metadata already exists, the function
+#' can either replace it entirely or append new values to the existing ones.
+#'
+#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#'     If all values are `NA`, the function returns `x` unchanged.
+#' @param name `character` contact’s name.
+#'
+#' @param affiliation `character` contact’s affiliation.
+#'
+#' @param email `character` contact’s e-mail address.
+#'
+#' @param add `logical` flag controlling how pre-existing contact
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `TRUE` (default): new values are appended to any existing
+#'         values.
+#'         \item `FALSE`: existing contact metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return The input object `x` updated to include the new or merged contact
+#'     metadata fields. If `x` is empty, the empty `x`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' ## Add contact metadata to an existing mzTab object
+#' mtd <- mtdContact(x, name = "Name Surname",
+#'           affiliation = "PSI-MS",
+#'           email = "name.surname@mail.com")
+#'
+#' ## Replace all existing contact metadata
+#' mtd <- mtdContact(mtd, name = "Name Surname",
+#'           affiliation = "PSI-MS",
+#'           email = "name.surname@mail.com",
+#'           add = FALSE)
+#'
+#' @export
+mtdContact <- function(x = matrix(), name = character(),
+                        affiliation = character(), email = character(),
+                        add = TRUE) {
+    if(!all(is.na(x))) {
+        if(!length(name))
+            stop("Missing \"name\", provide a valid one.")
+
+        if(!length(affiliation))
+            stop("Missing \"affiliation\", provide a valid one.")
+
+        if(!length(email))
+            stop("Missing \"email\", provide a valid one.")
+
+        contact <- .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE,
+                                    fixed = FALSE)[[1]]
+        list_param <- list(name = name, affiliation = affiliation,
+                            email = email)
+        if (!all(is.na(contact))) {
+            if (add) {
+                list_param <- Map(function(f) {
+                                c(contact[grep(f, names(contact), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(contact)), ]
+        }
+        new_contact <- do.call(mtd_fields, c(list(field_prefix = "contact"),
+                                            list_param))
+        x <- mtd_sort(rbind(x, new_contact))
+    }
+    x
+}
+
+#' @title Add or Update a Metadata Field in an MTD Object
+#'
+#' @description
+#'
+#' Sets or updates a generic metadata field within an MTD (metadata)
+#' in a MTD object. When the field already exists, the function
+#' can either replace it entirely or append new values to the existing ones.
+#'
+#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#'     If all values are `NA`, the function returns `x` unchanged.
+#'
+#' @param field `character` name of the metadata field to set or update.
+#'     Must be a valid [MTD field name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section). (e.g. `"publication"`)
+#'
+#' @param value `character` value(s) to assign to the field. (e.g.
+#'     `"https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310"`)
+#'
+#' @param add `logical` flag controlling how pre-existing field
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `TRUE` (default): new values are appended to any existing
+#'         values.
+#'         \item `FALSE`: existing field metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return The input object `x` updated to include the new or merged field
+#'     metadata. If `x` is empty, the empty `x`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+#' ## Add a metadata field to an existing mzTab object
+#' mtd <- mtdField(x, field = "publication",
+#'           value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
+#'
+#' ## Replace all existing values for a metadata field
+#' mtd <- mtdField(mtd, field = "custom",
+#'           value = "[,,MS operator, Florian]",
+#'           add = FALSE)
+#'
+#' @export
+mtdField <- function(x = matrix(), field = character(), value = character(),
+                     add = TRUE) {
+    if(!all(is.na(x))) {
+        if(!any(grepl(field, .MTD_FIELD_ORDER)))
+            stop("Provide a valid MTD field. \"", field, "\" not valid.")
+
+        existing_field <- .mtd_get_field(x, paste0("^", field, "\\[\\d+\\]"),
+                                          exact = FALSE, fixed = FALSE)[[1]]
+        if (!all(is.na(existing_field))) {
+            if (add) {
+                value <- c(existing_field, value)
+            }
+            x <- x[!(x[, 1] %in% names(existing_field)), ]
+        }
+        new_field <- mtd_fields(value, field_prefix = field)
+        x <- mtd_sort(rbind(x, new_field))
+    }
+    x
+}
+
+#' @title Update the value of an existing MTD field
+#'
+#' @description
+#'
+#' Replaces the value of a single, already-existing field in an MTD object.
+#'
+#' @param x A MTD object that stores metadata fields.
+#'
+#' @param field `character` exact name of the field whose value should be
+#'     updated (e.g. `"mzTab-ID"`).
+#'
+#' @param value `character` new value to assign to the field.
+#'
+#' @return The input object `x` with the specified field value replaced.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+#' ## Update the value of an existing field
+#' mtd <- updateMtdContent(x, field = "mzTab-ID", value = "2.1.0-M")
+#'
+#' @export
+updateMtdContent <- function(x, field, value) {
+    idx <- which(x[, 1] == field)
+    if(!length(idx))
+        stop("Field \"", field, "\" not detected.")
+
+    x[idx, 2] = value
+    x
+}
