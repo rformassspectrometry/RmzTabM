@@ -462,6 +462,8 @@ mtd_skeleton <- function(id = character(),
                          mztab_version = "2.1.0-M") {
     if (!length(id)) stop("Parameter 'id' is required", call. = FALSE)
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
+    if (!is_cv_parameter(software))
+        software <- paste0("[,,", software, ",]")
     sk <- rbind(
         c("mzTab-version", mztab_version),
         c("mzTab-ID", id),
