@@ -54,6 +54,13 @@ generation:
 \itemize{
 \item \code{\link[=mtd_sort]{mtd_sort()}}: to sort the MTD \code{matrix} into the expected order.
 \item \code{\link[=mtd_fields]{mtd_fields()}}: helps formatting values into the mzTab-M-specific format.
+\item \code{\link[=mtdInstrument]{mtdInstrument()}}: add/update Instrument Metadata in an MTD Object.
+\item \code{\link[=mtdDatabase]{mtdDatabase()}}: add/update Database Metadata in an MTD Object.
+\item \code{\link[=mtdCv]{mtdCv()}}: add/update Controlled Vocabularies (CV) Metadata in an MTD
+Object.
+\item \code{\link[=mtdContact]{mtdContact()}}: add/update contact Metadata in an MTD Object.
+\item \code{\link[=mtdField]{mtdField()}}: add/update a Metadata Field in an MTD Object.
+\item \code{\link[=updateMtdContent]{updateMtdContent()}}: update the value of an existing MTD field
 }
 }
 \note{
@@ -211,6 +218,9 @@ mtd <- mtd_sort(mtd)
 \seealso{
 \link{SMF-export} and \link{SML-export} for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.
+
+\code{\link[=mtdInstrument]{mtdInstrument()}}, \code{\link[=mtdDatabase]{mtdDatabase()}}, \code{\link[=mtdCv]{mtdCv()}}, \code{\link[=mtdContact]{mtdContact()}},
+\code{\link[=mtdField]{mtdField()}} and \code{\link[=updateMtdContent]{updateMtdContent()}}.
 }
 \author{
 Philippine Louail, Johannes Rainer
