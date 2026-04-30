@@ -55,22 +55,15 @@ In order todo:
 ```{r}
 devtools::load_all()
 
-## Parameter
-id_exp <- "test_xcms_save"
-xmse <- xmse
-title <- character()
-description <- character()
-instrument = NULL
-col_species = character()
-col_tissue = character()
-col_cell_type = character()
-col_disease = character()
-col_description = character()
-ms_run_polarity = character()
-groups = c("sample_group", "experiment", "sample_type")
-group_unit = c("", "", "")
+## TODO:
+## - mtd_skeleton() parameter.
+## - add all possible mtd_fields(), like the instrument test.
+## - mtd_ms_run() parameter.
+## - mtd_assay() parameter.
+## - mtd_study_variables() parameter. Not all passed as parameters.
 
 ## TODO?: add all parameters of sub functions?
+## Already too many parameters. Need to manage them better.
 mtd_xcms_export <- function(id_exp, xmse, title = character(),
             description = character(), instrument = NULL,
             col_species = character(), col_tissue = character(),
@@ -85,7 +78,7 @@ mtd_xcms_export <- function(id_exp, xmse, title = character(),
     ## MTD section: sampleData()
     mtd_sample_data <- sampleData(xmse)
 
-    ## TODO: expand with the other fields.
+    ## TODO: expand with the other fields of mtd_skeleton.
     xcms_v <- paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]")
     mtd <- mtd_skeleton(
         id = id_exp,
@@ -96,7 +89,7 @@ mtd_xcms_export <- function(id_exp, xmse, title = character(),
     if(length(description))
         mtd <- rbind(mtd, c("description", description))
 
-    ## INSTRUMENT
+    ## INSTRUMENT (add other fields)
     if(!is.null(instrument)) {
         instr <- .mtd_get_field(instrument, "^instrument\\[\\d+\\]",
                                 exact = FALSE, fixed = FALSE)[[1]]
@@ -172,6 +165,191 @@ mtd_xcms_export <- function(id_exp, xmse, title = character(),
 }
 ```
 
+##### MTD based on summarizedexperiment (Johannes code)
+
+```{r}
+library(SummarizedExperiment)
+
+.mtd <- function(x, id = character(), software = character(),
+                 studyVariables = colnames(colData(x)),
+                 polarity = character()) {
+    l <- ncol(x)
+    sl <- seq_len(l)
+    m <- mtd_skeleton(id = id, software = software)
+    ## add samples; for now only the sample name.
+    m <- rbind(m, mtd_sample(sample = rownames(colData(x))))
+    ## add ms_run
+    if (!length(polarity)) {
+        ## guess polarity from sample name
+        pos <- grepl("pos", rownames(colData(x)), ignore.case = TRUE)
+        neg <- grepl("neg", rownames(colData(x)), ignore.case = TRUE)
+        if (all(pos | neg)) {
+            polarity <- rep("negative", l)
+            polarity[which(pos)] <- "positive"
+        }
+    }
+    m <- rbind(m, mtd_ms_run(location = rownames(colData(x)),
+                             scan_polarity = polarity))
+    ## add assay
+    m <- rbind(m, mtd_assay(
+                      assay = rownames(colData(x)),
+                      sample_ref = paste0("sample[", sl, "]"),
+                      ms_run_ref = paste0("ms_run[", sl, "]")))
+    ## add study variables
+    m <- rbind(m, mtd_study_variables(
+                      data.frame(colData(x), check.names = FALSE),
+                      groups = studyVariables))
+    mtd_sort(m)
+}
+```
+
+##### Add groupped optional variables
+
+INSTRUMENT
+```{r}
+mtdInstrument <- function(x = matrix(), name = character(), source = character(),
+                          analyzed = character(), detector = character(), add = TRUE) {
+    if(!all(is.na(x))) {
+        instr <- .mtd_get_field(x, "^instrument\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+
+        list_param <- c(list(name = name, source = source, detector = detector),
+                        as.list(analyzed))
+
+        if (!all(is.na(instr))) {
+            if (add) {
+                list_param <- Map(function(f) {
+                                c(instr[grep(f, names(instr), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(instr)), ]
+        }
+        new_instr <- do.call(mtd_fields, c(list(field_prefix = "instrument"),
+                                            list_param))
+
+        x <- mtd_sort(rbind(x, new_instr))
+    }
+    x
+}
+```
+
+DATABASE
+```{r}
+mtdDatabase <- function(x = matrix(), name = character(), prefix = character(),
+                        version = character(), uri = character(), add = TRUE) {
+    if(!all(is.na(x))) {
+        db <- .mtd_get_field(x, "^database\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+
+        list_param <- list(name = name, prefix = prefix,
+                            version = version, uri = uri)
+
+        if (!all(is.na(db))) {
+            if (add & db[1] != "[,, \"no database\", null ]") {
+                list_param <- Map(function(f) {
+                                c(db[grep(f, names(db), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(db)), ]
+        }
+        new_db <- .database(list_param$name, list_param$prefix,
+                            list_param$version, list_param$uri)
+
+        x <- mtd_sort(rbind(x, new_db))
+    }
+    x
+}
+```
+
+CV
+```{r}
+mtdCv <- function(x = matrix(), label = character(), full_name = character(),
+                  version = character(), uri = character(), add = TRUE) {
+    if(!all(is.na(x))) {
+        cv <- .mtd_get_field(x, "^cv\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+
+        list_param <- list(label = label, full_name = full_name,
+                            version = version, uri = uri)
+
+        if (!all(is.na(cv))) {
+            if (add) {
+                list_param <- Map(function(f) {
+                                c(cv[grep(f, names(cv), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(cv)), ]
+        }
+        new_cv <- .cv(list_param$label, list_param$full_name,
+                        list_param$version, list_param$uri)
+
+        ## do.call(mtd_fields, c(list(field_prefix = "cv"),
+        ##                                              list_param))
+
+        x <- mtd_sort(rbind(x, new_cv))
+    }
+    x
+}
+```
+
+Contact
+```{r}
+mtdContact <- function(x = matrix(), name = character(),
+                        affiliation = character(), email = character(),
+                        add = TRUE) {
+    if(!all(is.na(x))) {
+        contact <- .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE,
+                                    fixed = FALSE)[[1]]
+
+        list_param <- list(name = name, affiliation = affiliation,
+                            email = email)
+
+        if (!all(is.na(contact))) {
+            if (add) {
+                list_param <- Map(function(f) {
+                                c(contact[grep(f, names(contact), fixed = TRUE)],
+                                  list_param[[f]])},
+                               names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(contact)), ]
+        }
+        new_contact <- do.call(mtd_fields, c(list(field_prefix = "contact"),
+                                            list_param))
+
+        x <- mtd_sort(rbind(x, new_contact))
+    }
+    x
+}
+```
+
+Single fields
+```{r}
+mtdField <- function(x = matrix(), field = character(), value = character(),
+                        add = TRUE) {
+    if(!all(is.na(x))) {
+        if(!any(grepl(field, .MTD_FIELD_ORDER)))
+            stop("Provide a valid MTD field.")
+
+        existing_field <- .mtd_get_field(x, paste0("^", field, "\\[\\d+\\]"),
+                                          exact = FALSE, fixed = FALSE)[[1]]
+
+        if (!all(is.na(existing_field))) {
+            if (add) {
+                value <- c(existing_field, value)
+            }
+            x <- x[!(x[, 1] %in% names(existing_field)), ]
+        }
+        new_field <- mtd_fields(value, field_prefix = field)
+
+        x <- mtd_sort(rbind(x, new_field))
+    }
+    x
+}
+```
+
 #### Create SML
 
 ```{r}
@@ -237,18 +415,65 @@ sme_xcms_export <- function(xmse) {
 }
 ```
 
+```{r}
+updateMtdContent <- function(mtd, field, value) {
+    idx <- which(mtd[, 1] == field)
+    if(is.null(idx))
+        stop("Field not detected. ...")
+
+    mtd[idx, 2] = value
+    mtd
+}
+```
 
 ##### Create unique table and save tsv
 
 ```{r}
-mtd <- mtd_xcms_export("xcms_mzTab-M_2-1", xmse,
-                        ms_run_polarity = "positive",
-                        groups = c("sample_group", "experiment"),
-                        group_unit = c("", ""))
+## Generate the base MTD based on the xmse object with the mandatory fields
+mtd <- .mtd(x = quantify(xmse),
+            id = "test_jo_mtd",
+            software = paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]"),
+            studyVariables = c("sample_group", "experiment", "sample_type"),
+            polarity = "positive")
+mtd <- updateMtdContent(mtd, "mzTab-ID", "xcms_mzTab-M_2-1_v2")
+
+## Intrument
+mtd <- mtdInstrument(x = mtd,
+    name = "[MS, MS:1000449, LTQ Orbitrap,]",
+    source = "[MS, MS:1000073, ESI,]",
+    analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+    detector = "[MS, MS:1000253, electron multiplier,]", add = TRUE)
+
+## Database
+mtd <- mtdDatabase(x = mtd,
+                    name = "[MIRIAM, MIR:00100079, HMDB, ]",
+                    prefix = "hmdb",
+                    version = "3.6",
+                    uri = "http://www.hmdb.ca/")
+
+## CV
+mtd <- mtdCv(x = mtd,
+                label = "MS_test",
+                full_name = "PSI-MS controlled vocabulary",
+                version = "4.1.11",
+                uri = "https://purl.obolibrary.org/obo/ms.obo")
+
+## Contact
+mtd <- mtdContact(x = mtd,
+                    name = c("author_1","author_2"),
+                    affiliation = c("EURAC","EURAC"),
+                    email = c("author_1@mail.com","author_2@mail.com"))
+
+## Single fields like "publication"
+mtd <- mtdField(x = mtd, field = "publication",
+                value = c("test pub","test pub 2"))
+
+## Generate SML, SMF, SME
 sml <- sml_xcms_export(xmse, mtd)
 smf <- smf_xcms_export(xmse)
 sme <- sme_xcms_export(xmse)
 
+## Save file
 path <- "./inst/mztabm/out"
 if(!dir.exists(path))
     dir.create(path, showWarnings = FALSE)
