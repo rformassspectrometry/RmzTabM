@@ -265,7 +265,181 @@ mtd <- .mtd(se, id = "my_study", software = "my software")
 
 - need to provide annotation confidence and similar things.
 
+```{r}
+#' have a setter for each element/group?
 
+mtd <- mtdInstrument(mtd, instrument, add = TRUE)
+mtd <- mtdOntlogy()
+
+#' or replacement methods?
+ontology(mtd) # get the ontology part
+ontology(mtd) <- "" # problem that we can't provide all parameters at once
+
+mtdOntology(mtd, name = , uri = , ..., add = TRUE) # either adds it or replaces it
+```
+
+## SML
+
+The problem is that there is no standard way in which the *annotation* is
+encoded.
+
+### Automatic generation
+
+- take the `assay()` and encode that into the abundances.
+- annotation *should* be provided in the `rowData`. But we need to configure
+  which columns match which variables. Maybe the `translate` method could be
+  handy here.
+
+We add as much information to the `SummarizedExperiment`'s `rowData` to avoid
+manual modification of the SML section as much as possible. In particular, we
+add the *reliability* and the *best_id_confidence_measure* columns, the latter
+as a CV param.
+
+```{r}
+#' Defining the id reliability:
+rel <- rep("5", nrow(fdef)) # m/z match
+rel[rowData(se)$`MS/MS matched`] <- "2a"
+rel[rowData(se)$`MS/MS matched` & rowData(se)$`RT matched`] <- "1"
+
+rowData(se)$reliability <- rel
+rowData(se)$id_conf_measure <- "[MS, MS:1003304, spectral dot product, ]"
+```
+
+```{r}
+#' @return a named `character` with names being the SML field names and values
+#'     the *original* names e.g. the column names in a `data.frame` containing
+#'     the respective information for the mzTab-M SML fields.
+smlNameMapping <- function(SMF_ID_REFS = character(),
+                           database_identifier = character(),
+                           chemical_formula = character(), smiles = character(),
+                           inchi = character(), chemical_name = character(),
+                           uri = character(),
+                           theoretical_neutral_mass = character(),
+                           adduct_ions = character(), reliability = character(),
+                           best_id_confidence_measure = character(),
+                           best_id_confidence_value = character(), ...) {
+    dots <- list(...)
+    res <- c(SMF_ID_REFS = SMF_ID_REFS,
+             database_identifier = database_identifier,
+             chemical_formula = chemical_formula, smiles = smiles,
+             inchi = inchi, chemical_name = chemical_name, uri = uri,
+             theoretical_neutral_mass = theoretical_neutral_mass,
+             adduct_ions = adduct_ions, reliability = reliability,
+             best_id_confidence_measure = best_id_confidence_measure,
+             best_id_confidence_value = best_id_confidence_value)
+    if (length(names(dots))) {
+        dots <- dots[names(dots) != ""]
+        res <- c(res, unlist(dots, recursive = FALSE))
+    }
+    res
+}
+
+#' Get an SML section from a `SummarizedExperiment` `x`.
+#'
+#' @param x `SummarizedExperiment` with `rowData()` containing annotation
+#'     information and `assay()` the abundance values.
+#'
+#' @param smlNameMapping named `character()` defining which columns in
+#'     `rowData()` are used for which annotation field in the SML table. See
+#'     details for more information.
+#'
+#' @return SML `data.frame`
+#'
+#' @noRd
+.sml_from_se <- function(x, smlNameMapping = smlNameMapping()) {
+    vals <- assay(x)
+    rd <- data.frame(rowData(x), check.names = FALSE)
+    if (any(miss <- !smlNameMapping %in% colnames(rd)))
+        stop("Column(s) ",
+             paste0("\"", smlNameMapping[miss], "\"", collapse = ", "),
+             " provided with 'smlNameMapping' not found in 'rowData(x)'.",
+             call. = FALSE)
+    rl <- as.list(rd[, smlNameMapping, drop = FALSE])
+    names(rl) <- names(smlNameMapping)
+    do.call("sml_create", c(list(x = assay(x)), rl))
+}
+
+smlMap <- smlNameMapping(
+    chemical_formula = "Formula", smiles = "SMILES",
+    chemical_name = "Metabolite name", adduct_ions = "Adduct type",
+    reliability = "reliability", best_id_confidence_value = "Dot product",
+    best_id_confidence_measure = "id_conf_measure",
+    alignment_id = "Alignment ID")
+
+sml <- .sml_from_se(se, smlMap)
+sml <- sml_add_study_variable_columns(sml, mtd)
+
+```
+
+### Manual completion
+
+Need to also cross-reference MTD.
+
+
+## SMF
+
+### Automatic generation
+
+```{r}
+smfNameMapping <- function(exp_mass_to_charge = character(),
+                           retention_time_in_seconds = character(),
+                           retention_time_in_seconds_start = character(),
+                           retention_time_in_seconds_end = character(),
+                           SME_ID_REFS = character(),
+                           SME_ID_REF_ambiguity_code = character(),
+                           charge = character(), adduct_ion = character(),
+                           isotopomer = character(), ...) {
+    dots <- list(...)
+    res <- c(exp_mass_to_charge = exp_mass_to_charge,
+             retention_time_in_seconds = retention_time_in_seconds,
+             retention_time_in_seconds_start = retention_time_in_seconds_start,
+             retention_time_in_seconds_end = retention_time_in_seconds_end,
+             SME_ID_REFS = SME_ID_REFS,
+             SME_ID_REF_ambiguity_code = SME_ID_REF_ambiguity_code,
+             charge = charge, adduct_ion = adduct_ion,
+             isotopomer = isotopomer)
+    if (length(names(dots))) {
+        dots <- dots[names(dots) != ""]
+        res <- c(res, unlist(dots, recursive = FALSE))
+    }
+    res
+}
+
+#' Maybe have a `defaultSmfNameMapping("xcms")` that provides some fields.
+
+.smf_from_se <- function(x, smfNameMapping = smfNameMapping()) {
+    vals <- assay(x)
+    rd <- data.frame(rowData(x), check.names = FALSE)
+    if (any(miss <- !smfNameMapping %in% colnames(rd)))
+        stop("Column(s) ",
+             paste0("\"", smfNameMapping[miss], "\"", collapse = ", "),
+             " provided with 'smfNameMapping' not found in 'rowData(x)'.",
+             call. = FALSE)
+    rl <- as.list(rd[, smfNameMapping, drop = FALSE])
+    names(rl) <- names(smfNameMapping)
+    do.call("smf_create", c(list(x = assay(x)), rl))
+}
+
+rowData(se)$rtmed <- rowData(se)$`Average Rt(min)` * 60
+
+smfMap <- smfNameMapping(exp_mass_to_charge = "Average Mz",
+                         retention_time_in_seconds = "rtmed",
+                         adduct_ion = "Adduct type",
+                         alignment_id = "Alignment ID")
+
+smf <- .smf_from_se(se, smfMap)
+```
+
+### Manual completion
+
+Should be all done.
+
+
+## SME
+
+### Automatic generation
+
+### Manual completion
 
 # Session information
 
