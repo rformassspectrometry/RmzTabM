@@ -54,12 +54,15 @@ generation:
 \itemize{
 \item \code{\link[=mtd_sort]{mtd_sort()}}: to sort the MTD \code{matrix} into the expected order.
 \item \code{\link[=mtd_fields]{mtd_fields()}}: helps formatting values into the mzTab-M-specific format.
-\item \code{\link[=mtdInstrument]{mtdInstrument()}}: add/update Instrument Metadata in an MTD Object.
-\item \code{\link[=mtdDatabase]{mtdDatabase()}}: add/update Database Metadata in an MTD Object.
-\item \code{\link[=mtdCv]{mtdCv()}}: add/update Controlled Vocabularies (CV) Metadata in an MTD
+\item \code{\link[=setMtdInstrument]{setMtdInstrument()}}/\code{\link[=getMtdInstrument]{getMtdInstrument()}}: set/get Instrument Metadata in
+an MTD Object.
+\item \code{\link[=setMtdDatabase]{setMtdDatabase()}}/\code{\link[=getMtdDatabase]{getMtdDatabase()}}: set/get Database Metadata in an MTD
 Object.
-\item \code{\link[=mtdContact]{mtdContact()}}: add/update contact Metadata in an MTD Object.
-\item \code{\link[=mtdField]{mtdField()}}: add/update a Metadata Field in an MTD Object.
+\item \code{\link[=setMtdCv]{setMtdCv()}}/\code{\link[=getMtdCv]{getMtdCv()}}: set/get Controlled Vocabularies (CV) Metadata
+in an MTD Object.
+\item \code{\link[=setMtdContact]{setMtdContact()}}/\code{\link[=getMtdContact]{getMtdContact()}}: set/get contact Metadata in an MTD
+Object.
+\item \code{\link[=setMtdField]{setMtdField()}}/\code{\link[=getMtdField]{getMtdField()}}: set/get a Metadata Field in an MTD Object.
 \item \code{\link[=updateMtdContent]{updateMtdContent()}}: update the value of an existing MTD field
 }
 }
@@ -219,8 +222,10 @@ mtd <- mtd_sort(mtd)
 \link{SMF-export} and \link{SML-export} for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.
 
-\code{\link[=mtdInstrument]{mtdInstrument()}}, \code{\link[=mtdDatabase]{mtdDatabase()}}, \code{\link[=mtdCv]{mtdCv()}}, \code{\link[=mtdContact]{mtdContact()}},
-\code{\link[=mtdField]{mtdField()}} and \code{\link[=updateMtdContent]{updateMtdContent()}}.
+\code{\link[=setMtdInstrument]{setMtdInstrument()}}, \code{\link[=setMtdDatabase]{setMtdDatabase()}}, \code{\link[=setMtdCv]{setMtdCv()}},
+\code{\link[=setMtdContact]{setMtdContact()}}, \code{\link[=setMtdField]{setMtdField()}}, \code{\link[=getMtdInstrument]{getMtdInstrument()}},
+\code{\link[=getMtdDatabase]{getMtdDatabase()}}, \code{\link[=getMtdCv]{getMtdCv()}}, \code{\link[=getMtdContact]{getMtdContact()}},
+\code{\link[=getMtdField]{getMtdField()}} and \code{\link[=updateMtdContent]{updateMtdContent()}}.
 }
 \author{
 Philippine Louail, Johannes Rainer

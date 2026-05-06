@@ -203,153 +203,6 @@ library(SummarizedExperiment)
 }
 ```
 
-##### Add groupped optional variables
-
-INSTRUMENT
-```{r}
-mtdInstrument <- function(x = matrix(), name = character(), source = character(),
-                          analyzed = character(), detector = character(), add = TRUE) {
-    if(!all(is.na(x))) {
-        instr <- .mtd_get_field(x, "^instrument\\[\\d+\\]", exact = FALSE,
-                                fixed = FALSE)[[1]]
-
-        list_param <- c(list(name = name, source = source, detector = detector),
-                        as.list(analyzed))
-
-        if (!all(is.na(instr))) {
-            if (add) {
-                list_param <- Map(function(f) {
-                                c(instr[grep(f, names(instr), fixed = TRUE)],
-                                  list_param[[f]])},
-                               names(list_param))
-            }
-            x <- x[!(x[, 1] %in% names(instr)), ]
-        }
-        new_instr <- do.call(mtd_fields, c(list(field_prefix = "instrument"),
-                                            list_param))
-
-        x <- mtd_sort(rbind(x, new_instr))
-    }
-    x
-}
-```
-
-DATABASE
-```{r}
-mtdDatabase <- function(x = matrix(), name = character(), prefix = character(),
-                        version = character(), uri = character(), add = TRUE) {
-    if(!all(is.na(x))) {
-        db <- .mtd_get_field(x, "^database\\[\\d+\\]", exact = FALSE,
-                                fixed = FALSE)[[1]]
-
-        list_param <- list(name = name, prefix = prefix,
-                            version = version, uri = uri)
-
-        if (!all(is.na(db))) {
-            if (add & db[1] != "[,, \"no database\", null ]") {
-                list_param <- Map(function(f) {
-                                c(db[grep(f, names(db), fixed = TRUE)],
-                                  list_param[[f]])},
-                               names(list_param))
-            }
-            x <- x[!(x[, 1] %in% names(db)), ]
-        }
-        new_db <- .database(list_param$name, list_param$prefix,
-                            list_param$version, list_param$uri)
-
-        x <- mtd_sort(rbind(x, new_db))
-    }
-    x
-}
-```
-
-CV
-```{r}
-mtdCv <- function(x = matrix(), label = character(), full_name = character(),
-                  version = character(), uri = character(), add = TRUE) {
-    if(!all(is.na(x))) {
-        cv <- .mtd_get_field(x, "^cv\\[\\d+\\]", exact = FALSE,
-                                fixed = FALSE)[[1]]
-
-        list_param <- list(label = label, full_name = full_name,
-                            version = version, uri = uri)
-
-        if (!all(is.na(cv))) {
-            if (add) {
-                list_param <- Map(function(f) {
-                                c(cv[grep(f, names(cv), fixed = TRUE)],
-                                  list_param[[f]])},
-                               names(list_param))
-            }
-            x <- x[!(x[, 1] %in% names(cv)), ]
-        }
-        new_cv <- .cv(list_param$label, list_param$full_name,
-                        list_param$version, list_param$uri)
-
-        ## do.call(mtd_fields, c(list(field_prefix = "cv"),
-        ##                                              list_param))
-
-        x <- mtd_sort(rbind(x, new_cv))
-    }
-    x
-}
-```
-
-Contact
-```{r}
-mtdContact <- function(x = matrix(), name = character(),
-                        affiliation = character(), email = character(),
-                        add = TRUE) {
-    if(!all(is.na(x))) {
-        contact <- .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE,
-                                    fixed = FALSE)[[1]]
-
-        list_param <- list(name = name, affiliation = affiliation,
-                            email = email)
-
-        if (!all(is.na(contact))) {
-            if (add) {
-                list_param <- Map(function(f) {
-                                c(contact[grep(f, names(contact), fixed = TRUE)],
-                                  list_param[[f]])},
-                               names(list_param))
-            }
-            x <- x[!(x[, 1] %in% names(contact)), ]
-        }
-        new_contact <- do.call(mtd_fields, c(list(field_prefix = "contact"),
-                                            list_param))
-
-        x <- mtd_sort(rbind(x, new_contact))
-    }
-    x
-}
-```
-
-Single fields
-```{r}
-mtdField <- function(x = matrix(), field = character(), value = character(),
-                        add = TRUE) {
-    if(!all(is.na(x))) {
-        if(!any(grepl(field, .MTD_FIELD_ORDER)))
-            stop("Provide a valid MTD field.")
-
-        existing_field <- .mtd_get_field(x, paste0("^", field, "\\[\\d+\\]"),
-                                          exact = FALSE, fixed = FALSE)[[1]]
-
-        if (!all(is.na(existing_field))) {
-            if (add) {
-                value <- c(existing_field, value)
-            }
-            x <- x[!(x[, 1] %in% names(existing_field)), ]
-        }
-        new_field <- mtd_fields(value, field_prefix = field)
-
-        x <- mtd_sort(rbind(x, new_field))
-    }
-    x
-}
-```
-
 #### Create SML
 
 ```{r}
@@ -431,41 +284,41 @@ updateMtdContent <- function(mtd, field, value) {
 ```{r}
 ## Generate the base MTD based on the xmse object with the mandatory fields (xcms specific package)
 mtd <- .mtd(x = quantify(xmse),
-            id = "test_jo_mtd",
+            id = "xcms_mzTab-M_2-1",
             software = paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]"),
-            studyVariables = c("sample_group", "experiment", "sample_type"),
+            studyVariables = c("sample_group", "experiment"),
             polarity = "positive")
 mtd <- updateMtdContent(mtd, "mzTab-ID", "xcms_mzTab-M_2-1_v2")
 
 ## Intrument  (Rmztabm)
-mtd <- mtdInstrument(x = mtd,
+mtd <- setMtdInstrument(x = mtd,
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
     analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
-    detector = "[MS, MS:1000253, electron multiplier,]", add = TRUE)
+    detector = "[MS, MS:1000253, electron multiplier,]", replace = FALSE)
 
 ## Database (Rmztabm)
-mtd <- mtdDatabase(x = mtd,
+mtd <- setMtdDatabase(x = mtd,
                     name = "[MIRIAM, MIR:00100079, HMDB, ]",
                     prefix = "hmdb",
                     version = "3.6",
                     uri = "http://www.hmdb.ca/")
 
 ## CV (Rmztabm)
-mtd <- mtdCv(x = mtd,
+mtd <- setMtdCv(x = mtd,
                 label = "MS_test",
                 full_name = "PSI-MS controlled vocabulary",
                 version = "4.1.11",
                 uri = "https://purl.obolibrary.org/obo/ms.obo")
 
 ## Contact (Rmztabm)
-mtd <- mtdContact(x = mtd,
+mtd <- setMtdContact(x = mtd,
                     name = c("author_1","author_2"),
                     affiliation = c("EURAC","EURAC"),
                     email = c("author_1@mail.com","author_2@mail.com"))
 
 ## Single fields like "publication" (Rmztabm)
-mtd <- mtdField(x = mtd, field = "publication",
+mtd <- setMtdField(x = mtd, field = "publication",
                 value = c("test pub","test pub 2"))
 
 ## Generate SML, SMF, SME (xcms specific package)

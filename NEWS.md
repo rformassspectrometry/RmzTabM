@@ -2,8 +2,8 @@
 
 ## Changes in version 0.97.8
 
-- Add functions `mtdInstrument()`, `mtdDatabase()`, `mtdCv()`, `mtdContact()`,
-  `mtdField()` and `updateMtdContent()` for MTD section
+- Add functions `setMtdInstrument()`, `setMtdDatabase()`, `setMtdCv()`, `setMtdContact()`,
+  `setMtdField()` and `updateMtdContent()` for MTD section
 - Add examples and tests.
 
 ## Changes in version 0.97.7
