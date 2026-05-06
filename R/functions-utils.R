@@ -48,10 +48,10 @@
 #' where only the *name* and *value* are provided are supported, but it is
 #' recommendet to use full CV parameters where possible.
 #'
-#' `parse_cv_parameter()` allows to extract individual fields from a CV
+#' `parseCvParameter()` allows to extract individual fields from a CV
 #' parameter.
 #'
-#' `is_cv_parameter()` tests whether a string is in the expected (CV parameter)
+#' `isCvParameter()` tests whether a string is in the expected (CV parameter)
 #' format.
 #'
 #' @note
@@ -80,22 +80,22 @@
 #'
 #' ## Extract CV term
 #' x <- c("[MS, MS:1002962, mean, ]", "[MS, MS:1002883, median, ]")
-#' parse_cv_parameter(x, 1)
+#' parseCvParameter(x, 1)
 #'
-#' parse_cv_parameter(x)
+#' parseCvParameter(x)
 #'
-#' parse_cv_parameter(x, 3)
+#' parseCvParameter(x, 3)
 #'
-#' parse_cv_parameter(x, 4)
+#' parseCvParameter(x, 4)
 #'
 #' ## CV term missing
-#' parse_cv_parameter("[, , user, value]")
-#' parse_cv_parameter("[, , user, value]", 3)
-#' parse_cv_parameter("[, , user, value]", 4)
+#' parseCvParameter("[, , user, value]")
+#' parseCvParameter("[, , user, value]", 3)
+#' parseCvParameter("[, , user, value]", 4)
 #'
 #' ## Check validity of CV parameters
-#' is_cv_parameter(c(x, "[a, b, c, d, e]", "d"))
-parse_cv_parameter <- function(x, element = 2L) {
+#' isCvParameter(c(x, "[a, b, c, d, e]", "d"))
+parseCvParameter <- function(x, element = 2L) {
     if (!all(grepl("^\\[.*\\]$", x)))
         stop("Unexpected CV parameter format: string is expected to start with",
              " a [ and end with a ].")
@@ -111,8 +111,8 @@ parse_cv_parameter <- function(x, element = 2L) {
 
 #' @export
 #'
-#' @rdname parse_cv_parameter
-is_cv_parameter <- function(x) {
+#' @rdname parseCvParameter
+isCvParameter <- function(x) {
     grepl("^\\[([^,]*,){3}[^,]*\\]$", x)
 }
 

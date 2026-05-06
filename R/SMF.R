@@ -49,7 +49,7 @@
 #'
 #' @param x `matrix` or `data.frame` of abundances. Rows are features,
 #'   columns are assays. The order of columns is assumed to match the order of
-#'   assays defined in the Metadata (MTD) section (see [mtd_assay()] for more
+#'   assays defined in the Metadata (MTD) section (see [mtdAssay()] for more
 #'   information).
 #'
 #' @param SME_ID_REFS `character` vector of SME IDs referencing small molecules.

@@ -29,7 +29,7 @@ already present.}
 
 \item{x}{\code{matrix} or \code{data.frame} of abundances. Rows are features,
 columns are assays. The order of columns is assumed to match the order of
-assays defined in the Metadata (MTD) section (see \code{\link[=mtd_assay]{mtd_assay()}} for more
+assays defined in the Metadata (MTD) section (see \code{\link[=mtdAssay]{mtdAssay()}} for more
 information).}
 
 \item{exp_mass_to_charge}{\code{numeric} vector of experimental m/z values. This

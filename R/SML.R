@@ -382,9 +382,9 @@ sml_add_study_variable_columns <- function(x, mtd) {
         if (is.na(svar <- sv[paste0(svname, "-variation_function")]))
             stop("Field \"", svname, "-variation_function\" missing in 'mtd'")
         ## Get the CV term and throw an error if it's not supported.
-        if (is.na(savg_cv <- parse_cv_parameter(savg, 2L)))
+        if (is.na(savg_cv <- parseCvParameter(savg, 2L)))
             stop("\"", savg, "\" lacks a CV term/accession. Can not process.")
-        if (is.na(svar_cv <- parse_cv_parameter(svar, 2L)))
+        if (is.na(svar_cv <- parseCvParameter(svar, 2L)))
             stop("\"", svar, "\" lacks a CV term/accession. Can not process.")
         x <- cbind(x, apply(x[, acols, drop = FALSE], MARGIN = 1,
                             FUN = .resolve_fun(savg_cv)[[1L]]))

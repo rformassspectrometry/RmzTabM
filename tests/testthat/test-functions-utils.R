@@ -21,25 +21,25 @@ test_that(".resolve_fun works", {
     expect_equal(res[[2L]], mean)
 })
 
-test_that("parse_cv_parameter works", {
+test_that("parseCvParameter works", {
     x <- c("aaa", "[aaaa]")
-    expect_error(parse_cv_parameter(x), "Unexpected CV")
-    res <- parse_cv_parameter(c("[a,b,c,d]", "[e, f, g, h]"), 1L)
+    expect_error(parseCvParameter(x), "Unexpected CV")
+    res <- parseCvParameter(c("[a,b,c,d]", "[e, f, g, h]"), 1L)
     expect_equal(res, c("a", "e"))
-    res <- parse_cv_parameter(c("[a,b,c,d]", "[e, f, g, h]"), 2L)
+    res <- parseCvParameter(c("[a,b,c,d]", "[e, f, g, h]"), 2L)
     expect_equal(res, c("b", "f"))
-    res <- parse_cv_parameter(c("[a,b,c,d]", "[e, f, g, h]"), 3L)
+    res <- parseCvParameter(c("[a,b,c,d]", "[e, f, g, h]"), 3L)
     expect_equal(res, c("c", "g"))
-    res <- parse_cv_parameter(c("[a,b,c,d]", "[e, f, g, h]"), 4L)
+    res <- parseCvParameter(c("[a,b,c,d]", "[e, f, g, h]"), 4L)
     expect_equal(res, c("d", "h"))
 
-    res <- parse_cv_parameter(c("[a, , , ]", "[b,,,]"), 1L)
+    res <- parseCvParameter(c("[a, , , ]", "[b,,,]"), 1L)
     expect_equal(res, c("a", "b"))
-    res <- parse_cv_parameter(c("[a, , , ]", "[b,,,]"), 2L)
+    res <- parseCvParameter(c("[a, , , ]", "[b,,,]"), 2L)
     expect_equal(res, c(NA_character_, NA_character_))
-    res <- parse_cv_parameter(c("[a, , , ]", "[b,,,]"), 3L)
+    res <- parseCvParameter(c("[a, , , ]", "[b,,,]"), 3L)
     expect_equal(res, c(NA_character_, NA_character_))
-    res <- parse_cv_parameter(c("[a, , , ]", "[b,,,]"), 4L)
+    res <- parseCvParameter(c("[a, , , ]", "[b,,,]"), 4L)
     expect_equal(res, c(NA_character_, NA_character_))
 })
 
@@ -117,8 +117,8 @@ test_that(".add_opt_cols works", {
     expect_error(.add_opt_cols(x = x, other = numeric(), 1:4), "must be named")
 })
 
-test_that("is_cv_parameter works", {
+test_that("isCvParameter works", {
     vals <- c("", "[]", "[a]", "[a,a]", "[a,a,a]", "[a,a,a,a]", "[a,a,a,a,a]")
-    expect_equal(is_cv_parameter(vals), c(FALSE, FALSE, FALSE, FALSE, FALSE,
-                                          TRUE, FALSE))
+    expect_equal(isCvParameter(vals), c(FALSE, FALSE, FALSE, FALSE, FALSE,
+                                        TRUE, FALSE))
 })
