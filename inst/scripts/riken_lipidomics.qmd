@@ -7,6 +7,13 @@ Kozo's example files used for the agentic export.
 The data files are available
 [here](https://github.com/kozo2/hupopsi-pymztabm-handson/tree/main/RIKEN_LIPIDOMICS).
 
+Some things are not clear from the data:
+
+- polarity? the MS runs are all positive polarity, but annotations are to
+  positive and negative adducts. Does this data set contain positive and
+  negative polarity data?
+- Alignment ID are not unique within the data set. Seems they are unique within
+  the polarity?
 
 # MTD + SML
 
@@ -209,10 +216,25 @@ all(rownames(sd) %in% colnames(vals))
 fdef <- vals[, !colnames(vals) %in% rownames(sd)]
 vals <- vals[, colnames(vals) %in% rownames(sd)]
 
-library(SummarizedExperiment)
+```
 
-#' rowData
-rownames(fdef) <- fdef$`Alignment ID` # feature ID.
+Creating a `SummarizedExperiment` from this data. Note that we have duplicated
+*Alignment ID* hence we can't use them as row names (or IDs.) Checking first
+what these duplicated IDs actually are.
+
+```{r}
+a_data <- split.data.frame(fdef, f = fdef$`Alignment ID`)
+dups <- which(vapply(a_data, nrow, NA_integer_) > 1)
+
+a_data[dups[1]]
+```
+
+Different rows with completely different annotations (and also retention time)
+have the same *Alignment ID*. We can thus not use the *Alignment ID* as unique
+identifier for each row/signal.
+
+```{r}
+library(SummarizedExperiment)
 
 #' assay
 vals <- as.matrix(vals)
@@ -305,6 +327,15 @@ rowData(se)$reliability <- rel
 rowData(se)$id_conf_measure <- "[MS, MS:1003304, spectral dot product, ]"
 ```
 
+For the present data set we assume each row is one small molecule, is one small
+molecule feature and has one evidence. Thus, we map each row in the SML to one
+row in SMF and one row in SME, with the rows all being in the same order. We add
+this information as column `"id_ref"` to the `rowData`.
+
+```{r}
+rowData(se)$id_ref <- seq_len(nrow(se))
+```
+
 ```{r}
 #' @return a named `character` with names being the SML field names and values
 #'     the *original* names e.g. the column names in a `data.frame` containing
@@ -359,22 +390,21 @@ smlNameMapping <- function(SMF_ID_REFS = character(),
     do.call("sml_create", c(list(x = assay(x)), rl))
 }
 
-smlMap <- smlNameMapping(
+map <- smlNameMapping(
     chemical_formula = "Formula", smiles = "SMILES",
     chemical_name = "Metabolite name", adduct_ions = "Adduct type",
     reliability = "reliability", best_id_confidence_value = "Dot product",
     best_id_confidence_measure = "id_conf_measure",
-    alignment_id = "Alignment ID")
+    alignment_id = "Alignment ID", SMF_ID_REFS = "id_ref")
 
-sml <- .sml_from_se(se, smlMap)
+sml <- .sml_from_se(se, map)
 sml <- sml_add_study_variable_columns(sml, mtd)
 
 ```
 
 ### Manual completion
 
-Need to also cross-reference MTD.
-
+TODO: complete MTD by adding id confidence entries.
 
 ## SMF
 
@@ -422,22 +452,107 @@ smfNameMapping <- function(exp_mass_to_charge = character(),
 
 rowData(se)$rtmed <- rowData(se)$`Average Rt(min)` * 60
 
-smfMap <- smfNameMapping(exp_mass_to_charge = "Average Mz",
-                         retention_time_in_seconds = "rtmed",
-                         adduct_ion = "Adduct type",
-                         alignment_id = "Alignment ID")
+map <- smfNameMapping(exp_mass_to_charge = "Average Mz",
+                      retention_time_in_seconds = "rtmed",
+                      adduct_ion = "Adduct type",
+                      alignment_id = "Alignment ID",
+                      SME_ID_REFS = "id_ref")
 
-smf <- .smf_from_se(se, smfMap)
+smf <- .smf_from_se(se, map)
 ```
 
 ### Manual completion
 
 Should be all done.
 
-
 ## SME
 
 ### Automatic generation
+
+```{r}
+.SME_MANDATORY_FIELDS <- c("evidence_input_id", "exp_mass_to_charge", "charge",
+                           "theoretical_mass_to_charge", "spectra_ref",
+                           "identification_method", "ms_level")
+
+smeNameMapping <- function(evidence_input_id = character(),
+                           database_identifier = character(),
+                           chemical_formula = character(),
+                           smiles = character(), inchi = character(),
+                           chemical_name = character(), uri = character(),
+                           derivatized_form = character(),
+                           adduct_ions = character(),
+                           exp_mass_to_charge = character(),
+                           charge = character(),
+                           theoretical_mass_to_charge = character(),
+                           spectra_ref = character(),
+                           identification_method = character(),
+                           ms_level = character(),
+                           id_confidence_measure = character(),
+                           rank = character(), ...) {
+    dots <- list(...)
+    res <- c(evidence_input_id = evidence_input_id,
+             database_identifier = database_identifier,
+             chemical_formula = chemical_formula,
+             smiles = smiles, inchi = inchi,
+             chemical_name = chemical_name, uri = uri,
+             derivatized_form = derivatized_form,
+             adduct_ions = adduct_ions,
+             exp_mass_to_charge = exp_mass_to_charge,
+             charge = charge,
+             theoretical_mass_to_charge = theoretical_mass_to_charge,
+             spectra_ref = spectra_ref,
+             identification_method = identification_method,
+             ms_level = ms_level,
+             id_confidence_measure = id_confidence_measure,
+             rank = rank)
+    if (any(miss <- !.SME_MANDATORY_FIELDS %in% names(res)))
+        warning("Mandatory fields ",
+                paste0("\"", .SME_MANDATORY_FIELDS[miss], "\"",collapse = ", "),
+                " not defined.", call. = FALSE)
+    if (length(names(dots))) {
+        dots <- dots[names(dots) != ""]
+        res <- c(res, unlist(dots, recursive = FALSE))
+    }
+    res
+}
+
+.sme_from_se <- function(x, smeNameMapping = smeNameMapping(), mtd = NULL) {
+    vals <- assay(x)
+    rd <- data.frame(rowData(x), check.names = FALSE)
+    if (!length(mtd))
+        stop("Parameter 'mtd' can not be empty.", call. = FALSE)
+    if (any(miss <- !smeNameMapping %in% colnames(rd)))
+        stop("Column(s) ",
+             paste0("\"", smeNameMapping[miss], "\"", collapse = ", "),
+             " provided with 'smeNameMapping' not found in 'rowData(x)'.",
+             call. = FALSE)
+    rl <- as.list(rd[, smeNameMapping, drop = FALSE])
+    names(rl) <- names(smeNameMapping)
+    do.call("sme_create", c(list(mtd = mtd), rl))
+}
+
+
+#' Add missing information to the rowData:
+#' - spectra_ref: needs to be in the form "ms_run[x]:something." This means we
+#'   need to add it ALSO to the MTD section!
+rowData(se)$spectra_ref <- "ms_run[1]:dummy"
+library(MetaboCoreUtils)
+rowData(se)$charge <- adductCharge(rowData(se)$`Adduct type`)
+rowData(se)$id_method <- "[,,MS-DIAL,]"
+rowData(se)$ms_level <- 2L
+
+map <- smeNameMapping(
+    evidence_input_id = "Alignment ID", chemical_formula = "Formula",
+    smiles = "SMILES", chemical_name = "Metabolite name",
+    adduct_ions = "Adduct type", exp_mass_to_charge = "Average Mz",
+    theoretical_mass_to_charge = "Reference m/z",
+    charge = "charge", identification_method = "id_method",
+    ms_level = "ms_level", spectra_ref = "spectra_ref")
+
+sme <- .sme_from_se(se, map, mtd = mtd)
+
+```
+
 
 ### Manual completion
 
