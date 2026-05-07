@@ -1644,14 +1644,17 @@ mtdSort <- function(x) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged instrument
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdInstrument()`: the input object `x` updated to include the new
+#'   or merged instrument metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdInstrument()`: the instrument information.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add instrument metadata to an existing mzTab object
 #' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'           source = "[MS, MS:1000073, ESI,]",
@@ -1664,6 +1667,14 @@ mtdSort <- function(x) {
 #'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
 #'           detector = "[MS, MS:1000253, electron multiplier,]",
 #'           replace = TRUE)
+#'
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+#' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+#'           source = "[MS, MS:1000073, ESI,]",
+#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           detector = "[MS, MS:1000253, electron multiplier,]")
+#'
+#' getMtdInstrument(mtd)
 #'
 #' @export
 setMtdInstrument <- function(x = matrix(), name = character(),
@@ -1695,36 +1706,14 @@ setMtdInstrument <- function(x = matrix(), name = character(),
             }
             x <- x[!(x[, 1] %in% names(instr)), ]
         }
-        new_instr <- do.call(mtd_fields, c(list(field_prefix = "instrument"),
-                                            list_param))
-        x <- mtd_sort(rbind(x, new_instr))
+        new_instr <- do.call(mtdFields, c(list(field_prefix = "instrument"),
+                                          list_param))
+        x <- mtdSort(rbind(x, new_instr))
     }
     x
 }
 
-#' @title Get the Instrument fields from a MTD section
-#'
-#' @name MTD-instrument
-#'
-#' @description
-#'
-#' Get the Instrument fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the Instrument.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
-#'           source = "[MS, MS:1000073, ESI,]",
-#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
-#'           detector = "[MS, MS:1000253, electron multiplier,]")
-#'
-#' getMtdInstrument(x)
+#' @rdname MTD-instrument
 #'
 #' @export
 getMtdInstrument <- function(x = matrix()) {
@@ -1768,14 +1757,17 @@ getMtdInstrument <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged database
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdDatabase()`: the input object `x` updated to include the new
+#'   or merged database metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdDatabase()`: get the database metadata.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add database metadata to an existing mzTab object
 #' mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
 #'           prefix = "hmdb",
@@ -1788,6 +1780,9 @@ getMtdInstrument <- function(x = matrix()) {
 #'           version = "3.6",
 #'           uri = "http://www.hmdb.ca/",
 #'           replace = TRUE)
+#'
+#' ## Get the database metadata
+#' getMtdDatabase(mtd)
 #'
 #' @export
 setMtdDatabase <- function(x = matrix(), name = character(),
@@ -1827,35 +1822,12 @@ setMtdDatabase <- function(x = matrix(), name = character(),
         }
         new_db <- .database(list_param$name, list_param$prefix,
                             list_param$version, list_param$uri)
-        x <- mtd_sort(rbind(x, new_db))
+        x <- mtdSort(rbind(x, new_db))
     }
     x
 }
 
-
-#' @title Get the databse fields from a MTD section
-#'
-#' @name MTD-database
-#'
-#' @description
-#'
-#' Get the databse fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the database.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
-#'           prefix = "hmdb",
-#'           version = "3.6",
-#'           uri = "http://www.hmdb.ca/")
-#'
-#' getMtdDatabase(x)
+#' @rdname MTD-database
 #'
 #' @export
 getMtdDatabase <- function(x = matrix()) {
@@ -1901,14 +1873,17 @@ getMtdDatabase <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged CV
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdCv()`: the input object `x` updated to include the new or
+#'   merged CV metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdCv()`: returns the CV information.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add CV metadata to an existing mzTab object
 #' mtd <- setMtdCv(x, label = "MS",
 #'           full_name = "PSI-MS controlled vocabulary",
@@ -1921,6 +1896,9 @@ getMtdDatabase <- function(x = matrix()) {
 #'           version = "4.1.11",
 #'           uri = "https://purl.obolibrary.org/obo/ms.obo",
 #'           replace = TRUE)
+#'
+#' ## Get CV infrmation
+#' getMtdCv(mtd)
 #'
 #' @export
 setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
@@ -1953,34 +1931,12 @@ setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
         }
         new_cv <- .cv(list_param$label, list_param$full_name,
                         list_param$version, list_param$uri)
-        x <- mtd_sort(rbind(x, new_cv))
+        x <- mtdSort(rbind(x, new_cv))
     }
     x
 }
 
-#' @title Get the CV fields from a MTD section
-#'
-#' @name MTD-CV
-#'
-#' @description
-#'
-#' Get the CV fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the CV.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdCv(x, label = "MS",
-#'           full_name = "PSI-MS controlled vocabulary",
-#'           version = "4.1.11",
-#'           uri = "https://purl.obolibrary.org/obo/ms.obo")
-#'
-#' getMtdCv(x)
+#' @rdname MTD-CV
 #'
 #' @export
 getMtdCv <- function(x = matrix()) {
@@ -2014,14 +1970,17 @@ getMtdCv <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged contact
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdContact()`: the input object `x` updated to include the new or
+#'   merged contact metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdContact()`: returns the contact information.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add contact metadata to an existing mzTab object
 #' mtd <- setMtdContact(x, name = "Name Surname",
 #'           affiliation = "PSI-MS",
@@ -2032,6 +1991,9 @@ getMtdCv <- function(x = matrix()) {
 #'           affiliation = "PSI-MS",
 #'           email = "name.surname@mail.com",
 #'           replace = TRUE)
+#'
+#'
+#' getMtdContact(mtd)
 #'
 #' @export
 setMtdContact <- function(x = matrix(), name = character(),
@@ -2060,35 +2022,14 @@ setMtdContact <- function(x = matrix(), name = character(),
             }
             x <- x[!(x[, 1] %in% names(contact)), ]
         }
-        new_contact <- do.call(mtd_fields, c(list(field_prefix = "contact"),
+        new_contact <- do.call(mtdFields, c(list(field_prefix = "contact"),
                                             list_param))
-        x <- mtd_sort(rbind(x, new_contact))
+        x <- mtdSort(rbind(x, new_contact))
     }
     x
 }
 
-#' @title Get the Contact fields from a MTD section
-#'
-#' @name MTD-contact
-#'
-#' @description
-#'
-#' Get the Contact fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the contacts.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdContact(x, name = "Name Surname",
-#'           affiliation = "PSI-MS",
-#'           email = "name.surname@mail.com")
-#'
-#' getMtdContact(x)
+#' @rdname MTD-contact
 #'
 #' @export
 getMtdContact <- function(x = matrix()) {
@@ -2124,14 +2065,17 @@ getMtdContact <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged field
-#'     metadata. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdField()`: the input object `x` updated to include the new or
+#'   merged field metadata. If `x` is empty, the empty `x`.
+#' - For `getMtdField()`: `character()` with the requested metadata.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 #' ## Add a metadata field to an existing mzTab object
 #' mtd <- setMtdField(x, field = "publication",
 #'           value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
@@ -2140,6 +2084,8 @@ getMtdContact <- function(x = matrix()) {
 #' mtd <- setMtdField(mtd, field = "custom",
 #'           value = "[,,MS operator, Florian]",
 #'           replace = TRUE)
+#'
+#' getMtdField(mtd, field = "mzTab-ID")
 #'
 #' @export
 setMtdField <- function(x = matrix(), field = character(), value = character(),
@@ -2172,35 +2118,14 @@ setMtdField <- function(x = matrix(), field = character(), value = character(),
                 }
                 x <- x[!(x[, 1] %in% names(existing_field)), ]
             }
-            new_field <- mtd_fields(value, field_prefix = field)
+            new_field <- mtdFields(value, field_prefix = field)
         }
-        x <- mtd_sort(rbind(x, new_field))
+        x <- mtdSort(rbind(x, new_field))
     }
     x
 }
 
-#' @title Get a Metadata Field from a MTD section
-#'
-#' @name MTD-field
-#'
-#' @description
-#'
-#' Get a generic metadata field within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @param field `character` name of the metadata field to set or update.
-#'     Must be a valid [MTD field name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section). (e.g. `"publication"`)
-#'
-#' @return `character` with the metadata requested.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#'
-#' getMtdField(x, field = "mzTab-ID")
+#' @rdname MTD-field
 #'
 #' @export
 getMtdField <- function(x = matrix(), field = character()) {

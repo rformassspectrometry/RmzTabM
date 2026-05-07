@@ -18,7 +18,8 @@ setMtdDatabase(
 getMtdDatabase(x = matrix())
 }
 \arguments{
-\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.}
+\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.
+If all values are \code{NA}, the function returns \code{x} unchanged.}
 
 \item{name}{\code{character} with the description of databases used. For cases,
 where a known database has not been used for identification.
@@ -44,21 +45,20 @@ replaced entirely by the supplied arguments.
 }}
 }
 \value{
-The input object \code{x} updated to include the new or merged database
-metadata fields. If \code{x} is empty, the empty \code{x}.
-
-\code{character} with the database.
+\itemize{
+\item For \code{setMtdDatabase()}: the input object \code{x} updated to include the new
+or merged database metadata fields. If \code{x} is empty, the empty \code{x}.
+\item For \code{getMtdDatabase()}: get the database metadata.
+}
 }
 \description{
 Sets or updates database-related metadata fields within an MTD (metadata)
 section. When database metadata already exists, the function can either
 replace it entirely or append new values to the existing ones.
-
-Get the databse fields within an MTD (metadata) section.
 }
 \examples{
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add database metadata to an existing mzTab object
 mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
           prefix = "hmdb",
@@ -72,14 +72,8 @@ mtd <- setMtdDatabase(mtd, name = "[MIRIAM, MIR:00100079, HMDB, ]",
           uri = "http://www.hmdb.ca/",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
-          prefix = "hmdb",
-          version = "3.6",
-          uri = "http://www.hmdb.ca/")
-
-getMtdDatabase(x)
+## Get the database metadata
+getMtdDatabase(mtd)
 
 }
 \author{
