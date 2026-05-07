@@ -28,8 +28,10 @@ experiment. (e.g., \code{"[MS, MS:1000449, LTQ Orbitrap,]"}).}
 experiment. (e.g., \code{"[MS, MS:1000073, ESI,]"}).}
 
 \item{analyzer}{\code{character} with the instrument’s analyzer type(s) used in
-the experiment.
-(e.g., \code{c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")}).}
+the experiment. \strong{Must} be provided in the form
+\code{c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")} for a single
+analyzer, or \code{c("analyzer[1]" = "<analyzer 1>", "analyzer[2] = ...")}
+for multiple analyzers.}
 
 \item{detector}{\code{character} with the instrument’s detector type used in the
 experiment. (e.g., \code{"[MS, MS:1000253, electron multiplier,]"}).}
