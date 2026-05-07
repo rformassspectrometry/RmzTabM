@@ -54,6 +54,16 @@ generation:
 \itemize{
 \item \code{\link[=mtd_sort]{mtd_sort()}}: to sort the MTD \code{matrix} into the expected order.
 \item \code{\link[=mtd_fields]{mtd_fields()}}: helps formatting values into the mzTab-M-specific format.
+\item \code{\link[=setMtdInstrument]{setMtdInstrument()}}/\code{\link[=getMtdInstrument]{getMtdInstrument()}}: set/get Instrument Metadata in
+an MTD section.
+\item \code{\link[=setMtdDatabase]{setMtdDatabase()}}/\code{\link[=getMtdDatabase]{getMtdDatabase()}}: set/get Database Metadata in an MTD
+section.
+\item \code{\link[=setMtdCv]{setMtdCv()}}/\code{\link[=getMtdCv]{getMtdCv()}}: set/get Controlled Vocabularies (CV) Metadata
+in an MTD section.
+\item \code{\link[=setMtdContact]{setMtdContact()}}/\code{\link[=getMtdContact]{getMtdContact()}}: set/get contact Metadata in an MTD
+section.
+\item \code{\link[=setMtdField]{setMtdField()}}/\code{\link[=getMtdField]{getMtdField()}}: set/get a Metadata Field in an MTD
+section.
 }
 }
 \note{
@@ -211,6 +221,9 @@ mtd <- mtd_sort(mtd)
 \seealso{
 \link{SMF-export} and \link{SML-export} for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.
+
+\link{MTD-instrument}, \link{MTD-database}, \link{MTD-CV}, \link{MTD-contact} and
+\link{MTD-field}.
 }
 \author{
 Philippine Louail, Johannes Rainer
