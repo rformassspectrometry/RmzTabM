@@ -65,15 +65,15 @@
 #' - [mtd_sort()]: to sort the MTD `matrix` into the expected order.
 #' - [mtd_fields()]: helps formatting values into the mzTab-M-specific format.
 #' - [setMtdInstrument()]/[getMtdInstrument()]: set/get Instrument Metadata in
-#'   an MTD Object.
+#'   an MTD section.
 #' - [setMtdDatabase()]/[getMtdDatabase()]: set/get Database Metadata in an MTD
-#'   Object.
+#'   section.
 #' - [setMtdCv()]/[getMtdCv()]: set/get Controlled Vocabularies (CV) Metadata
-#'   in an MTD Object.
+#'   in an MTD section.
 #' - [setMtdContact()]/[getMtdContact()]: set/get contact Metadata in an MTD
-#'   Object.
-#' - [setMtdField()]/[getMtdField()]: set/get a Metadata Field in an MTD Object.
-#' - [updateMtdContent()]: update the value of an existing MTD field
+#'   section.
+#' - [setMtdField()]/[getMtdField()]: set/get a Metadata Field in an MTD
+#'   section.
 #'
 #' @note
 #'
@@ -92,10 +92,8 @@
 #' @seealso [SMF-export] and [SML-export] for creating and formatting the small
 #'     molecule feature (SMF) and small molecule (SML) sections.
 #'
-#' @seealso [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()],
-#'     [setMtdContact()], [setMtdField()], [getMtdInstrument()],
-#'     [getMtdDatabase()], [getMtdCv()], [getMtdContact()],
-#'     [getMtdField()] and [updateMtdContent()].
+#' @seealso [MTD-instrument], [MTD-database], [MTD-CV], [MTD-contact] and
+#'     [MTD-field].
 #'
 #' @examples
 #'
@@ -1378,6 +1376,20 @@ mtd_sort <- function(x) {
     "^colunit-small_molecule_evidence"
 )
 
+.MTD_UNIQUE_FIELD <- c(
+    "mzTab-version",
+    "mzTab-ID",
+    "title",
+    "description",
+    "quantification_method",
+    "small_molecule-quantification",
+    "small_molecule_feature",
+    "small_molecule-identification",
+    "colunit-small_molecule$",
+    "colunit-small_molecule_feature",
+    "colunit-small_molecule_evidence"
+)
+
 ################################################################################
 ##    Parse MTD section
 ##
@@ -1595,15 +1607,17 @@ mtd_sort <- function(x) {
 )
 
 
-#' @title Add or Update Instrument Metadata in an MTD Object
+#' @title Add or Update Instrument Metadata in an MTD section
+#'
+#' @name MTD-instrument
 #'
 #' @description
 #'
 #' Sets or updates instrument-related metadata fields within an MTD (metadata)
-#' object. When instrument metadata already exists, the function can either
+#' section. When instrument metadata already exists, the function can either
 #' replace it entirely or append new values to the existing ones.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'     If all values are `NA`, the function returns `x` unchanged.
 #'
 #' @param name `character` with the name of the instrument used in the
@@ -1612,7 +1626,7 @@ mtd_sort <- function(x) {
 #' @param source `character` with the instrument’s source used in the
 #'     experiment. (e.g., `"[MS, MS:1000073, ESI,]"`).
 #'
-#' @param analyzed `character` with the instrument’s analyzer type(s) used in
+#' @param analyzer `character` with the instrument’s analyzer type(s) used in
 #'     the experiment.
 #'     (e.g., `c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")`).
 #'
@@ -1639,19 +1653,19 @@ mtd_sort <- function(x) {
 #' ## Add instrument metadata to an existing mzTab object
 #' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'           source = "[MS, MS:1000073, ESI,]",
-#'           analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
 #'           detector = "[MS, MS:1000253, electron multiplier,]")
 #'
 #' ## Replace all existing instrument metadata
 #' mtd <- setMtdInstrument(mtd, name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'           source = "[MS, MS:1000073, ESI,]",
-#'           analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
 #'           detector = "[MS, MS:1000253, electron multiplier,]",
 #'           replace = TRUE)
 #'
 #' @export
 setMtdInstrument <- function(x = matrix(), name = character(),
-                          source = character(), analyzed = character(),
+                          source = character(), analyzer = character(),
                           detector = character(), replace = FALSE) {
     if(!all(is.na(x))) {
         if(!length(name))
@@ -1660,8 +1674,8 @@ setMtdInstrument <- function(x = matrix(), name = character(),
         if(!length(source))
             stop("Missing \"source\", provide a valid one.")
 
-        if(!length(analyzed))
-            stop("Missing \"analyzed\", provide a valid one.")
+        if(!length(analyzer))
+            stop("Missing \"analyzer\", provide a valid one.")
 
         if(!length(detector))
             stop("Missing \"detector\", provide a valid one.")
@@ -1669,7 +1683,7 @@ setMtdInstrument <- function(x = matrix(), name = character(),
         instr <- .mtd_get_field(x, "^instrument\\[\\d+\\]", exact = FALSE,
                                 fixed = FALSE)[[1]]
         list_param <- c(list(name = name, source = source, detector = detector),
-                        as.list(analyzed))
+                        as.list(analyzer))
         if (!all(is.na(instr))) {
             if (!replace) {
                 list_param <- Map(function(f) {
@@ -1686,13 +1700,15 @@ setMtdInstrument <- function(x = matrix(), name = character(),
     x
 }
 
-#' @title Get the Instrument fields from a MTD Object
+#' @title Get the Instrument fields from a MTD section
+#'
+#' @name MTD-instrument
 #'
 #' @description
 #'
-#' Get the Instrument fields within an MTD (metadata) object.
+#' Get the Instrument fields within an MTD (metadata) section.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'
 #' @return `character` with the Instrument.
 #'
@@ -1703,7 +1719,7 @@ setMtdInstrument <- function(x = matrix(), name = character(),
 #' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 #' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'           source = "[MS, MS:1000073, ESI,]",
-#'           analyzed = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
 #'           detector = "[MS, MS:1000253, electron multiplier,]")
 #'
 #' getMtdInstrument(x)
@@ -1714,15 +1730,17 @@ getMtdInstrument <- function(x = matrix()) {
                     fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update Database Metadata in an MTD Object
+#' @title Add or Update Database Metadata in an MTD section
+#'
+#' @name MTD-database
 #'
 #' @description
 #'
 #' Sets or updates database-related metadata fields within an MTD (metadata)
-#' object. When database metadata already exists, the function can either
+#' section. When database metadata already exists, the function can either
 #' replace it entirely or append new values to the existing ones.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'     If all values are `NA`, the function returns `x` unchanged.
 #'
 #' @param name `character` with the description of databases used. For cases,
@@ -1813,13 +1831,15 @@ setMtdDatabase <- function(x = matrix(), name = character(),
 }
 
 
-#' @title Get the databse fields from a MTD Object
+#' @title Get the databse fields from a MTD section
+#'
+#' @name MTD-database
 #'
 #' @description
 #'
-#' Get the databse fields within an MTD (metadata) object.
+#' Get the databse fields within an MTD (metadata) section.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'
 #' @return `character` with the database.
 #'
@@ -1840,15 +1860,17 @@ getMtdDatabase <- function(x = matrix()) {
     .mtd_get_field(x, "^database\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update Controlled Vocabularies (CV) Metadata in an MTD Object
+#' @title Add or Update Controlled Vocabularies (CV) Metadata in an MTD section
+#'
+#' @name MTD-CV
 #'
 #' @description
 #'
 #' Sets or updates CV-related metadata fields within an MTD (metadata)
-#' object. When CV metadata already exists, the function can either replace it
+#' section. When CV metadata already exists, the function can either replace it
 #' entirely or append new values to the existing ones.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'     If all values are `NA`, the function returns `x` unchanged.
 #'
 #' @param label `character` describing the labels of the controlled
@@ -1934,13 +1956,15 @@ setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
     x
 }
 
-#' @title Get the CV fields from a MTD Object
+#' @title Get the CV fields from a MTD section
+#'
+#' @name MTD-CV
 #'
 #' @description
 #'
-#' Get the CV fields within an MTD (metadata) object.
+#' Get the CV fields within an MTD (metadata) section.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'
 #' @return `character` with the CV.
 #'
@@ -1961,15 +1985,17 @@ getMtdCv <- function(x = matrix()) {
     .mtd_get_field(x, "^cv\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update contact Metadata in an MTD Object
+#' @title Add or Update contact Metadata in an MTD section
+#'
+#' @name MTD-contact
 #'
 #' @description
 #'
 #' Sets or updates contact-related metadata fields within an MTD (metadata)
-#' in a MTD object. When contact metadata already exists, the function
+#' in a MTD section. When contact metadata already exists, the function
 #' can either replace it entirely or append new values to the existing ones.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'     If all values are `NA`, the function returns `x` unchanged.
 #' @param name `character` contact’s name.
 #'
@@ -2039,13 +2065,15 @@ setMtdContact <- function(x = matrix(), name = character(),
     x
 }
 
-#' @title Get the Contact fields from a MTD Object
+#' @title Get the Contact fields from a MTD section
+#'
+#' @name MTD-contact
 #'
 #' @description
 #'
-#' Get the Contact fields within an MTD (metadata) object.
+#' Get the Contact fields within an MTD (metadata) section.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'
 #' @return `character` with the contacts.
 #'
@@ -2065,15 +2093,17 @@ getMtdContact <- function(x = matrix()) {
     .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update a Metadata Field in an MTD Object
+#' @title Add or Update a Metadata Field in an MTD section
+#'
+#' @name MTD-field
 #'
 #' @description
 #'
 #' Sets or updates a generic metadata field within an MTD (metadata)
-#' object. When the field already exists, the function can either replace it
+#' section. When the field already exists, the function can either replace it
 #' entirely or append new values to the existing ones.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'     If all values are `NA`, the function returns `x` unchanged.
 #'
 #' @param field `character` name of the metadata field to set or update.
@@ -2083,7 +2113,8 @@ getMtdContact <- function(x = matrix()) {
 #'     `"https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310"`)
 #'
 #' @param replace `logical` flag controlling how pre-existing field
-#'     metadata is handled:
+#'     metadata is handled. Valid only for indexed fields, unique fields are
+#'     always replaced.
 #'     \itemize{
 #'         \item `FALSE` (default): new values are appended to any existing
 #'         values.
@@ -2115,27 +2146,46 @@ setMtdField <- function(x = matrix(), field = character(), value = character(),
         if(!any(grepl(field, .MTD_FIELD_ORDER)))
             stop("Provide a valid MTD field. \"", field, "\" not valid.")
 
-        existing_field <- .mtd_get_field(x, paste0("^", field, "\\[\\d+\\]"),
-                                          exact = FALSE, fixed = FALSE)[[1]]
-        if (!all(is.na(existing_field))) {
-            if (!replace) {
-                value <- c(existing_field, value)
+        if(!length(value))
+            stop("Provide at least 1 value to add.")
+
+        if(any(grepl(field, .MTD_UNIQUE_FIELD))) {
+            if (length(value) > 1)
+                stop("The field '", field,
+                     "' is unique. Provide a single \"value\"")
+
+            existing_field <- .mtd_get_field(x, paste0("^", field),
+                                            exact = FALSE, fixed = FALSE)[[1]]
+            if (!all(is.na(existing_field))) {
+                x <- x[!(x[, 1] %in% names(existing_field)), ]
             }
-            x <- x[!(x[, 1] %in% names(existing_field)), ]
+            new_field <- cbind(field, value)
+        } else {
+            existing_field <- .mtd_get_field(x, paste0("^", field,
+                                                       "\\[\\d+\\]"),
+                                            exact = FALSE, fixed = FALSE)[[1]]
+            if (!all(is.na(existing_field))) {
+                if (!replace) {
+                    value <- c(existing_field, value)
+                }
+                x <- x[!(x[, 1] %in% names(existing_field)), ]
+            }
+            new_field <- mtd_fields(value, field_prefix = field)
         }
-        new_field <- mtd_fields(value, field_prefix = field)
         x <- mtd_sort(rbind(x, new_field))
     }
     x
 }
 
-#' @title Get a Metadata Field from a MTD Object
+#' @title Get a Metadata Field from a MTD section
+#'
+#' @name MTD-field
 #'
 #' @description
 #'
-#' Get a generic metadata field within an MTD (metadata) object.
+#' Get a generic metadata field within an MTD (metadata) section.
 #'
-#' @param x A MTD object that stores metadata fields. Defaults to `matrix()`.
+#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'
 #' @param field `character` name of the metadata field to set or update.
 #'     Must be a valid [MTD field name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section). (e.g. `"publication"`)
@@ -2155,39 +2205,5 @@ getMtdField <- function(x = matrix(), field = character()) {
     if(!length(field))
         stop("Parameter \"field\" is empty. Please provide a valid field.")
 
-    .mtd_get_field(x, paste0("^", field, "\\[\\d+\\]"), exact = FALSE,
-                    fixed = FALSE)[[1]]
-}
-
-#' @title Update the value of an existing MTD field
-#'
-#' @description
-#'
-#' Replaces the value of a single, already-existing field in an MTD object.
-#'
-#' @param x A MTD object that stores metadata fields.
-#'
-#' @param field `character` exact name of the field whose value should be
-#'     updated (e.g. `"mzTab-ID"`).
-#'
-#' @param value `character` new value to assign to the field.
-#'
-#' @return The input object `x` with the specified field value replaced.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' ## Update the value of an existing field
-#' mtd <- updateMtdContent(x, field = "mzTab-ID", value = "2.1.0-M")
-#'
-#' @export
-updateMtdContent <- function(x, field, value) {
-    idx <- which(x[, 1] == field)
-    if(!length(idx))
-        stop("Field \"", field, "\" not detected.")
-
-    x[idx, 2] = value
-    x
+    .mtd_get_field(x, paste0("^", field), exact = FALSE, fixed = FALSE)[[1]]
 }
