@@ -1,5 +1,11 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.8
+
+- Add functions `setMtdInstrument()`, `setMtdDatabase()`, `setMtdCv()`, `setMtdContact()`,
+  `setMtdField()` and `updateMtdContent()` for MTD section
+- Add examples and tests.
+
 ## Changes in version 0.97.7
 
 - Add SME section code.

@@ -2,52 +2,52 @@ MTD	mzTab-version	2.1.0-M
 MTD	mzTab-ID	xcms_mzTab-M_2-1
 MTD	software[1]	[MS, MS:1001582, xcms, 4.8.0]
 MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
-MTD	sample[1]	ko15
-MTD	sample[2]	ko16
-MTD	sample[3]	ko21
-MTD	sample[4]	ko22
-MTD	sample[5]	wt15
-MTD	sample[6]	wt16
-MTD	sample[7]	wt21
-MTD	sample[8]	wt22
-MTD	ms_run[1]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/KO/ko15.CDF
+MTD	sample[1]	ko15.CDF
+MTD	sample[2]	ko16.CDF
+MTD	sample[3]	ko21.CDF
+MTD	sample[4]	ko22.CDF
+MTD	sample[5]	wt15.CDF
+MTD	sample[6]	wt16.CDF
+MTD	sample[7]	wt21.CDF
+MTD	sample[8]	wt22.CDF
+MTD	ms_run[1]-location	ko15.CDF
 MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[2]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/KO/ko16.CDF
+MTD	ms_run[2]-location	ko16.CDF
 MTD	ms_run[2]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[3]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/KO/ko21.CDF
+MTD	ms_run[3]-location	ko21.CDF
 MTD	ms_run[3]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[4]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/KO/ko22.CDF
+MTD	ms_run[4]-location	ko22.CDF
 MTD	ms_run[4]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[5]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/WT/wt15.CDF
+MTD	ms_run[5]-location	wt15.CDF
 MTD	ms_run[5]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[6]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/WT/wt16.CDF
+MTD	ms_run[6]-location	wt16.CDF
 MTD	ms_run[6]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[7]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/WT/wt21.CDF
+MTD	ms_run[7]-location	wt21.CDF
 MTD	ms_run[7]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	ms_run[8]-location	/usr/local/lib/R/host-site-library/faahKO/cdf/WT/wt22.CDF
+MTD	ms_run[8]-location	wt22.CDF
 MTD	ms_run[8]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
-MTD	assay[1]	ko15
+MTD	assay[1]	ko15.CDF
 MTD	assay[1]-sample_ref	sample[1]
 MTD	assay[1]-ms_run_ref	ms_run[1]
-MTD	assay[2]	ko16
+MTD	assay[2]	ko16.CDF
 MTD	assay[2]-sample_ref	sample[2]
 MTD	assay[2]-ms_run_ref	ms_run[2]
-MTD	assay[3]	ko21
+MTD	assay[3]	ko21.CDF
 MTD	assay[3]-sample_ref	sample[3]
 MTD	assay[3]-ms_run_ref	ms_run[3]
-MTD	assay[4]	ko22
+MTD	assay[4]	ko22.CDF
 MTD	assay[4]-sample_ref	sample[4]
 MTD	assay[4]-ms_run_ref	ms_run[4]
-MTD	assay[5]	wt15
+MTD	assay[5]	wt15.CDF
 MTD	assay[5]-sample_ref	sample[5]
 MTD	assay[5]-ms_run_ref	ms_run[5]
-MTD	assay[6]	wt16
+MTD	assay[6]	wt16.CDF
 MTD	assay[6]-sample_ref	sample[6]
 MTD	assay[6]-ms_run_ref	ms_run[6]
-MTD	assay[7]	wt21
+MTD	assay[7]	wt21.CDF
 MTD	assay[7]-sample_ref	sample[7]
 MTD	assay[7]-ms_run_ref	ms_run[7]
-MTD	assay[8]	wt22
+MTD	assay[8]	wt22.CDF
 MTD	assay[8]-sample_ref	sample[8]
 MTD	assay[8]-ms_run_ref	ms_run[8]
 MTD	study_variable_group[1]	sample_group
