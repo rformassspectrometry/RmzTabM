@@ -44,6 +44,16 @@ In addition, various helper functions are available to assist in MTD data
 generation:
 mtd_sort(): to sort the MTD matrix into the expected order.
 mtd_fields(): helps formatting values into the mzTab-M-specific format.
+setMtdInstrument()/getMtdInstrument(): set/get Instrument Metadata in
+an MTD section.
+setMtdDatabase()/getMtdDatabase(): set/get Database Metadata in an MTD
+section.
+setMtdCv()/getMtdCv(): set/get Controlled Vocabularies (CV) Metadata
+in an MTD section.
+setMtdContact()/getMtdContact(): set/get contact Metadata in an MTD
+section.
+setMtdField()/getMtdField(): set/get a Metadata Field in an MTD
+section.
 
 "><meta property="og:description" content="The metadata section/table of the mzTab-M definition is comprehensive, but
 also tricky to define. The RmzTabM package provides a variety of utility
@@ -90,6 +100,16 @@ In addition, various helper functions are available to assist in MTD data
 generation:
 mtd_sort(): to sort the MTD matrix into the expected order.
 mtd_fields(): helps formatting values into the mzTab-M-specific format.
+setMtdInstrument()/getMtdInstrument(): set/get Instrument Metadata in
+an MTD section.
+setMtdDatabase()/getMtdDatabase(): set/get Database Metadata in an MTD
+section.
+setMtdCv()/getMtdCv(): set/get Controlled Vocabularies (CV) Metadata
+in an MTD section.
+setMtdContact()/getMtdContact(): set/get contact Metadata in an MTD
+section.
+setMtdField()/getMtdField(): set/get a Metadata Field in an MTD
+section.
 
 "></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -99,7 +119,7 @@ mtd_fields(): helps formatting values into the mzTab-M-specific format.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,6 +191,16 @@ define the MTD section of an experiment.</p>
 <p>In addition, various helper functions are available to assist in MTD data
 generation:</p><ul><li><p><code><a href="mtd_sort.html">mtd_sort()</a></code>: to sort the MTD <code>matrix</code> into the expected order.</p></li>
 <li><p><code><a href="mtd_fields.html">mtd_fields()</a></code>: helps formatting values into the mzTab-M-specific format.</p></li>
+<li><p><code><a href="MTD-instrument.html">setMtdInstrument()</a></code>/<code><a href="MTD-instrument.html">getMtdInstrument()</a></code>: set/get Instrument Metadata in
+an MTD section.</p></li>
+<li><p><code><a href="MTD-database.html">setMtdDatabase()</a></code>/<code><a href="MTD-database.html">getMtdDatabase()</a></code>: set/get Database Metadata in an MTD
+section.</p></li>
+<li><p><code><a href="MTD-CV.html">setMtdCv()</a></code>/<code><a href="MTD-CV.html">getMtdCv()</a></code>: set/get Controlled Vocabularies (CV) Metadata
+in an MTD section.</p></li>
+<li><p><code><a href="MTD-contact.html">setMtdContact()</a></code>/<code><a href="MTD-contact.html">getMtdContact()</a></code>: set/get contact Metadata in an MTD
+section.</p></li>
+<li><p><code><a href="MTD-field.html">setMtdField()</a></code>/<code><a href="MTD-field.html">getMtdField()</a></code>: set/get a Metadata Field in an MTD
+section.</p></li>
 </ul></div>
 
 
@@ -185,7 +215,9 @@ with multiple assays.</p></li>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="SMF-export.html">SMF-export</a> and <a href="SML-export.html">SML-export</a> for creating and formatting the small
-molecule feature (SMF) and small molecule (SML) sections.</p></div>
+molecule feature (SMF) and small molecule (SML) sections.</p>
+<p><a href="MTD-instrument.html">MTD-instrument</a>, <a href="MTD-database.html">MTD-database</a>, <a href="MTD-CV.html">MTD-CV</a>, <a href="MTD-contact.html">MTD-contact</a> and
+<a href="MTD-field.html">MTD-field</a>.</p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

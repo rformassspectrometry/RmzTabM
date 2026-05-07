@@ -2,6 +2,17 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.8
+
+- Add functions
+  [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md),
+  [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md),
+  [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md),
+  [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md),
+  [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)
+  and `updateMtdContent()` for MTD section
+- Add examples and tests.
+
 ### Changes in version 0.97.7
 
 - Add SME section code.

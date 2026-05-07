@@ -66,6 +66,21 @@ data generation:
 - [`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md):
   helps formatting values into the mzTab-M-specific format.
 
+- [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)/[`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md):
+  set/get Instrument Metadata in an MTD section.
+
+- [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md)/[`getMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md):
+  set/get Database Metadata in an MTD section.
+
+- [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md)/[`getMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md):
+  set/get Controlled Vocabularies (CV) Metadata in an MTD section.
+
+- [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)/[`getMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md):
+  set/get contact Metadata in an MTD section.
+
+- [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)/[`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md):
+  set/get a Metadata Field in an MTD section.
+
 ## Note
 
 The general relationship between *ms_run*, *assay* and *sample*:
@@ -85,6 +100,13 @@ and
 [SML-export](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
 for creating and formatting the small molecule feature (SMF) and small
 molecule (SML) sections.
+
+[MTD-instrument](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md),
+[MTD-database](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md),
+[MTD-CV](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md),
+[MTD-contact](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)
+and
+[MTD-field](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md).
 
 ## Author
 
