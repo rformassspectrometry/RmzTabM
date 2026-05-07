@@ -371,7 +371,7 @@ The *small molecule feature* (SMF) section captures information on the
 quantified entities (features) of an experiment. This includes the feature
 abundances across assays as well as the feature's *m/z*, retention times and
 eventual additional annotations such as the ion or the exact mass. The
-`smf_create()` function compiles and formats this section based on the provided
+`smfCreate()` function compiles and formats this section based on the provided
 abundance matrix and feature specifications.
 
 Below we create an example abundance matrix and feature characteristics data
@@ -412,7 +412,7 @@ feature_info <- data.frame(
 rownames(feature_info) <- rownames(abundances)
 ```
 
-We can now feed this information to the `smf_create()` function. In addition to
+We can now feed this information to the `smfCreate()` function. In addition to
 the predefined, parameters, also additional feature annotations/columns can be
 passed to the function through it's `...` parameter. We provide the IDs of the
 individual features with `feature_id = `. These are then stored into a column
@@ -421,7 +421,7 @@ individual features with `feature_id = `. These are then stored into a column
 arguments.
 
 ```{r}
-smf <- smf_create(
+smf <- smfCreate(
     x = abundances,
     exp_mass_to_charge = feature_info$mzmed,
     retention_time_in_seconds = feature_info$rtmed,
@@ -438,7 +438,7 @@ The SMF content is:
 smf
 ```
 
-Importantly, `smf_create()` added a column `"SMF_ID"` with an integer
+Importantly, `smfCreate()` added a column `"SMF_ID"` with an integer
 representing the unique identifier of each feature (row). These IDs can then be
 used for referencing between the SML and SME tables.
 
@@ -498,20 +498,20 @@ molecules we want to report.
 abundances_sml <- abundances[c(1, 4, 6, 7), ]
 ```
 
-With this information we can use the `sml_create()` function to compile the SML
+With this information we can use the `smlCreate()` function to compile the SML
 table. Note that (again) we **must fully name** all function arguments to which
 we pass values. Any additional (named) parameters provided to the function (like
 `note = anns$note` below) will be added as *optional* columns (prefixed with
 `"opt_"`)
 
 ```{r}
-sml <- sml_create(x = abundances_sml,
-                  database_identifier = anns$id,
-                  chemical_formula = anns$formula,
-                  theoretical_neutral_mass = anns$neutral_mass,
-                  adduct_ions = anns$adduct,
-                  uri = anns$uri,
-                  note = anns$note)
+sml <- smlCreate(x = abundances_sml,
+                 database_identifier = anns$id,
+                 chemical_formula = anns$formula,
+                 theoretical_neutral_mass = anns$neutral_mass,
+                 adduct_ions = anns$adduct,
+                 uri = anns$uri,
+                 note = anns$note)
 sml
 ```
 
@@ -524,11 +524,11 @@ sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
 
 And finally we need to add columns with abundance average and variation for
 study variables defined in the MTD section. Here we can use the
-`sml_add_study_variable_columns()` helper function providing both the SML and
+`smlAddStudyVariableColumns()` helper function providing both the SML and
 the MTD data.
 
 ```{r}
-sml <- sml_add_study_variable_columns(sml, mtd)
+sml <- smlAddStudyVariableColumns(sml, mtd)
 sml
 ```
 

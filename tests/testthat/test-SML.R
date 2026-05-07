@@ -1,11 +1,11 @@
-test_that("sml_create works", {
+test_that("smlCreate works", {
     amat <- matrix(abs(rnorm(8)), nrow = 4)
     expect_error(
-        sml_create(x = amat, database_identifier = c("a", "b|c", "d", "e"),
-                   smiles = c("A", "B", "C", "D"), other = 1:4),
+        smlCreate(x = amat, database_identifier = c("a", "b|c", "d", "e"),
+                  smiles = c("A", "B", "C", "D"), other = 1:4),
         "expected number of elements")
-    res <- sml_create(x = amat, database_identifier = c("a", "b|c", "d", "e"),
-                      smiles = c("A", "B|Z", "C", "D"), other = 1:4)
+    res <- smlCreate(x = amat, database_identifier = c("a", "b|c", "d", "e"),
+                     smiles = c("A", "B|Z", "C", "D"), other = 1:4)
     expect_equal(colnames(res), c("SMH", "SML_ID", "SMF_ID_REFS",
                                   "database_identifier", "chemical_formula",
                                   "smiles", "inchi", "chemical_name", "uri",
@@ -17,13 +17,13 @@ test_that("sml_create works", {
     expect_equal(res$opt_other, as.character(1:4))
 })
 
-test_that("sml_sort works", {
+test_that("smlSort works", {
     x <- data.frame(SML_ID = "a", adduct_ions = "b", smiles = "c",
                     opt_something = "d", opt_someother = "e",
                     `abundance_assay[1]` = "f",
                     `abundance_study_variable[1]` = "g",
                     `abundance_assay[2]` = "h", check.names = FALSE)
-    res <- sml_sort(x)
+    res <- smlSort(x)
     ## ensure -average_function and -variation_function are AFTER abundance
     ## but BEFORE opt_
     expect_equal(colnames(res), c("SML_ID", "smiles", "adduct_ions",
@@ -32,7 +32,7 @@ test_that("sml_sort works", {
                                   "opt_something", "opt_someother"))
 })
 
-test_that("sml_add_study_variable_columns works", {
+test_that("smlAddStudyVariableColumns works", {
     ## prepare test data.
     x <- matrix(1:10, ncol = 5, nrow = 2)
     colnames(x) <- c(paste0("abundance_assay[", 1:5, "]"))
@@ -59,7 +59,7 @@ test_that("sml_add_study_variable_columns works", {
           "bb")
     )
     ## works
-    res <- sml_add_study_variable_columns(x, m)
+    res <- smlAddStudyVariableColumns(x, m)
     expect_true(is.matrix(res))
     expect_equal(res[, colnames(x)], x)
     expect_equal(res[, "abundance_study_variable[1]"],
@@ -71,7 +71,7 @@ test_that("sml_add_study_variable_columns works", {
                  c(mean(c(5, 7)), mean(c(6, 8))))
     expect_equal(res[, "abundance_variation_study_variable[2]"],
                  c(vfun(c(5, 7)), vfun(c(6, 8))))
-    res <- sml_add_study_variable_columns(as.data.frame(x), m)
+    res <- smlAddStudyVariableColumns(as.data.frame(x), m)
     expect_true(is.data.frame(res))
     expect_equal(res[, colnames(x)], as.data.frame(x))
     expect_equal(res[, "abundance_study_variable[1]"],
@@ -86,20 +86,20 @@ test_that("sml_add_study_variable_columns works", {
     ## errors.
     m2 <- m
     m2 <- m2[-7, ]
-    expect_error(sml_add_study_variable_columns(x, m2), "missing in")
+    expect_error(smlAddStudyVariableColumns(x, m2), "missing in")
     m2 <- m
     m2[7, 2] <- "assay[3|other]"
-    expect_error(sml_add_study_variable_columns(x, m2), "not found in")
+    expect_error(smlAddStudyVariableColumns(x, m2), "not found in")
     m2 <- m
     m2 <- m2[-3, ]
-    expect_error(sml_add_study_variable_columns(x, m2), "average_function")
+    expect_error(smlAddStudyVariableColumns(x, m2), "average_function")
     m2 <- m
     m2 <- m2[-9, ]
-    expect_error(sml_add_study_variable_columns(x, m2), "variation_function")
+    expect_error(smlAddStudyVariableColumns(x, m2), "variation_function")
     m2 <- m
     m2[3, 2] <- "[, , , ,]"
-    expect_error(sml_add_study_variable_columns(x, m2), "CV term")
+    expect_error(smlAddStudyVariableColumns(x, m2), "CV term")
     m2 <- m
     m2[9, 2] <- "[, , , ,]"
-    expect_error(sml_add_study_variable_columns(x, m2), "CV term")
+    expect_error(smlAddStudyVariableColumns(x, m2), "CV term")
 })

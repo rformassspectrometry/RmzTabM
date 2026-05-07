@@ -17,9 +17,9 @@
 #'
 #' @name SME-export
 #'
-#' @aliases sme_create
+#' @aliases smeCreate
 #'
-#' @aliases sme_sort
+#' @aliases smeSort
 #'
 #' @description
 #'
@@ -42,7 +42,7 @@
 #'
 #' The functions to create and format the SME content are:
 #'
-#' - `sme_create()`: provides a simplified workflow to generate this table in a
+#' - `smeCreate()`: provides a simplified workflow to generate this table in a
 #'   single step. It takes vectors defining feature properties.
 #'
 #'   It automatically:
@@ -64,7 +64,7 @@
 #'   See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section)
 #'   for details.
 #'
-#' - `sme_sort()`: can be used to sort the columns of the SME data frame
+#' - `smeSort()`: can be used to sort the columns of the SME data frame
 #'   according to the standard order defined in the mzTab-M specification.
 #'   This is useful if you have added custom columns and want to ensure the
 #'   standard columns are in the correct order for export.
@@ -182,11 +182,11 @@
 #'     metadata field names, the second the corresponding values. See
 #'     [MTD-export] help page for more information.
 #'
-#' @param x for `sme_spectra_ref_validator()`: `character` with reference to a
+#' @param x for `smeSpectraRefValidator()`: `character` with reference to a
 #'     spectrum in a spectrum file.
-#'     For `sme_id_confidence_measure()`: `matrix` or `data.frame` with any
+#'     For `smeIdConfidenceMeasure()`: `matrix` or `data.frame` with any
 #'     statistical value or score for the identification.
-#'     For `sml_sort()`: a SML `data.frame`, such as created by `sml_create()`.
+#'     For `smeSort()`: a SML `data.frame`, such as created by `smeCreate()`.
 #'
 #' @param nr `numeric` with the number of small molecule evidence.
 #'
@@ -196,7 +196,7 @@
 #'
 #' @details
 #'
-#' All parameters passed to the `sme_create()` function must be **fully named**.
+#' All parameters passed to the `smeCreate()` function must be **fully named**.
 #'
 #' @seealso [MTD-export], [SMF-export] and [SML-export] for creating and
 #'     formatting the metadata (MTD), small molecule feature (SMF) and small
@@ -237,7 +237,7 @@
 #'
 #' ## Create the final dataframe ready for export
 #' ## Note: Fields not provided are automatically set to "null"
-#' sme_final <- sme_create(
+#' sme_final <- smeCreate(
 #'     evidence_input_id = evidence_input_id,
 #'     exp_mass_to_charge = exp_mass_to_charge,
 #'     charge = charge,
@@ -253,7 +253,7 @@
 #'
 #' @export
 #'
-sme_create <- function(..., evidence_input_id = character(),
+smeCreate <- function(..., evidence_input_id = character(),
                        database_identifier = character(),
                        chemical_formula = character(),
                        smiles = character(), inchi = character(),
@@ -302,24 +302,24 @@ sme_create <- function(..., evidence_input_id = character(),
     if(is.null(mtd))
         stop("To add 'spectra_ref' provide a valid MTD section")
     x$spectra_ref <- .check_fill_column(
-                        sme_spectra_ref_validator(spectra_ref, mtd), l)
+                        smeSpectraRefValidator(spectra_ref, mtd), l)
     x$identification_method <- .check_fill_column(identification_method, l)
     x$ms_level <- .check_fill_column(ms_level, l)
     x$rank <- .check_fill_column(rank, l)
 
     ## Add columns id_confidence_measure[1-n]
     if (!is.null(id_confidence_measure))
-        x <- cbind(x, sme_id_confidence_measure(id_confidence_measure, mtd, l))
+        x <- cbind(x, smeIdConfidenceMeasure(id_confidence_measure, mtd, l))
 
     ## Add optional columns
     x <- .add_opt_cols(x = x, ...)
-    sme_sort(x)
+    smeSort(x)
 }
 
 #' @export
 #'
 #' @rdname SME-export
-sme_sort <- function(x) {
+smeSort <- function(x) {
     x[, .sort_order(colnames(x), .SME_ORDER), drop = FALSE]
 }
 
@@ -358,7 +358,7 @@ sme_sort <- function(x) {
 #' @rdname SME-export
 #'
 #' @export
-sme_id_confidence_measure <- function(x, mtd, nr = numeric()) {
+smeIdConfidenceMeasure <- function(x, mtd, nr = numeric()) {
     if (!is.matrix(x))
         x <- as.matrix(x)
 
@@ -380,7 +380,7 @@ sme_id_confidence_measure <- function(x, mtd, nr = numeric()) {
 #' @rdname SME-export
 #'
 #' @export
-sme_spectra_ref_validator <- function(x, mtd) {
+smeSpectraRefValidator <- function(x, mtd) {
     if (!length(x))
         stop("Provide a vector of \"spectra_ref\"")
 
@@ -388,7 +388,7 @@ sme_spectra_ref_validator <- function(x, mtd) {
         stop("Provide a MTD section.")
 
     n_ms <- .mtd_get_field(mtd, "ms_run\\[\\d.*\\]-location$",
-                            exact = FALSE, fixed = FALSE)[[1]]
+                           exact = FALSE, fixed = FALSE)[[1]]
 
     if (any(is.na(n_ms)))
         stop("No \"ms_run\" detected in MTD section.")
@@ -397,7 +397,7 @@ sme_spectra_ref_validator <- function(x, mtd) {
 
     ms_runs_ref <- strsplit(x, split = "|", fixed = TRUE)
     ms_runs_valid <- unlist(lapply(ms_runs_ref, function(z) {
-            all(grepl(paste0("ms_run\\[", 1:n_ms, "\\]:", collapse = "|"), z))
+        all(grepl(paste0("ms_run\\[", 1:n_ms, "\\]:", collapse = "|"), z))
     }))
 
     if (!all(ms_runs_valid)) {

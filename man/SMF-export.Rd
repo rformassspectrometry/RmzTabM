@@ -2,11 +2,11 @@
 % Please edit documentation in R/SMF.R
 \name{SMF-export}
 \alias{SMF-export}
-\alias{smf_create}
-\alias{smf_sort}
+\alias{smfCreate}
+\alias{smfSort}
 \title{Create the mzTab-M Small Molecule Feature (SMF) Table}
 \usage{
-smf_create(
+smfCreate(
   ...,
   x,
   exp_mass_to_charge = numeric(),
@@ -20,7 +20,7 @@ smf_create(
   isotopomer = character()
 )
 
-smf_sort(x)
+smfSort(x)
 }
 \arguments{
 \item{...}{Additional optional columns to add. These arguments must be named.
@@ -72,7 +72,7 @@ information on the individual MS features (quantified regions, e.g.,
 elution profiles of specific \emph{m/z} and retention times) that were measured
 across the assays.
 \itemize{
-\item \code{smf_create()} provides a simplified workflow to generate this table in a
+\item \code{smfCreate()} provides a simplified workflow to generate this table in a
 single step. It takes a matrix of abundances (rows=features,
 columns=assays) and optional vectors defining feature properties.
 
@@ -96,14 +96,14 @@ or 1, an error is raised.
 
 See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section}{specification of the SMF section}
 for details.
-\item \code{smf_sort()} can be used to sort the columns of the SMF data frame
+\item \code{smfSort()} can be used to sort the columns of the SMF data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.
 }
 }
 \details{
-All parameters passed to the \code{smf_create()} function must be \strong{fully named}.
+All parameters passed to the \code{smfCreate()} function must be \strong{fully named}.
 }
 \examples{
 
@@ -123,7 +123,7 @@ adducts <- c("[M+H]+", "[M+Na]+", "[M+H]+")
 
 ## Create the final dataframe ready for export
 ## Note: Fields not provided (like charge) are automatically set to "null"
-smf_final <- smf_create(
+smf_final <- smfCreate(
     x = abund_mat,
     exp_mass_to_charge = mz_values,
     retention_time_in_seconds = rt_values,
