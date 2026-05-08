@@ -97,7 +97,7 @@ the actual \emph{value} of a sample (or assay) for that study group.
 In R, the most common representation of an experimental design is a
 \code{data.frame} where rows are individual samples (assays) and columns the
 experimental or phenotypic conditions (variables). The
-\code{mtb_study_variables()} takes such a \code{data.frame} as input and encodes it
+\code{mtdStudyVariables()} takes such a \code{data.frame} as input and encodes it
 into the mzTab-M format. Additional parameters such as \code{group_description},
 and \code{group_type} allow to provide additional information for each study
 variable group (phenotype) while parameters \code{average_function},
@@ -110,7 +110,7 @@ Each study variable \strong{must} be reported in the abundance tables.
 Each assay of a data set must be referred to from at least one study
 variable. Even if a data set has no experimental variables, a study variable
 group and study variable with the name \code{"undefined"} \strong{must} be reported.
-Using \code{mtb_study_variables()} without specifying parameter \code{group} will
+Using \code{mtdStudyVariables()} without specifying parameter \code{group} will
 create such a setup.
 
 The \code{mtdDefineStudyVariables()} function can be used to get the set

@@ -48,7 +48,7 @@ with the general information in the MTD section. We use the the Schymanski score
 for identification confidence level.
 
 ```{r}
-mtd <- mtd_skeleton(
+mtd <- mtdSkeleton(
     id = "RIKEN_LIPIDOMICS",
     software = "[MS, MS:1003082, MS-DIAL, ]",
     database = "[,, in-house reference data, ]",
@@ -60,7 +60,7 @@ mtd <- rbind(
     c("description", "Example export of a RIKEN_LIPIDOMICS data set"),
     c("uri[1]", "https://metabography.riken.jp/menta.cgi/lipidomics/download_data_set"))
 #' Manually add the BTO and NCBITaxon CVs
-add_cv <- mtd_fields(
+add_cv <- mtdFields(
     label = c("BTO", "NCBITaxon"),
     full_name = c("The BRENDA Tissue Ontology (BTO)",
                   "NCBI organismal classification"),
@@ -76,7 +76,7 @@ mtd <- rbind(mtd, add_cv)
 We next add sample information.
 
 ```{r}
-mtd_s <- mtd_sample(
+mtd_s <- mtdSample(
     sample = c("blank", "fads2_Adr_G_1", "fads2_Adr_G_2", "fads2_Adr_G_3",
                "WT_Adr_G_1", "WT_Adr_G_2", "WT_Adr_G_3"),
     species = c("null", rep("[NCBITaxon, NCBITaxon:10090, Mus musculus, ]", 6)),
@@ -96,12 +96,12 @@ here (since we don't have a SMF section).
 msr <- union(rownames(sd), unique(fdef$`Spectrum reference file name`))
 
 mtd_a <- rbind(
-    mtd_ms_run(
+    mtdMsRun(
         location = rownames(sd),
         format = "[MS, MS:1000584, mzML file, ]",
         id_format = "[MS, MS:1000530, mzML unique identifier, ]",
         scan_polarity = "positive"),
-    mtd_assay(
+    mtdAssay(
         assay = rownames(sd),
         sample_ref = paste0("sample[", seq_len(nrow(sd)), "]"),
         ms_run_ref = paste0("ms_run[", seq_len(nrow(sd)), "]"))
@@ -112,7 +112,7 @@ mtd <- rbind(mtd, mtd_a)
 Finally, we need to add the experimental information.
 
 ```{r}
-mtd_svar <- mtd_study_variables(
+mtd_svar <- mtdStudyVariables(
     sd, groups = c("Genotype/Background", "Diet/Culture",
                    "Biological replicate")
 )
@@ -130,11 +130,11 @@ available and we will use the CV terms `"[MS, MS:1003304, spectral dot product,
 ```{r}
 mtd <- rbind(
     mtd,
-    mtd_fields("[MS, MS:1003304, spectral dot product, ]",
+    mtdFields("[MS, MS:1003304, spectral dot product, ]",
                "[,, RT similarity,]",
                field_prefix = "id_confidence_measure")
 )
-mtd <- mtd_sort(mtd)
+mtd <- mtdSort(mtd)
 ```
 
 OK, done with MTD.
@@ -253,9 +253,9 @@ se <- SummarizedExperiment(rowData = fdef, colData = sd, assay = list(vals))
                  polarity = character()) {
     l <- ncol(x)
     sl <- seq_len(l)
-    m <- mtd_skeleton(id = id, software = software)
+    m <- mtdSkeleton(id = id, software = software)
     ## add samples; for now only the sample name.
-    m <- rbind(m, mtd_sample(sample = rownames(colData(x))))
+    m <- rbind(m, mtdSample(sample = rownames(colData(x))))
     ## add ms_run
     if (!length(polarity)) {
         ## guess polarity from sample name
@@ -266,18 +266,18 @@ se <- SummarizedExperiment(rowData = fdef, colData = sd, assay = list(vals))
             polarity[which(pos)] <- "positive"
         }
     }
-    m <- rbind(m, mtd_ms_run(location = rownames(colData(x)),
+    m <- rbind(m, mtdMsRun(location = rownames(colData(x)),
                              scan_polarity = polarity))
     ## add assay
-    m <- rbind(m, mtd_assay(
+    m <- rbind(m, mtdAssay(
                       assay = rownames(colData(x)),
                       sample_ref = paste0("sample[", sl, "]"),
                       ms_run_ref = paste0("ms_run[", sl, "]")))
     ## add study variables
-    m <- rbind(m, mtd_study_variables(
+    m <- rbind(m, mtdStudyVariables(
                       data.frame(colData(x), check.names = FALSE),
                       groups = studyVariables))
-    mtd_sort(m)
+    mtdSort(m)
 }
 
 mtd <- .mtd(se, id = "my_study", software = "my software")
@@ -291,7 +291,7 @@ mtd <- .mtd(se, id = "my_study", software = "my software")
 #' have a setter for each element/group?
 
 mtd <- mtdInstrument(mtd, instrument, add = TRUE)
-mtd <- mtdOntlogy()
+mtd <- mtdOntology()
 
 #' or replacement methods?
 ontology(mtd) # get the ontology part

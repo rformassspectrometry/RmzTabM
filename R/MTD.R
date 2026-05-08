@@ -921,7 +921,7 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
 #' In R, the most common representation of an experimental design is a
 #' `data.frame` where rows are individual samples (assays) and columns the
 #' experimental or phenotypic conditions (variables). The
-#' `mtb_study_variables()` takes such a `data.frame` as input and encodes it
+#' `mtdStudyVariables()` takes such a `data.frame` as input and encodes it
 #' into the mzTab-M format. Additional parameters such as `group_description`,
 #' and `group_type` allow to provide additional information for each study
 #' variable group (phenotype) while parameters `average_function`,
@@ -935,7 +935,7 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
 #' Each assay of a data set must be referred to from at least one study
 #' variable. Even if a data set has no experimental variables, a study variable
 #' group and study variable with the name `"undefined"` **must** be reported.
-#' Using `mtb_study_variables()` without specifying parameter `group` will
+#' Using `mtdStudyVariables()` without specifying parameter `group` will
 #' create such a setup.
 #'
 #' The `mtdDefineStudyVariables()` function can be used to get the set
@@ -1199,7 +1199,7 @@ mtdSort <- function(x) {
 #' passed through `...`. It is somewhat similar to the `.mtd_multi_fields()`,
 #' but takes arbitrary many input variables, that have however all to have
 #' the same length. Thus, it is expected that for each element exactly one
-#' value is provided, while `mtd_multi_fields()` supports a variable number
+#' value is provided, while `.mtd_multi_fields()` supports a variable number
 #' of values per element (and hence requires a `list` as input).
 #'
 #' @return `character` `matrix` with 3 columns (third column being the index)
