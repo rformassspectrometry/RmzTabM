@@ -2,6 +2,12 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.9
+
+- Support `"Parameter"` as study variable group datatype.
+- Automatic datatype definition for study variable group supports
+  `"Parameter"`.
+
 ### Changes in version 0.97.8
 
 - Add functions
