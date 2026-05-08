@@ -14,7 +14,7 @@ A detailed description of the SME format and its columns is provided in the
 respective section
 of the mzTab-M specification.
 The functions to create and format the SME content are:
-sme_create(): provides a simplified workflow to generate this table in a
+smeCreate(): provides a simplified workflow to generate this table in a
 single step. It takes vectors defining feature properties.
 It automatically:
 Adds the required SME_ID and standard mzTab-M columns (e.g.,
@@ -33,7 +33,7 @@ rows in the abundance matrix. If their length is not equal to the number
 of rows or 1, an error is raised.
 See also the specification of the SMF section
 for details.
-sme_sort(): can be used to sort the columns of the SME data frame
+smeSort(): can be used to sort the columns of the SME data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.
@@ -53,7 +53,7 @@ A detailed description of the SME format and its columns is provided in the
 respective section
 of the mzTab-M specification.
 The functions to create and format the SME content are:
-sme_create(): provides a simplified workflow to generate this table in a
+smeCreate(): provides a simplified workflow to generate this table in a
 single step. It takes vectors defining feature properties.
 It automatically:
 Adds the required SME_ID and standard mzTab-M columns (e.g.,
@@ -72,7 +72,7 @@ rows in the abundance matrix. If their length is not equal to the number
 of rows or 1, an error is raised.
 See also the specification of the SMF section
 for details.
-sme_sort(): can be used to sort the columns of the SME data frame
+smeSort(): can be used to sort the columns of the SME data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.
@@ -130,7 +130,7 @@ column).</p>
 <p>A detailed description of the SME format and its columns is provided in the
 <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section" class="external-link">respective section</a>
 of the mzTab-M specification.</p>
-<p>The functions to create and format the SME content are:</p><ul><li><p><code>sme_create()</code>: provides a simplified workflow to generate this table in a
+<p>The functions to create and format the SME content are:</p><ul><li><p><code>smeCreate()</code>: provides a simplified workflow to generate this table in a
 single step. It takes vectors defining feature properties.</p>
 <p>It automatically:</p><ul><li><p>Adds the required <code>SME_ID</code> and standard mzTab-M columns (e.g.,
 <code>evidence_input_id</code>).</p></li>
@@ -146,7 +146,7 @@ rows in the abundance matrix. If their length is not equal to the number
 of rows or 1, an error is raised.</p>
 <p>See also the <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section" class="external-link">specification of the SMF section</a>
 for details.</p></li>
-<li><p><code>sme_sort()</code>: can be used to sort the columns of the SME data frame
+<li><p><code>smeSort()</code>: can be used to sort the columns of the SME data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.</p></li>
@@ -154,7 +154,7 @@ standard columns are in the correct order for export.</p></li>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sme_create</span><span class="op">(</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">smeCreate</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
 <span>  evidence_input_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  database_identifier <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -176,11 +176,11 @@ standard columns are in the correct order for export.</p></li>
 <span>  mtd <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">sme_sort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu">smeSort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">sme_id_confidence_measure</span><span class="op">(</span><span class="va">x</span>, <span class="va">mtd</span>, nr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">smeIdConfidenceMeasure</span><span class="op">(</span><span class="va">x</span>, <span class="va">mtd</span>, nr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">sme_spectra_ref_validator</span><span class="op">(</span><span class="va">x</span>, <span class="va">mtd</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">smeSpectraRefValidator</span><span class="op">(</span><span class="va">x</span>, <span class="va">mtd</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -339,11 +339,11 @@ metadata field names, the second the corresponding values. See
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>for <code>sme_spectra_ref_validator()</code>: <code>character</code> with reference to a
+<dd><p>for <code>smeSpectraRefValidator()</code>: <code>character</code> with reference to a
 spectrum in a spectrum file.
-For <code>sme_id_confidence_measure()</code>: <code>matrix</code> or <code>data.frame</code> with any
+For <code>smeIdConfidenceMeasure()</code>: <code>matrix</code> or <code>data.frame</code> with any
 statistical value or score for the identification.
-For <code><a href="SML-export.html">sml_sort()</a></code>: a SML <code>data.frame</code>, such as created by <code><a href="SML-export.html">sml_create()</a></code>.</p></dd>
+For <code>smeSort()</code>: a SML <code>data.frame</code>, such as created by <code>smeCreate()</code>.</p></dd>
 
 
 <dt id="arg-nr">nr<a class="anchor" aria-label="anchor" href="#arg-nr"></a></dt>
@@ -358,7 +358,7 @@ optional columns.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All parameters passed to the <code>sme_create()</code> function must be <strong>fully named</strong>.</p>
+    <p>All parameters passed to the <code>smeCreate()</code> function must be <strong>fully named</strong>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -405,7 +405,7 @@ molecule (SML) sections.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Create the final dataframe ready for export</span></span></span>
 <span class="r-in"><span><span class="co">## Note: Fields not provided are automatically set to "null"</span></span></span>
-<span class="r-in"><span><span class="va">sme_final</span> <span class="op">&lt;-</span> <span class="fu">sme_create</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">sme_final</span> <span class="op">&lt;-</span> <span class="fu">smeCreate</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    evidence_input_id <span class="op">=</span> <span class="va">evidence_input_id</span>,</span></span>
 <span class="r-in"><span>    exp_mass_to_charge <span class="op">=</span> <span class="va">exp_mass_to_charge</span>,</span></span>
 <span class="r-in"><span>    charge <span class="op">=</span> <span class="va">charge</span>,</span></span>

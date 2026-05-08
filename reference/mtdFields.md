@@ -11,7 +11,7 @@ for more information, examples and expected format.
 ## Usage
 
 ``` r
-mtd_fields(..., field_prefix = "")
+mtdFields(..., field_prefix = "")
 ```
 
 ## Arguments
@@ -48,7 +48,7 @@ Johannes Rainer, Philippine Louail
 ``` r
 
 ## Define the CV element with 3 CV terms:
-mtd_fields(
+mtdFields(
     label = c("a", "b", "c"),
     full_name = c("A", "B", "C"),
     version = c(1, 2, 3),
@@ -69,19 +69,19 @@ mtd_fields(
 #> [12,] "cv[3]-uri"       "u3"
 
 ## Define a single software:
-mtd_fields("[MS, MS:1002879, Progenesis QI, 3.0]", field_prefix = "software")
+mtdFields("[MS, MS:1002879, Progenesis QI, 3.0]", field_prefix = "software")
 #>      [,1]          [,2]                                  
 #> [1,] "software[1]" "[MS, MS:1002879, Progenesis QI, 3.0]"
 
 ## Define two softwares:
-mtd_fields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
+mtdFields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
     field_prefix = "software")
 #>      [,1]          [,2]                                  
 #> [1,] "software[1]" "[MS, MS:1002879, Progenesis QI, 3.0]"
 #> [2,] "software[2]" "[a, b, c, d]"                        
 
 ## Define a software with the optional setting
-mtd_fields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
+mtdFields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
     `setting[1]` = c("my cool settings", "none"),
     `setting[2]` = c("other setting", "none"),
     field_prefix = "software")
@@ -94,7 +94,7 @@ mtd_fields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
 #> [6,] "software[2]-setting[2]" "none"                                
 
 ## Define database fields
-mtd_fields(
+mtdFields(
    c("[MITIAM, MRI:00100079, HMDB, ]", "[,, de novo, ]"),
    prefix = c("hmdb", "dn"),
    version = c("3.6", "Unknown"),

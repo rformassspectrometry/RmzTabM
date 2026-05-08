@@ -4,8 +4,6 @@ Sets or updates a generic metadata field within an MTD (metadata)
 section. When the field already exists, the function can either replace
 it entirely or append new values to the existing ones.
 
-Get a generic metadata field within an MTD (metadata) section.
-
 ## Usage
 
 ``` r
@@ -24,7 +22,8 @@ getMtdField(x = matrix(), field = character())
 - x:
 
   A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
+  `NA`, the function returns `x` unchanged.
 
 - field:
 
@@ -50,10 +49,12 @@ getMtdField(x = matrix(), field = character())
 
 ## Value
 
-The input object `x` updated to include the new or merged field
-metadata. If `x` is empty, the empty `x`.
+- For `setMtdField()`: the input object `x` updated to include the new
+  or merged field metadata. If `x` is empty, the empty `x`.
 
-`character` with the metadata requested.
+- For `getMtdField()`:
+  [`character()`](https://rdrr.io/r/base/character.html) with the
+  requested metadata.
 
 ## Author
 
@@ -63,7 +64,7 @@ Gabriele Tomè
 
 ``` r
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 ## Add a metadata field to an existing mzTab object
 mtd <- setMtdField(x, field = "publication",
           value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
@@ -73,10 +74,7 @@ mtd <- setMtdField(mtd, field = "custom",
           value = "[,,MS operator, Florian]",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-
-getMtdField(x, field = "mzTab-ID")
+getMtdField(mtd, field = "mzTab-ID")
 #> mzTab-ID 
 #>    "001" 
 ```

@@ -4,8 +4,6 @@ Sets or updates CV-related metadata fields within an MTD (metadata)
 section. When CV metadata already exists, the function can either
 replace it entirely or append new values to the existing ones.
 
-Get the CV fields within an MTD (metadata) section.
-
 ## Usage
 
 ``` r
@@ -26,7 +24,8 @@ getMtdCv(x = matrix())
 - x:
 
   A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
+  `NA`, the function returns `x` unchanged.
 
 - label:
 
@@ -64,10 +63,10 @@ getMtdCv(x = matrix())
 
 ## Value
 
-The input object `x` updated to include the new or merged CV metadata
-fields. If `x` is empty, the empty `x`.
+- For `setMtdCv()`: the input object `x` updated to include the new or
+  merged CV metadata fields. If `x` is empty, the empty `x`.
 
-`character` with the CV.
+- For `getMtdCv()`: returns the CV information.
 
 ## Author
 
@@ -77,7 +76,7 @@ Gabriele Tomè
 
 ``` r
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add CV metadata to an existing mzTab object
 mtd <- setMtdCv(x, label = "MS",
           full_name = "PSI-MS controlled vocabulary",
@@ -91,36 +90,14 @@ mtd <- setMtdCv(mtd, label = "MS",
           uri = "https://purl.obolibrary.org/obo/ms.obo",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-mtd <- setMtdCv(x, label = "MS",
-          full_name = "PSI-MS controlled vocabulary",
-          version = "4.1.11",
-          uri = "https://purl.obolibrary.org/obo/ms.obo")
-
-getMtdCv(x)
-#>                                                               cv[1]-label 
-#>                                                                      "MS" 
-#>                                                           cv[1]-full_name 
-#>                                            "PSI-MS controlled vocabulary" 
-#>                                                             cv[1]-version 
-#>                                                                 "4.1.138" 
-#>                                                                 cv[1]-uri 
-#>  "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
-#>                                                               cv[2]-label 
-#>                                                                   "PRIDE" 
-#>                                                           cv[2]-full_name 
-#> "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary" 
-#>                                                             cv[2]-version 
-#>                                                        "16:10:2023 11:38" 
-#>                                                                 cv[2]-uri 
-#>                              "https://www.ebi.ac.uk/ols/ontologies/pride" 
-#>                                                               cv[3]-label 
-#>                                                                   "STATO" 
-#>                                                           cv[3]-full_name 
-#>                                     "General purpose STATistics Ontology" 
-#>                                                             cv[3]-version 
-#>                                                              "2026-04-20" 
-#>                                                                 cv[3]-uri 
-#>                             "https://www.ebi.ac.uk/ols4/ontologies/stato" 
+## Get CV infrmation
+getMtdCv(mtd)
+#>                              cv[1]-label 
+#>                                     "MS" 
+#>                          cv[1]-full_name 
+#>           "PSI-MS controlled vocabulary" 
+#>                            cv[1]-version 
+#>                                 "4.1.11" 
+#>                                cv[1]-uri 
+#> "https://purl.obolibrary.org/obo/ms.obo" 
 ```

@@ -20,7 +20,7 @@ Generally, MTD data can be categorized into the following parts:
 
 - *Core information*: general information on the experiment. A minimal
   set can be created using the
-  [`mtd_skeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_skeleton.md)
+  [`mtdSkeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.md)
   function, which might be further expanded with additional fields. This
   section allows to describe the general experimental setup. Also, it
   should contain references to **all** controlled vocabulary (CV)
@@ -28,16 +28,16 @@ Generally, MTD data can be categorized into the following parts:
 
 - *Sample information*: optional information on individual samples that
   were measured with the various *assays*/*runs*. The
-  [`mtd_sample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sample.md)
+  [`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
   function assists in compiling the information for this section.
 
 - *MS run information*: information on the individual MS *runs*
   (measurements of the samples). Each data file is one run. Use the
-  [`mtd_ms_run()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_ms_run.md)
+  [`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)
   function to define this part of the metadata section.
 
 - *Assay information*: the
-  [`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
+  [`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)
   function assists in compiling the assay section of the metadata.
   Mandatory fields are the name (ID) of the assay and the reference to
   the *MS run* in which the assay was measured. Optional information on
@@ -47,7 +47,7 @@ Generally, MTD data can be categorized into the following parts:
   represent one column in the following *abundance matrix* sections.
 
 - *Study variable information*: the
-  [`mtd_study_variables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_study_variables.md)
+  [`mtdStudyVariables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdStudyVariables.md)
   function allows to format study variable information from an
   experiment into the mzTab-M format. All study variables need to be
   assigned to at least one assay and must also be reported in the
@@ -60,10 +60,10 @@ to define the MTD section of an experiment.
 In addition, various helper functions are available to assist in MTD
 data generation:
 
-- [`mtd_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sort.md):
+- [`mtdSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.md):
   to sort the MTD `matrix` into the expected order.
 
-- [`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md):
+- [`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md):
   helps formatting values into the mzTab-M-specific format.
 
 - [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)/[`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md):
@@ -155,7 +155,7 @@ exp
 ## the compound identification/annotation. These could be provided through
 ## the `database*` parameters. Also, the quantification method and unit(s)
 ## could be specified using respective parameters of the function.
-mtd <- mtd_skeleton(
+mtd <- mtdSkeleton(
     id = "EXP_001",
     software = "[MS, MS:1001582], xcms, 4.0.0")
 mtd
@@ -186,7 +186,7 @@ mtd
 #>       [,2]                                                                     
 #>  [1,] "2.1.0-M"                                                                
 #>  [2,] "EXP_001"                                                                
-#>  [3,] "[MS, MS:1001582], xcms, 4.0.0"                                          
+#>  [3,] "[,,[MS, MS:1001582], xcms, 4.0.0,]"                                     
 #>  [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             
 #>  [5,] "MS"                                                                     
 #>  [6,] "PSI-MS controlled vocabulary"                                           
@@ -215,7 +215,7 @@ mtd <- rbind(
     c("description", "The preprocessed data of the experiment 1 samples."))
 
 ## We also add information on the MS instrumentation used
-instr <- mtd_fields(
+instr <- mtdFields(
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
@@ -243,7 +243,7 @@ mtd <- rbind(mtd, instr)
 ## specific sample properties that can be defined using the function's
 ## parameters, arbitrary custom fields can be defined too. Below we add
 ## information on sample extraction as custom information.
-mtd_s <- mtd_sample(
+mtd_s <- mtdSample(
     sample = unique(exp$sample_id),
     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
     tissue = "[BTO, BTO:0000759, liver, ]",
@@ -281,7 +281,7 @@ mtd <- rbind(mtd, mtd_s)
 ## measurement run on an MS instrument. For this, the original data file
 ## names and location should be provided as well as the format of the
 ## data files as well as polarity etc.
-mtd_msr <- mtd_ms_run(
+mtd_msr <- mtdMsRun(
     location = exp$file_name,
     format = "[MS, MS:1000584, mzML file, ]",
     id_format = "[MS, MS:1000530, mzML unique identifier, ]",
@@ -296,7 +296,7 @@ mtd <- rbind(mtd, mtd_msr)
 ## Each measurement should be associated to (at least) one assay. For our
 ## simple example, each row in the `data.frame` represents one assay, with
 ## each assay being measured in one MS run.
-a <- mtd_assay(
+a <- mtdAssay(
     assay = exp$sample_name,
     sample_ref = c("sample[1]", "sample[1]", "sample[2]", "sample[2]",
                    "sample[3]", "sample[3]"),
@@ -335,7 +335,7 @@ mtd <- rbind(mtd, a)
 ## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order
 ## of the provided `data.frame` has to match the order of the assays (and
 ## MS runs).
-svar <- mtd_study_variables(
+svar <- mtdStudyVariables(
     exp, groups = c("time_point", "genotype", "cell_count", "operator"))
 svar
 #>       [,1]                                   
@@ -524,9 +524,9 @@ svar
 
 mtd <- rbind(mtd, svar)
 
-## Finally, the `mtd_sort()` function can be used to sort the generated
+## Finally, the `mtdSort()` function can be used to sort the generated
 ## two-column matrix in the expected order.
-mtd <- mtd_sort(mtd)
+mtd <- mtdSort(mtd)
 
 ## This metadata information can next be exported manually, or using the
 ## dedicated export helper functions to an mzTab-M file.

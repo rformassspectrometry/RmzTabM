@@ -13,25 +13,25 @@ for details and more information, in particular on the format of the mzTab-M
 and on mandatory or optional fields.
 Generally, MTD data can be categorized into the following parts:
 Core information: general information on the experiment. A minimal
-set can be created using the mtd_skeleton() function, which might be
+set can be created using the mtdSkeleton() function, which might be
 further expanded with additional fields. This section allows to describe
 the general experimental setup. Also, it should contain references to
 all controlled vocabulary (CV) ontologies used and refered to in the
 mzTab-M file.
 Sample information: optional information on individual samples that were
-measured with the various assays/runs. The mtd_sample() function
+measured with the various assays/runs. The mtdSample() function
 assists in compiling the information for this section.
 MS run information: information on the individual MS runs
 (measurements of the samples). Each data file is one run. Use the
-mtd_ms_run() function to define this part of the metadata section.
-Assay information: the mtd_assay() function assists in compiling the
+mtdMsRun() function to define this part of the metadata section.
+Assay information: the mtdAssay() function assists in compiling the
 assay section of the metadata. Mandatory fields are the name (ID) of the
 assay and the reference to the MS run in which the assay was measured.
 Optional information on sample reference, external links or custom
 information can be provided too. In most cases (except multiplexed assays
 or pre-fractionated samples) one assay will link to one MS run. Each assay
 must represent one column in the following abundance matrix sections.
-Study variable information: the mtd_study_variables() function allows
+Study variable information: the mtdStudyVariables() function allows
 to format study variable information from an experiment into the mzTab-M
 format. All study variables need to be assigned to at least one assay and
 must also be reported in the subsequent abundance matrices.
@@ -42,8 +42,8 @@ metadata information. See the examples below for a general approach how to
 define the MTD section of an experiment.
 In addition, various helper functions are available to assist in MTD data
 generation:
-mtd_sort(): to sort the MTD matrix into the expected order.
-mtd_fields(): helps formatting values into the mzTab-M-specific format.
+mtdSort(): to sort the MTD matrix into the expected order.
+mtdFields(): helps formatting values into the mzTab-M-specific format.
 setMtdInstrument()/getMtdInstrument(): set/get Instrument Metadata in
 an MTD section.
 setMtdDatabase()/getMtdDatabase(): set/get Database Metadata in an MTD
@@ -69,25 +69,25 @@ for details and more information, in particular on the format of the mzTab-M
 and on mandatory or optional fields.
 Generally, MTD data can be categorized into the following parts:
 Core information: general information on the experiment. A minimal
-set can be created using the mtd_skeleton() function, which might be
+set can be created using the mtdSkeleton() function, which might be
 further expanded with additional fields. This section allows to describe
 the general experimental setup. Also, it should contain references to
 all controlled vocabulary (CV) ontologies used and refered to in the
 mzTab-M file.
 Sample information: optional information on individual samples that were
-measured with the various assays/runs. The mtd_sample() function
+measured with the various assays/runs. The mtdSample() function
 assists in compiling the information for this section.
 MS run information: information on the individual MS runs
 (measurements of the samples). Each data file is one run. Use the
-mtd_ms_run() function to define this part of the metadata section.
-Assay information: the mtd_assay() function assists in compiling the
+mtdMsRun() function to define this part of the metadata section.
+Assay information: the mtdAssay() function assists in compiling the
 assay section of the metadata. Mandatory fields are the name (ID) of the
 assay and the reference to the MS run in which the assay was measured.
 Optional information on sample reference, external links or custom
 information can be provided too. In most cases (except multiplexed assays
 or pre-fractionated samples) one assay will link to one MS run. Each assay
 must represent one column in the following abundance matrix sections.
-Study variable information: the mtd_study_variables() function allows
+Study variable information: the mtdStudyVariables() function allows
 to format study variable information from an experiment into the mzTab-M
 format. All study variables need to be assigned to at least one assay and
 must also be reported in the subsequent abundance matrices.
@@ -98,8 +98,8 @@ metadata information. See the examples below for a general approach how to
 define the MTD section of an experiment.
 In addition, various helper functions are available to assist in MTD data
 generation:
-mtd_sort(): to sort the MTD matrix into the expected order.
-mtd_fields(): helps formatting values into the mzTab-M-specific format.
+mtdSort(): to sort the MTD matrix into the expected order.
+mtdFields(): helps formatting values into the mzTab-M-specific format.
 setMtdInstrument()/getMtdInstrument(): set/get Instrument Metadata in
 an MTD section.
 setMtdDatabase()/getMtdDatabase(): set/get Database Metadata in an MTD
@@ -163,25 +163,25 @@ need to be added manually depending on availability for an experiment.</p>
 for details and more information, in particular on the format of the mzTab-M
 and on mandatory or optional fields.</p>
 <p>Generally, MTD data can be categorized into the following parts:</p><ul><li><p><em>Core information</em>: general information on the experiment. A minimal
-set can be created using the <code><a href="mtd_skeleton.html">mtd_skeleton()</a></code> function, which might be
+set can be created using the <code><a href="mtdSkeleton.html">mtdSkeleton()</a></code> function, which might be
 further expanded with additional fields. This section allows to describe
 the general experimental setup. Also, it should contain references to
 <strong>all</strong> controlled vocabulary (CV) ontologies used and refered to in the
 mzTab-M file.</p></li>
 <li><p><em>Sample information</em>: optional information on individual samples that were
-measured with the various <em>assays</em>/<em>runs</em>. The <code><a href="mtd_sample.html">mtd_sample()</a></code> function
+measured with the various <em>assays</em>/<em>runs</em>. The <code><a href="mtdSample.html">mtdSample()</a></code> function
 assists in compiling the information for this section.</p></li>
 <li><p><em>MS run information</em>: information on the individual MS <em>runs</em>
 (measurements of the samples). Each data file is one run. Use the
-<code><a href="mtd_ms_run.html">mtd_ms_run()</a></code> function to define this part of the metadata section.</p></li>
-<li><p><em>Assay information</em>: the <code><a href="mtd_assay.html">mtd_assay()</a></code> function assists in compiling the
+<code><a href="mtdMsRun.html">mtdMsRun()</a></code> function to define this part of the metadata section.</p></li>
+<li><p><em>Assay information</em>: the <code><a href="mtdAssay.html">mtdAssay()</a></code> function assists in compiling the
 assay section of the metadata. Mandatory fields are the name (ID) of the
 assay and the reference to the <em>MS run</em> in which the assay was measured.
 Optional information on sample reference, external links or custom
 information can be provided too. In most cases (except multiplexed assays
 or pre-fractionated samples) one assay will link to one MS run. Each assay
 <strong>must</strong> represent one column in the following <em>abundance matrix</em> sections.</p></li>
-<li><p><em>Study variable information</em>: the <code><a href="mtd_study_variables.html">mtd_study_variables()</a></code> function allows
+<li><p><em>Study variable information</em>: the <code><a href="mtdStudyVariables.html">mtdStudyVariables()</a></code> function allows
 to format study variable information from an experiment into the mzTab-M
 format. All study variables need to be assigned to at least one assay and
 must also be reported in the subsequent abundance matrices.</p></li>
@@ -189,8 +189,8 @@ must also be reported in the subsequent abundance matrices.</p></li>
 metadata information. See the examples below for a general approach how to
 define the MTD section of an experiment.</p>
 <p>In addition, various helper functions are available to assist in MTD data
-generation:</p><ul><li><p><code><a href="mtd_sort.html">mtd_sort()</a></code>: to sort the MTD <code>matrix</code> into the expected order.</p></li>
-<li><p><code><a href="mtd_fields.html">mtd_fields()</a></code>: helps formatting values into the mzTab-M-specific format.</p></li>
+generation:</p><ul><li><p><code><a href="mtdSort.html">mtdSort()</a></code>: to sort the MTD <code>matrix</code> into the expected order.</p></li>
+<li><p><code><a href="mtdFields.html">mtdFields()</a></code>: helps formatting values into the mzTab-M-specific format.</p></li>
 <li><p><code><a href="MTD-instrument.html">setMtdInstrument()</a></code>/<code><a href="MTD-instrument.html">getMtdInstrument()</a></code>: set/get Instrument Metadata in
 an MTD section.</p></li>
 <li><p><code><a href="MTD-database.html">setMtdDatabase()</a></code>/<code><a href="MTD-database.html">getMtdDatabase()</a></code>: set/get Database Metadata in an MTD
@@ -266,7 +266,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="co">## the compound identification/annotation. These could be provided through</span></span></span>
 <span class="r-in"><span><span class="co">## the `database*` parameters. Also, the quantification method and unit(s)</span></span></span>
 <span class="r-in"><span><span class="co">## could be specified using respective parameters of the function.</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_skeleton.html">mtd_skeleton</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdSkeleton.html">mtdSkeleton</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    id <span class="op">=</span> <span class="st">"EXP_001"</span>,</span></span>
 <span class="r-in"><span>    software <span class="op">=</span> <span class="st">"[MS, MS:1001582], xcms, 4.0.0"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">mtd</span></span></span>
@@ -297,7 +297,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "2.1.0-M"                                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "EXP_001"                                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[MS, MS:1001582], xcms, 4.0.0"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[,,[MS, MS:1001582], xcms, 4.0.0,]"                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "MS"                                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "PSI-MS controlled vocabulary"                                           </span>
@@ -326,7 +326,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"description"</span>, <span class="st">"The preprocessed data of the experiment 1 samples."</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We also add information on the MS instrumentation used</span></span></span>
-<span class="r-in"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_fields.html">mtd_fields</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdFields.html">mtdFields</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    name <span class="op">=</span> <span class="st">"[MS, MS:1000449, LTQ Orbitrap,]"</span>,</span></span>
 <span class="r-in"><span>    source <span class="op">=</span> <span class="st">"[MS, MS:1000073, ESI,]"</span>,</span></span>
 <span class="r-in"><span>    `analyzer[1]` <span class="op">=</span> <span class="st">"[MS, MS:1000291, linear ion trap,]"</span>,</span></span>
@@ -354,7 +354,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="co">## specific sample properties that can be defined using the function's</span></span></span>
 <span class="r-in"><span><span class="co">## parameters, arbitrary custom fields can be defined too. Below we add</span></span></span>
 <span class="r-in"><span><span class="co">## information on sample extraction as custom information.</span></span></span>
-<span class="r-in"><span><span class="va">mtd_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_sample.html">mtd_sample</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">mtd_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdSample.html">mtdSample</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">sample_id</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    species <span class="op">=</span> <span class="st">"[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"</span>,</span></span>
 <span class="r-in"><span>    tissue <span class="op">=</span> <span class="st">"[BTO, BTO:0000759, liver, ]"</span>,</span></span>
@@ -392,7 +392,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="co">## measurement run on an MS instrument. For this, the original data file</span></span></span>
 <span class="r-in"><span><span class="co">## names and location should be provided as well as the format of the</span></span></span>
 <span class="r-in"><span><span class="co">## data files as well as polarity etc.</span></span></span>
-<span class="r-in"><span><span class="va">mtd_msr</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_ms_run.html">mtd_ms_run</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">mtd_msr</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdMsRun.html">mtdMsRun</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    location <span class="op">=</span> <span class="va">exp</span><span class="op">$</span><span class="va">file_name</span>,</span></span>
 <span class="r-in"><span>    format <span class="op">=</span> <span class="st">"[MS, MS:1000584, mzML file, ]"</span>,</span></span>
 <span class="r-in"><span>    id_format <span class="op">=</span> <span class="st">"[MS, MS:1000530, mzML unique identifier, ]"</span>,</span></span>
@@ -407,7 +407,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="co">## Each measurement should be associated to (at least) one assay. For our</span></span></span>
 <span class="r-in"><span><span class="co">## simple example, each row in the `data.frame` represents one assay, with</span></span></span>
 <span class="r-in"><span><span class="co">## each assay being measured in one MS run.</span></span></span>
-<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_assay.html">mtd_assay</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdAssay.html">mtdAssay</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    assay <span class="op">=</span> <span class="va">exp</span><span class="op">$</span><span class="va">sample_name</span>,</span></span>
 <span class="r-in"><span>    sample_ref <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sample[1]"</span>, <span class="st">"sample[1]"</span>, <span class="st">"sample[2]"</span>, <span class="st">"sample[2]"</span>,</span></span>
 <span class="r-in"><span>                   <span class="st">"sample[3]"</span>, <span class="st">"sample[3]"</span><span class="op">)</span>,</span></span>
@@ -446,7 +446,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="co">## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order</span></span></span>
 <span class="r-in"><span><span class="co">## of the provided `data.frame` has to match the order of the assays (and</span></span></span>
 <span class="r-in"><span><span class="co">## MS runs).</span></span></span>
-<span class="r-in"><span><span class="va">svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_study_variables.html">mtd_study_variables</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdStudyVariables.html">mtdStudyVariables</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">exp</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"time_point"</span>, <span class="st">"genotype"</span>, <span class="st">"cell_count"</span>, <span class="st">"operator"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">svar</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]                                   </span>
@@ -635,9 +635,9 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">svar</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Finally, the `mtd_sort()` function can be used to sort the generated</span></span></span>
+<span class="r-in"><span><span class="co">## Finally, the `mtdSort()` function can be used to sort the generated</span></span></span>
 <span class="r-in"><span><span class="co">## two-column matrix in the expected order.</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtd_sort.html">mtd_sort</a></span><span class="op">(</span><span class="va">mtd</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdSort.html">mtdSort</a></span><span class="op">(</span><span class="va">mtd</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## This metadata information can next be exported manually, or using the</span></span></span>
 <span class="r-in"><span><span class="co">## dedicated export helper functions to an mzTab-M file.</span></span></span>

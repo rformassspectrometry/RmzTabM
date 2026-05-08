@@ -7,18 +7,18 @@ parameters* where only the *name* and *value* are provided are
 supported, but it is recommendet to use full CV parameters where
 possible.
 
-`parse_cv_parameter()` allows to extract individual fields from a CV
+`parseCvParameter()` allows to extract individual fields from a CV
 parameter.
 
-`is_cv_parameter()` tests whether a string is in the expected (CV
+`isCvParameter()` tests whether a string is in the expected (CV
 parameter) format.
 
 ## Usage
 
 ``` r
-parse_cv_parameter(x, element = 2L)
+parseCvParameter(x, element = 2L)
 
-is_cv_parameter(x)
+isCvParameter(x)
 ```
 
 ## Arguments
@@ -56,27 +56,27 @@ Johannes Rainer
 
 ## Extract CV term
 x <- c("[MS, MS:1002962, mean, ]", "[MS, MS:1002883, median, ]")
-parse_cv_parameter(x, 1)
+parseCvParameter(x, 1)
 #> [1] "MS" "MS"
 
-parse_cv_parameter(x)
+parseCvParameter(x)
 #> [1] "MS:1002962" "MS:1002883"
 
-parse_cv_parameter(x, 3)
+parseCvParameter(x, 3)
 #> [1] "mean"   "median"
 
-parse_cv_parameter(x, 4)
+parseCvParameter(x, 4)
 #> [1] NA NA
 
 ## CV term missing
-parse_cv_parameter("[, , user, value]")
+parseCvParameter("[, , user, value]")
 #> [1] NA
-parse_cv_parameter("[, , user, value]", 3)
+parseCvParameter("[, , user, value]", 3)
 #> [1] "user"
-parse_cv_parameter("[, , user, value]", 4)
+parseCvParameter("[, , user, value]", 4)
 #> [1] "value"
 
 ## Check validity of CV parameters
-is_cv_parameter(c(x, "[a, b, c, d, e]", "d"))
+isCvParameter(c(x, "[a, b, c, d, e]", "d"))
 #> [1]  TRUE  TRUE FALSE FALSE
 ```

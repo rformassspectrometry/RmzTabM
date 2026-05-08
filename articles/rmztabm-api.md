@@ -125,13 +125,13 @@ We will next compile the MTD information for the experiment using the
 individual helper functions, starting with the **Core information**:
 this comprises general information about the experiment. A minimal set
 of fields can be compiled using the
-[`mtd_skeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_skeleton.md)
+[`mtdSkeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.md)
 function. We have to provide an ID for the experiment and in addition we
 specify the software used to process the data:
 
 ``` r
 
-mtd <- mtd_skeleton(
+mtd <- mtdSkeleton(
     id = "EXP_001",
     software = "[MS, MS:1001582, xcms, 4.1.0]"
 )
@@ -189,13 +189,13 @@ mtd <- rbind(
 ```
 
 To help with formatting we can also use the
-[`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md)
+[`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)
 function. Below we use this function to add information about the MS
 instrumentation to the MTD section:
 
 ``` r
 
-instr <- mtd_fields(
+instr <- mtdFields(
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
@@ -226,21 +226,21 @@ mtd <- rbind(mtd, instr)
 The next category of metadata information is **sample information**.
 This comprises (optional) information on individual samples that were
 measured with the various assays/runs. We use the
-[`mtd_sample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sample.md)
+[`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
 function to assist in compiling this information. Parameters `sample`,
 `species`, `tissue` and `cell_type`, `disease` and `description` allow
 to provide pre-defined sample properties. Additional sample annotations
 and details can be provided through the function’s `...`. For the
 example below we define some of these properties and in addition provide
 a custom field for the extraction data. Be aware that
-[`mtd_sample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sample.md)
+[`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
 does **not** support partial or positional matching of parameters; for
 each of the parameters the **full parameter name** has to be used (i.e.,
 `sample = ...` instead of `sam = ...` or `s = ...`).
 
 ``` r
 
-mtd_s <- mtd_sample(
+mtd_s <- mtdSample(
     sample = unique(exp$sample_id),
     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
     tissue = "[BTO, BTO:0000759, liver, ]",
@@ -287,13 +287,13 @@ function. For our example we use also the *BRENDA tissue ontology* (BTO)
 and the *NCBITaxon* ontology to define the tissue of origin and species
 of the samples and hence need to add these ontologies to the general
 metadata section. We use the
-[`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md)
+[`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)
 function for this. For a CV entry we need to provide a *label*, the
 *full_name*, the *version* and the *uri*:
 
 ``` r
 
-add_cv <- mtd_fields(
+add_cv <- mtdFields(
     label = c("BTO", "NCBITaxon"),
     full_name = c("The BRENDA Tissue Ontology (BTO)",
                   "NCBI organismal classification"),
@@ -335,7 +335,7 @@ mtd <- rbind(mtd, mtd_s)
 ```
 
 Next we compile **MS run information** of the experiment using the
-[`mtd_ms_run()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_ms_run.md)
+[`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)
 helper function. This should comprise all (MS-specific) information
 related to the measurement of each sample - including also the MS data
 file names and locations. For our example we use the file names reported
@@ -344,7 +344,7 @@ runs.
 
 ``` r
 
-mtd_msr <- mtd_ms_run(
+mtd_msr <- mtdMsRun(
     location = exp$file_name,
     format = "[MS, MS:1000584, mzML file, ]",
     id_format = "[MS, MS:1000530, mzML unique identifier, ]",
@@ -396,10 +396,10 @@ mtd <- rbind(mtd, mtd_msr)
 Next we define the **assay information**. Generally, each measurement
 (MS run) is associated to one assay, but also more complex
 configurations are supported. See the help of the
-[`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
+[`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)
 function for details on multiplexed or pre-fractionated samples.
 Mandatory information that has to be provided to the
-[`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
+[`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)
 function are the name (ID) of the assay and the reference to the MS run
 in which the assay was measured. For the latter, a format of
 `"ms_run[<index of the MS run>]"` is expected. For our example we
@@ -409,7 +409,7 @@ following feature abundance table (SMF).
 
 ``` r
 
-mtd_a <- mtd_assay(
+mtd_a <- mtdAssay(
     assay = exp$sample_name,
     sample_ref = c("sample[1]", "sample[1]", "sample[2]", "sample[2]",
                    "sample[3]", "sample[3]"),
@@ -462,7 +462,7 @@ being individual samples (or measurements thereof) and columns the
 sample characteristics (i.e., the *study variable groups*, with the
 individual values of the columns being, in the mzTab-M definition, the
 *study variables*). The
-[`mtd_study_variables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_study_variables.md)
+[`mtdStudyVariables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdStudyVariables.md)
 function formats a sample/experiment `data.frame` into the corresponding
 mzTab-M fields. Parameter `groups` allows to select the columns of the
 input `data.frame` which represent the study variable groups (phenotype
@@ -479,7 +479,7 @@ for study variable groups without unit `""` or `NA` has to be used.
 
 ``` r
 
-mtd_svar <- mtd_study_variables(
+mtd_svar <- mtdStudyVariables(
     exp, groups = c("timepoint", "genotype", "operator"),
     group_unit = c("[, , hours, ]", "", ""))
 ```
@@ -561,12 +561,12 @@ mtd <- rbind(mtd, mtd_svar)
 
 At last we sort the elements according to the expected order in the MTD
 section using the
-[`mtd_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sort.md)
+[`mtdSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.md)
 function.
 
 ``` r
 
-mtd <- mtd_sort(mtd)
+mtd <- mtdSort(mtd)
 ```
 
 This two-column `matrix` could now be saved to a text file using a
@@ -731,7 +731,7 @@ quantified entities (features) of an experiment. This includes the
 feature abundances across assays as well as the feature’s *m/z*,
 retention times and eventual additional annotations such as the ion or
 the exact mass. The
-[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+[`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
 function compiles and formats this section based on the provided
 abundance matrix and feature specifications.
 
@@ -741,7 +741,7 @@ information can be extracted from the result objects of preprocessing
 software. We first define the abundance matrix: columns are assays, rows
 features. Importantly, the number and order of the assays has to match
 the *assay* definition in the metadata (defined above with the
-[`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
+[`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)
 function). Our example data consists of quantification of 7 features in
 6 measurements (assays) of 3 samples.
 
@@ -779,7 +779,7 @@ rownames(feature_info) <- rownames(abundances)
 ```
 
 We can now feed this information to the
-[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+[`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
 function. In addition to the predefined, parameters, also additional
 feature annotations/columns can be passed to the function through it’s
 `...` parameter. We provide the IDs of the individual features with
@@ -790,7 +790,7 @@ its arguments.
 
 ``` r
 
-smf <- smf_create(
+smf <- smfCreate(
     x = abundances,
     exp_mass_to_charge = feature_info$mzmed,
     retention_time_in_seconds = feature_info$rtmed,
@@ -850,7 +850,7 @@ smf
     FT07              324.3               43.3               34.5           FT07
 
 Importantly,
-[`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+[`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
 added a column `"SMF_ID"` with an integer representing the unique
 identifier of each feature (row). These IDs can then be used for
 referencing between the SML and SME tables.
@@ -915,7 +915,7 @@ abundances_sml <- abundances[c(1, 4, 6, 7), ]
 ```
 
 With this information we can use the
-[`sml_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+[`smlCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
 function to compile the SML table. Note that (again) we **must fully
 name** all function arguments to which we pass values. Any additional
 (named) parameters provided to the function (like `note = anns$note`
@@ -923,13 +923,13 @@ below) will be added as *optional* columns (prefixed with `"opt_"`)
 
 ``` r
 
-sml <- sml_create(x = abundances_sml,
-                  database_identifier = anns$id,
-                  chemical_formula = anns$formula,
-                  theoretical_neutral_mass = anns$neutral_mass,
-                  adduct_ions = anns$adduct,
-                  uri = anns$uri,
-                  note = anns$note)
+sml <- smlCreate(x = abundances_sml,
+                 database_identifier = anns$id,
+                 chemical_formula = anns$formula,
+                 theoretical_neutral_mass = anns$neutral_mass,
+                 adduct_ions = anns$adduct,
+                 uri = anns$uri,
+                 note = anns$note)
 sml
 ```
 
@@ -979,12 +979,12 @@ sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
 
 And finally we need to add columns with abundance average and variation
 for study variables defined in the MTD section. Here we can use the
-[`sml_add_study_variable_columns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+[`smlAddStudyVariableColumns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
 helper function providing both the SML and the MTD data.
 
 ``` r
 
-sml <- sml_add_study_variable_columns(sml, mtd)
+sml <- smlAddStudyVariableColumns(sml, mtd)
 sml
 ```
 
@@ -1080,13 +1080,13 @@ legacy repo
 
 General utility functions include:
 
-- [`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md):
+- [`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md):
   to format values in the mzTab-M-specific format.
-- [`mtd_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sort.md):
+- [`mtdSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.md):
   to sort rows of the metadata `matrix` into the expected order.
-- [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md):
+- [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md):
   extract elements and values from a CV parameter.
-- [`is_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md):
+- [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md):
   checks whether a `character` is in the expected CV parameter format.
 
 ## Session information

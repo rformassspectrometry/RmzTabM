@@ -1,6 +1,6 @@
 # msTab-M *ms_run* metadata fields
 
-The `mtd_ms_run()` function allows to define and format the *ms_run*
+The `mtdMsRun()` function allows to define and format the *ms_run*
 fields of the mzTab-M metadata. The information is build on the actual
 data file names along with optional additional parameters to
 characterize the MS run(s).
@@ -13,7 +13,7 @@ documentation.
 ## Usage
 
 ``` r
-mtd_ms_run(
+mtdMsRun(
   location = character(),
   instrument_ref = integer(),
   format = character(),
@@ -104,7 +104,7 @@ Johannes Rainer, Philippine Louail
 
 ## Build a very basic MTD ms_run section for two data files
 fls <- c("file:///path/to/file/a.mzML", "file:///path/to/file/b.mzML")
-mtd_ms_run(location = fls, scan_polarity = "positive")
+mtdMsRun(location = fls, scan_polarity = "positive")
 #>                                   values                             
 #> [1,] "ms_run[1]-location"         "file:///path/to/file/a.mzML"      
 #> [2,] "ms_run[1]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
@@ -112,7 +112,7 @@ mtd_ms_run(location = fls, scan_polarity = "positive")
 #> [4,] "ms_run[2]-scan_polarity[1]" "[MS, MS:1000130, positive scan, ]"
 
 ## Add also instrument reference information
-mtd_ms_run(location = fls, scan_polarity = "positive", instrument_ref = 1)
+mtdMsRun(location = fls, scan_polarity = "positive", instrument_ref = 1)
 #>                                   values                             
 #> [1,] "ms_run[1]-location"         "file:///path/to/file/a.mzML"      
 #> [2,] "ms_run[1]-instrument_ref"   "instrument[1]"                    
@@ -125,7 +125,7 @@ mtd_ms_run(location = fls, scan_polarity = "positive", instrument_ref = 1)
 ## fragmentation was used for the first file, thus `NULL` is specified.
 ## Parameter `fragmentation_method` expects a `list` as input to support
 ## also multiple fragmentation methods per MS run.
-mtd_ms_run(location = fls, scan_polarity = "positive",
+mtdMsRun(location = fls, scan_polarity = "positive",
     fragmentation_method = list(NULL, "[MS, MS:1000133, CID, ]"))
 #>                                          values                             
 #> [1,] "ms_run[1]-location"                "file:///path/to/file/a.mzML"      

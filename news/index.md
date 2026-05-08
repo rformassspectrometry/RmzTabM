@@ -25,10 +25,8 @@
 
 ### Changes in version 0.97.5
 
-- Add functionality to create/format the SML section:
-  [`sml_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md),
-  [`sml_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md),
-  [`sml_add_study_variable_columns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md).
+- Add functionality to create/format the SML section: `sml_create()`,
+  `sml_sort()`, `sml_add_study_variable_columns()`.
 
 ### Changes in version 0.97.4
 

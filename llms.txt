@@ -147,53 +147,53 @@ TODO - add names of hackathon participants, etc.
   [`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)
   : Add or Update Instrument Metadata in an MTD section
 
-- [`sme_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
-  [`sme_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
-  [`sme_id_confidence_measure()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
-  [`sme_spectra_ref_validator()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+- [`smeCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  [`smeSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  [`smeIdConfidenceMeasure()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+  [`smeSpectraRefValidator()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
   : Creating the mzTab-M Small Molecule (SME) Table
 
-- [`smf_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
-  [`smf_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+- [`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
+  [`smfSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
   : Create the mzTab-M Small Molecule Feature (SMF) Table
 
-- [`sml_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
-  [`sml_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
-  [`sml_add_study_variable_columns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+- [`smlCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+  [`smlSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
+  [`smlAddStudyVariableColumns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
   : Creating the mzTab-M Small Molecule (SML) Table
 
-- [`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md)
+- [`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)
   :
 
   mzTab-M *assay* metadata information
 
-- [`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md)
+- [`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)
   : Prepare and format information for the mzTab-M metadata section
 
-- [`mtd_ms_run()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_ms_run.md)
+- [`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)
   :
 
   msTab-M *ms_run* metadata fields
 
-- [`mtd_sample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sample.md)
+- [`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
   :
 
   msTab-M *sample* metadata information
 
-- [`mtd_skeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_skeleton.md)
+- [`mtdSkeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.md)
   : Create a skeleton MTD section with general information
 
-- [`mtd_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_sort.md)
+- [`mtdSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.md)
   : Sort rows in a MTD matrix to match the expected order
 
-- [`mtd_study_variables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_study_variables.md)
-  [`mtd_define_study_variables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_study_variables.md)
+- [`mtdStudyVariables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdStudyVariables.md)
+  [`mtdDefineStudyVariables()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdStudyVariables.md)
   :
 
   mzTab-M *study variables* metadata information
 
-- [`parse_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md)
-  [`is_cv_parameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parse_cv_parameter.md)
+- [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
+  [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   : Utility functions for CV parameters
 
 # Articles

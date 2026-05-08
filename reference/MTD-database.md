@@ -5,8 +5,6 @@ Sets or updates database-related metadata fields within an MTD
 can either replace it entirely or append new values to the existing
 ones.
 
-Get the databse fields within an MTD (metadata) section.
-
 ## Usage
 
 ``` r
@@ -27,7 +25,8 @@ getMtdDatabase(x = matrix())
 - x:
 
   A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
+  `NA`, the function returns `x` unchanged.
 
 - name:
 
@@ -63,10 +62,11 @@ getMtdDatabase(x = matrix())
 
 ## Value
 
-The input object `x` updated to include the new or merged database
-metadata fields. If `x` is empty, the empty `x`.
+- For `setMtdDatabase()`: the input object `x` updated to include the
+  new or merged database metadata fields. If `x` is empty, the empty
+  `x`.
 
-`character` with the database.
+- For `getMtdDatabase()`: get the database metadata.
 
 ## Author
 
@@ -76,7 +76,7 @@ Gabriele Tomè
 
 ``` r
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add database metadata to an existing mzTab object
 mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
           prefix = "hmdb",
@@ -90,16 +90,10 @@ mtd <- setMtdDatabase(mtd, name = "[MIRIAM, MIR:00100079, HMDB, ]",
           uri = "http://www.hmdb.ca/",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
-          prefix = "hmdb",
-          version = "3.6",
-          uri = "http://www.hmdb.ca/")
-
-getMtdDatabase(x)
-#>                   database[1]            database[1]-prefix 
-#> "[,, \"no database\", null ]"                        "null" 
-#>           database[1]-version               database[1]-uri 
-#>                     "Unknown"                        "null" 
+## Get the database metadata
+getMtdDatabase(mtd)
+#>                      database[1]               database[1]-prefix 
+#> "[MIRIAM, MIR:00100079, HMDB, ]"                           "hmdb" 
+#>              database[1]-version                  database[1]-uri 
+#>                            "3.6"            "http://www.hmdb.ca/" 
 ```

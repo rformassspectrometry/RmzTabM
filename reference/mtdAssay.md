@@ -1,9 +1,9 @@
 # mzTab-M *assay* metadata information
 
-The `mtd_assay()` function assists in compiling the *assay* information
+The `mtdAssay()` function assists in compiling the *assay* information
 of the metadata section. Each assay **must** be associated with at least
 one entry of the *ms_run* section (see
-[`mtd_ms_run()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_ms_run.md)).
+[`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)).
 This mapping can be defined with the `ms_run_ref` parameter by providing
 the ID/name of the run (e.g. `"ms_run[1]"`).
 
@@ -19,7 +19,7 @@ documentation.
 ## Usage
 
 ``` r
-mtd_assay(
+mtdAssay(
   ...,
   assay = character(),
   external_uri = character(),
@@ -83,7 +83,7 @@ Johannes Rainer
 ## Minimal example with assay and ms_run_ref defined, each assay assigned
 ## to its own MS run. Note that for **all** parameters the **full**
 ## parameter name has to be used (e.g., `assay = `).
-mtd_assay(assay = c("a1", "a2", "a3"),
+mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"))
 #> 0
 #>                                       
@@ -95,7 +95,7 @@ mtd_assay(assay = c("a1", "a2", "a3"),
 #> [6,] "assay[3]-ms_run_ref" "ms_run[3]"
 
 ## Example for a multiplexed assay.
-mtd_assay(assay = c("a1", "a2", "a3"),
+mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[1]"))
 #> 0
 #>                                       
@@ -107,7 +107,7 @@ mtd_assay(assay = c("a1", "a2", "a3"),
 #> [6,] "assay[3]-ms_run_ref" "ms_run[1]"
 
 ## Example for a pre-fractionated samples
-mtd_assay(assay = c("a1", "a2", "a3"),
+mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = list(c("ms_run[1]", "ms_run[2]"),
                       c("ms_run[3]", "ms_run[4]"),
                       c("ms_run[5]", "ms_run[6]")))
@@ -124,7 +124,7 @@ mtd_assay(assay = c("a1", "a2", "a3"),
 #>  [9,] "assay[3]-ms_run_ref[2]" "ms_run[6]"
 
 ## Example adding also sample reference and an external_uri
-mtd_assay(
+mtdAssay(
     assay = c("a1", "a2", "a3"),
     external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
     sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
@@ -159,7 +159,7 @@ mtd_assay(
 
 ## Providing additional, custom information for each assay. These can be
 ## passed as `character` vectors (same length than `assay`!).
-mtd_assay(assay = c("a1", "a2", "a3"),
+mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"),
     c("[MS, , Assay operator, Fred Blogs]",
       "[MS, , Assay operator, Fred Blogs]",

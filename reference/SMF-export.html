@@ -3,7 +3,7 @@
 information on the individual MS features (quantified regions, e.g.,
 elution profiles of specific m/z and retention times) that were measured
 across the assays.
-smf_create() provides a simplified workflow to generate this table in a
+smfCreate() provides a simplified workflow to generate this table in a
 single step. It takes a matrix of abundances (rows=features,
 columns=assays) and optional vectors defining feature properties.
 It automatically:
@@ -24,7 +24,7 @@ in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.
 See also the specification of the SMF section
 for details.
-smf_sort() can be used to sort the columns of the SMF data frame
+smfSort() can be used to sort the columns of the SMF data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.
@@ -33,7 +33,7 @@ standard columns are in the correct order for export.
 information on the individual MS features (quantified regions, e.g.,
 elution profiles of specific m/z and retention times) that were measured
 across the assays.
-smf_create() provides a simplified workflow to generate this table in a
+smfCreate() provides a simplified workflow to generate this table in a
 single step. It takes a matrix of abundances (rows=features,
 columns=assays) and optional vectors defining feature properties.
 It automatically:
@@ -54,7 +54,7 @@ in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.
 See also the specification of the SMF section
 for details.
-smf_sort() can be used to sort the columns of the SMF data frame
+smfSort() can be used to sort the columns of the SMF data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.
@@ -101,7 +101,7 @@ standard columns are in the correct order for export.
     <p>The Small Molecule Feature (SMF) section of the mzTab-M definition captures
 information on the individual MS features (quantified regions, e.g.,
 elution profiles of specific <em>m/z</em> and retention times) that were measured
-across the assays.</p><ul><li><p><code>smf_create()</code> provides a simplified workflow to generate this table in a
+across the assays.</p><ul><li><p><code>smfCreate()</code> provides a simplified workflow to generate this table in a
 single step. It takes a matrix of abundances (rows=features,
 columns=assays) and optional vectors defining feature properties.</p>
 <p>It automatically:</p><ul><li><p>Formats the abundance matrix (renaming columns to <code>abundance_assay[n]</code>).</p></li>
@@ -119,7 +119,7 @@ in the abundance matrix. If their length is not equal to the number of rows
 or 1, an error is raised.</p>
 <p>See also the <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section" class="external-link">specification of the SMF section</a>
 for details.</p></li>
-<li><p><code>smf_sort()</code> can be used to sort the columns of the SMF data frame
+<li><p><code>smfSort()</code> can be used to sort the columns of the SMF data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.</p></li>
@@ -127,7 +127,7 @@ standard columns are in the correct order for export.</p></li>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">smf_create</span><span class="op">(</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">smfCreate</span><span class="op">(</span></span>
 <span>  <span class="va">...</span>,</span>
 <span>  <span class="va">x</span>,</span>
 <span>  exp_mass_to_charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -141,7 +141,7 @@ standard columns are in the correct order for export.</p></li>
 <span>  isotopomer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">smf_sort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">smfSort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -157,7 +157,7 @@ already present.</p></dd>
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>matrix</code> or <code>data.frame</code> of abundances. Rows are features,
 columns are assays. The order of columns is assumed to match the order of
-assays defined in the Metadata (MTD) section (see <code><a href="mtd_assay.html">mtd_assay()</a></code> for more
+assays defined in the Metadata (MTD) section (see <code><a href="mtdAssay.html">mtdAssay()</a></code> for more
 information).</p></dd>
 
 
@@ -216,7 +216,7 @@ abundance columns, and any optional columns.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All parameters passed to the <code>smf_create()</code> function must be <strong>fully named</strong>.</p>
+    <p>All parameters passed to the <code>smfCreate()</code> function must be <strong>fully named</strong>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -247,7 +247,7 @@ metadata (MTD) and small molecule (SML) sections.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Create the final dataframe ready for export</span></span></span>
 <span class="r-in"><span><span class="co">## Note: Fields not provided (like charge) are automatically set to "null"</span></span></span>
-<span class="r-in"><span><span class="va">smf_final</span> <span class="op">&lt;-</span> <span class="fu">smf_create</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">smf_final</span> <span class="op">&lt;-</span> <span class="fu">smfCreate</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    x <span class="op">=</span> <span class="va">abund_mat</span>,</span></span>
 <span class="r-in"><span>    exp_mass_to_charge <span class="op">=</span> <span class="va">mz_values</span>,</span></span>
 <span class="r-in"><span>    retention_time_in_seconds <span class="op">=</span> <span class="va">rt_values</span>,</span></span>

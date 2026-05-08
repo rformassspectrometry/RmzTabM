@@ -127,10 +127,10 @@
 6       S3_T2        S3        6h       KO       FB s3-t2.mzML</code></pre>
 </div>
 </div>
-<p>We will next compile the MTD information for the experiment using the individual helper functions, starting with the <strong>Core information</strong>: this comprises general information about the experiment. A minimal set of fields can be compiled using the <code><a href="../reference/mtd_skeleton.html">mtd_skeleton()</a></code> function. We have to provide an ID for the experiment and in addition we specify the software used to process the data:</p>
+<p>We will next compile the MTD information for the experiment using the individual helper functions, starting with the <strong>Core information</strong>: this comprises general information about the experiment. A minimal set of fields can be compiled using the <code><a href="../reference/mtdSkeleton.html">mtdSkeleton()</a></code> function. We have to provide an ID for the experiment and in addition we specify the software used to process the data:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_skeleton.html">mtd_skeleton</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdSkeleton.html">mtdSkeleton</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="st">"EXP_001"</span>,</span>
 <span>    software <span class="op">=</span> <span class="st">"[MS, MS:1001582, xcms, 4.1.0]"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -177,10 +177,10 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"description"</span>, <span class="st">"The preprocessed data of the experiment 1."</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>To help with formatting we can also use the <code><a href="../reference/mtd_fields.html">mtd_fields()</a></code> function. Below we use this function to add information about the MS instrumentation to the MTD section:</p>
+<p>To help with formatting we can also use the <code><a href="../reference/mtdFields.html">mtdFields()</a></code> function. Below we use this function to add information about the MS instrumentation to the MTD section:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_fields.html">mtd_fields</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdFields.html">mtdFields</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"[MS, MS:1000449, LTQ Orbitrap,]"</span>,</span>
 <span>    source <span class="op">=</span> <span class="st">"[MS, MS:1000073, ESI,]"</span>,</span>
 <span>    `analyzer[1]` <span class="op">=</span> <span class="st">"[MS, MS:1000291, linear ion trap,]"</span>,</span>
@@ -213,10 +213,10 @@
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">instr</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>The next category of metadata information is <strong>sample information</strong>. This comprises (optional) information on individual samples that were measured with the various assays/runs. We use the <code><a href="../reference/mtd_sample.html">mtd_sample()</a></code> function to assist in compiling this information. Parameters <code>sample</code>, <code>species</code>, <code>tissue</code> and <code>cell_type</code>, <code>disease</code> and <code>description</code> allow to provide pre-defined sample properties. Additional sample annotations and details can be provided through the function’s <code>...</code>. For the example below we define some of these properties and in addition provide a custom field for the extraction data. Be aware that <code><a href="../reference/mtd_sample.html">mtd_sample()</a></code> does <strong>not</strong> support partial or positional matching of parameters; for each of the parameters the <strong>full parameter name</strong> has to be used (i.e., <code>sample = ...</code> instead of <code>sam = ...</code> or <code>s = ...</code>).</p>
+<p>The next category of metadata information is <strong>sample information</strong>. This comprises (optional) information on individual samples that were measured with the various assays/runs. We use the <code><a href="../reference/mtdSample.html">mtdSample()</a></code> function to assist in compiling this information. Parameters <code>sample</code>, <code>species</code>, <code>tissue</code> and <code>cell_type</code>, <code>disease</code> and <code>description</code> allow to provide pre-defined sample properties. Additional sample annotations and details can be provided through the function’s <code>...</code>. For the example below we define some of these properties and in addition provide a custom field for the extraction data. Be aware that <code><a href="../reference/mtdSample.html">mtdSample()</a></code> does <strong>not</strong> support partial or positional matching of parameters; for each of the parameters the <strong>full parameter name</strong> has to be used (i.e., <code>sample = ...</code> instead of <code>sam = ...</code> or <code>s = ...</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_sample.html">mtd_sample</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">mtd_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdSample.html">mtdSample</a></span><span class="op">(</span></span>
 <span>    sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">exp</span><span class="op">$</span><span class="va">sample_id</span><span class="op">)</span>,</span>
 <span>    species <span class="op">=</span> <span class="st">"[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"</span>,</span>
 <span>    tissue <span class="op">=</span> <span class="st">"[BTO, BTO:0000759, liver, ]"</span>,</span>
@@ -299,10 +299,10 @@
 </tr>
 </tbody>
 </table>
-<p>Note that the general information part should also contain the references to <strong>all</strong> controlled vocabulary (CV) ontologies used in the mzTab-M file. The default ontologies added by the <code>mtb_skeleton()</code> function are the <em>PSI-MS</em>, <em>PRIDE</em> and <em>STATO</em> ontologies. If other vocabularies are used, they should be either added manually (following the scheme of the others, i.e., the fields starting with <code>"cv["</code>) or provided with the <code>cv_*</code> function arguments of the <code>mtb_skeleton()</code> function. For our example we use also the <em>BRENDA tissue ontology</em> (BTO) and the <em>NCBITaxon</em> ontology to define the tissue of origin and species of the samples and hence need to add these ontologies to the general metadata section. We use the <code><a href="../reference/mtd_fields.html">mtd_fields()</a></code> function for this. For a CV entry we need to provide a <em>label</em>, the <em>full_name</em>, the <em>version</em> and the <em>uri</em>:</p>
+<p>Note that the general information part should also contain the references to <strong>all</strong> controlled vocabulary (CV) ontologies used in the mzTab-M file. The default ontologies added by the <code>mtb_skeleton()</code> function are the <em>PSI-MS</em>, <em>PRIDE</em> and <em>STATO</em> ontologies. If other vocabularies are used, they should be either added manually (following the scheme of the others, i.e., the fields starting with <code>"cv["</code>) or provided with the <code>cv_*</code> function arguments of the <code>mtb_skeleton()</code> function. For our example we use also the <em>BRENDA tissue ontology</em> (BTO) and the <em>NCBITaxon</em> ontology to define the tissue of origin and species of the samples and hence need to add these ontologies to the general metadata section. We use the <code><a href="../reference/mtdFields.html">mtdFields()</a></code> function for this. For a CV entry we need to provide a <em>label</em>, the <em>full_name</em>, the <em>version</em> and the <em>uri</em>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">add_cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_fields.html">mtd_fields</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">add_cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdFields.html">mtdFields</a></span><span class="op">(</span></span>
 <span>    label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BTO"</span>, <span class="st">"NCBITaxon"</span><span class="op">)</span>,</span>
 <span>    full_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"The BRENDA Tissue Ontology (BTO)"</span>,</span>
 <span>                  <span class="st">"NCBI organismal classification"</span><span class="op">)</span>,</span>
@@ -335,10 +335,10 @@
 <div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_s</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Next we compile <strong>MS run information</strong> of the experiment using the <code><a href="../reference/mtd_ms_run.html">mtd_ms_run()</a></code> helper function. This should comprise all (MS-specific) information related to the measurement of each sample - including also the MS data file names and locations. For our example we use the file names reported in the sample data frame and specify the polarity of the measurement runs.</p>
+<p>Next we compile <strong>MS run information</strong> of the experiment using the <code><a href="../reference/mtdMsRun.html">mtdMsRun()</a></code> helper function. This should comprise all (MS-specific) information related to the measurement of each sample - including also the MS data file names and locations. For our example we use the file names reported in the sample data frame and specify the polarity of the measurement runs.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_msr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_ms_run.html">mtd_ms_run</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">mtd_msr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdMsRun.html">mtdMsRun</a></span><span class="op">(</span></span>
 <span>    location <span class="op">=</span> <span class="va">exp</span><span class="op">$</span><span class="va">file_name</span>,</span>
 <span>    format <span class="op">=</span> <span class="st">"[MS, MS:1000584, mzML file, ]"</span>,</span>
 <span>    id_format <span class="op">=</span> <span class="st">"[MS, MS:1000530, mzML unique identifier, ]"</span>,</span>
@@ -459,10 +459,10 @@
 <div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_msr</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Next we define the <strong>assay information</strong>. Generally, each measurement (MS run) is associated to one assay, but also more complex configurations are supported. See the help of the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function for details on multiplexed or pre-fractionated samples. Mandatory information that has to be provided to the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function are the name (ID) of the assay and the reference to the MS run in which the assay was measured. For the latter, a format of <code>"ms_run[&lt;index of the MS run&gt;]"</code> is expected. For our example we provide in addition also the (optional, but suggested) reference to the original sample. Note that each assay must represent one column in the following feature abundance table (SMF).</p>
+<p>Next we define the <strong>assay information</strong>. Generally, each measurement (MS run) is associated to one assay, but also more complex configurations are supported. See the help of the <code><a href="../reference/mtdAssay.html">mtdAssay()</a></code> function for details on multiplexed or pre-fractionated samples. Mandatory information that has to be provided to the <code><a href="../reference/mtdAssay.html">mtdAssay()</a></code> function are the name (ID) of the assay and the reference to the MS run in which the assay was measured. For the latter, a format of <code>"ms_run[&lt;index of the MS run&gt;]"</code> is expected. For our example we provide in addition also the (optional, but suggested) reference to the original sample. Note that each assay must represent one column in the following feature abundance table (SMF).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_assay.html">mtd_assay</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">mtd_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdAssay.html">mtdAssay</a></span><span class="op">(</span></span>
 <span>    assay <span class="op">=</span> <span class="va">exp</span><span class="op">$</span><span class="va">sample_name</span>,</span>
 <span>    sample_ref <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sample[1]"</span>, <span class="st">"sample[1]"</span>, <span class="st">"sample[2]"</span>, <span class="st">"sample[2]"</span>,</span>
 <span>                   <span class="st">"sample[3]"</span>, <span class="st">"sample[3]"</span><span class="op">)</span>,</span>
@@ -560,10 +560,10 @@
 <div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_a</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>At last we compile the <strong>study variable information</strong> of our example experiment. This should capture all experiment-relevant study variables (phenotype or experimental conditions). In R, such information is generally encoded in a <em>sample</em> or <em>phenotype</em> <code>data.frame</code>, with rows being individual samples (or measurements thereof) and columns the sample characteristics (i.e., the <em>study variable groups</em>, with the individual values of the columns being, in the mzTab-M definition, the <em>study variables</em>). The <code><a href="../reference/mtd_study_variables.html">mtd_study_variables()</a></code> function formats a sample/experiment <code>data.frame</code> into the corresponding mzTab-M fields. Parameter <code>groups</code> allows to select the columns of the input <code>data.frame</code> which represent the study variable groups (phenotype or experimental conditions). Additional function arguments allow to specify the statistical type and the datatype for each column/study variable group, but the defaults should work in most situations. By default, R data types <code>character</code> and <code>factor</code> are mapped to the STATO type <em>categorical</em>, while the STATO type <em>continuous</em> is used for <code>numeric</code> and <code>integer</code> columns. If the <code>data.frame</code> contains <em>ordinal</em> variables it should be manually specified with parameter <code>group_type</code>. In our example we define in addition an optional <em>unit</em> for the study variable <em>timepoint</em>. Units have to be provided in CV parameter format; for study variable groups without unit <code>""</code> or <code>NA</code> has to be used.</p>
+<p>At last we compile the <strong>study variable information</strong> of our example experiment. This should capture all experiment-relevant study variables (phenotype or experimental conditions). In R, such information is generally encoded in a <em>sample</em> or <em>phenotype</em> <code>data.frame</code>, with rows being individual samples (or measurements thereof) and columns the sample characteristics (i.e., the <em>study variable groups</em>, with the individual values of the columns being, in the mzTab-M definition, the <em>study variables</em>). The <code><a href="../reference/mtdStudyVariables.html">mtdStudyVariables()</a></code> function formats a sample/experiment <code>data.frame</code> into the corresponding mzTab-M fields. Parameter <code>groups</code> allows to select the columns of the input <code>data.frame</code> which represent the study variable groups (phenotype or experimental conditions). Additional function arguments allow to specify the statistical type and the datatype for each column/study variable group, but the defaults should work in most situations. By default, R data types <code>character</code> and <code>factor</code> are mapped to the STATO type <em>categorical</em>, while the STATO type <em>continuous</em> is used for <code>numeric</code> and <code>integer</code> columns. If the <code>data.frame</code> contains <em>ordinal</em> variables it should be manually specified with parameter <code>group_type</code>. In our example we define in addition an optional <em>unit</em> for the study variable <em>timepoint</em>. Units have to be provided in CV parameter format; for study variable groups without unit <code>""</code> or <code>NA</code> has to be used.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd_svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_study_variables.html">mtd_study_variables</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">mtd_svar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdStudyVariables.html">mtdStudyVariables</a></span><span class="op">(</span></span>
 <span>    <span class="va">exp</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"timepoint"</span>, <span class="st">"genotype"</span>, <span class="st">"operator"</span><span class="op">)</span>,</span>
 <span>    group_unit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[, , hours, ]"</span>, <span class="st">""</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -780,10 +780,10 @@
 <div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">mtd_svar</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>At last we sort the elements according to the expected order in the MTD section using the <code><a href="../reference/mtd_sort.html">mtd_sort()</a></code> function.</p>
+<p>At last we sort the elements according to the expected order in the MTD section using the <code><a href="../reference/mtdSort.html">mtdSort()</a></code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtd_sort.html">mtd_sort</a></span><span class="op">(</span><span class="va">mtd</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mtdSort.html">mtdSort</a></span><span class="op">(</span><span class="va">mtd</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>This two-column <code>matrix</code> could now be saved to a text file using a tabulator (<code>"\t"</code>) as a field separator. The full metadata header is shown in the table below.</p>
 <div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
@@ -1373,8 +1373,8 @@
 </tbody>
 </table></section><section class="level4"><h5 id="small-molecule-feature-smf-table">Small Molecule Feature (SMF) Table<a class="anchor" aria-label="anchor" href="#small-molecule-feature-smf-table"></a>
 </h5>
-<p>The <em>small molecule feature</em> (SMF) section captures information on the quantified entities (features) of an experiment. This includes the feature abundances across assays as well as the feature’s <em>m/z</em>, retention times and eventual additional annotations such as the ion or the exact mass. The <code><a href="../reference/SMF-export.html">smf_create()</a></code> function compiles and formats this section based on the provided abundance matrix and feature specifications.</p>
-<p>Below we create an example abundance matrix and feature characteristics data matching the metadata from the previous section. Generally, such information can be extracted from the result objects of preprocessing software. We first define the abundance matrix: columns are assays, rows features. Importantly, the number and order of the assays has to match the <em>assay</em> definition in the metadata (defined above with the <code><a href="../reference/mtd_assay.html">mtd_assay()</a></code> function). Our example data consists of quantification of 7 features in 6 measurements (assays) of 3 samples.</p>
+<p>The <em>small molecule feature</em> (SMF) section captures information on the quantified entities (features) of an experiment. This includes the feature abundances across assays as well as the feature’s <em>m/z</em>, retention times and eventual additional annotations such as the ion or the exact mass. The <code><a href="../reference/SMF-export.html">smfCreate()</a></code> function compiles and formats this section based on the provided abundance matrix and feature specifications.</p>
+<p>Below we create an example abundance matrix and feature characteristics data matching the metadata from the previous section. Generally, such information can be extracted from the result objects of preprocessing software. We first define the abundance matrix: columns are assays, rows features. Importantly, the number and order of the assays has to match the <em>assay</em> definition in the metadata (defined above with the <code><a href="../reference/mtdAssay.html">mtdAssay()</a></code> function). Our example data consists of quantification of 7 features in 6 measurements (assays) of 3 samples.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">200.1</span>, <span class="fl">1232.1</span>, <span class="fl">54.3</span>, <span class="fl">399.1</span>, <span class="fl">599.8</span>, <span class="fl">23.1</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
@@ -1400,10 +1400,10 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">feature_info</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>We can now feed this information to the <code><a href="../reference/SMF-export.html">smf_create()</a></code> function. In addition to the predefined, parameters, also additional feature annotations/columns can be passed to the function through it’s <code>...</code> parameter. We provide the IDs of the individual features with <code>feature_id =</code>. These are then stored into a column <code>"opt_feature_id"</code>. Note that all parameters <strong>must</strong> be fully named, i.e., <code>x =</code> or <code>charge =</code> since the function does not support positional matching of its arguments.</p>
+<p>We can now feed this information to the <code><a href="../reference/SMF-export.html">smfCreate()</a></code> function. In addition to the predefined, parameters, also additional feature annotations/columns can be passed to the function through it’s <code>...</code> parameter. We provide the IDs of the individual features with <code>feature_id =</code>. These are then stored into a column <code>"opt_feature_id"</code>. Note that all parameters <strong>must</strong> be fully named, i.e., <code>x =</code> or <code>charge =</code> since the function does not support positional matching of its arguments.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">smf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SMF-export.html">smf_create</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">smf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SMF-export.html">smfCreate</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">abundances</span>,</span>
 <span>    exp_mass_to_charge <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">mzmed</span>,</span>
 <span>    retention_time_in_seconds <span class="op">=</span> <span class="va">feature_info</span><span class="op">$</span><span class="va">rtmed</span>,</span>
@@ -1460,7 +1460,7 @@ FT06               43.4              432.3              432.2           FT06
 FT07              324.3               43.3               34.5           FT07</code></pre>
 </div>
 </div>
-<p>Importantly, <code><a href="../reference/SMF-export.html">smf_create()</a></code> added a column <code>"SMF_ID"</code> with an integer representing the unique identifier of each feature (row). These IDs can then be used for referencing between the SML and SME tables.</p>
+<p>Importantly, <code><a href="../reference/SMF-export.html">smfCreate()</a></code> added a column <code>"SMF_ID"</code> with an integer representing the unique identifier of each feature (row). These IDs can then be used for referencing between the SML and SME tables.</p>
 </section><section class="level4"><h5 id="small-molecule-sml-table">Small Molecule (SML) Table<a class="anchor" aria-label="anchor" href="#small-molecule-sml-table"></a>
 </h5>
 <p>The Small Molecule (SML) table represents the <em>final</em> result of an experiment that is reported. It contains the abundances of molecules along with their annotations and abundance summaries for the experiment’s study variables. The content of the SML table is in general a subset of the SMF table, containing only the annotated features.</p>
@@ -1500,16 +1500,16 @@ FT07              324.3               43.3               34.5           FT07</co
 <div class="sourceCode cell-code" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">abundances_sml</span> <span class="op">&lt;-</span> <span class="va">abundances</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div>
 </div>
-<p>With this information we can use the <code><a href="../reference/SML-export.html">sml_create()</a></code> function to compile the SML table. Note that (again) we <strong>must fully name</strong> all function arguments to which we pass values. Any additional (named) parameters provided to the function (like <code>note = anns$note</code> below) will be added as <em>optional</em> columns (prefixed with <code>"opt_"</code>)</p>
+<p>With this information we can use the <code><a href="../reference/SML-export.html">smlCreate()</a></code> function to compile the SML table. Note that (again) we <strong>must fully name</strong> all function arguments to which we pass values. Any additional (named) parameters provided to the function (like <code>note = anns$note</code> below) will be added as <em>optional</em> columns (prefixed with <code>"opt_"</code>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SML-export.html">sml_create</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">abundances_sml</span>,</span>
-<span>                  database_identifier <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">id</span>,</span>
-<span>                  chemical_formula <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">formula</span>,</span>
-<span>                  theoretical_neutral_mass <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">neutral_mass</span>,</span>
-<span>                  adduct_ions <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">adduct</span>,</span>
-<span>                  uri <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">uri</span>,</span>
-<span>                  note <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">note</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SML-export.html">smlCreate</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">abundances_sml</span>,</span>
+<span>                 database_identifier <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">id</span>,</span>
+<span>                 chemical_formula <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">formula</span>,</span>
+<span>                 theoretical_neutral_mass <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">neutral_mass</span>,</span>
+<span>                 adduct_ions <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">adduct</span>,</span>
+<span>                 uri <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">uri</span>,</span>
+<span>                 note <span class="op">=</span> <span class="va">anns</span><span class="op">$</span><span class="va">note</span><span class="op">)</span></span>
 <span><span class="va">sml</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     SMH SML_ID SMF_ID_REFS               database_identifier chemical_formula
@@ -1554,10 +1554,10 @@ FT07               43.3               34.5 manual curation</code></pre>
 <div class="sourceCode cell-code" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sml</span><span class="op">$</span><span class="va">SMF_ID_REFS</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1|5"</span>, <span class="st">"4"</span>, <span class="st">"6"</span>, <span class="st">"7"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>And finally we need to add columns with abundance average and variation for study variables defined in the MTD section. Here we can use the <code><a href="../reference/SML-export.html">sml_add_study_variable_columns()</a></code> helper function providing both the SML and the MTD data.</p>
+<p>And finally we need to add columns with abundance average and variation for study variables defined in the MTD section. Here we can use the <code><a href="../reference/SML-export.html">smlAddStudyVariableColumns()</a></code> helper function providing both the SML and the MTD data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SML-export.html">sml_add_study_variable_columns</a></span><span class="op">(</span><span class="va">sml</span>, <span class="va">mtd</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SML-export.html">smlAddStudyVariableColumns</a></span><span class="op">(</span><span class="va">sml</span>, <span class="va">mtd</span><span class="op">)</span></span>
 <span><span class="va">sml</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     SMH SML_ID SMF_ID_REFS               database_identifier chemical_formula
@@ -1648,13 +1648,13 @@ FT07                          0.1599624595 manual curation</code></pre>
 <p>General utility functions include:</p>
 <ul>
 <li>
-<code><a href="../reference/mtd_fields.html">mtd_fields()</a></code>: to format values in the mzTab-M-specific format.</li>
+<code><a href="../reference/mtdFields.html">mtdFields()</a></code>: to format values in the mzTab-M-specific format.</li>
 <li>
-<code><a href="../reference/mtd_sort.html">mtd_sort()</a></code>: to sort rows of the metadata <code>matrix</code> into the expected order.</li>
+<code><a href="../reference/mtdSort.html">mtdSort()</a></code>: to sort rows of the metadata <code>matrix</code> into the expected order.</li>
 <li>
-<code><a href="../reference/parse_cv_parameter.html">parse_cv_parameter()</a></code>: extract elements and values from a CV parameter.</li>
+<code><a href="../reference/parseCvParameter.html">parseCvParameter()</a></code>: extract elements and values from a CV parameter.</li>
 <li>
-<code><a href="../reference/parse_cv_parameter.html">is_cv_parameter()</a></code>: checks whether a <code>character</code> is in the expected CV parameter format.</li>
+<code><a href="../reference/parseCvParameter.html">isCvParameter()</a></code>: checks whether a <code>character</code> is in the expected CV parameter format.</li>
 </ul></section></section></section><section class="section level2"><h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
 <div class="cell">

@@ -1,6 +1,6 @@
 # msTab-M *sample* metadata information
 
-The `mtd_samples()` function aids in creating and formatting the
+The `mtdSamples()` function aids in creating and formatting the
 (optional) sample information from the mzTab-M metadata section. If
 defined, the sample information **must** be correctly linked to from the
 *assay* section. In particular, the assays need to link to the index of
@@ -25,7 +25,7 @@ documentation.
 ## Usage
 
 ``` r
-mtd_sample(
+mtdSample(
   ...,
   sample = character(),
   species = list(),
@@ -97,11 +97,11 @@ pd <- data.frame(
     time_point = c(1, 2, 1, 2))
 
 ## Define a minimal sample information with just the sample names.
-mtd_sample(unique(pd$sample_name))
+mtdSample(unique(pd$sample_name))
 #>      [,1] [,2]
 
 ## Add also species information: each sample from the same species
-mtd_sample(
+mtdSample(
     sample = unique(pd$sample_name),
     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]")
 #> 0
@@ -112,7 +112,7 @@ mtd_sample(
 #> [4,] "sample[2]-species[1]" "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
 
 ## Assume first sample is a mixture of two species
-mtd_sample(
+mtdSample(
     sample = unique(pd$sample_name),
     species = list(c("[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
                      "[NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]"),
@@ -133,7 +133,7 @@ mtd_sample(
 #> [5,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"        
 
 ## Add full information including tissue, cell type and disease
-mtd_sample(
+mtdSample(
     sample = unique(pd$sample_name),
     species = list(c("[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
                      "[NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]"),
@@ -171,7 +171,7 @@ mtd_sample(
 #> [11,] "[CL, CL:0000182, hepatocyte, ]"                     
 
 ## Add also additional custom variables
-mtd_sample(sample = c("A", "B"),
+mtdSample(sample = c("A", "B"),
     c("[,,Extraction date, 2011-12-21]",
       "[,,Extraction date, 2011-12-22]"),
     c("[,,Extraction reason, liver biopsy]",

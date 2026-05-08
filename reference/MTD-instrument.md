@@ -5,8 +5,6 @@ Sets or updates instrument-related metadata fields within an MTD
 function can either replace it entirely or append new values to the
 existing ones.
 
-Get the Instrument fields within an MTD (metadata) section.
-
 ## Usage
 
 ``` r
@@ -27,7 +25,8 @@ getMtdInstrument(x = matrix())
 - x:
 
   A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
+  `NA`, the function returns `x` unchanged.
 
 - name:
 
@@ -62,10 +61,11 @@ getMtdInstrument(x = matrix())
 
 ## Value
 
-The input object `x` updated to include the new or merged instrument
-metadata fields. If `x` is empty, the empty `x`.
+- For `setMtdInstrument()`: the input object `x` updated to include the
+  new or merged instrument metadata fields. If `x` is empty, the empty
+  `x`.
 
-`character` with the Instrument.
+- For `getMtdInstrument()`: the instrument information.
 
 ## Author
 
@@ -75,7 +75,7 @@ Gabriele Tomè
 
 ``` r
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add instrument metadata to an existing mzTab object
 mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
           source = "[MS, MS:1000073, ESI,]",
@@ -89,13 +89,19 @@ mtd <- setMtdInstrument(mtd, name = "[MS, MS:1000449, LTQ Orbitrap,]",
           detector = "[MS, MS:1000253, electron multiplier,]",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
           source = "[MS, MS:1000073, ESI,]",
           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
           detector = "[MS, MS:1000253, electron multiplier,]")
 
-getMtdInstrument(x)
-#> [1] NA
+getMtdInstrument(mtd)
+#>                       instrument[1]-name 
+#>        "[MS, MS:1000449, LTQ Orbitrap,]" 
+#>                     instrument[1]-source 
+#>                 "[MS, MS:1000073, ESI,]" 
+#>                   instrument[1]-detector 
+#> "[MS, MS:1000253, electron multiplier,]" 
+#>                instrument[1]-analyzer[1] 
+#>     "[MS, MS:1000291, linear ion trap,]" 
 ```

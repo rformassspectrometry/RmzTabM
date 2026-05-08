@@ -4,8 +4,6 @@ Sets or updates contact-related metadata fields within an MTD (metadata)
 in a MTD section. When contact metadata already exists, the function can
 either replace it entirely or append new values to the existing ones.
 
-Get the Contact fields within an MTD (metadata) section.
-
 ## Usage
 
 ``` r
@@ -25,7 +23,8 @@ getMtdContact(x = matrix())
 - x:
 
   A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
+  `NA`, the function returns `x` unchanged.
 
 - name:
 
@@ -51,10 +50,10 @@ getMtdContact(x = matrix())
 
 ## Value
 
-The input object `x` updated to include the new or merged contact
-metadata fields. If `x` is empty, the empty `x`.
+- For `setMtdContact()`: the input object `x` updated to include the new
+  or merged contact metadata fields. If `x` is empty, the empty `x`.
 
-`character` with the contacts.
+- For `getMtdContact()`: returns the contact information.
 
 ## Author
 
@@ -64,7 +63,7 @@ Gabriele Tomè
 
 ``` r
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add contact metadata to an existing mzTab object
 mtd <- setMtdContact(x, name = "Name Surname",
           affiliation = "PSI-MS",
@@ -77,11 +76,7 @@ mtd <- setMtdContact(mtd, name = "Name Surname",
           replace = TRUE)
 
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-mtd <- setMtdContact(x, name = "Name Surname",
-          affiliation = "PSI-MS",
-          email = "name.surname@mail.com")
-
-getMtdContact(x)
-#> [1] NA
+getMtdContact(mtd)
+#>         contact[1]-name  contact[1]-affiliation        contact[1]-email 
+#>          "Name Surname"                "PSI-MS" "name.surname@mail.com" 
 ```

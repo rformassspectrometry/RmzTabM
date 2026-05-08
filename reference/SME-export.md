@@ -21,7 +21,7 @@ of the mzTab-M specification.
 
 The functions to create and format the SME content are:
 
-- `sme_create()`: provides a simplified workflow to generate this table
+- `smeCreate()`: provides a simplified workflow to generate this table
   in a single step. It takes vectors defining feature properties.
 
   It automatically:
@@ -48,7 +48,7 @@ The functions to create and format the SME content are:
   section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section)
   for details.
 
-- `sme_sort()`: can be used to sort the columns of the SME data frame
+- `smeSort()`: can be used to sort the columns of the SME data frame
   according to the standard order defined in the mzTab-M specification.
   This is useful if you have added custom columns and want to ensure the
   standard columns are in the correct order for export.
@@ -56,7 +56,7 @@ The functions to create and format the SME content are:
 ## Usage
 
 ``` r
-sme_create(
+smeCreate(
   ...,
   evidence_input_id = character(),
   database_identifier = character(),
@@ -78,11 +78,11 @@ sme_create(
   mtd = NULL
 )
 
-sme_sort(x)
+smeSort(x)
 
-sme_id_confidence_measure(x, mtd, nr = numeric())
+smeIdConfidenceMeasure(x, mtd, nr = numeric())
 
-sme_spectra_ref_validator(x, mtd)
+smeSpectraRefValidator(x, mtd)
 ```
 
 ## Arguments
@@ -240,13 +240,11 @@ sme_spectra_ref_validator(x, mtd)
 
 - x:
 
-  for `sme_spectra_ref_validator()`: `character` with reference to a
-  spectrum in a spectrum file. For `sme_id_confidence_measure()`:
-  `matrix` or `data.frame` with any statistical value or score for the
-  identification. For
-  [`sml_sort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md):
-  a SML `data.frame`, such as created by
-  [`sml_create()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md).
+  for `smeSpectraRefValidator()`: `character` with reference to a
+  spectrum in a spectrum file. For `smeIdConfidenceMeasure()`: `matrix`
+  or `data.frame` with any statistical value or score for the
+  identification. For `smeSort()`: a SML `data.frame`, such as created
+  by `smeCreate()`.
 
 - nr:
 
@@ -260,7 +258,7 @@ any optional columns.
 
 ## Details
 
-All parameters passed to the `sme_create()` function must be **fully
+All parameters passed to the `smeCreate()` function must be **fully
 named**.
 
 ## See also
@@ -311,7 +309,7 @@ ms_level = "[MS, MS:1000511, ms level, 2]"
 
 ## Create the final dataframe ready for export
 ## Note: Fields not provided are automatically set to "null"
-sme_final <- sme_create(
+sme_final <- smeCreate(
     evidence_input_id = evidence_input_id,
     exp_mass_to_charge = exp_mass_to_charge,
     charge = charge,

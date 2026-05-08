@@ -9,8 +9,8 @@ study group.
 In R, the most common representation of an experimental design is a
 `data.frame` where rows are individual samples (assays) and columns the
 experimental or phenotypic conditions (variables). The
-`mtb_study_variables()` takes such a `data.frame` as input and encodes
-it into the mzTab-M format. Additional parameters such as
+`mtdStudyVariables()` takes such a `data.frame` as input and encodes it
+into the mzTab-M format. Additional parameters such as
 `group_description`, and `group_type` allow to provide additional
 information for each study variable group (phenotype) while parameters
 `average_function`, `variation_function` and `description` can be used
@@ -20,7 +20,7 @@ experiments the default values of these parameters should suffice.
 ## Usage
 
 ``` r
-mtd_study_variables(
+mtdStudyVariables(
   x,
   groups = character(),
   group_description = character(),
@@ -32,7 +32,7 @@ mtd_study_variables(
   description = character()
 )
 
-mtd_define_study_variables(x = data.frame(), groups = character())
+mtdDefineStudyVariables(x = data.frame(), groups = character())
 ```
 
 ## Arguments
@@ -43,7 +43,7 @@ mtd_define_study_variables(x = data.frame(), groups = character())
   columns containing the experimental conditions/study variables. The
   number of rows is thus expected to be the same as the number of assays
   defined in the *assay* metadata section (using e.g.,
-  [`mtd_assay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_assay.md))
+  [`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md))
   and the order of rows is expected to match the order of these.
 
 - groups:
@@ -95,9 +95,9 @@ mtd_define_study_variables(x = data.frame(), groups = character())
   variable quantification value (reported in the following table(s)).
   Can be of length 1 or equal to the number of study variables (to allow
   defining a different function per variable). Use
-  `mtd_define_study_variables()` to get the complete set of study
-  variables for parameters `x` and `groups`. Defaults to the arithmetic
-  mean (`average_function = "[MS, MS:1002962, mean, ]"`).
+  `mtdDefineStudyVariables()` to get the complete set of study variables
+  for parameters `x` and `groups`. Defaults to the arithmetic mean
+  (`average_function = "[MS, MS:1002962, mean, ]"`).
 
 - variation_function:
 
@@ -105,19 +105,19 @@ mtd_define_study_variables(x = data.frame(), groups = character())
   variable quantification variation value (reported in the following
   table(s)). Can be of length 1 or equal to the number of study
   variables (to allow defining a different function per variable). Use
-  `mtd_define_study_variables()` to get the complete set of study
-  variables for parameters `x` and `groups`. Defaults to the coefficient
-  of variation
+  `mtdDefineStudyVariables()` to get the complete set of study variables
+  for parameters `x` and `groups`. Defaults to the coefficient of
+  variation
   (`variation_function = "[MS, MS:1002963, variation coefficient, ]"`).
 
 - description:
 
   `character` with a textual description of the study variable. If
   provided, its length needs to be equal to the number of study
-  variables. Use `mtd_define_study_variables()` to get the complete set
-  of study variables for parameters `x` and `groups`. If not provided
-  (the default) the values for the study variable group and study
-  variable are reported.
+  variables. Use `mtdDefineStudyVariables()` to get the complete set of
+  study variables for parameters `x` and `groups`. If not provided (the
+  default) the values for the study variable group and study variable
+  are reported.
 
 ## Value
 
@@ -130,11 +130,11 @@ Each study variable **must** be reported in the abundance tables. Each
 assay of a data set must be referred to from at least one study
 variable. Even if a data set has no experimental variables, a study
 variable group and study variable with the name `"undefined"` **must**
-be reported. Using `mtb_study_variables()` without specifying parameter
+be reported. Using `mtdStudyVariables()` without specifying parameter
 `group` will create such a setup.
 
-The `mtd_define_study_variables()` function can be used to get the set
-(and order) of study variables that would be generated from an input
+The `mtdDefineStudyVariables()` function can be used to get the set (and
+order) of study variables that would be generated from an input
 `data.frame` depending on the parameter `groups`.
 
 ## Note
@@ -169,7 +169,7 @@ x <- data.frame(
 
 ## Study variable groups for this data set could be `"individual"`, `"BMI"`,
 ## `"timepoint"` and `"T2D"`
-mtd_study_variables(x, groups = c("individual", "BMI", "timepoint", "T2D"))
+mtdStudyVariables(x, groups = c("individual", "BMI", "timepoint", "T2D"))
 #>       [,1]                                   
 #>  [1,] "study_variable_group[1]"              
 #>  [2,] "study_variable_group[1]-description"  
@@ -327,7 +327,7 @@ mtd_study_variables(x, groups = c("individual", "BMI", "timepoint", "T2D"))
 
 ## Specifying a different average and variation function and selecting
 ## just two sample columns
-mtd_study_variables(x,
+mtdStudyVariables(x,
     groups = c("timepoint", "T2D"),
     average_function = "[MS, MS:1002883, median, ]",
     variation_function = "[MS, MS:1002885, standard error, ]")
@@ -399,7 +399,7 @@ mtd_study_variables(x,
 #> [32,] "study_variable_group[2]"                       
 
 ## Creating a study variable section without defined study variable groups
-mtd_study_variables(x)
+mtdStudyVariables(x)
 #>       [,1]                                  
 #>  [1,] "study_variable_group[1]"             
 #>  [2,] "study_variable_group[1]-description" 
@@ -423,9 +423,9 @@ mtd_study_variables(x)
 #>  [9,] "Variable undefined, value undefined"           
 #> [10,] "study_variable_group[1]"                       
 
-## Use `mtd_define_study_variables()` to get the definition of study
+## Use `mtdDefineStudyVariables()` to get the definition of study
 ## variables for a given `x` and `groups`
-mtd_define_study_variables(x, c("T2D", "BMI", "individual"))
+mtdDefineStudyVariables(x, c("T2D", "BMI", "individual"))
 #>    study_variable study_variable_group
 #> 1            TRUE                  T2D
 #> 2           FALSE                  T2D

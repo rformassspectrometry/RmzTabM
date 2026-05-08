@@ -3,12 +3,12 @@
 This *core* MTD section allows to describe the general experimental
 setup and provides general information of the data set. It should
 contain references to **all** controlled vocabulary (CV) ontologies used
-and refered to in the mzTab-M file. The `mtd_skeleton()` function
-creates a two-column `matrix` with the basic mzTab-M *MTD* section based
-on the provided data. The returned result contains only minimal
-information. It should be expanded, corrected and completed with
-additional fields and information (i.e., the *skeleton* returned by this
-function should be completed with *flesh*).
+and refered to in the mzTab-M file. The `mtdSkeleton()` function creates
+a two-column `matrix` with the basic mzTab-M *MTD* section based on the
+provided data. The returned result contains only minimal information. It
+should be expanded, corrected and completed with additional fields and
+information (i.e., the *skeleton* returned by this function should be
+completed with *flesh*).
 
 For details and expected input for the various parameter it is
 **strongly suggested** to consult the
@@ -18,7 +18,7 @@ documentation.
 ## Usage
 
 ``` r
-mtd_skeleton(
+mtdSkeleton(
   id = character(),
   software = character(),
   quantification_method = "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]",
@@ -125,7 +125,7 @@ mtd_skeleton(
 two-column `character` `matrix` that should be expanded with additional
 fields (such as *title*, *description* etc) and information (with the
 help from the
-[`mtd_fields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtd_fields.md)
+[`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)
 function).
 
 ## See also
@@ -142,7 +142,7 @@ Philippine Louail, Johannes Rainer
 ``` r
 
 ## Define a minimal mzTab-M metadata information
-mtd <- mtd_skeleton(id = "001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+mtd <- mtdSkeleton(id = "001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 
 ## Column 1 has the field names
 mtd[, 1]
@@ -219,7 +219,7 @@ tail(mtd)
 #> [25,] "A simple example xcms preprocessing."                        
 
 ## Add instrument information
-instr <- mtd_fields(
+instr <- mtdFields(
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
@@ -236,8 +236,8 @@ instr
 ## Add this information to the metadata
 mtd <- rbind(mtd, instr)
 
-## Define sample processing fields using the mtd_fields function
-sp <- mtd_fields(
+## Define sample processing fields using the mtdFields function
+sp <- mtdFields(
     c("[MSIO, MSIO:0000146, centrifugation,]",
       "[MSIO, MSIO:0000141, metabolite extraction,]",
       "[MSIO, MSIO:0000141, silylation,]"),
@@ -265,7 +265,7 @@ cv2 <- rbind(
 mtd <- rbind(mtd, cv2)
 
 ## Finally sort the metadata fields according to the expected order
-mtd <- mtd_sort(mtd)
+mtd <- mtdSort(mtd)
 mtd
 #>       [,1]                                        
 #>  [1,] "mzTab-version"                             
