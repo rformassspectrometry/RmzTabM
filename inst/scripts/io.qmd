@@ -360,6 +360,20 @@ vignette with the mzTab-M export to *Metabonaut*.
 
 # Importing through *RmzTabM*
 
+```{r}
+mzTabM_file <- importMztabm(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab", package = "RmzTabM"))
+
+mzTabM_MTD_file <- importMztabm(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2_onlyMTD.mzTab", package = "RmzTabM"))
+
+mzTabM_MTD_SMF_file <- importMztabm(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2_MTD_SMF.mzTab", package = "RmzTabM"))
+
+mzTabM_MTD_SML_file <- importMztabm(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2_MTD_SML.mzTab", package = "RmzTabM"))
+
+mzTabM_riken_file <- importMztabm(path = system.file("mztabm/out","riken-lipidomics-r-mtd-sml.mztab", package = "RmzTabM"))
+
+
+```
+
 # Session information
 
 ```{r}

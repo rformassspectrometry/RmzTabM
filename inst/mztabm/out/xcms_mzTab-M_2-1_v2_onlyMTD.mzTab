@@ -1,0 +1,147 @@
+MTD	mzTab-version	2.1.0-M
+MTD	mzTab-ID	xcms_mzTab-M_2-1_v2
+MTD	instrument[1]-name	[MS, MS:1000449, LTQ Orbitrap,]
+MTD	instrument[1]-source	[MS, MS:1000073, ESI,]
+MTD	instrument[1]-detector	[MS, MS:1000253, electron multiplier,]
+MTD	instrument[1]-analyzer[1]	[MS, MS:1000291, linear ion trap,]
+MTD	software[1]	[MS, MS:1001582, xcms, 4.8.0]
+MTD	publication[1]	test pub
+MTD	publication[2]	test pub 2
+MTD	contact[1]-name	author_1
+MTD	contact[1]-affiliation	EURAC
+MTD	contact[1]-email	author_1@mail.com
+MTD	contact[2]-name	author_2
+MTD	contact[2]-affiliation	EURAC
+MTD	contact[2]-email	author_2@mail.com
+MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
+MTD	sample[1]	ko15.CDF
+MTD	sample[2]	ko16.CDF
+MTD	sample[3]	ko21.CDF
+MTD	sample[4]	ko22.CDF
+MTD	sample[5]	wt15.CDF
+MTD	sample[6]	wt16.CDF
+MTD	sample[7]	wt21.CDF
+MTD	sample[8]	wt22.CDF
+MTD	ms_run[1]-location	ko15.CDF
+MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[2]-location	ko16.CDF
+MTD	ms_run[2]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[3]-location	ko21.CDF
+MTD	ms_run[3]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[4]-location	ko22.CDF
+MTD	ms_run[4]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[5]-location	wt15.CDF
+MTD	ms_run[5]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[6]-location	wt16.CDF
+MTD	ms_run[6]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[7]-location	wt21.CDF
+MTD	ms_run[7]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[8]-location	wt22.CDF
+MTD	ms_run[8]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	assay[1]	ko15.CDF
+MTD	assay[1]-sample_ref	sample[1]
+MTD	assay[1]-ms_run_ref	ms_run[1]
+MTD	assay[2]	ko16.CDF
+MTD	assay[2]-sample_ref	sample[2]
+MTD	assay[2]-ms_run_ref	ms_run[2]
+MTD	assay[3]	ko21.CDF
+MTD	assay[3]-sample_ref	sample[3]
+MTD	assay[3]-ms_run_ref	ms_run[3]
+MTD	assay[4]	ko22.CDF
+MTD	assay[4]-sample_ref	sample[4]
+MTD	assay[4]-ms_run_ref	ms_run[4]
+MTD	assay[5]	wt15.CDF
+MTD	assay[5]-sample_ref	sample[5]
+MTD	assay[5]-ms_run_ref	ms_run[5]
+MTD	assay[6]	wt16.CDF
+MTD	assay[6]-sample_ref	sample[6]
+MTD	assay[6]-ms_run_ref	ms_run[6]
+MTD	assay[7]	wt21.CDF
+MTD	assay[7]-sample_ref	sample[7]
+MTD	assay[7]-ms_run_ref	ms_run[7]
+MTD	assay[8]	wt22.CDF
+MTD	assay[8]-sample_ref	sample[8]
+MTD	assay[8]-ms_run_ref	ms_run[8]
+MTD	study_variable_group[1]	sample_group
+MTD	study_variable_group[1]-description	Sample matrix column sample_group
+MTD	study_variable_group[1]-type	[STATO, STATO:0000252, categorical variable, ]
+MTD	study_variable_group[1]-datatype	xsd:string
+MTD	study_variable_group[2]	experiment
+MTD	study_variable_group[2]-description	Sample matrix column experiment
+MTD	study_variable_group[2]-type	[STATO, STATO:0000252, categorical variable, ]
+MTD	study_variable_group[2]-datatype	xsd:string
+MTD	study_variable_group[3]	sample_type
+MTD	study_variable_group[3]-description	Sample matrix column sample_type
+MTD	study_variable_group[3]-type	[STATO, STATO:0000252, categorical variable, ]
+MTD	study_variable_group[3]-datatype	xsd:string
+MTD	study_variable[1]	KO
+MTD	study_variable[1]-assay_refs	assay[1]|assay[2]|assay[3]|assay[4]
+MTD	study_variable[1]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[1]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[1]-description	Variable sample_group, value KO
+MTD	study_variable[1]-group_refs	study_variable_group[1]
+MTD	study_variable[2]	WT
+MTD	study_variable[2]-assay_refs	assay[5]|assay[6]|assay[7]|assay[8]
+MTD	study_variable[2]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[2]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[2]-description	Variable sample_group, value WT
+MTD	study_variable[2]-group_refs	study_variable_group[1]
+MTD	study_variable[3]	exp1
+MTD	study_variable[3]-assay_refs	assay[1]|assay[5]
+MTD	study_variable[3]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[3]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[3]-description	Variable experiment, value exp1
+MTD	study_variable[3]-group_refs	study_variable_group[2]
+MTD	study_variable[4]	exp2
+MTD	study_variable[4]-assay_refs	assay[2]|assay[6]
+MTD	study_variable[4]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[4]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[4]-description	Variable experiment, value exp2
+MTD	study_variable[4]-group_refs	study_variable_group[2]
+MTD	study_variable[5]	exp3
+MTD	study_variable[5]-assay_refs	assay[3]|assay[7]
+MTD	study_variable[5]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[5]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[5]-description	Variable experiment, value exp3
+MTD	study_variable[5]-group_refs	study_variable_group[2]
+MTD	study_variable[6]	exp4
+MTD	study_variable[6]-assay_refs	assay[4]|assay[8]
+MTD	study_variable[6]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[6]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[6]-description	Variable experiment, value exp4
+MTD	study_variable[6]-group_refs	study_variable_group[2]
+MTD	study_variable[7]	QC
+MTD	study_variable[7]-assay_refs	assay[1]|assay[4]|assay[7]
+MTD	study_variable[7]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[7]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[7]-description	Variable sample_type, value QC
+MTD	study_variable[7]-group_refs	study_variable_group[3]
+MTD	study_variable[8]	study
+MTD	study_variable[8]-assay_refs	assay[2]|assay[3]|assay[5]|assay[6]|assay[8]
+MTD	study_variable[8]-average_function	[MS, MS:1002962, mean, ]
+MTD	study_variable[8]-variation_function	[MS, MS:1002963, variation coefficient, ]
+MTD	study_variable[8]-description	Variable sample_type, value study
+MTD	study_variable[8]-group_refs	study_variable_group[3]
+MTD	cv[1]-label	MS
+MTD	cv[1]-full_name	PSI-MS controlled vocabulary
+MTD	cv[1]-version	4.1.138
+MTD	cv[1]-uri	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+MTD	cv[2]-label	PRIDE
+MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary
+MTD	cv[2]-version	16:10:2023 11:38
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/pride
+MTD	cv[3]-label	STATO
+MTD	cv[3]-full_name	General purpose STATistics Ontology
+MTD	cv[3]-version	2026-04-20
+MTD	cv[3]-uri	https://www.ebi.ac.uk/ols4/ontologies/stato
+MTD	cv[4]-label	MS_test
+MTD	cv[4]-full_name	PSI-MS controlled vocabulary
+MTD	cv[4]-version	4.1.11
+MTD	cv[4]-uri	https://purl.obolibrary.org/obo/ms.obo
+MTD	database[1]	[MIRIAM, MIR:00100079, HMDB, ]
+MTD	database[1]-prefix	hmdb
+MTD	database[1]-version	3.6
+MTD	database[1]-uri	http://www.hmdb.ca/
+MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
+MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
+MTD	small_molecule-identification_reliability	[MS, MS:1002896, compound identification confidence level, ]
