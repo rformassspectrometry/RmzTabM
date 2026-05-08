@@ -16,7 +16,8 @@ setMtdField(
 getMtdField(x = matrix(), field = character())
 }
 \arguments{
-\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.}
+\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.
+If all values are \code{NA}, the function returns \code{x} unchanged.}
 
 \item{field}{\code{character} name of the metadata field to set or update.
 Must be a valid \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{MTD field name}. (e.g. \code{"publication"})}
@@ -35,21 +36,20 @@ replaced entirely by the supplied arguments.
 }}
 }
 \value{
-The input object \code{x} updated to include the new or merged field
-metadata. If \code{x} is empty, the empty \code{x}.
-
-\code{character} with the metadata requested.
+\itemize{
+\item For \code{setMtdField()}: the input object \code{x} updated to include the new or
+merged field metadata. If \code{x} is empty, the empty \code{x}.
+\item For \code{getMtdField()}: \code{character()} with the requested metadata.
+}
 }
 \description{
 Sets or updates a generic metadata field within an MTD (metadata)
 section. When the field already exists, the function can either replace it
 entirely or append new values to the existing ones.
-
-Get a generic metadata field within an MTD (metadata) section.
 }
 \examples{
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 ## Add a metadata field to an existing mzTab object
 mtd <- setMtdField(x, field = "publication",
           value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
@@ -59,10 +59,7 @@ mtd <- setMtdField(mtd, field = "custom",
           value = "[,,MS operator, Florian]",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-
-getMtdField(x, field = "mzTab-ID")
+getMtdField(mtd, field = "mzTab-ID")
 
 }
 \author{

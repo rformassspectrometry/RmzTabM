@@ -28,21 +28,21 @@
 #' Generally, MTD data can be categorized into the following parts:
 #'
 #' - *Core information*: general information on the experiment. A minimal
-#'   set can be created using the [mtd_skeleton()] function, which might be
+#'   set can be created using the [mtdSkeleton()] function, which might be
 #'   further expanded with additional fields. This section allows to describe
 #'   the general experimental setup. Also, it should contain references to
 #'   **all** controlled vocabulary (CV) ontologies used and refered to in the
 #'   mzTab-M file.
 #'
 #' - *Sample information*: optional information on individual samples that were
-#'   measured with the various *assays*/*runs*. The [mtd_sample()] function
+#'   measured with the various *assays*/*runs*. The [mtdSample()] function
 #'   assists in compiling the information for this section.
 #'
 #' - *MS run information*: information on the individual MS *runs*
 #'   (measurements of the samples). Each data file is one run. Use the
-#'   [mtd_ms_run()] function to define this part of the metadata section.
+#'   [mtdMsRun()] function to define this part of the metadata section.
 #'
-#' - *Assay information*: the [mtd_assay()] function assists in compiling the
+#' - *Assay information*: the [mtdAssay()] function assists in compiling the
 #'   assay section of the metadata. Mandatory fields are the name (ID) of the
 #'   assay and the reference to the *MS run* in which the assay was measured.
 #'   Optional information on sample reference, external links or custom
@@ -50,7 +50,7 @@
 #'   or pre-fractionated samples) one assay will link to one MS run. Each assay
 #'   **must** represent one column in the following *abundance matrix* sections.
 #'
-#' - *Study variable information*: the [mtd_study_variables()] function allows
+#' - *Study variable information*: the [mtdStudyVariables()] function allows
 #'   to format study variable information from an experiment into the mzTab-M
 #'   format. All study variables need to be assigned to at least one assay and
 #'   must also be reported in the subsequent abundance matrices.
@@ -62,8 +62,8 @@
 #' In addition, various helper functions are available to assist in MTD data
 #' generation:
 #'
-#' - [mtd_sort()]: to sort the MTD `matrix` into the expected order.
-#' - [mtd_fields()]: helps formatting values into the mzTab-M-specific format.
+#' - [mtdSort()]: to sort the MTD `matrix` into the expected order.
+#' - [mtdFields()]: helps formatting values into the mzTab-M-specific format.
 #' - [setMtdInstrument()]/[getMtdInstrument()]: set/get Instrument Metadata in
 #'   an MTD section.
 #' - [setMtdDatabase()]/[getMtdDatabase()]: set/get Database Metadata in an MTD
@@ -129,7 +129,7 @@
 #' ## the compound identification/annotation. These could be provided through
 #' ## the `database*` parameters. Also, the quantification method and unit(s)
 #' ## could be specified using respective parameters of the function.
-#' mtd <- mtd_skeleton(
+#' mtd <- mtdSkeleton(
 #'     id = "EXP_001",
 #'     software = "[MS, MS:1001582], xcms, 4.0.0")
 #' mtd
@@ -141,7 +141,7 @@
 #'     c("description", "The preprocessed data of the experiment 1 samples."))
 #'
 #' ## We also add information on the MS instrumentation used
-#' instr <- mtd_fields(
+#' instr <- mtdFields(
 #'     name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'     source = "[MS, MS:1000073, ESI,]",
 #'     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
@@ -164,7 +164,7 @@
 #' ## specific sample properties that can be defined using the function's
 #' ## parameters, arbitrary custom fields can be defined too. Below we add
 #' ## information on sample extraction as custom information.
-#' mtd_s <- mtd_sample(
+#' mtd_s <- mtdSample(
 #'     sample = unique(exp$sample_id),
 #'     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
 #'     tissue = "[BTO, BTO:0000759, liver, ]",
@@ -185,7 +185,7 @@
 #' ## measurement run on an MS instrument. For this, the original data file
 #' ## names and location should be provided as well as the format of the
 #' ## data files as well as polarity etc.
-#' mtd_msr <- mtd_ms_run(
+#' mtd_msr <- mtdMsRun(
 #'     location = exp$file_name,
 #'     format = "[MS, MS:1000584, mzML file, ]",
 #'     id_format = "[MS, MS:1000530, mzML unique identifier, ]",
@@ -200,7 +200,7 @@
 #' ## Each measurement should be associated to (at least) one assay. For our
 #' ## simple example, each row in the `data.frame` represents one assay, with
 #' ## each assay being measured in one MS run.
-#' a <- mtd_assay(
+#' a <- mtdAssay(
 #'     assay = exp$sample_name,
 #'     sample_ref = c("sample[1]", "sample[1]", "sample[2]", "sample[2]",
 #'                    "sample[3]", "sample[3]"),
@@ -219,7 +219,7 @@
 #' ## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order
 #' ## of the provided `data.frame` has to match the order of the assays (and
 #' ## MS runs).
-#' svar <- mtd_study_variables(
+#' svar <- mtdStudyVariables(
 #'     exp, groups = c("time_point", "genotype", "cell_count", "operator"))
 #' svar
 #'
@@ -230,9 +230,9 @@
 #'
 #' mtd <- rbind(mtd, svar)
 #'
-#' ## Finally, the `mtd_sort()` function can be used to sort the generated
+#' ## Finally, the `mtdSort()` function can be used to sort the generated
 #' ## two-column matrix in the expected order.
-#' mtd <- mtd_sort(mtd)
+#' mtd <- mtdSort(mtd)
 #'
 #' ## This metadata information can next be exported manually, or using the
 #' ## dedicated export helper functions to an mzTab-M file.
@@ -269,7 +269,7 @@ NULL
 #' @examples
 #'
 #' ## Define the CV element with 3 CV terms:
-#' mtd_fields(
+#' mtdFields(
 #'     label = c("a", "b", "c"),
 #'     full_name = c("A", "B", "C"),
 #'     version = c(1, 2, 3),
@@ -277,20 +277,20 @@ NULL
 #'     field_prefix = "cv")
 #'
 #' ## Define a single software:
-#' mtd_fields("[MS, MS:1002879, Progenesis QI, 3.0]", field_prefix = "software")
+#' mtdFields("[MS, MS:1002879, Progenesis QI, 3.0]", field_prefix = "software")
 #'
 #' ## Define two softwares:
-#' mtd_fields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
+#' mtdFields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
 #'     field_prefix = "software")
 #'
 #' ## Define a software with the optional setting
-#' mtd_fields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
+#' mtdFields(c("[MS, MS:1002879, Progenesis QI, 3.0]", "[a, b, c, d]"),
 #'     `setting[1]` = c("my cool settings", "none"),
 #'     `setting[2]` = c("other setting", "none"),
 #'     field_prefix = "software")
 #'
 #' ## Define database fields
-#' mtd_fields(
+#' mtdFields(
 #'    c("[MITIAM, MRI:00100079, HMDB, ]", "[,, de novo, ]"),
 #'    prefix = c("hmdb", "dn"),
 #'    version = c("3.6", "Unknown"),
@@ -299,7 +299,7 @@ NULL
 #' )
 #'
 #' @export
-mtd_fields <- function(..., field_prefix = "") {
+mtdFields <- function(..., field_prefix = "") {
     dots <- list(...)
     ls <- lengths(dots)
     if (length(unique(ls)) > 1)
@@ -326,7 +326,7 @@ mtd_fields <- function(..., field_prefix = "") {
 #' and provides general information of the data set. It should contain
 #' references to **all** controlled vocabulary (CV) ontologies used and
 #' refered to in the mzTab-M file.
-#' The `mtd_skeleton()` function creates a two-column `matrix` with the
+#' The `mtdSkeleton()` function creates a two-column `matrix` with the
 #' basic mzTab-M *MTD* section based on the provided data. The returned
 #' result contains only minimal information. It should be expanded, corrected
 #' and completed with additional fields and information (i.e., the
@@ -385,7 +385,7 @@ mtd_fields <- function(..., field_prefix = "") {
 #'
 #' @return two-column `character` `matrix` that should be expanded with
 #'     additional fields (such as *title*, *description* etc) and
-#'     information (with the help from the `mtd_fields()` function).
+#'     information (with the help from the `mtdFields()` function).
 #'
 #' @author Philippine Louail, Johannes Rainer
 #'
@@ -396,7 +396,7 @@ mtd_fields <- function(..., field_prefix = "") {
 #' @examples
 #'
 #' ## Define a minimal mzTab-M metadata information
-#' mtd <- mtd_skeleton(id = "001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' mtd <- mtdSkeleton(id = "001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #'
 #' ## Column 1 has the field names
 #' mtd[, 1]
@@ -413,7 +413,7 @@ mtd_fields <- function(..., field_prefix = "") {
 #' tail(mtd)
 #'
 #' ## Add instrument information
-#' instr <- mtd_fields(
+#' instr <- mtdFields(
 #'     name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'     source = "[MS, MS:1000073, ESI,]",
 #'     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
@@ -425,8 +425,8 @@ mtd_fields <- function(..., field_prefix = "") {
 #' ## Add this information to the metadata
 #' mtd <- rbind(mtd, instr)
 #'
-#' ## Define sample processing fields using the mtd_fields function
-#' sp <- mtd_fields(
+#' ## Define sample processing fields using the mtdFields function
+#' sp <- mtdFields(
 #'     c("[MSIO, MSIO:0000146, centrifugation,]",
 #'       "[MSIO, MSIO:0000141, metabolite extraction,]",
 #'       "[MSIO, MSIO:0000141, silylation,]"),
@@ -450,9 +450,9 @@ mtd_fields <- function(..., field_prefix = "") {
 #' mtd <- rbind(mtd, cv2)
 #'
 #' ## Finally sort the metadata fields according to the expected order
-#' mtd <- mtd_sort(mtd)
+#' mtd <- mtdSort(mtd)
 #' mtd
-mtd_skeleton <- function(id = character(),
+mtdSkeleton <- function(id = character(),
                          software = character(),
                          quantification_method = "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]",
                          cv_label = c("MS", "PRIDE", "STATO"),
@@ -475,10 +475,12 @@ mtd_skeleton <- function(id = character(),
                          mztab_version = "2.1.0-M") {
     if (!length(id)) stop("Parameter 'id' is required", call. = FALSE)
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
+    if (!isCvParameter(software))
+        software <- paste0("[,,", software, ",]")
     sk <- rbind(
         c("mzTab-version", mztab_version),
         c("mzTab-ID", id),
-        mtd_fields(software, field_prefix = "software"),
+        mtdFields(software, field_prefix = "software"),
         c("quantification_method", quantification_method),
         .cv(cv_label, cv_full_name, cv_version, cv_uri),
         .database(database, database_prefix, database_version, database_uri),
@@ -491,14 +493,14 @@ mtd_skeleton <- function(id = character(),
     )
     ## Add sample and run information...
     ## Order them.
-    mtd_sort(sk)
+    mtdSort(sk)
 }
 
 #' @title msTab-M *sample* metadata information
 #'
 #' @description
 #'
-#' The `mtd_samples()` function aids in creating and formatting the (optional)
+#' The `mtdSamples()` function aids in creating and formatting the (optional)
 #' sample information from the mzTab-M metadata section. If defined, the sample
 #' information **must** be correctly linked to from the *assay* section. In
 #' particular, the assays need to link to the index of the samples defined in
@@ -557,15 +559,15 @@ mtd_skeleton <- function(id = character(),
 #'     time_point = c(1, 2, 1, 2))
 #'
 #' ## Define a minimal sample information with just the sample names.
-#' mtd_sample(unique(pd$sample_name))
+#' mtdSample(unique(pd$sample_name))
 #'
 #' ## Add also species information: each sample from the same species
-#' mtd_sample(
+#' mtdSample(
 #'     sample = unique(pd$sample_name),
 #'     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]")
 #'
 #' ## Assume first sample is a mixture of two species
-#' mtd_sample(
+#' mtdSample(
 #'     sample = unique(pd$sample_name),
 #'     species = list(c("[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
 #'                      "[NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]"),
@@ -573,7 +575,7 @@ mtd_skeleton <- function(id = character(),
 #' )
 #'
 #' ## Add full information including tissue, cell type and disease
-#' mtd_sample(
+#' mtdSample(
 #'     sample = unique(pd$sample_name),
 #'     species = list(c("[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
 #'                      "[NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]"),
@@ -586,19 +588,19 @@ mtd_skeleton <- function(id = character(),
 #' )
 #'
 #' ## Add also additional custom variables
-#' mtd_sample(sample = c("A", "B"),
+#' mtdSample(sample = c("A", "B"),
 #'     c("[,,Extraction date, 2011-12-21]",
 #'       "[,,Extraction date, 2011-12-22]"),
 #'     c("[,,Extraction reason, liver biopsy]",
 #'       "[,,Extraction reason, liver biopsy]"))
-mtd_sample <- function(..., sample = character(), species = list(),
+mtdSample <- function(..., sample = character(), species = list(),
                        tissue = list(), cell_type = list(), disease = list(),
                        description = character()) {
     l <- length(sample)
     if (!l)
         return(matrix(ncol = 2, nrow = 0, NA_character_))
     s <- seq_len(l)
-    res <- cbind(mtd_fields(sample, field_prefix = "sample"), order = s)
+    res <- cbind(mtdFields(sample, field_prefix = "sample"), order = s)
     if (length(species)) {
         if (length(species) != l)
             species <- rep(species[1], l)
@@ -628,7 +630,7 @@ mtd_sample <- function(..., sample = character(), species = list(),
             stop("If provided, 'description' has to be of length equal to the",
                  " number of samples", call. = FALSE)
         res <- rbind(res,
-                     cbind(mtd_fields(description = description,
+                     cbind(mtdFields(description = description,
                                       field_prefix = "sample"),
                            s))
     }
@@ -641,7 +643,7 @@ mtd_sample <- function(..., sample = character(), species = list(),
 #'
 #' @description
 #'
-#' The `mtd_ms_run()` function allows to define and format the *ms_run* fields
+#' The `mtdMsRun()` function allows to define and format the *ms_run* fields
 #' of the mzTab-M metadata. The information is build on the actual data file
 #' names along with optional additional parameters to characterize the MS
 #' run(s).
@@ -704,18 +706,18 @@ mtd_sample <- function(..., sample = character(), species = list(),
 #'
 #' ## Build a very basic MTD ms_run section for two data files
 #' fls <- c("file:///path/to/file/a.mzML", "file:///path/to/file/b.mzML")
-#' mtd_ms_run(location = fls, scan_polarity = "positive")
+#' mtdMsRun(location = fls, scan_polarity = "positive")
 #'
 #' ## Add also instrument reference information
-#' mtd_ms_run(location = fls, scan_polarity = "positive", instrument_ref = 1)
+#' mtdMsRun(location = fls, scan_polarity = "positive", instrument_ref = 1)
 #'
 #' ## Finally, add a fragmentation method used for the second file - no
 #' ## fragmentation was used for the first file, thus `NULL` is specified.
 #' ## Parameter `fragmentation_method` expects a `list` as input to support
 #' ## also multiple fragmentation methods per MS run.
-#' mtd_ms_run(location = fls, scan_polarity = "positive",
+#' mtdMsRun(location = fls, scan_polarity = "positive",
 #'     fragmentation_method = list(NULL, "[MS, MS:1000133, CID, ]"))
-mtd_ms_run <- function(location = character(),
+mtdMsRun <- function(location = character(),
                        instrument_ref = integer(),
                        format = character(),
                        id_format = character(),
@@ -785,9 +787,9 @@ mtd_ms_run <- function(location = character(),
 #'
 #' @description
 #'
-#' The `mtd_assay()` function assists in compiling the *assay* information of
+#' The `mtdAssay()` function assists in compiling the *assay* information of
 #' the metadata section. Each assay **must** be associated with at least one
-#' entry of the *ms_run* section (see [mtd_ms_run()]). This mapping can be
+#' entry of the *ms_run* section (see [mtdMsRun()]). This mapping can be
 #' defined with the `ms_run_ref` parameter by providing the ID/name of the
 #' run (e.g. `"ms_run[1]"`).
 #'
@@ -835,21 +837,21 @@ mtd_ms_run <- function(location = character(),
 #' ## Minimal example with assay and ms_run_ref defined, each assay assigned
 #' ## to its own MS run. Note that for **all** parameters the **full**
 #' ## parameter name has to be used (e.g., `assay = `).
-#' mtd_assay(assay = c("a1", "a2", "a3"),
+#' mtdAssay(assay = c("a1", "a2", "a3"),
 #'     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"))
 #'
 #' ## Example for a multiplexed assay.
-#' mtd_assay(assay = c("a1", "a2", "a3"),
+#' mtdAssay(assay = c("a1", "a2", "a3"),
 #'     ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[1]"))
 #'
 #' ## Example for a pre-fractionated samples
-#' mtd_assay(assay = c("a1", "a2", "a3"),
+#' mtdAssay(assay = c("a1", "a2", "a3"),
 #'     ms_run_ref = list(c("ms_run[1]", "ms_run[2]"),
 #'                       c("ms_run[3]", "ms_run[4]"),
 #'                       c("ms_run[5]", "ms_run[6]")))
 #'
 #' ## Example adding also sample reference and an external_uri
-#' mtd_assay(
+#' mtdAssay(
 #'     assay = c("a1", "a2", "a3"),
 #'     external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
 #'     sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
@@ -857,12 +859,12 @@ mtd_ms_run <- function(location = character(),
 #'
 #' ## Providing additional, custom information for each assay. These can be
 #' ## passed as `character` vectors (same length than `assay`!).
-#' mtd_assay(assay = c("a1", "a2", "a3"),
+#' mtdAssay(assay = c("a1", "a2", "a3"),
 #'     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"),
 #'     c("[MS, , Assay operator, Fred Blogs]",
 #'       "[MS, , Assay operator, Fred Blogs]",
 #'       "[MS, , Assay operator, Frodo]"))
-mtd_assay <- function(..., assay = character(), external_uri = character(),
+mtdAssay <- function(..., assay = character(), external_uri = character(),
                       sample_ref = character(), ms_run_ref = character()) {
     l <- length(assay)
     if (!length(assay))
@@ -873,17 +875,17 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
         stop("lengths of parameters 'assay' and 'ms_run_ref' have to match",
              call. = FALSE)
     s <- seq_len(l)
-    res <- cbind(mtd_fields(assay, field_prefix = "assay"), order = s)
+    res <- cbind(mtdFields(assay, field_prefix = "assay"), order = s)
     if (length(external_uri)) {
         if (length(external_uri) != l) external_uri <- rep(external_uri[1L], l)
-        res <- rbind(res, cbind(mtd_fields(external_uri = external_uri,
+        res <- rbind(res, cbind(mtdFields(external_uri = external_uri,
                                            field_prefix = "assay"), s))
     }
     if (length(sample_ref)) {
         if (length(sample_ref) != l)
             stop("Length of 'sample_ref' has to match the length of 'assay'",
                  call. = FALSE)
-        res <- rbind(res, cbind(mtd_fields(sample_ref = sample_ref,
+        res <- rbind(res, cbind(mtdFields(sample_ref = sample_ref,
                                            field_prefix = "assay"), s))
     }
     if (is.list(ms_run_ref)) {
@@ -895,7 +897,7 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
                               ms_run_ref, prefix = "assay",
                               suffix = "ms_run_ref")))
     } else
-        res <- rbind(res, cbind(mtd_fields(ms_run_ref = ms_run_ref,
+        res <- rbind(res, cbind(mtdFields(ms_run_ref = ms_run_ref,
                                            field_prefix = "assay"), s))
     ## Optional "custom" fields passed through ...
     res <- rbind(
@@ -915,7 +917,7 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #' In R, the most common representation of an experimental design is a
 #' `data.frame` where rows are individual samples (assays) and columns the
 #' experimental or phenotypic conditions (variables). The
-#' `mtb_study_variables()` takes such a `data.frame` as input and encodes it
+#' `mtdStudyVariables()` takes such a `data.frame` as input and encodes it
 #' into the mzTab-M format. Additional parameters such as `group_description`,
 #' and `group_type` allow to provide additional information for each study
 #' variable group (phenotype) while parameters `average_function`,
@@ -929,10 +931,10 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #' Each assay of a data set must be referred to from at least one study
 #' variable. Even if a data set has no experimental variables, a study variable
 #' group and study variable with the name `"undefined"` **must** be reported.
-#' Using `mtb_study_variables()` without specifying parameter `group` will
+#' Using `mtdStudyVariables()` without specifying parameter `group` will
 #' create such a setup.
 #'
-#' The `mtd_define_study_variables()` function can be used to get the set
+#' The `mtdDefineStudyVariables()` function can be used to get the set
 #' (and order) of study variables that would be generated from an input
 #' `data.frame` depending on the parameter `groups`.
 #'
@@ -944,7 +946,7 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #' @param x `data.frame` with rows corresponding to individual *assays* and
 #'     columns containing the experimental conditions/study variables. The
 #'     number of rows is thus expected to be the same as the number of assays
-#'     defined in the *assay* metadata section (using e.g., [mtd_assay()]) and
+#'     defined in the *assay* metadata section (using e.g., [mtdAssay()]) and
 #'     the order of rows is expected to match the order of these.
 #'
 #' @param groups `character` with the names of the columns in `x` that should
@@ -985,7 +987,7 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #'     calculate the study variable quantification value (reported in the
 #'     following table(s)). Can be of length 1 or equal to the number of study
 #'     variables (to allow defining a different function per variable). Use
-#'     `mtd_define_study_variables()` to get the complete set of study
+#'     `mtdDefineStudyVariables()` to get the complete set of study
 #'     variables for parameters `x` and `groups`. Defaults to the arithmetic
 #'     mean (`average_function = "[MS, MS:1002962, mean, ]"`).
 #'
@@ -993,14 +995,14 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #'     calculate the study variable quantification variation value (reported in
 #'     the following table(s)). Can be of length 1 or equal to the number of
 #'     study variables (to allow defining a different function per variable).
-#'     Use `mtd_define_study_variables()` to get the complete set of study
+#'     Use `mtdDefineStudyVariables()` to get the complete set of study
 #'     variables for parameters `x` and `groups`. Defaults
 #'     to the coefficient of variation
 #'     (`variation_function = "[MS, MS:1002963, variation coefficient, ]"`).
 #'
 #' @param description `character` with a textual description of the study
 #'     variable. If provided, its length needs to be equal to the number of
-#'     study variables. Use `mtd_define_study_variables()` to get the complete
+#'     study variables. Use `mtdDefineStudyVariables()` to get the complete
 #'     set of study variables for parameters `x` and `groups`.
 #'     If not provided (the default) the values for the study variable group
 #'     and study variable are reported.
@@ -1029,22 +1031,22 @@ mtd_assay <- function(..., assay = character(), external_uri = character(),
 #'
 #' ## Study variable groups for this data set could be `"individual"`, `"BMI"`,
 #' ## `"timepoint"` and `"T2D"`
-#' mtd_study_variables(x, groups = c("individual", "BMI", "timepoint", "T2D"))
+#' mtdStudyVariables(x, groups = c("individual", "BMI", "timepoint", "T2D"))
 #'
 #' ## Specifying a different average and variation function and selecting
 #' ## just two sample columns
-#' mtd_study_variables(x,
+#' mtdStudyVariables(x,
 #'     groups = c("timepoint", "T2D"),
 #'     average_function = "[MS, MS:1002883, median, ]",
 #'     variation_function = "[MS, MS:1002885, standard error, ]")
 #'
 #' ## Creating a study variable section without defined study variable groups
-#' mtd_study_variables(x)
+#' mtdStudyVariables(x)
 #'
-#' ## Use `mtd_define_study_variables()` to get the definition of study
+#' ## Use `mtdDefineStudyVariables()` to get the definition of study
 #' ## variables for a given `x` and `groups`
-#' mtd_define_study_variables(x, c("T2D", "BMI", "individual"))
-mtd_study_variables <- function(x, groups = character(),
+#' mtdDefineStudyVariables(x, c("T2D", "BMI", "individual"))
+mtdStudyVariables <- function(x, groups = character(),
                                 group_description = character(),
                                 group_type = character(),
                                 group_datatype = character(),
@@ -1118,10 +1120,10 @@ mtd_study_variables <- function(x, groups = character(),
     res
 }
 
-#' @rdname mtd_study_variables
+#' @rdname mtdStudyVariables
 #'
 #' @export
-mtd_define_study_variables <- function(x = data.frame(), groups = character()) {
+mtdDefineStudyVariables <- function(x = data.frame(), groups = character()) {
     if (!nrow(x))
         return(data.frame(study_variable = character(),
                           study_variable_group = character()))
@@ -1136,7 +1138,7 @@ mtd_define_study_variables <- function(x = data.frame(), groups = character()) {
 #' @description
 #'
 #' Helper function to sort a mzTab-M *MTD* `matrix`, such as generated by
-#' [mtd_skeleton()], into the correct order of the metadata fields.
+#' [mtdSkeleton()], into the correct order of the metadata fields.
 #'
 #' @param x two-column matrix with the first column containing the metadata
 #'     field names.
@@ -1148,7 +1150,7 @@ mtd_define_study_variables <- function(x = data.frame(), groups = character()) {
 #' @seealso [MTD-export] for other functions defining metadata information
 #'
 #' @export
-mtd_sort <- function(x) {
+mtdSort <- function(x) {
     x[.sort_order(x[, 1L], .MTD_FIELD_ORDER), , drop = FALSE]
 }
 
@@ -1178,14 +1180,14 @@ mtd_sort <- function(x) {
 .cv <- function(label = character(), full_name = character(),
                 version = character(), uri = character()) {
     if (!length(label)) return(matrix(NA_character_, ncol = 2, nrow = 0))
-    mtd_fields(label = label, full_name = full_name, version = version,
+    mtdFields(label = label, full_name = full_name, version = version,
                uri = uri, field_prefix = "cv")
 }
 
 .database <- function(database = character(), prefix = character(),
                       version = character(), uri = character()) {
     if (!length(database)) return(matrix(NA_character_, ncol = 2, nrow = 0))
-    mtd_fields(database, prefix = prefix, version = version, uri = uri,
+    mtdFields(database, prefix = prefix, version = version, uri = uri,
                field_prefix = "database")
 }
 
@@ -1193,7 +1195,7 @@ mtd_sort <- function(x) {
 #' passed through `...`. It is somewhat similar to the `.mtd_multi_fields()`,
 #' but takes arbitrary many input variables, that have however all to have
 #' the same length. Thus, it is expected that for each element exactly one
-#' value is provided, while `mtd_multi_fields()` supports a variable number
+#' value is provided, while `.mtd_multi_fields()` supports a variable number
 #' of values per element (and hence requires a `list` as input).
 #'
 #' @return `character` `matrix` with 3 columns (third column being the index)
@@ -1398,7 +1400,7 @@ mtd_sort <- function(x) {
 #' Helper to extract field values for provided field keys (names).
 #'
 #' @param x two column `data.frame` or `matrix` in the format created by
-#'     `mtd_skeleton()`, first column being the field names, second the
+#'     `mtdSkeleton()`, first column being the field names, second the
 #'     values.
 #'
 #' @param name `character` with the name(s) of the fields to extract.
@@ -1505,12 +1507,12 @@ mtd_sort <- function(x) {
             stop("If provided, the length of 'group_type' has to match the ",
                  "number of study variable groups.", call. = FALSE)
         ## Check that it contains supported types.
-        st <- parse_cv_parameter(group_type)
-        idx <- match(st, parse_cv_parameter(.STUDY_VARIABLE_GROUP_TYPE$stato))
+        st <- parseCvParameter(group_type)
+        idx <- match(st, parseCvParameter(.STUDY_VARIABLE_GROUP_TYPE$stato))
         if (anyNA(idx)) {
             stop("Group types ", paste0("\"", st[is.na(idx)], "\"",
                                         collapse = ", "),
-                 " are not supported. See ?mtd_study_variables for supported",
+                 " are not supported. See ?mtdStudyVariables for supported",
                  " study variable group types.", call. = FALSE)
         }
         .STUDY_VARIABLE_GROUP_TYPE$stato[idx]
@@ -1563,7 +1565,7 @@ mtd_sort <- function(x) {
         if (anyNA(idx)) {
             stop("Group datatypes ",
                  paste0("\"", group_datatype[is.na(idx)], "\"",collapse = ", "),
-                 " are not supported. See ?mtd_study_variables for supported",
+                 " are not supported. See ?mtdStudyVariables for supported",
                  " study variable group datatypes.", call. = FALSE)
         }
         .STUDY_VARIABLE_GROUP_DATATYPE$xsd[idx]
@@ -1591,7 +1593,7 @@ mtd_sort <- function(x) {
                  "**not** want to define a unit.", call. = FALSE)
         group_unit[is.na(group_unit)] <- ""
         idx <- which(nchar(group_unit) > 0)
-        if (length(idx) && any(i <- !is_cv_parameter(group_unit[idx])))
+        if (length(idx) && any(i <- !isCvParameter(group_unit[idx])))
             stop("Provided value(s) in 'group_unit': ",
                  paste0("\"", group_unit[idx][i], "\"", collapse = ", "),
                  " is/are not a CV parameter.", call. = FALSE)
@@ -1642,14 +1644,17 @@ mtd_sort <- function(x) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged instrument
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdInstrument()`: the input object `x` updated to include the new
+#'   or merged instrument metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdInstrument()`: the instrument information.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add instrument metadata to an existing mzTab object
 #' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'           source = "[MS, MS:1000073, ESI,]",
@@ -1662,6 +1667,14 @@ mtd_sort <- function(x) {
 #'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
 #'           detector = "[MS, MS:1000253, electron multiplier,]",
 #'           replace = TRUE)
+#'
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+#' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+#'           source = "[MS, MS:1000073, ESI,]",
+#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           detector = "[MS, MS:1000253, electron multiplier,]")
+#'
+#' getMtdInstrument(mtd)
 #'
 #' @export
 setMtdInstrument <- function(x = matrix(), name = character(),
@@ -1693,36 +1706,14 @@ setMtdInstrument <- function(x = matrix(), name = character(),
             }
             x <- x[!(x[, 1] %in% names(instr)), ]
         }
-        new_instr <- do.call(mtd_fields, c(list(field_prefix = "instrument"),
-                                            list_param))
-        x <- mtd_sort(rbind(x, new_instr))
+        new_instr <- do.call(mtdFields, c(list(field_prefix = "instrument"),
+                                          list_param))
+        x <- mtdSort(rbind(x, new_instr))
     }
     x
 }
 
-#' @title Get the Instrument fields from a MTD section
-#'
-#' @name MTD-instrument
-#'
-#' @description
-#'
-#' Get the Instrument fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the Instrument.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
-#'           source = "[MS, MS:1000073, ESI,]",
-#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
-#'           detector = "[MS, MS:1000253, electron multiplier,]")
-#'
-#' getMtdInstrument(x)
+#' @rdname MTD-instrument
 #'
 #' @export
 getMtdInstrument <- function(x = matrix()) {
@@ -1766,14 +1757,17 @@ getMtdInstrument <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged database
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdDatabase()`: the input object `x` updated to include the new
+#'   or merged database metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdDatabase()`: get the database metadata.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add database metadata to an existing mzTab object
 #' mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
 #'           prefix = "hmdb",
@@ -1786,6 +1780,9 @@ getMtdInstrument <- function(x = matrix()) {
 #'           version = "3.6",
 #'           uri = "http://www.hmdb.ca/",
 #'           replace = TRUE)
+#'
+#' ## Get the database metadata
+#' getMtdDatabase(mtd)
 #'
 #' @export
 setMtdDatabase <- function(x = matrix(), name = character(),
@@ -1825,35 +1822,12 @@ setMtdDatabase <- function(x = matrix(), name = character(),
         }
         new_db <- .database(list_param$name, list_param$prefix,
                             list_param$version, list_param$uri)
-        x <- mtd_sort(rbind(x, new_db))
+        x <- mtdSort(rbind(x, new_db))
     }
     x
 }
 
-
-#' @title Get the databse fields from a MTD section
-#'
-#' @name MTD-database
-#'
-#' @description
-#'
-#' Get the databse fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the database.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
-#'           prefix = "hmdb",
-#'           version = "3.6",
-#'           uri = "http://www.hmdb.ca/")
-#'
-#' getMtdDatabase(x)
+#' @rdname MTD-database
 #'
 #' @export
 getMtdDatabase <- function(x = matrix()) {
@@ -1899,14 +1873,17 @@ getMtdDatabase <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged CV
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdCv()`: the input object `x` updated to include the new or
+#'   merged CV metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdCv()`: returns the CV information.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add CV metadata to an existing mzTab object
 #' mtd <- setMtdCv(x, label = "MS",
 #'           full_name = "PSI-MS controlled vocabulary",
@@ -1919,6 +1896,9 @@ getMtdDatabase <- function(x = matrix()) {
 #'           version = "4.1.11",
 #'           uri = "https://purl.obolibrary.org/obo/ms.obo",
 #'           replace = TRUE)
+#'
+#' ## Get CV infrmation
+#' getMtdCv(mtd)
 #'
 #' @export
 setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
@@ -1951,34 +1931,12 @@ setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
         }
         new_cv <- .cv(list_param$label, list_param$full_name,
                         list_param$version, list_param$uri)
-        x <- mtd_sort(rbind(x, new_cv))
+        x <- mtdSort(rbind(x, new_cv))
     }
     x
 }
 
-#' @title Get the CV fields from a MTD section
-#'
-#' @name MTD-CV
-#'
-#' @description
-#'
-#' Get the CV fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the CV.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdCv(x, label = "MS",
-#'           full_name = "PSI-MS controlled vocabulary",
-#'           version = "4.1.11",
-#'           uri = "https://purl.obolibrary.org/obo/ms.obo")
-#'
-#' getMtdCv(x)
+#' @rdname MTD-CV
 #'
 #' @export
 getMtdCv <- function(x = matrix()) {
@@ -2012,14 +1970,17 @@ getMtdCv <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged contact
-#'     metadata fields. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdContact()`: the input object `x` updated to include the new or
+#'   merged contact metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdContact()`: returns the contact information.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 #' ## Add contact metadata to an existing mzTab object
 #' mtd <- setMtdContact(x, name = "Name Surname",
 #'           affiliation = "PSI-MS",
@@ -2030,6 +1991,9 @@ getMtdCv <- function(x = matrix()) {
 #'           affiliation = "PSI-MS",
 #'           email = "name.surname@mail.com",
 #'           replace = TRUE)
+#'
+#'
+#' getMtdContact(mtd)
 #'
 #' @export
 setMtdContact <- function(x = matrix(), name = character(),
@@ -2058,35 +2022,14 @@ setMtdContact <- function(x = matrix(), name = character(),
             }
             x <- x[!(x[, 1] %in% names(contact)), ]
         }
-        new_contact <- do.call(mtd_fields, c(list(field_prefix = "contact"),
+        new_contact <- do.call(mtdFields, c(list(field_prefix = "contact"),
                                             list_param))
-        x <- mtd_sort(rbind(x, new_contact))
+        x <- mtdSort(rbind(x, new_contact))
     }
     x
 }
 
-#' @title Get the Contact fields from a MTD section
-#'
-#' @name MTD-contact
-#'
-#' @description
-#'
-#' Get the Contact fields within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @return `character` with the contacts.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#' mtd <- setMtdContact(x, name = "Name Surname",
-#'           affiliation = "PSI-MS",
-#'           email = "name.surname@mail.com")
-#'
-#' getMtdContact(x)
+#' @rdname MTD-contact
 #'
 #' @export
 getMtdContact <- function(x = matrix()) {
@@ -2122,14 +2065,17 @@ getMtdContact <- function(x = matrix()) {
 #'         replaced entirely by the supplied arguments.
 #'     }
 #'
-#' @return The input object `x` updated to include the new or merged field
-#'     metadata. If `x` is empty, the empty `x`.
+#' @return
+#'
+#' - For `setMtdField()`: the input object `x` updated to include the new or
+#'   merged field metadata. If `x` is empty, the empty `x`.
+#' - For `getMtdField()`: `character()` with the requested metadata.
 #'
 #' @author Gabriele Tomè
 #'
 #' @examples
 #'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 #' ## Add a metadata field to an existing mzTab object
 #' mtd <- setMtdField(x, field = "publication",
 #'           value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
@@ -2138,6 +2084,8 @@ getMtdContact <- function(x = matrix()) {
 #' mtd <- setMtdField(mtd, field = "custom",
 #'           value = "[,,MS operator, Florian]",
 #'           replace = TRUE)
+#'
+#' getMtdField(mtd, field = "mzTab-ID")
 #'
 #' @export
 setMtdField <- function(x = matrix(), field = character(), value = character(),
@@ -2170,35 +2118,14 @@ setMtdField <- function(x = matrix(), field = character(), value = character(),
                 }
                 x <- x[!(x[, 1] %in% names(existing_field)), ]
             }
-            new_field <- mtd_fields(value, field_prefix = field)
+            new_field <- mtdFields(value, field_prefix = field)
         }
-        x <- mtd_sort(rbind(x, new_field))
+        x <- mtdSort(rbind(x, new_field))
     }
     x
 }
 
-#' @title Get a Metadata Field from a MTD section
-#'
-#' @name MTD-field
-#'
-#' @description
-#'
-#' Get a generic metadata field within an MTD (metadata) section.
-#'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'
-#' @param field `character` name of the metadata field to set or update.
-#'     Must be a valid [MTD field name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section). (e.g. `"publication"`)
-#'
-#' @return `character` with the metadata requested.
-#'
-#' @author Gabriele Tomè
-#'
-#' @examples
-#'
-#' x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-#'
-#' getMtdField(x, field = "mzTab-ID")
+#' @rdname MTD-field
 #'
 #' @export
 getMtdField <- function(x = matrix(), field = character()) {

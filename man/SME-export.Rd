@@ -2,13 +2,13 @@
 % Please edit documentation in R/SME.R
 \name{SME-export}
 \alias{SME-export}
-\alias{sme_create}
-\alias{sme_sort}
-\alias{sme_id_confidence_measure}
-\alias{sme_spectra_ref_validator}
+\alias{smeCreate}
+\alias{smeSort}
+\alias{smeIdConfidenceMeasure}
+\alias{smeSpectraRefValidator}
 \title{Creating the mzTab-M Small Molecule (SME) Table}
 \usage{
-sme_create(
+smeCreate(
   ...,
   evidence_input_id = character(),
   database_identifier = character(),
@@ -30,11 +30,11 @@ sme_create(
   mtd = NULL
 )
 
-sme_sort(x)
+smeSort(x)
 
-sme_id_confidence_measure(x, mtd, nr = numeric())
+smeIdConfidenceMeasure(x, mtd, nr = numeric())
 
-sme_spectra_ref_validator(x, mtd)
+smeSpectraRefValidator(x, mtd)
 }
 \arguments{
 \item{...}{optional columns to be added to the SME. The length of arguments
@@ -150,11 +150,11 @@ definition of the data set. The first column needs to contain the
 metadata field names, the second the corresponding values. See
 \link{MTD-export} help page for more information.}
 
-\item{x}{for \code{sme_spectra_ref_validator()}: \code{character} with reference to a
+\item{x}{for \code{smeSpectraRefValidator()}: \code{character} with reference to a
 spectrum in a spectrum file.
-For \code{sme_id_confidence_measure()}: \code{matrix} or \code{data.frame} with any
+For \code{smeIdConfidenceMeasure()}: \code{matrix} or \code{data.frame} with any
 statistical value or score for the identification.
-For \code{sml_sort()}: a SML \code{data.frame}, such as created by \code{sml_create()}.}
+For \code{smeSort()}: a SML \code{data.frame}, such as created by \code{smeCreate()}.}
 
 \item{nr}{\code{numeric} with the number of small molecule evidence.}
 }
@@ -183,7 +183,7 @@ of the mzTab-M specification.
 
 The functions to create and format the SME content are:
 \itemize{
-\item \code{sme_create()}: provides a simplified workflow to generate this table in a
+\item \code{smeCreate()}: provides a simplified workflow to generate this table in a
 single step. It takes vectors defining feature properties.
 
 It automatically:
@@ -205,14 +205,14 @@ of rows or 1, an error is raised.
 
 See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#65-small-molecule-evidence-sme-section}{specification of the SMF section}
 for details.
-\item \code{sme_sort()}: can be used to sort the columns of the SME data frame
+\item \code{smeSort()}: can be used to sort the columns of the SME data frame
 according to the standard order defined in the mzTab-M specification.
 This is useful if you have added custom columns and want to ensure the
 standard columns are in the correct order for export.
 }
 }
 \details{
-All parameters passed to the \code{sme_create()} function must be \strong{fully named}.
+All parameters passed to the \code{smeCreate()} function must be \strong{fully named}.
 }
 \examples{
 
@@ -247,7 +247,7 @@ ms_level = "[MS, MS:1000511, ms level, 2]"
 
 ## Create the final dataframe ready for export
 ## Note: Fields not provided are automatically set to "null"
-sme_final <- sme_create(
+sme_final <- smeCreate(
     evidence_input_id = evidence_input_id,
     exp_mass_to_charge = exp_mass_to_charge,
     charge = charge,

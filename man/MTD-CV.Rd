@@ -18,7 +18,8 @@ setMtdCv(
 getMtdCv(x = matrix())
 }
 \arguments{
-\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.}
+\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.
+If all values are \code{NA}, the function returns \code{x} unchanged.}
 
 \item{label}{\code{character} describing the labels of the controlled
 vocabularies/ontologies used in the \emph{mzTab-M} file (e.g. \code{"MS"} for
@@ -47,21 +48,20 @@ replaced entirely by the supplied arguments.
 }}
 }
 \value{
-The input object \code{x} updated to include the new or merged CV
-metadata fields. If \code{x} is empty, the empty \code{x}.
-
-\code{character} with the CV.
+\itemize{
+\item For \code{setMtdCv()}: the input object \code{x} updated to include the new or
+merged CV metadata fields. If \code{x} is empty, the empty \code{x}.
+\item For \code{getMtdCv()}: returns the CV information.
+}
 }
 \description{
 Sets or updates CV-related metadata fields within an MTD (metadata)
 section. When CV metadata already exists, the function can either replace it
 entirely or append new values to the existing ones.
-
-Get the CV fields within an MTD (metadata) section.
 }
 \examples{
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add CV metadata to an existing mzTab object
 mtd <- setMtdCv(x, label = "MS",
           full_name = "PSI-MS controlled vocabulary",
@@ -75,14 +75,8 @@ mtd <- setMtdCv(mtd, label = "MS",
           uri = "https://purl.obolibrary.org/obo/ms.obo",
           replace = TRUE)
 
-
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-mtd <- setMtdCv(x, label = "MS",
-          full_name = "PSI-MS controlled vocabulary",
-          version = "4.1.11",
-          uri = "https://purl.obolibrary.org/obo/ms.obo")
-
-getMtdCv(x)
+## Get CV infrmation
+getMtdCv(mtd)
 
 }
 \author{

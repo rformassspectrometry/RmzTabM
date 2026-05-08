@@ -17,7 +17,8 @@ setMtdContact(
 getMtdContact(x = matrix())
 }
 \arguments{
-\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.}
+\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.
+If all values are \code{NA}, the function returns \code{x} unchanged.}
 
 \item{name}{\code{character} contact’s name.}
 
@@ -35,21 +36,20 @@ replaced entirely by the supplied arguments.
 }}
 }
 \value{
-The input object \code{x} updated to include the new or merged contact
-metadata fields. If \code{x} is empty, the empty \code{x}.
-
-\code{character} with the contacts.
+\itemize{
+\item For \code{setMtdContact()}: the input object \code{x} updated to include the new or
+merged contact metadata fields. If \code{x} is empty, the empty \code{x}.
+\item For \code{getMtdContact()}: returns the contact information.
+}
 }
 \description{
 Sets or updates contact-related metadata fields within an MTD (metadata)
 in a MTD section. When contact metadata already exists, the function
 can either replace it entirely or append new values to the existing ones.
-
-Get the Contact fields within an MTD (metadata) section.
 }
 \examples{
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add contact metadata to an existing mzTab object
 mtd <- setMtdContact(x, name = "Name Surname",
           affiliation = "PSI-MS",
@@ -62,12 +62,7 @@ mtd <- setMtdContact(mtd, name = "Name Surname",
           replace = TRUE)
 
 
-x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
-mtd <- setMtdContact(x, name = "Name Surname",
-          affiliation = "PSI-MS",
-          email = "name.surname@mail.com")
-
-getMtdContact(x)
+getMtdContact(mtd)
 
 }
 \author{

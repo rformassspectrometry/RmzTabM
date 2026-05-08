@@ -21,25 +21,25 @@ and on mandatory or optional fields.
 Generally, MTD data can be categorized into the following parts:
 \itemize{
 \item \emph{Core information}: general information on the experiment. A minimal
-set can be created using the \code{\link[=mtd_skeleton]{mtd_skeleton()}} function, which might be
+set can be created using the \code{\link[=mtdSkeleton]{mtdSkeleton()}} function, which might be
 further expanded with additional fields. This section allows to describe
 the general experimental setup. Also, it should contain references to
 \strong{all} controlled vocabulary (CV) ontologies used and refered to in the
 mzTab-M file.
 \item \emph{Sample information}: optional information on individual samples that were
-measured with the various \emph{assays}/\emph{runs}. The \code{\link[=mtd_sample]{mtd_sample()}} function
+measured with the various \emph{assays}/\emph{runs}. The \code{\link[=mtdSample]{mtdSample()}} function
 assists in compiling the information for this section.
 \item \emph{MS run information}: information on the individual MS \emph{runs}
 (measurements of the samples). Each data file is one run. Use the
-\code{\link[=mtd_ms_run]{mtd_ms_run()}} function to define this part of the metadata section.
-\item \emph{Assay information}: the \code{\link[=mtd_assay]{mtd_assay()}} function assists in compiling the
+\code{\link[=mtdMsRun]{mtdMsRun()}} function to define this part of the metadata section.
+\item \emph{Assay information}: the \code{\link[=mtdAssay]{mtdAssay()}} function assists in compiling the
 assay section of the metadata. Mandatory fields are the name (ID) of the
 assay and the reference to the \emph{MS run} in which the assay was measured.
 Optional information on sample reference, external links or custom
 information can be provided too. In most cases (except multiplexed assays
 or pre-fractionated samples) one assay will link to one MS run. Each assay
 \strong{must} represent one column in the following \emph{abundance matrix} sections.
-\item \emph{Study variable information}: the \code{\link[=mtd_study_variables]{mtd_study_variables()}} function allows
+\item \emph{Study variable information}: the \code{\link[=mtdStudyVariables]{mtdStudyVariables()}} function allows
 to format study variable information from an experiment into the mzTab-M
 format. All study variables need to be assigned to at least one assay and
 must also be reported in the subsequent abundance matrices.
@@ -52,8 +52,8 @@ define the MTD section of an experiment.
 In addition, various helper functions are available to assist in MTD data
 generation:
 \itemize{
-\item \code{\link[=mtd_sort]{mtd_sort()}}: to sort the MTD \code{matrix} into the expected order.
-\item \code{\link[=mtd_fields]{mtd_fields()}}: helps formatting values into the mzTab-M-specific format.
+\item \code{\link[=mtdSort]{mtdSort()}}: to sort the MTD \code{matrix} into the expected order.
+\item \code{\link[=mtdFields]{mtdFields()}}: helps formatting values into the mzTab-M-specific format.
 \item \code{\link[=setMtdInstrument]{setMtdInstrument()}}/\code{\link[=getMtdInstrument]{getMtdInstrument()}}: set/get Instrument Metadata in
 an MTD section.
 \item \code{\link[=setMtdDatabase]{setMtdDatabase()}}/\code{\link[=getMtdDatabase]{getMtdDatabase()}}: set/get Database Metadata in an MTD
@@ -110,7 +110,7 @@ exp
 ## the compound identification/annotation. These could be provided through
 ## the `database*` parameters. Also, the quantification method and unit(s)
 ## could be specified using respective parameters of the function.
-mtd <- mtd_skeleton(
+mtd <- mtdSkeleton(
     id = "EXP_001",
     software = "[MS, MS:1001582], xcms, 4.0.0")
 mtd
@@ -122,7 +122,7 @@ mtd <- rbind(
     c("description", "The preprocessed data of the experiment 1 samples."))
 
 ## We also add information on the MS instrumentation used
-instr <- mtd_fields(
+instr <- mtdFields(
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
@@ -145,7 +145,7 @@ mtd <- rbind(mtd, instr)
 ## specific sample properties that can be defined using the function's
 ## parameters, arbitrary custom fields can be defined too. Below we add
 ## information on sample extraction as custom information.
-mtd_s <- mtd_sample(
+mtd_s <- mtdSample(
     sample = unique(exp$sample_id),
     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
     tissue = "[BTO, BTO:0000759, liver, ]",
@@ -166,7 +166,7 @@ mtd <- rbind(mtd, mtd_s)
 ## measurement run on an MS instrument. For this, the original data file
 ## names and location should be provided as well as the format of the
 ## data files as well as polarity etc.
-mtd_msr <- mtd_ms_run(
+mtd_msr <- mtdMsRun(
     location = exp$file_name,
     format = "[MS, MS:1000584, mzML file, ]",
     id_format = "[MS, MS:1000530, mzML unique identifier, ]",
@@ -181,7 +181,7 @@ mtd <- rbind(mtd, mtd_msr)
 ## Each measurement should be associated to (at least) one assay. For our
 ## simple example, each row in the `data.frame` represents one assay, with
 ## each assay being measured in one MS run.
-a <- mtd_assay(
+a <- mtdAssay(
     assay = exp$sample_name,
     sample_ref = c("sample[1]", "sample[1]", "sample[2]", "sample[2]",
                    "sample[3]", "sample[3]"),
@@ -200,7 +200,7 @@ mtd <- rbind(mtd, a)
 ## `"genotype"`, `"cell_count"` and `"operator"`. Importantly, the row-order
 ## of the provided `data.frame` has to match the order of the assays (and
 ## MS runs).
-svar <- mtd_study_variables(
+svar <- mtdStudyVariables(
     exp, groups = c("time_point", "genotype", "cell_count", "operator"))
 svar
 
@@ -211,9 +211,9 @@ svar
 
 mtd <- rbind(mtd, svar)
 
-## Finally, the `mtd_sort()` function can be used to sort the generated
+## Finally, the `mtdSort()` function can be used to sort the generated
 ## two-column matrix in the expected order.
-mtd <- mtd_sort(mtd)
+mtd <- mtdSort(mtd)
 
 ## This metadata information can next be exported manually, or using the
 ## dedicated export helper functions to an mzTab-M file.

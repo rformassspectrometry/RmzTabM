@@ -9,7 +9,7 @@
 #'
 #' @name SMF-export
 #'
-#' @aliases smf_create
+#' @aliases smfCreate
 #'
 #' @description
 #'
@@ -18,7 +18,7 @@
 #' elution profiles of specific *m/z* and retention times) that were measured
 #' across the assays.
 #'
-#' - `smf_create()` provides a simplified workflow to generate this table in a
+#' - `smfCreate()` provides a simplified workflow to generate this table in a
 #'   single step. It takes a matrix of abundances (rows=features,
 #'   columns=assays) and optional vectors defining feature properties.
 #'
@@ -42,14 +42,14 @@
 #'   See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
 #'   for details.
 #'
-#' - `smf_sort()` can be used to sort the columns of the SMF data frame
+#' - `smfSort()` can be used to sort the columns of the SMF data frame
 #'   according to the standard order defined in the mzTab-M specification.
 #'   This is useful if you have added custom columns and want to ensure the
 #'   standard columns are in the correct order for export.
 #'
 #' @param x `matrix` or `data.frame` of abundances. Rows are features,
 #'   columns are assays. The order of columns is assumed to match the order of
-#'   assays defined in the Metadata (MTD) section (see [mtd_assay()] for more
+#'   assays defined in the Metadata (MTD) section (see [mtdAssay()] for more
 #'   information).
 #'
 #' @param SME_ID_REFS `character` vector of SME IDs referencing small molecules.
@@ -91,7 +91,7 @@
 #'
 #' @details
 #'
-#' All parameters passed to the `smf_create()` function must be **fully named**.
+#' All parameters passed to the `smfCreate()` function must be **fully named**.
 #'
 #' @author Philippine Louail
 #'
@@ -116,7 +116,7 @@
 #'
 #' ## Create the final dataframe ready for export
 #' ## Note: Fields not provided (like charge) are automatically set to "null"
-#' smf_final <- smf_create(
+#' smf_final <- smfCreate(
 #'     x = abund_mat,
 #'     exp_mass_to_charge = mz_values,
 #'     retention_time_in_seconds = rt_values,
@@ -130,7 +130,7 @@
 #' head(smf_final)
 #'
 #' @export
-smf_create <- function(..., x, exp_mass_to_charge = numeric(),
+smfCreate <- function(..., x, exp_mass_to_charge = numeric(),
                        retention_time_in_seconds = numeric(),
                        retention_time_in_seconds_start = numeric(),
                        retention_time_in_seconds_end = numeric(),
@@ -156,13 +156,13 @@ smf_create <- function(..., x, exp_mass_to_charge = numeric(),
     smf_df[names(cols_to_fill)] <- lapply(cols_to_fill, .check_fill_column,
                                           lout = nrow(smf_df))
     smf_df <- .add_opt_cols(x = smf_df, ...)
-    smf_sort(smf_df)
+    smfSort(smf_df)
 }
 
 #' @export
 #'
 #' @rdname SMF-export
-smf_sort <- function(x) {
+smfSort <- function(x) {
     x[, .sort_order(colnames(x), .SMF_ORDER), drop = FALSE]
 }
 

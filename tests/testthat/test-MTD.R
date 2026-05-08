@@ -40,21 +40,21 @@ test_that(".database works", {
     expect_equal(res[, 2L], c("a", "ap", "1", "A", "b", "bp", "null", "B"))
 })
 
-test_that("mtd_skeleton works", {
-    expect_error(mtd_skeleton(), "'id' is required")
-    expect_error(mtd_skeleton(id = "1"), "'software' is required")
-    res <- mtd_skeleton(id = "1", software = "Fancy software")
+test_that("mtdSkeleton works", {
+    expect_error(mtdSkeleton(), "'id' is required")
+    expect_error(mtdSkeleton(id = "1"), "'software' is required")
+    res <- mtdSkeleton(id = "1", software = "Fancy software")
     expect_true(is.matrix(res))
     expect_true(is.character(res))
 })
 
-test_that("mtd_sort works", {
-    ref <- mtd_skeleton(id = "a", software = "Excel")
-    res <- mtd_sort(ref)
+test_that("mtdSort works", {
+    ref <- mtdSkeleton(id = "a", software = "Excel")
+    res <- mtdSort(ref)
     expect_equal(ref, res)
 
     ref <- ref[1:23, ]
-    res <- mtd_sort(ref[c(5:16, 1, 3, 17:20, 2, 4, 22, 23, 21), ])
+    res <- mtdSort(ref[c(5:16, 1, 3, 17:20, 2, 4, 22, 23, 21), ])
     expect_equal(ref, res)
 })
 
@@ -77,26 +77,26 @@ test_that(".ms_scan_polarity works", {
                         "[MS, MS:1000129, negative scan, ]"))
 })
 
-test_that("mtd_ms_run works", {
-    expect_error(mtd_ms_run(), "'location' is required")
-    expect_error(mtd_ms_run(location = "null", "'scan_polarity' is required"))
-    expect_error(mtd_ms_run(location = c("null", "other"),
+test_that("mtdMsRun works", {
+    expect_error(mtdMsRun(), "'location' is required")
+    expect_error(mtdMsRun(location = "null", "'scan_polarity' is required"))
+    expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
                             format = "a"), "have to be defined")
-    expect_error(mtd_ms_run(location = c("null", "other"),
+    expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
                             format = "a", id_format = 1:2),
                  "have to be defined")
-    expect_error(mtd_ms_run(location = c("null", "other"),
+    expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
                             hash = "a"), "have to be defined")
-    expect_error(mtd_ms_run(location = c("null", "other"),
+    expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
                             hash = "a", hash_method = "a"), "match length")
-    expect_error(mtd_ms_run(location = c("null", "other"),
+    expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
                             fragmentation_method = list(3)), "match length")
-    res <- mtd_ms_run(location = c("null", "other"),
+    res <- mtdMsRun(location = c("null", "other"),
                       scan_polarity = c("positive", "negative"))
     expect_true(is.matrix(res))
     expect_true(is.character(res))
@@ -109,7 +109,7 @@ test_that("mtd_ms_run works", {
                               "other",
                               "[MS, MS:1000129, negative scan, ]"))
     ## instrument_ref
-    res <- mtd_ms_run(location = c("null", "other"),
+    res <- mtdMsRun(location = c("null", "other"),
                       scan_polarity = c("positive", "negative"),
                       instrument_ref = 1)
     expect_true(nrow(res) == 6)
@@ -126,7 +126,7 @@ test_that("mtd_ms_run works", {
                               "instrument[1]",
                               "[MS, MS:1000129, negative scan, ]"))
     ## format
-    res <- mtd_ms_run(location = c("null", "other"),
+    res <- mtdMsRun(location = c("null", "other"),
                       scan_polarity = c("positive", "negative"),
                       format = "[MS, MS:1000584, mzML file, ]",
                       id_format = "[MS, MS:1000530, mzML unique identifier, ]")
@@ -147,7 +147,7 @@ test_that("mtd_ms_run works", {
                               "[MS, MS:1000530, mzML unique identifier, ]",
                               "[MS, MS:1000129, negative scan, ]"))
     ## hash
-    res <- mtd_ms_run(location = c("null", "other"),
+    res <- mtdMsRun(location = c("null", "other"),
                       scan_polarity = c("positive", "negative"),
                       hash = c("a", "b"),
                       hash_method = c("[MS, MS:1000569, SHA-1, ]",
@@ -169,7 +169,7 @@ test_that("mtd_ms_run works", {
                               "b",
                               "[MS, MS:1000569, SHA-1, ]"))
     ## fragmentation_method
-    res <- mtd_ms_run(location = c("null", "other"),
+    res <- mtdMsRun(location = c("null", "other"),
                       scan_polarity = c("positive", "negative"),
                       fragmentation_method = list(NULL,
                                                   c("[MS, MS:1000133, CID, ]",
@@ -187,7 +187,7 @@ test_that("mtd_ms_run works", {
                               "[MS, MS:1000422, HCD, ]",
                               "[MS, MS:1000129, negative scan, ]"))
     ## Repeat polarity
-    res <- mtd_ms_run(location = c("null", "other"),
+    res <- mtdMsRun(location = c("null", "other"),
                       scan_polarity = c("positive"),
                       fragmentation_method = list(NULL,
                                                   c("[MS, MS:1000133, CID, ]",
@@ -207,18 +207,18 @@ test_that("mtd_ms_run works", {
 
 })
 
-test_that("mtd_define_study_variables works", {
-    expect_equal(mtd_define_study_variables(),
+test_that("mtdDefineStudyVariables works", {
+    expect_equal(mtdDefineStudyVariables(),
                  data.frame(study_variable = character(),
                             study_variable_group = character()))
     x <- data.frame(sex = c("male", "female", "female", "male", "male"),
                     group = c("case", "case", "control", "case", "control"))
-    res <- mtd_define_study_variables(x, c("sex", "group"))
+    res <- mtdDefineStudyVariables(x, c("sex", "group"))
     expect_equal(res,
                  unique(data.frame(
                      study_variable = c(x$sex, x$group),
                      study_variable_group = rep(colnames(x), each = nrow(x)))))
-    res <- mtd_define_study_variables(x, c("sex"))
+    res <- mtdDefineStudyVariables(x, c("sex"))
     expect_equal(res, data.frame(study_variable = c("male", "female"),
                                  study_variable_group = "sex"))
 })
@@ -239,33 +239,33 @@ test_that(".mtd_multi_fields works", {
     expect_equal(res[, 3L], c("1", "1", "3"))
 })
 
-test_that("mtd_sample works", {
-    res <- mtd_sample(sample = character())
+test_that("mtdSample works", {
+    res <- mtdSample(sample = character())
     expect_true(is.matrix(res))
     expect_true(nrow(res) == 0)
     expect_true(ncol(res) == 2)
-    res <- mtd_sample(sample = c("a", "b", "c"))
+    res <- mtdSample(sample = c("a", "b", "c"))
     expect_equal(res[, 1L], c("sample[1]", "sample[2]", "sample[3]"))
     expect_equal(res[, 2L], c("a", "b", "c"))
 
     ## species
-    res <- mtd_sample(sample = c("a", "b", "c"), species = "b")
+    res <- mtdSample(sample = c("a", "b", "c"), species = "b")
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-species[1]",
                               "sample[2]", "sample[2]-species[1]",
                               "sample[3]", "sample[3]-species[1]"))
     expect_equal(res[, 2L], c("a", "b", "b", "b", "c", "b"))
-    res <- mtd_sample(sample = c("a", "b", "c"),
+    res <- mtdSample(sample = c("a", "b", "c"),
                       species = list(c("A", "B"), NULL, 3))
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-species[1]",
                               "sample[1]-species[2]", "sample[2]",
                               "sample[3]", "sample[3]-species[1]"))
     expect_equal(res[, 2L], c("a", "A", "B", "b", "c", "3"))
     ## tissue
-    res <- mtd_sample(sample = c("a", "b", "c"), tissue = "A")
+    res <- mtdSample(sample = c("a", "b", "c"), tissue = "A")
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-tissue[1]",
                               "sample[2]", "sample[2]-tissue[1]",
                               "sample[3]", "sample[3]-tissue[1]"))
-    res <- mtd_sample(sample = c("a", "b", "c"),
+    res <- mtdSample(sample = c("a", "b", "c"),
                       tissue = list(c("B"), NULL, 3:5))
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-tissue[1]",
                               "sample[2]", "sample[3]",
@@ -273,11 +273,11 @@ test_that("mtd_sample works", {
                               "sample[3]-tissue[3]"))
     expect_equal(res[, 2L], c("a", "B", "b", "c", "3", "4", "5"))
     ## cell_type
-    res <- mtd_sample(sample = c("a", "b", "c"), cell_type = "A")
+    res <- mtdSample(sample = c("a", "b", "c"), cell_type = "A")
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-cell_type[1]",
                               "sample[2]", "sample[2]-cell_type[1]",
                               "sample[3]", "sample[3]-cell_type[1]"))
-    res <- mtd_sample(sample = c("a", "b", "c"),
+    res <- mtdSample(sample = c("a", "b", "c"),
                       cell_type = list(c("B"), NULL, 3:5))
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-cell_type[1]",
                               "sample[2]", "sample[3]",
@@ -286,11 +286,11 @@ test_that("mtd_sample works", {
     expect_equal(res[, 2L], c("a", "B", "b", "c", "3", "4", "5"))
 
     ## disease
-    res <- mtd_sample(sample = c("a", "b", "c"), disease = "A")
+    res <- mtdSample(sample = c("a", "b", "c"), disease = "A")
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-disease[1]",
                               "sample[2]", "sample[2]-disease[1]",
                               "sample[3]", "sample[3]-disease[1]"))
-    res <- mtd_sample(sample = c("a", "b", "c"),
+    res <- mtdSample(sample = c("a", "b", "c"),
                       disease = list(c("B"), NULL, 3:5))
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-disease[1]",
                               "sample[2]", "sample[3]",
@@ -299,18 +299,18 @@ test_that("mtd_sample works", {
     expect_equal(res[, 2L], c("a", "B", "b", "c", "3", "4", "5"))
 
     ## description
-    expect_error(mtd_sample(sample = c("a", "b", "c"), description = "A"),
+    expect_error(mtdSample(sample = c("a", "b", "c"), description = "A"),
                  "length equal to")
-    res <- mtd_sample(sample = c("a", "b", "c"), description = 1:3)
+    res <- mtdSample(sample = c("a", "b", "c"), description = 1:3)
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-description",
                               "sample[2]", "sample[2]-description",
                               "sample[3]", "sample[3]-description"))
     expect_equal(res[, 2L], c("a", "1", "b", "2", "c", "3"))
 
     ## ...
-    expect_error(mtd_sample(sample = c("a", "b", "c"), "A"),
+    expect_error(mtdSample(sample = c("a", "b", "c"), "A"),
                  "length has to match")
-    res <- mtd_sample(sample = c("a", "b", "c"), description = 1:3,
+    res <- mtdSample(sample = c("a", "b", "c"), description = 1:3,
                       c("custom 1", "custom 2", "custom 3"),
                       c("other 1", "other 2", "other 3"))
     expect_equal(res[, 1L], c("sample[1]", "sample[1]-description",
@@ -324,17 +324,17 @@ test_that("mtd_sample works", {
                               "c", "3", "custom 3", "other 3"))
 })
 
-test_that("mtd_assay works", {
-    res <- mtd_assay()
+test_that("mtdAssay works", {
+    res <- mtdAssay()
     expect_true(is.matrix(res))
     expect_true(is.character(res))
     expect_true(nrow(res) == 0)
 
-    expect_error(mtd_assay(assay = c("first")), "is required")
-    expect_error(mtd_assay(assay = c("first", "second"),
+    expect_error(mtdAssay(assay = c("first")), "is required")
+    expect_error(mtdAssay(assay = c("first", "second"),
                            ms_run_ref = "ms_run[1]"), "have to match")
 
-    res <- mtd_assay(assay = c("a", "b", "c"),
+    res <- mtdAssay(assay = c("a", "b", "c"),
                      ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[2]"))
     expect_equal(
         res[, 1L],
@@ -347,7 +347,7 @@ test_that("mtd_assay works", {
           "b", "ms_run[1]",
           "c", "ms_run[2]"))
 
-    res <- mtd_assay(assay = c("a", "b", "c"),
+    res <- mtdAssay(assay = c("a", "b", "c"),
                      external_uri = c("B"),
                      ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[2]"))
     expect_equal(
@@ -361,16 +361,16 @@ test_that("mtd_assay works", {
           "b", "B", "ms_run[1]",
           "c", "B", "ms_run[2]"))
 
-    expect_error(mtd_assay(assay = c("a", "b"),
+    expect_error(mtdAssay(assay = c("a", "b"),
                            sample_ref = c("sample[1]"),
                            ms_run_ref = c("ms_run[1]", "b")),
                  "has to match")
-    res <- mtd_assay(assay = "a", ms_run_ref = "b", sample_ref = "B")
+    res <- mtdAssay(assay = "a", ms_run_ref = "b", sample_ref = "B")
     expect_equal(res[, 1L],
                  c("assay[1]", "assay[1]-sample_ref", "assay[1]-ms_run_ref"))
     expect_equal(res[, 2L], c("a", "B", "b"))
 
-    res <- mtd_assay(assay = c("a", "b"), ms_run_ref = c("1", "2"),
+    res <- mtdAssay(assay = c("a", "b"), ms_run_ref = c("1", "2"),
                      a = 1:2, b = 3:4)
     expect_equal(
         res[, 1L],
@@ -383,9 +383,9 @@ test_that("mtd_assay works", {
         c("a", "1", "1", "3", "b", "2", "2", "4"))
 
     ## multi assignment assay->ms_run
-    expect_error(mtd_assay(assay = c("a", "b"), ms_run_ref = list(1:2, NULL)),
+    expect_error(mtdAssay(assay = c("a", "b"), ms_run_ref = list(1:2, NULL)),
                  "At least one")
-    res <- mtd_assay(assay = c("a", "b"), ms_run_ref = list(1:2, 3))
+    res <- mtdAssay(assay = c("a", "b"), ms_run_ref = list(1:2, 3))
     expect_equal(
         res[, 1L],
         c("assay[1]", "assay[1]-ms_run_ref[1]", "assay[1]-ms_run_ref[2]",
@@ -411,7 +411,7 @@ test_that(".mtd_custom_fields works", {
     expect_equal(res[, 3L], c("1", "2", "3", "1", "2", "3"))
 })
 
-test_that("mtd_study_variables works", {
+test_that("mtdStudyVariables works", {
     x <- data.frame(
         name = c("I1_0", "I2_0", "I1_6", "I2_6", "I3_0"),
         individual = c("I1", "I2", "I1", "I2", "I3"),
@@ -419,34 +419,34 @@ test_that("mtd_study_variables works", {
         T2D = c(TRUE, FALSE, TRUE, FALSE, FALSE)
     )
     ## errors
-    expect_error(mtd_study_variables(x, groups = c("name", "other")),
+    expect_error(mtdStudyVariables(x, groups = c("name", "other")),
                  "Not all column")
-    expect_error(mtd_study_variables(x, groups = c("name", "T2D"),
+    expect_error(mtdStudyVariables(x, groups = c("name", "T2D"),
                                      average_function = c("a", "b", "c")),
                  "equal to the number")
-    expect_error(mtd_study_variables(x, groups = c("name", "T2D"),
+    expect_error(mtdStudyVariables(x, groups = c("name", "T2D"),
                                      variation_function = c("a", "b", "c")),
                  "equal to the number")
-    expect_error(mtd_study_variables(x, groups = c("name", "T2D"),
+    expect_error(mtdStudyVariables(x, groups = c("name", "T2D"),
                                      description = c("a", "b", "c")),
                  "equal to the number")
-    expect_error(mtd_study_variables(x, average_function = character(),
+    expect_error(mtdStudyVariables(x, average_function = character(),
                                      variation_function = "B"),
                  "'average_function'")
-    expect_error(mtd_study_variables(x, average_function = "A",
+    expect_error(mtdStudyVariables(x, average_function = "A",
                                      variation_function = NULL),
                  "'variation_function'")
-    expect_error(mtd_study_variables(x, groups = c("T2D", "timepoint"),
+    expect_error(mtdStudyVariables(x, groups = c("T2D", "timepoint"),
                                      average_function = "A",
                                      variation_function = "B",
                                      description = 1:2), "'description'")
-    expect_error(mtd_study_variables(x, groups = colnames(x), group_unit = "a"),
+    expect_error(mtdStudyVariables(x, groups = colnames(x), group_unit = "a"),
                  "match the number")
-    expect_error(mtd_study_variables(x, groups = c("T2D", "timepoint"),
+    expect_error(mtdStudyVariables(x, groups = c("T2D", "timepoint"),
                                      group_unit = c(NA, "[a,b,c,d,e]")),
                  "not a CV parameter")
     ## Without study variable groups
-    res <- mtd_study_variables(x)
+    res <- mtdStudyVariables(x)
     expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "undefined")
     expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "undefined")
     expect_false(any(res[, 1L] == "study_variable_group[2]"))
@@ -456,7 +456,7 @@ test_that("mtd_study_variables works", {
     expect_equal(res[res[, 1L] == "study_variable[1]-assay_refs", 2L],
                  "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]")
     ## With a single study variable group
-    res <- mtd_study_variables(x, groups = "T2D", group_datatype = "xsd:string")
+    res <- mtdStudyVariables(x, groups = "T2D", group_datatype = "xsd:string")
     expect_false(any(res[, 1L] == "study_variable_group[2]"))
     expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "T2D")
     expect_match(res[res[, 1L] == "study_variable_group[1]-type", 2L], "cate")
@@ -502,7 +502,7 @@ test_that("mtd_study_variables works", {
                    "study_variable_group[1]"
                    ))
     ## Two groups and providing group_unit
-    res <- mtd_study_variables(x, groups = c("T2D", "timepoint"),
+    res <- mtdStudyVariables(x, groups = c("T2D", "timepoint"),
                                group_unit = c("", "[,,hours,]"))
     expect_equal(res[, 1L],
                  c("study_variable_group[1]",
@@ -575,7 +575,7 @@ test_that("mtd_study_variables works", {
                    "study_variable_group[2]"
                    ))
     ## No study variable group, full result
-    res <- mtd_study_variables(x, average_function = "A",
+    res <- mtdStudyVariables(x, average_function = "A",
                                variation_function = "B")
     expect_equal(res[, 1L], c("study_variable_group[1]",
                               "study_variable_group[1]-description",
@@ -598,7 +598,7 @@ test_that("mtd_study_variables works", {
                               "Variable undefined, value undefined",
                               "study_variable_group[1]"))
 
-    res <- mtd_study_variables(x, groups = c("T2D", "timepoint", "individual"))
+    res <- mtdStudyVariables(x, groups = c("T2D", "timepoint", "individual"))
     expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "T2D")
     expect_equal(res[res[, 1L] == "study_variable_group[2]", 2L], "timepoint")
     expect_equal(res[res[, 1L] == "study_variable_group[3]", 2L], "individual")
@@ -771,7 +771,7 @@ test_that("setMtdInstrument works", {
     res <- setMtdInstrument(x)
     expect_equal(res, x)
 
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     res <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
         source = "[MS, MS:1000073, ESI,]",
         analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
@@ -787,7 +787,7 @@ test_that("setMtdInstrument works", {
     expect_true(any(grepl("[MS, MS:1000253, electron multiplier,]", res[, 2])))
 
     ## Missing paramenters
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(setMtdInstrument(x), "name")
     expect_error(setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]"),
         "source"
@@ -803,7 +803,7 @@ test_that("setMtdInstrument works", {
     )
 
     ## Append instrument
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
         source = "[MS, MS:1000073, ESI,]",
         analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
@@ -819,7 +819,7 @@ test_that("setMtdInstrument works", {
     expect_equal(nrow(name_rows), 2L)
 
     ## Replace instrument
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdInstrument(x, name = "[MS, MS:1000449, LTQ Orbitrap,]",
         source = "[MS, MS:1000073, ESI,]",
         analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
@@ -841,7 +841,7 @@ test_that("getMtdInstrument works", {
     res <- getMtdInstrument()
     expect_true(is.na(res))
 
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     res <- getMtdInstrument(x)
     expect_true(is.na(res))
 
@@ -866,7 +866,7 @@ test_that("setMtdDatabase works", {
     expect_equal(res, x)
 
     ##setMtdDatabase errors when parameter is missing
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(setMtdDatabase(x), "name")
     expect_error(setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]"),
                  "prefix")
@@ -878,7 +878,7 @@ test_that("setMtdDatabase works", {
                  "uri")
 
     ##setMtdDatabase adds database metadata fields to a valid MTD section
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     res <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
                         prefix = "hmdb", version = "3.6",
                         uri = "http://www.hmdb.ca/")
@@ -899,7 +899,7 @@ test_that("setMtdDatabase works", {
     expect_equal(nrow(name_rows), 2L)
 
     ##setMtdDatabase replaces existing database metadata when replace = TRUE
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdDatabase(x, name = "[MIRIAM, MIR:00100079, HMDB, ]",
                         prefix = "hmdb", version = "3.6",
                         uri = "http://www.hmdb.ca/")
@@ -916,7 +916,7 @@ test_that("getMtdDatabase works", {
     res <- getMtdDatabase()
     expect_true(is.na(res))
 
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     res <- getMtdDatabase(x)
     expect_equal(length(res), 4)
     expect_equal(res[["database[1]"]], "[,, \"no database\", null ]")
@@ -941,7 +941,7 @@ test_that("setMtdCv works", {
     expect_equal(res, x)
 
     ##setMtdCv errors when parametr is missing
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(setMtdCv(x), "label")
     expect_error(setMtdCv(x, label = "MS"), "full_name")
     expect_error(setMtdCv(x, label = "MS",
@@ -953,7 +953,7 @@ test_that("setMtdCv works", {
                  "uri")
 
     ##setMtdCv adds CV metadata fields to a valid MTD section when replace = FALSE
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     result <- setMtdCv(x, label = "MS",
                     full_name = "PSI-MS controlled vocabulary",
                     version = "4.1.11",
@@ -972,7 +972,7 @@ test_that("setMtdCv works", {
     expect_equal(nrow(label_rows), 4L)
 
     ##setMtdCv replaces existing CV metadata when replace = TRUE
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdCv(x, label = "MS", full_name = "PSI-MS controlled vocabulary",
                  version = "4.1.11",
                  uri = "https://purl.obolibrary.org/obo/ms.obo",
@@ -986,7 +986,7 @@ test_that("getMtdCv works", {
     res <- getMtdCv()
     expect_true(is.na(res))
 
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     res <- getMtdCv(x)
     expect_equal(length(res), 12)
     expect_equal(res[["cv[1]-label"]], "MS")
@@ -1013,14 +1013,14 @@ test_that("setMtdContact works", {
     expect_equal(result, x)
 
     ## setMtdContact errors when parameter is missing
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(setMtdContact(x), "name")
     expect_error(setMtdContact(x, name = "Name Surname"), "affiliation")
     expect_error(setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS"),
                  "email")
 
     ## setMtdContact adds contact metadata fields to a valid MTD section
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     result <- setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
                          email = "name.surname@mail.com")
     expect_true(any(grepl("contact\\[1\\]-name", result[, 1])))
@@ -1037,7 +1037,7 @@ test_that("setMtdContact works", {
     expect_equal(nrow(name_rows), 2L)
 
     ## setMtdContact replaces existing contact metadata when replace = TRUE
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
                       email = "name.surname@mail.com")
     mtd2 <- setMtdContact(mtd, name = "Person 2", affiliation = "Lab B",
@@ -1051,7 +1051,7 @@ test_that("getMtdContact works", {
     res <- getMtdContact()
     expect_true(is.na(res))
 
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     res <- getMtdContact(x)
     expect_true(is.na(res))
 
@@ -1071,7 +1071,7 @@ test_that("setMtdField works", {
     expect_equal(result, x)
 
     ## setMtdField errors on invalid field name
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(setMtdField(x, field = "not_a_valid_field",
                              value = "some_value"),
                 "Provide a valid MTD field")
@@ -1093,7 +1093,7 @@ test_that("setMtdField works", {
     expect_equal(nrow(pub_rows), 2L)
 
     ## setMtdField replaces existing field values when replace = TRUE
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdField(x, field = "publication",
                 value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
     mtd2 <- setMtdField(mtd, field = "publication",
@@ -1103,7 +1103,7 @@ test_that("setMtdField works", {
     expect_equal(pub_rows[1, 2], "https://doi.org/second")
 
     ## Add new single field
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     result <- setMtdField(x, field = "title", value = "Title 1")
     expect_true(any(grepl("title", result[, 1])))
     expect_equal(result[grepl("title", result[, 1]), 2][[1]], "Title 1")
@@ -1121,7 +1121,7 @@ test_that("setMtdField works", {
 test_that("getMtdField works", {
     expect_error(getMtdField(), "Parameter \"field\" is empty")
 
-    x <- mtd_skeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(getMtdField(x), "Parameter \"field\" is empty")
 
     x <- setMtdField(x, field = "publication",
