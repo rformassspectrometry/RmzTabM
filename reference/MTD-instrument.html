@@ -82,8 +82,10 @@ experiment. (e.g., <code>"[MS, MS:1000073, ESI,]"</code>).</p></dd>
 
 <dt id="arg-analyzer">analyzer<a class="anchor" aria-label="anchor" href="#arg-analyzer"></a></dt>
 <dd><p><code>character</code> with the instrument’s analyzer type(s) used in
-the experiment.
-(e.g., <code>c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")</code>).</p></dd>
+the experiment. <strong>Must</strong> be provided in the form
+<code>c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")</code> for a single
+analyzer, or <code>c("analyzer[1]" = "&lt;analyzer 1&gt;", "analyzer[2] = ...")</code>
+for multiple analyzers.</p></dd>
 
 
 <dt id="arg-detector">detector<a class="anchor" aria-label="anchor" href="#arg-detector"></a></dt>

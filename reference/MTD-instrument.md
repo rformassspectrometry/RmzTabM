@@ -41,8 +41,10 @@ getMtdInstrument(x = matrix())
 - analyzer:
 
   `character` with the instrument’s analyzer type(s) used in the
-  experiment. (e.g.,
-  `c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")`).
+  experiment. **Must** be provided in the form
+  `c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")` for a single
+  analyzer, or `c("analyzer[1]" = "<analyzer 1>", "analyzer[2] = ...")`
+  for multiple analyzers.
 
 - detector:
 

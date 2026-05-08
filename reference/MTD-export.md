@@ -208,29 +208,100 @@ mtd
 #> [22,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
 #> [23,] "[MS, MS:1002896, compound identification confidence level, ]"           
 
-## We next manually add a title and description for the experiment.
-mtd <- rbind(
-    mtd,
-    c("title", "Experiment 1 preprocessed data"),
-    c("description", "The preprocessed data of the experiment 1 samples."))
+## We can add additional content to this *skeleton* MTD information with
+## any of the `setMtd*` functions.
+## We next add a title and description for the experiment.
+mtd <- setMtdField(mtd, field = "title",
+    value = "Experiment 1 preprocessed data")
+mtd <- setMtdField(mtd, field = "description",
+    value = "The preprocessed data of experiment 1 samples.")
 
 ## We also add information on the MS instrumentation used
-instr <- mtdFields(
+mtd <- setMtdInstrument(mtd,
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
-    `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
+    analyzer = c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]"),
     detector = "[MS, MS:1000253, electron multiplier,]",
-    field_prefix = "instrument"
 )
-instr
-#>      [,1]                        [,2]                                    
-#> [1,] "instrument[1]-name"        "[MS, MS:1000449, LTQ Orbitrap,]"       
-#> [2,] "instrument[1]-source"      "[MS, MS:1000073, ESI,]"                
-#> [3,] "instrument[1]-analyzer[1]" "[MS, MS:1000291, linear ion trap,]"    
-#> [4,] "instrument[1]-detector"    "[MS, MS:1000253, electron multiplier,]"
 
-## Add this information to the metadata
-mtd <- rbind(mtd, instr)
+## We can also add contact information
+mtd <- setMtdContact(mtd, name = c("frodo", "sauron"),
+    affiliation = c("fellowship of the ring", "the dark side"),
+    email = c("frodo@shire.net", "sauron@mordor.net"))
+
+mtd
+#>       field                                       
+#>  [1,] "mzTab-version"                             
+#>  [2,] "mzTab-ID"                                  
+#>  [3,] "title"                                     
+#>  [4,] "description"                               
+#>  [5,] "instrument[1]-name"                        
+#>  [6,] "instrument[1]-source"                      
+#>  [7,] "instrument[1]-detector"                    
+#>  [8,] "instrument[1]-analyzer[1]"                 
+#>  [9,] "software[1]"                               
+#> [10,] "contact[1]-name"                           
+#> [11,] "contact[1]-affiliation"                    
+#> [12,] "contact[1]-email"                          
+#> [13,] "contact[2]-name"                           
+#> [14,] "contact[2]-affiliation"                    
+#> [15,] "contact[2]-email"                          
+#> [16,] "quantification_method"                     
+#> [17,] "cv[1]-label"                               
+#> [18,] "cv[1]-full_name"                           
+#> [19,] "cv[1]-version"                             
+#> [20,] "cv[1]-uri"                                 
+#> [21,] "cv[2]-label"                               
+#> [22,] "cv[2]-full_name"                           
+#> [23,] "cv[2]-version"                             
+#> [24,] "cv[2]-uri"                                 
+#> [25,] "cv[3]-label"                               
+#> [26,] "cv[3]-full_name"                           
+#> [27,] "cv[3]-version"                             
+#> [28,] "cv[3]-uri"                                 
+#> [29,] "database[1]"                               
+#> [30,] "database[1]-prefix"                        
+#> [31,] "database[1]-version"                       
+#> [32,] "database[1]-uri"                           
+#> [33,] "small_molecule-quantification_unit"        
+#> [34,] "small_molecule_feature-quantification_unit"
+#> [35,] "small_molecule-identification_reliability" 
+#>       value                                                                    
+#>  [1,] "2.1.0-M"                                                                
+#>  [2,] "EXP_001"                                                                
+#>  [3,] "Experiment 1 preprocessed data"                                         
+#>  [4,] "The preprocessed data of experiment 1 samples."                         
+#>  [5,] "[MS, MS:1000449, LTQ Orbitrap,]"                                        
+#>  [6,] "[MS, MS:1000073, ESI,]"                                                 
+#>  [7,] "[MS, MS:1000253, electron multiplier,]"                                 
+#>  [8,] "[MS, MS:1000291, linear ion trap,]"                                     
+#>  [9,] "[,,[MS, MS:1001582], xcms, 4.0.0,]"                                     
+#> [10,] "frodo"                                                                  
+#> [11,] "fellowship of the ring"                                                 
+#> [12,] "frodo@shire.net"                                                        
+#> [13,] "sauron"                                                                 
+#> [14,] "the dark side"                                                          
+#> [15,] "sauron@mordor.net"                                                      
+#> [16,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             
+#> [17,] "MS"                                                                     
+#> [18,] "PSI-MS controlled vocabulary"                                           
+#> [19,] "4.1.138"                                                                
+#> [20,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
+#> [21,] "PRIDE"                                                                  
+#> [22,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
+#> [23,] "16:10:2023 11:38"                                                       
+#> [24,] "https://www.ebi.ac.uk/ols/ontologies/pride"                             
+#> [25,] "STATO"                                                                  
+#> [26,] "General purpose STATistics Ontology"                                    
+#> [27,] "2026-04-20"                                                             
+#> [28,] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            
+#> [29,] "[,, \"no database\", null ]"                                            
+#> [30,] "null"                                                                   
+#> [31,] "Unknown"                                                                
+#> [32,] "null"                                                                   
+#> [33,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [34,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                
+#> [35,] "[MS, MS:1002896, compound identification confidence level, ]"           
 
 ## Other information, such as employed sample processing methods could be
 ## added in a similar way.

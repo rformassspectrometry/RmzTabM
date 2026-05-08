@@ -319,29 +319,100 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## We next manually add a title and description for the experiment.</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">mtd</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"Experiment 1 preprocessed data"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"description"</span>, <span class="st">"The preprocessed data of the experiment 1 samples."</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## We can add additional content to this *skeleton* MTD information with</span></span></span>
+<span class="r-in"><span><span class="co">## any of the `setMtd*` functions.</span></span></span>
+<span class="r-in"><span><span class="co">## We next add a title and description for the experiment.</span></span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-field.html">setMtdField</a></span><span class="op">(</span><span class="va">mtd</span>, field <span class="op">=</span> <span class="st">"title"</span>,</span></span>
+<span class="r-in"><span>    value <span class="op">=</span> <span class="st">"Experiment 1 preprocessed data"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-field.html">setMtdField</a></span><span class="op">(</span><span class="va">mtd</span>, field <span class="op">=</span> <span class="st">"description"</span>,</span></span>
+<span class="r-in"><span>    value <span class="op">=</span> <span class="st">"The preprocessed data of experiment 1 samples."</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We also add information on the MS instrumentation used</span></span></span>
-<span class="r-in"><span><span class="va">instr</span> <span class="op">&lt;-</span> <span class="fu"><a href="mtdFields.html">mtdFields</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-instrument.html">setMtdInstrument</a></span><span class="op">(</span><span class="va">mtd</span>,</span></span>
 <span class="r-in"><span>    name <span class="op">=</span> <span class="st">"[MS, MS:1000449, LTQ Orbitrap,]"</span>,</span></span>
 <span class="r-in"><span>    source <span class="op">=</span> <span class="st">"[MS, MS:1000073, ESI,]"</span>,</span></span>
-<span class="r-in"><span>    `analyzer[1]` <span class="op">=</span> <span class="st">"[MS, MS:1000291, linear ion trap,]"</span>,</span></span>
+<span class="r-in"><span>    analyzer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"analyzer[1]"</span> <span class="op">=</span> <span class="st">"[MS, MS:1000291, linear ion trap,]"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    detector <span class="op">=</span> <span class="st">"[MS, MS:1000253, electron multiplier,]"</span>,</span></span>
-<span class="r-in"><span>    field_prefix <span class="op">=</span> <span class="st">"instrument"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">instr</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]                        [,2]                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "instrument[1]-name"        "[MS, MS:1000449, LTQ Orbitrap,]"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "instrument[1]-source"      "[MS, MS:1000073, ESI,]"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "instrument[1]-analyzer[1]" "[MS, MS:1000291, linear ion trap,]"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "instrument[1]-detector"    "[MS, MS:1000253, electron multiplier,]"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Add this information to the metadata</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mtd</span>, <span class="va">instr</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## We can also add contact information</span></span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-contact.html">setMtdContact</a></span><span class="op">(</span><span class="va">mtd</span>, name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"frodo"</span>, <span class="st">"sauron"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    affiliation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fellowship of the ring"</span>, <span class="st">"the dark side"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    email <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"frodo@shire.net"</span>, <span class="st">"sauron@mordor.net"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mtd</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       field                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "mzTab-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "mzTab-ID"                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "title"                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "description"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "instrument[1]-name"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "instrument[1]-source"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "instrument[1]-detector"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "instrument[1]-analyzer[1]"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "software[1]"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "contact[1]-name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "contact[1]-affiliation"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "contact[1]-email"                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "contact[2]-name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "contact[2]-affiliation"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "contact[2]-email"                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "quantification_method"                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "cv[1]-label"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "cv[1]-full_name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "cv[1]-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "cv[1]-uri"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "cv[2]-label"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "cv[2]-full_name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "cv[2]-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "cv[2]-uri"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "cv[3]-label"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "cv[3]-full_name"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "cv[3]-version"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "cv[3]-uri"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "database[1]"                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "database[1]-prefix"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "database[1]-version"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "database[1]-uri"                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "small_molecule-quantification_unit"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "small_molecule_feature-quantification_unit"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "small_molecule-identification_reliability" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       value                                                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "2.1.0-M"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "EXP_001"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "Experiment 1 preprocessed data"                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "The preprocessed data of experiment 1 samples."                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "[MS, MS:1000449, LTQ Orbitrap,]"                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "[MS, MS:1000073, ESI,]"                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "[MS, MS:1000253, electron multiplier,]"                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "[MS, MS:1000291, linear ion trap,]"                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "[,,[MS, MS:1001582], xcms, 4.0.0,]"                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "frodo"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "fellowship of the ring"                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "frodo@shire.net"                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "sauron"                                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "the dark side"                                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "sauron@mordor.net"                                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "MS"                                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "PSI-MS controlled vocabulary"                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "4.1.138"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "PRIDE"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "16:10:2023 11:38"                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "https://www.ebi.ac.uk/ols/ontologies/pride"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "STATO"                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "General purpose STATistics Ontology"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "2026-04-20"                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "https://www.ebi.ac.uk/ols4/ontologies/stato"                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "[,, \"no database\", null ]"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "Unknown"                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "null"                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "[MS, MS:1002896, compound identification confidence level, ]"           </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Other information, such as employed sample processing methods could be</span></span></span>
 <span class="r-in"><span><span class="co">## added in a similar way.</span></span></span>

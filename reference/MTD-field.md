@@ -27,7 +27,7 @@ getMtdField(x = matrix(), field = character())
 
 - field:
 
-  `character` name of the metadata field to set or update. Must be a
+  `character(1)` name of the metadata field to set or update. Must be a
   valid [MTD field
   name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section).
   (e.g. `"publication"`)
