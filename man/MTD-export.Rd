@@ -115,24 +115,28 @@ mtd <- mtdSkeleton(
     software = "[MS, MS:1001582], xcms, 4.0.0")
 mtd
 
-## We next manually add a title and description for the experiment.
-mtd <- rbind(
-    mtd,
-    c("title", "Experiment 1 preprocessed data"),
-    c("description", "The preprocessed data of the experiment 1 samples."))
+## We can add additional content to this *skeleton* MTD information with
+## any of the `setMtd*` functions.
+## We next add a title and description for the experiment.
+mtd <- setMtdField(mtd, field = "title",
+    value = "Experiment 1 preprocessed data")
+mtd <- setMtdField(mtd, field = "description",
+    value = "The preprocessed data of experiment 1 samples.")
 
 ## We also add information on the MS instrumentation used
-instr <- mtdFields(
+mtd <- setMtdInstrument(mtd,
     name = "[MS, MS:1000449, LTQ Orbitrap,]",
     source = "[MS, MS:1000073, ESI,]",
-    `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
+    analyzer = c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]"),
     detector = "[MS, MS:1000253, electron multiplier,]",
-    field_prefix = "instrument"
 )
-instr
 
-## Add this information to the metadata
-mtd <- rbind(mtd, instr)
+## We can also add contact information
+mtd <- setMtdContact(mtd, name = c("frodo", "sauron"),
+    affiliation = c("fellowship of the ring", "the dark side"),
+    email = c("frodo@shire.net", "sauron@mordor.net"))
+
+mtd
 
 ## Other information, such as employed sample processing methods could be
 ## added in a similar way.

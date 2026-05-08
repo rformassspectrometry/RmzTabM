@@ -1077,7 +1077,8 @@ test_that("setMtdField works", {
                 "Provide a valid MTD field")
     expect_error(setMtdField(x, field = "custom"),
                 "Provide at least 1 value")
-
+    expect_error(setMtdField(x, field = c("a", "b"), value = c("2", "3")),
+                 "A single value")
 
     ## setMtdField adds a new metadata field to a valid MTD section
     result <- setMtdField(x, field = "publication",

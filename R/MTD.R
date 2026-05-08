@@ -134,24 +134,28 @@
 #'     software = "[MS, MS:1001582], xcms, 4.0.0")
 #' mtd
 #'
-#' ## We next manually add a title and description for the experiment.
-#' mtd <- rbind(
-#'     mtd,
-#'     c("title", "Experiment 1 preprocessed data"),
-#'     c("description", "The preprocessed data of the experiment 1 samples."))
+#' ## We can add additional content to this *skeleton* MTD information with
+#' ## any of the `setMtd*` functions.
+#' ## We next add a title and description for the experiment.
+#' mtd <- setMtdField(mtd, field = "title",
+#'     value = "Experiment 1 preprocessed data")
+#' mtd <- setMtdField(mtd, field = "description",
+#'     value = "The preprocessed data of experiment 1 samples.")
 #'
 #' ## We also add information on the MS instrumentation used
-#' instr <- mtdFields(
+#' mtd <- setMtdInstrument(mtd,
 #'     name = "[MS, MS:1000449, LTQ Orbitrap,]",
 #'     source = "[MS, MS:1000073, ESI,]",
-#'     `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
+#'     analyzer = c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]"),
 #'     detector = "[MS, MS:1000253, electron multiplier,]",
-#'     field_prefix = "instrument"
 #' )
-#' instr
 #'
-#' ## Add this information to the metadata
-#' mtd <- rbind(mtd, instr)
+#' ## We can also add contact information
+#' mtd <- setMtdContact(mtd, name = c("frodo", "sauron"),
+#'     affiliation = c("fellowship of the ring", "the dark side"),
+#'     email = c("frodo@shire.net", "sauron@mordor.net"))
+#'
+#' mtd
 #'
 #' ## Other information, such as employed sample processing methods could be
 #' ## added in a similar way.
@@ -1629,8 +1633,10 @@ mtdSort <- function(x) {
 #'     experiment. (e.g., `"[MS, MS:1000073, ESI,]"`).
 #'
 #' @param analyzer `character` with the instrument’s analyzer type(s) used in
-#'     the experiment.
-#'     (e.g., `c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")`).
+#'     the experiment. **Must** be provided in the form
+#'     `c("analyzer[1]" = "[MS, MS:1000291, linear ion trap,]")` for a single
+#'     analyzer, or `c("analyzer[1]" = "<analyzer 1>", "analyzer[2] = ...")`
+#'     for multiple analyzers.
 #'
 #' @param detector `character` with the instrument’s detector type used in the
 #'     experiment. (e.g., `"[MS, MS:1000253, electron multiplier,]"`).
@@ -2049,7 +2055,7 @@ getMtdContact <- function(x = matrix()) {
 #' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
 #'     If all values are `NA`, the function returns `x` unchanged.
 #'
-#' @param field `character` name of the metadata field to set or update.
+#' @param field `character(1)` name of the metadata field to set or update.
 #'     Must be a valid [MTD field name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section). (e.g. `"publication"`)
 #'
 #' @param value `character` value(s) to assign to the field. (e.g.
@@ -2091,13 +2097,15 @@ getMtdContact <- function(x = matrix()) {
 setMtdField <- function(x = matrix(), field = character(), value = character(),
                         replace = FALSE) {
     if(!all(is.na(x))) {
-        if(!any(grepl(field, .MTD_FIELD_ORDER)))
+        if (length(field) != 1)
+            stop("A single value should be submitted to 'field'")
+        if (!any(grepl(field, .MTD_FIELD_ORDER)))
             stop("Provide a valid MTD field. \"", field, "\" not valid.")
 
-        if(!length(value))
+        if (!length(value))
             stop("Provide at least 1 value to add.")
 
-        if(any(grepl(field, .MTD_UNIQUE_FIELD))) {
+        if (any(grepl(field, .MTD_UNIQUE_FIELD))) {
             if (length(value) > 1)
                 stop("The field '", field,
                      "' is unique. Provide a single \"value\"")
