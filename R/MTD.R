@@ -976,10 +976,10 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
 #'     values (i.e., study variables) for the study variable group. If provided,
 #'     its length has to match the length of paramter `groups`.
 #'     Supported values are `"xsd:string"`, `"xsd:integer"`, `"xsd:decimal"`,
-#'     `"xsd:boolean"`, `"xsd:date"`, `"xsd:time"`, `"xsd:dateTime"`, and
-#'     `"xsd:anyURI"`. Date,l time and dateTime values **must** be encoded in
-#'     ISO 8601 format. If not provided the type is guessed by the data type of
-#'     the respective column in `x`.
+#'     `"xsd:boolean"`, `"xsd:date"`, `"xsd:time"`, `"xsd:dateTime"`,
+#'     `"xsd:anyURI"`, and `"Parameter"` (for *CV Parameters*). Date, time and
+#'     dateTime values **must** be encoded in ISO 8601 format. If not provided
+#'     the type is guessed by the data type of the respective column in `x`.
 #'
 #' @param group_unit optional `character` defining the unit of the group
 #'     variable (for numeric data types). If provided, its length has to match
@@ -1579,7 +1579,15 @@ mtdSort <- function(x) {
         if (anyNA(idx))
             stop("Group datatype(s) ", paste0(dtype[is.na(idx)],collapse =", "),
                  " are not supported", call. = FALSE)
-        .STUDY_VARIABLE_GROUP_DATATYPE$xsd[idx]
+        res <- .STUDY_VARIABLE_GROUP_DATATYPE$xsd[idx]
+        is_cv <- vapply(x, function(z) {
+            z <- z[!is.na(z)]
+            z <- z[!z %in% c("", "null")]
+            all(isCvParameter(z))
+        },  NA)
+        if (any(is_cv))
+            res[is_cv] <- "Parameter"
+        res
     }
 }
 
@@ -1607,9 +1615,10 @@ mtdSort <- function(x) {
 
 .STUDY_VARIABLE_GROUP_DATATYPE <- data.frame(
     r = c("character", "integer", "numeric", "logical", "factor",
-          "character", "character", "character", "character"),
+          "character", "character", "character", "character", "character"),
     xsd = c("xsd:string", "xsd:integer", "xsd:decimal", "xsd:boolean",
-            "xsd:string", "xsd:dateTime", "xsd:date", "xsd:time", "xsd:anyURI")
+            "xsd:string", "xsd:dateTime", "xsd:date", "xsd:time", "xsd:anyURI",
+            "Parameter")
 )
 
 

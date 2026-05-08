@@ -736,6 +736,16 @@ test_that(".mtd_svar_group_datatype works", {
     expect_equal(res, c("xsd:string", "xsd:decimal","xsd:integer","xsd:string"))
     res <- .mtd_svar_group_datatype(x)
     expect_equal(res, c("xsd:string", "xsd:decimal","xsd:integer","xsd:string"))
+
+    x$cv <- c("[a,b,c,d]", NA, "[a,b, c, d]")
+    res <- .mtd_svar_group_datatype(x, c("xsd:string", "xsd:decimal",
+                                         "xsd:integer", "xsd:string",
+                                         "Parameter"))
+    expect_equal(res, c("xsd:string", "xsd:decimal","xsd:integer",
+                        "xsd:string", "Parameter"))
+    res <- .mtd_svar_group_datatype(x)
+    expect_equal(res, c("xsd:string", "xsd:decimal","xsd:integer",
+                        "xsd:string", "Parameter"))
 })
 
 test_that(".mztab_study_variables works", {
