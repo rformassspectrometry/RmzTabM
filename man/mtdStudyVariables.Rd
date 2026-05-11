@@ -49,10 +49,10 @@ respective columns in \code{x}.}
 values (i.e., study variables) for the study variable group. If provided,
 its length has to match the length of paramter \code{groups}.
 Supported values are \code{"xsd:string"}, \code{"xsd:integer"}, \code{"xsd:decimal"},
-\code{"xsd:boolean"}, \code{"xsd:date"}, \code{"xsd:time"}, \code{"xsd:dateTime"}, and
-\code{"xsd:anyURI"}. Date,l time and dateTime values \strong{must} be encoded in
-ISO 8601 format. If not provided the type is guessed by the data type of
-the respective column in \code{x}.}
+\code{"xsd:boolean"}, \code{"xsd:date"}, \code{"xsd:time"}, \code{"xsd:dateTime"},
+\code{"xsd:anyURI"}, and \code{"Parameter"} (for \emph{CV Parameters}). Date, time and
+dateTime values \strong{must} be encoded in ISO 8601 format. If not provided
+the type is guessed by the data type of the respective column in \code{x}.}
 
 \item{group_unit}{optional \code{character} defining the unit of the group
 variable (for numeric data types). If provided, its length has to match
