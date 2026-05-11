@@ -19,7 +19,7 @@ getMtdField(x = matrix(), field = character())
 \item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.
 If all values are \code{NA}, the function returns \code{x} unchanged.}
 
-\item{field}{\code{character} name of the metadata field to set or update.
+\item{field}{\code{character(1)} name of the metadata field to set or update.
 Must be a valid \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section}{MTD field name}. (e.g. \code{"publication"})}
 
 \item{value}{\code{character} value(s) to assign to the field. (e.g.
