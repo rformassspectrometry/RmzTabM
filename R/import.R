@@ -27,7 +27,7 @@
 #' respective data sections. The `MTD` section does not have a dedicated header
 #' row; its two-column key–value structure is returned without column names.
 #'
-#' @param path `character(1)`with the path to the mzTab-M file.
+#' @param path `character(1)` with the path to the mzTab-M file.
 #'
 #' @param ... Additional arguments forwarded to every internal call to
 #'     `data.table::fread`.

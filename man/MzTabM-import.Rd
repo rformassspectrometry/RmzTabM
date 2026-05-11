@@ -8,7 +8,7 @@
 importMztabm(path, ...)
 }
 \arguments{
-\item{path}{\code{character(1)}with the path to the mzTab-M file.}
+\item{path}{\code{character(1)} with the path to the mzTab-M file.}
 
 \item{...}{Additional arguments forwarded to every internal call to
 \code{data.table::fread}.}
