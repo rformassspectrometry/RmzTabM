@@ -493,16 +493,16 @@ pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
 
 |  |  |
 |:---|:---|
-| study_variable_group\[1\] | timepoint |
+| study_variable_group\[1\] | \[,,timepoint,\] |
 | study_variable_group\[1\]-description | Sample matrix column timepoint |
 | study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[1\]-datatype | xsd:string |
 | study_variable_group\[1\]-unit | \[, , hours, \] |
-| study_variable_group\[2\] | genotype |
+| study_variable_group\[2\] | \[,,genotype,\] |
 | study_variable_group\[2\]-description | Sample matrix column genotype |
 | study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[2\]-datatype | xsd:string |
-| study_variable_group\[3\] | operator |
+| study_variable_group\[3\] | \[,,operator,\] |
 | study_variable_group\[3\]-description | Sample matrix column operator |
 | study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[3\]-datatype | xsd:string |
@@ -511,37 +511,37 @@ pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[1\]-description | Variable timepoint, value 0h |
-| study_variable\[1\]-group_refs | study_variable_group\[1\] |
+| study_variable\[1\]-group_ref | study_variable_group\[1\] |
 | study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[2\]-description | Variable timepoint, value 6h |
-| study_variable\[2\]-group_refs | study_variable_group\[1\] |
+| study_variable\[2\]-group_ref | study_variable_group\[1\] |
 | study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[3\]-description | Variable genotype, value WT |
-| study_variable\[3\]-group_refs | study_variable_group\[2\] |
+| study_variable\[3\]-group_ref | study_variable_group\[2\] |
 | study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[4\]-description | Variable genotype, value KO |
-| study_variable\[4\]-group_refs | study_variable_group\[2\] |
+| study_variable\[4\]-group_ref | study_variable_group\[2\] |
 | study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[5\]-description | Variable operator, value BB |
-| study_variable\[5\]-group_refs | study_variable_group\[3\] |
+| study_variable\[5\]-group_ref | study_variable_group\[3\] |
 | study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[6\]-description | Variable operator, value FB |
-| study_variable\[6\]-group_refs | study_variable_group\[3\] |
+| study_variable\[6\]-group_ref | study_variable_group\[3\] |
 
 For each column a *study variable group* was defined while each unique
 value in each of the specified columns was encoded as a
@@ -647,16 +647,16 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 | assay\[6\] | S3_T2 |
 | assay\[6\]-sample_ref | sample\[3\] |
 | assay\[6\]-ms_run_ref | ms_run\[6\] |
-| study_variable_group\[1\] | timepoint |
+| study_variable_group\[1\] | \[,,timepoint,\] |
 | study_variable_group\[1\]-description | Sample matrix column timepoint |
 | study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[1\]-datatype | xsd:string |
 | study_variable_group\[1\]-unit | \[, , hours, \] |
-| study_variable_group\[2\] | genotype |
+| study_variable_group\[2\] | \[,,genotype,\] |
 | study_variable_group\[2\]-description | Sample matrix column genotype |
 | study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[2\]-datatype | xsd:string |
-| study_variable_group\[3\] | operator |
+| study_variable_group\[3\] | \[,,operator,\] |
 | study_variable_group\[3\]-description | Sample matrix column operator |
 | study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[3\]-datatype | xsd:string |
@@ -665,37 +665,37 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[1\]-description | Variable timepoint, value 0h |
-| study_variable\[1\]-group_refs | study_variable_group\[1\] |
+| study_variable\[1\]-group_ref | study_variable_group\[1\] |
 | study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[2\]-description | Variable timepoint, value 6h |
-| study_variable\[2\]-group_refs | study_variable_group\[1\] |
+| study_variable\[2\]-group_ref | study_variable_group\[1\] |
 | study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[3\]-description | Variable genotype, value WT |
-| study_variable\[3\]-group_refs | study_variable_group\[2\] |
+| study_variable\[3\]-group_ref | study_variable_group\[2\] |
 | study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[4\]-description | Variable genotype, value KO |
-| study_variable\[4\]-group_refs | study_variable_group\[2\] |
+| study_variable\[4\]-group_ref | study_variable_group\[2\] |
 | study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[5\]-description | Variable operator, value BB |
-| study_variable\[5\]-group_refs | study_variable_group\[3\] |
+| study_variable\[5\]-group_ref | study_variable_group\[3\] |
 | study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[6\]-description | Variable operator, value FB |
-| study_variable\[6\]-group_refs | study_variable_group\[3\] |
+| study_variable\[6\]-group_ref | study_variable_group\[3\] |
 | cv\[1\]-label | MS |
 | cv\[1\]-full_name | PSI-MS controlled vocabulary |
 | cv\[1\]-version | 4.1.138 |
@@ -1119,10 +1119,10 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6   RmzTabM_0.97.9
+    [1] pander_0.6.6    RmzTabM_0.97.10
 
     loaded via a namespace (and not attached):
-     [1] compiler_4.6.0  fastmap_1.2.0   cli_3.6.6       tools_4.6.0
-     [5] htmltools_0.5.9 otel_0.2.0      yaml_2.3.12     Rcpp_1.1.1-1.1
-     [9] rmarkdown_2.31  knitr_1.51      jsonlite_2.0.0  xfun_0.57
-    [13] digest_0.6.39   rlang_1.2.0     evaluate_1.0.5 
+     [1] digest_0.6.39     fastmap_1.2.0     xfun_0.57         knitr_1.51
+     [5] htmltools_0.5.9   rmarkdown_2.31    cli_3.6.6         data.table_1.18.4
+     [9] compiler_4.6.0    tools_4.6.0       evaluate_1.0.5    Rcpp_1.1.1-1.1
+    [13] yaml_2.3.12       otel_0.2.0        rlang_1.2.0       jsonlite_2.0.0   

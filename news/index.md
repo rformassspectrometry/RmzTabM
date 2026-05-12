@@ -2,6 +2,14 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.10
+
+- First version of general read function
+  [`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
+- Add example and tests.
+- Fix bug related `study_variable[1-n]-group_ref`
+- Change type `study_variable_group[1-n]` to CV param
+
 ### Changes in version 0.97.9
 
 - Support `"Parameter"` as study variable group datatype.
