@@ -273,7 +273,7 @@ sme_xcms_export <- function(xmse) {
 ```{r}
 ## Generate the base MTD based on the xmse object with the mandatory fields (xcms specific package)
 mtd <- .mtd(x = quantify(xmse),
-            id = "xcms_mzTab-M_2-1_v2",
+            id = "xcms_mzTab-M_2-1_v3",
             software = paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]"),
             studyVariables = c("sample_group", "experiment"),
             polarity = "positive")
@@ -310,46 +310,14 @@ mtd <- setMtdField(x = mtd, field = "publication",
                 value = c("pubmed:21063943|doi:10.1007/978-1-60761-987-1_6"))
 
 ## Generate SML, SMF, SME (xcms specific package)
-sml <- sml_xcms_export(xmse, mtd)
+## sml <- sml_xcms_export(xmse, mtd)
 smf <- smf_xcms_export(xmse)
 ## sme <- sme_xcms_export(xmse)
-x = list("MTD" = mtd, "SML" = sml, "SMF" = smf)
+x = list("MTD" = mtd, "SMF" = smf)
 
 ## Save file
-path <- "./inst/mztabm/out"
-if(!dir.exists(path))
-    dir.create(path, showWarnings = FALSE)
-
-filename = file.path(path,
-                    paste0(.mtd_get_field(mtd, "^mzTab-ID$",
-                                        exact = FALSE, fixed = FALSE),
-                    ".mzTab"))
-
-write.table(cbind(data.frame(rep("MTD", nrow(mtd))), mtd),
-            file = filename, sep = "\t", row.names = FALSE,
-            col.names = FALSE, quote = FALSE, fileEncoding = "UTF-8")
-write.table("", file = filename, sep = "\t", row.names = FALSE,
-            col.names = FALSE, append = TRUE, quote = FALSE,
-            fileEncoding = "UTF-8")
-suppressWarnings(write.table(sml, file = filename, sep = "\t",
-                             row.names = FALSE, append = TRUE, quote = FALSE,
-                             fileEncoding = "UTF-8"))
-write.table("", file = filename, sep = "\t", row.names = FALSE,
-            col.names = FALSE, append = TRUE, quote = FALSE,
-            fileEncoding = "UTF-8")
-if(nrow(smf)) {
-    suppressWarnings(write.table(smf, file = filename, sep = "\t",
-                                 row.names = FALSE, append = TRUE,
-                                 quote = FALSE, fileEncoding = "UTF-8"))
-    write.table("", file = filename, sep = "\t", row.names = FALSE,
-                col.names = FALSE, append = TRUE, quote = FALSE,
-                fileEncoding = "UTF-8")
-}
-if(nrow(sme)) {
-    suppressWarnings(write.table(sme, file = filename, sep = "\t",
-                                 row.names = FALSE, append = TRUE,
-                                 quote = FALSE, fileEncoding = "UTF-8"))
-}
+path <- "./inst/mztabm/exportFunction/xcms_mzTab-M_2-1_write_test.mztab"
+writeMzTabM(x, path = path, comments = c("This is just a file to test the export function."))
 ```
 
 ### *Metabonaut* example file?

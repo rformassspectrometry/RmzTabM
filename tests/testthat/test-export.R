@@ -1,5 +1,5 @@
 
-test_that("exportMztabm works", {
+test_that("writeMzTabM works", {
     mtd_block <- data.frame(
         c("mzTab-version", "mzTab-ID", "software[1]", "publication[1]",
           "contact[1]-name", "contact[1]-affiliation", "contact[1]-email"),
@@ -39,54 +39,54 @@ test_that("exportMztabm works", {
 
     f <- tempfile(fileext = ".mztab")
 
-    expect_error(exportMztabm(), "argument \"x\" is missing")
+    expect_error(writeMzTabM(), "argument \"x\" is missing")
 
     x <- list("MTD" = mtd_block)
-    expect_error(exportMztabm(x), "argument \"path\" is missing")
+    expect_error(writeMzTabM(x), "argument \"path\" is missing")
 
-    expect_error(exportMztabm("not_a_list", path = f), "x must be a list")
-    expect_error(exportMztabm(x = list(), path = f), "MTD section")
+    expect_error(writeMzTabM("not_a_list", path = f), "x must be a list")
+    expect_error(writeMzTabM(x = list(), path = f), "MTD section")
     x <- list("MTD" = mtd_block, "SME" = SME_block)
-    expect_error(exportMztabm(x, path = f), "Missing \"SFH\" section")
+    expect_error(writeMzTabM(x, path = f), "Missing \"SFH\" section")
 
     ## Test save only MTD in a pregenerated file
     x <- list("MTD" = mtd_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML in a pregenerated file
     x <- list("MTD" = mtd_block, "SML" = SML_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML+SMF in a pregenerated file
     x <- list("MTD" = mtd_block, "SML" = SML_block, "SMF" = SMF_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML+SMF+SME in a pregenerated file
     x <- list("MTD" = mtd_block, "SML" = SML_block, "SMF" = SMF_block,
               "SME" = SME_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SMF in a pregenerated file
     x <- list("MTD" = mtd_block, "SMF" = SMF_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SMF+SME in a pregenerated file
     x <- list("MTD" = mtd_block, "SMF" = SMF_block, "SME" = SME_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
 
     ## Test comments
     x <- list("MTD" = mtd_block, "SML" = SML_block)
-    expect_no_error(exportMztabm(x, path = f, comments = "Comment 1"))
-    expect_no_error(exportMztabm(x, path = f,
+    expect_no_error(writeMzTabM(x, path = f, comments = "Comment 1"))
+    expect_no_error(writeMzTabM(x, path = f,
                                  comments = c("Comment 1", "Comment 2")))
 
     ## Test save only MTD in a not-existing directory
     f <- file.path(tempdir(), "not_existing_dir", "example.mztab")
     x <- list("MTD" = mtd_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
 
     ## Test save only MTD in a not-existing directory without extension
     f <- file.path(tempdir(), "not_existing_dir_2", "example_no_ext")
     x <- list("MTD" = mtd_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
 
     ## Test save only MTD in a not-existing directory without filename
     f <- file.path(tempdir(), "not_existing_dir_2/")
     x <- list("MTD" = mtd_block)
-    expect_no_error(exportMztabm(x, path = f))
+    expect_no_error(writeMzTabM(x, path = f))
 })

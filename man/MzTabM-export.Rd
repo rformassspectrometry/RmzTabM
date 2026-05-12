@@ -2,10 +2,10 @@
 % Please edit documentation in R/export.R
 \name{MzTabM-export}
 \alias{MzTabM-export}
-\alias{exportMztabm}
+\alias{writeMzTabM}
 \title{Export a mzTab-M 2.1 file}
 \usage{
-exportMztabm(x, path, comments = character())
+writeMzTabM(x, path, comments = character())
 }
 \arguments{
 \item{x}{\code{list} containing the mzTab-M data to be written.}
@@ -77,11 +77,11 @@ mtd <- mtdSort(mtd)
 x <- list("MTD" = mtd)
 filepath <- file.path(tempdir(), "example.mztab")
 
-result <- exportMztabm(x, path = filepath)
+result <- writeMzTabM(x, path = filepath)
 
 ## Add comments
 comments <- c("Test comment")
-results <- exportMztabm(x, path = filepath, comments = comments)
+results <- writeMzTabM(x, path = filepath, comments = comments)
 
 }
 \author{

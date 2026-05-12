@@ -75,14 +75,14 @@
 #' x <- list("MTD" = mtd)
 #' filepath <- file.path(tempdir(), "example.mztab")
 #'
-#' result <- exportMztabm(x, path = filepath)
+#' result <- writeMzTabM(x, path = filepath)
 #'
 #' ## Add comments
 #' comments <- c("Test comment")
-#' results <- exportMztabm(x, path = filepath, comments = comments)
+#' results <- writeMzTabM(x, path = filepath, comments = comments)
 #'
 #' @export
-exportMztabm <- function(x, path, comments = character()) {
+writeMzTabM <- function(x, path, comments = character()) {
     if (!is.list(x))
         stop("x must be a list.")
 
