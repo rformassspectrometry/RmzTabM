@@ -273,11 +273,10 @@ sme_xcms_export <- function(xmse) {
 ```{r}
 ## Generate the base MTD based on the xmse object with the mandatory fields (xcms specific package)
 mtd <- .mtd(x = quantify(xmse),
-            id = "xcms_mzTab-M_2-1",
+            id = "xcms_mzTab-M_2-1_v2",
             software = paste0("[MS, MS:1001582, xcms, ", packageVersion("xcms"), "]"),
             studyVariables = c("sample_group", "experiment"),
             polarity = "positive")
-mtd <- updateMtdContent(mtd, "mzTab-ID", "xcms_mzTab-M_2-1_v2")
 
 ## Intrument  (Rmztabm)
 mtd <- setMtdInstrument(x = mtd,
@@ -308,7 +307,7 @@ mtd <- setMtdContact(x = mtd,
 
 ## Single fields like "publication" (Rmztabm)
 mtd <- setMtdField(x = mtd, field = "publication",
-                value = c("test pub","test pub 2"))
+                value = c("pubmed:21063943|doi:10.1007/978-1-60761-987-1_6"))
 
 ## Generate SML, SMF, SME (xcms specific package)
 sml <- sml_xcms_export(xmse, mtd)
@@ -359,6 +358,20 @@ set with more phenotypic information (age, sex). Plus: we could add a dedicated
 vignette with the mzTab-M export to *Metabonaut*.
 
 # Importing through *RmzTabM*
+
+```{r}
+mzTabM_file <- readMzTabM(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab", package = "RmzTabM"))
+
+mzTabM_MTD_file <- readMzTabM(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2_onlyMTD.mzTab", package = "RmzTabM"))
+
+mzTabM_MTD_SMF_file <- readMzTabM(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2_MTD_SMF.mzTab", package = "RmzTabM"))
+
+mzTabM_MTD_SML_file <- readMzTabM(path = system.file("mztabm/out","xcms_mzTab-M_2-1_v2_MTD_SML.mzTab", package = "RmzTabM"))
+
+mzTabM_riken_file <- readMzTabM(path = system.file("mztabm/out","riken-lipidomics-r-mtd-sml.mztab", package = "RmzTabM"))
+
+
+```
 
 # Session information
 

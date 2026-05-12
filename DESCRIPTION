@@ -1,6 +1,6 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.97.9
+Version: 0.97.10
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
@@ -42,6 +42,8 @@ BugReports: https://github.com/RforMassSpectrometry/RmzTabM/issues
 SystemRequirements:
     pandoc,
     quarto
+Imports:
+    data.table
 Suggests:
     testthat,
     pkgdown,

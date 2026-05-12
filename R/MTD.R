@@ -1066,16 +1066,21 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Not all column names defined with 'groups' are ",
              "present in 'x'", call. = FALSE)
     x <- as.data.frame(x[, groups, drop = FALSE])
-    svg <- c(groups, .mtd_svar_group_description(x, group_description),
+    ## Convert non Cv groups to Cv parameters
+    groups_cv <- groups
+    if (any(i <- !isCvParameter(groups_cv)))
+        groups_cv[i] <- paste0("[,,", groups_cv[i], ",]")
+
+    svg <- c(groups_cv, .mtd_svar_group_description(x, group_description),
              .mtd_svar_group_type(x, group_type),
              .mtd_svar_group_datatype(x, group_datatype),
              .mtd_svar_group_unit(x, group_unit))
     ## build study variable group content
     res <- cbind(paste0("study_variable_group[",
-                        rep(seq_along(groups), each = 5L),
+                        rep(seq_along(groups_cv), each = 5L),
                         c("]", "]-description", "]-type",
                           "]-datatype", "]-unit")),
-                 svg[order(rep(seq_along(groups), 5L))])
+                 svg[order(rep(seq_along(groups_cv), 5L))])
     ## drop rows with empty unit
     res <- res[!(grepl("-unit$", res[, 1L]) & res[, 2L] == ""), , drop = FALSE]
     svar_df <- .mztab_study_variables(x, groups)
@@ -1109,7 +1114,7 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-average_function"),
                      paste0("study_variable[", i, "]-variation_function"),
                      paste0("study_variable[", i, "]-description"),
-                     paste0("study_variable[", i, "]-group_refs"),
+                     paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
                      paste0("assay[", which(x[, current_grp] == current_svar),
                             "]", collapse = "|"),
@@ -2093,7 +2098,7 @@ getMtdContact <- function(x = matrix()) {
 #' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 #' ## Add a metadata field to an existing mzTab object
 #' mtd <- setMtdField(x, field = "publication",
-#'           value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
+#'           value = "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6")
 #'
 #' ## Replace all existing values for a metadata field
 #' mtd <- setMtdField(mtd, field = "custom",
