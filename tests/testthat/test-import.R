@@ -1,5 +1,5 @@
 
-test_that("importMztabm works", {
+test_that("readMzTabM works", {
     mtd_block <- c("MTD\tmzTab-version\t2.1.0-M",
                     "MTD\tmzTab-ID\txcms_mzTab-M_2-1_v2",
                     "MTD\tsoftware[1]\t[MS, MS:1001582, xcms, 4.8.0]",
@@ -32,18 +32,18 @@ test_that("importMztabm works", {
 
     f <- tempfile(fileext = ".mztab")
     writeLines(character(0), f)
-    expect_error(importMztabm(f), "empty")
+    expect_error(readMzTabM(f), "empty")
 
     ## file with only blank lines is considered empty
     f <- write_tmp("", "   ", "\t")
-    expect_error(importMztabm(f), "empty")
+    expect_error(readMzTabM(f), "empty")
 
     ## file without MTD section throws informative error
     f <- write_tmp(
         "SMH\tSML_ID\tidentifier",
         "SML\t1\tHMDB:HMDB0000001"
     )
-    expect_error(importMztabm(f), "MTD")
+    expect_error(readMzTabM(f), "MTD")
 
     ## SME section without SFH/SMF section throws informative error
     f <- write_tmp(
@@ -51,13 +51,13 @@ test_that("importMztabm works", {
         "\n",
         SME_block   # SEH present but SFH absent
     )
-    expect_error(importMztabm(f), "SFH")
+    expect_error(readMzTabM(f), "SFH")
     ## non-existent file path throws an error
-    expect_error(importMztabm("/this/path/does/not/exist.mztab"), "not exist")
+    expect_error(readMzTabM("/this/path/does/not/exist.mztab"), "not exist")
 
     ## MTD-only file returns a list with exactly one element named MTD
     f <- write_tmp(mtd_block)
-    res <- importMztabm(f)
+    res <- readMzTabM(f)
     expect_type(res, "list")
     expect_identical(names(res), "MTD")
     expect_true(is.matrix(res[["MTD"]]))
@@ -68,7 +68,7 @@ test_that("importMztabm works", {
 
     ## SML section is present and is a matrix when SMH is in file
     f <- write_tmp(mtd_block, "\n", SML_block)
-    res <- importMztabm(f)
+    res <- readMzTabM(f)
     expect_true(!is.null(res[["SML"]]))
     expect_true(is.matrix(res[["SML"]]))
     expected_cols <- strsplit(SML_block[1], "\t")[[1]]
@@ -78,7 +78,7 @@ test_that("importMztabm works", {
 
     ## SMF section is present and is a matrix when SFH is in file
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block)
-    res <- importMztabm(f)
+    res <- readMzTabM(f)
     expect_true(!is.null(res[["SMF"]]))
     expect_true(is.matrix(res[["SMF"]]))
     expected_cols <- strsplit(SMF_block[1], "\t")[[1]]
@@ -89,7 +89,7 @@ test_that("importMztabm works", {
 
     ## SME section is present when both SFH and SEH are in file
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block, "\n", SME_block)
-    res <- importMztabm(f)
+    res <- readMzTabM(f)
     expect_true(!is.null(res[["SME"]]))
     expect_true(is.matrix(res[["SME"]]))
     expected_cols <- strsplit(SME_block[1], "\t")[[1]]
@@ -104,7 +104,7 @@ test_that("importMztabm works", {
     ## Error if sections are not in the correct order
     ## TODO: call the validator on the file
     ## f <- write_tmp(mtd_block, SMF_block, SML_block)
-    ## res <- importMztabm(f)
+    ## res <- readMzTabM(f)
     ## expect_error(...)
 
     ## blank lines interspersed in file do not break parsing
@@ -113,12 +113,12 @@ test_that("importMztabm works", {
         mtd_block[2:7], "",
         SML_block
     )
-    res <- importMztabm(f)
+    res <- readMzTabM(f)
     expect_identical(names(res), c("MTD", "SML"))
     expect_equal(nrow(res[["MTD"]]), length(mtd_block))
 
     ## extra fread arguments via ... are accepted without error
     f <- write_tmp(mtd_block, SML_block)
     # nThread is a valid fread argument; if ... forwarding is broken this errors
-    expect_no_error(importMztabm(f, nThread = 1L))
+    expect_no_error(readMzTabM(f, nThread = 1L))
 })

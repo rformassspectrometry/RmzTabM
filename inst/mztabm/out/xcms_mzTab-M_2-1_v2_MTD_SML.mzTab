@@ -4,9 +4,8 @@ MTD	instrument[1]-name	[MS, MS:1000449, LTQ Orbitrap,]
 MTD	instrument[1]-source	[MS, MS:1000073, ESI,]
 MTD	instrument[1]-detector	[MS, MS:1000253, electron multiplier,]
 MTD	instrument[1]-analyzer[1]	[MS, MS:1000291, linear ion trap,]
-MTD	software[1]	[MS, MS:1001582, xcms, 4.8.0]
-MTD	publication[1]	test pub
-MTD	publication[2]	test pub 2
+MTD	software[1]	[MS, MS:1001582, xcms, 4.10.0]
+MTD	publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
 MTD	contact[1]-name	author_1
 MTD	contact[1]-affiliation	EURAC
 MTD	contact[1]-email	author_1@mail.com
@@ -62,66 +61,50 @@ MTD	assay[7]-ms_run_ref	ms_run[7]
 MTD	assay[8]	wt22.CDF
 MTD	assay[8]-sample_ref	sample[8]
 MTD	assay[8]-ms_run_ref	ms_run[8]
-MTD	study_variable_group[1]	sample_group
+MTD	study_variable_group[1]	[,,sample_group,]
 MTD	study_variable_group[1]-description	Sample matrix column sample_group
 MTD	study_variable_group[1]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[1]-datatype	xsd:string
-MTD	study_variable_group[2]	experiment
+MTD	study_variable_group[2]	[,,experiment,]
 MTD	study_variable_group[2]-description	Sample matrix column experiment
 MTD	study_variable_group[2]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[2]-datatype	xsd:string
-MTD	study_variable_group[3]	sample_type
-MTD	study_variable_group[3]-description	Sample matrix column sample_type
-MTD	study_variable_group[3]-type	[STATO, STATO:0000252, categorical variable, ]
-MTD	study_variable_group[3]-datatype	xsd:string
 MTD	study_variable[1]	KO
 MTD	study_variable[1]-assay_refs	assay[1]|assay[2]|assay[3]|assay[4]
 MTD	study_variable[1]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[1]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[1]-description	Variable sample_group, value KO
-MTD	study_variable[1]-group_refs	study_variable_group[1]
+MTD	study_variable[1]-group_ref	study_variable_group[1]
 MTD	study_variable[2]	WT
 MTD	study_variable[2]-assay_refs	assay[5]|assay[6]|assay[7]|assay[8]
 MTD	study_variable[2]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[2]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[2]-description	Variable sample_group, value WT
-MTD	study_variable[2]-group_refs	study_variable_group[1]
+MTD	study_variable[2]-group_ref	study_variable_group[1]
 MTD	study_variable[3]	exp1
 MTD	study_variable[3]-assay_refs	assay[1]|assay[5]
 MTD	study_variable[3]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[3]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[3]-description	Variable experiment, value exp1
-MTD	study_variable[3]-group_refs	study_variable_group[2]
+MTD	study_variable[3]-group_ref	study_variable_group[2]
 MTD	study_variable[4]	exp2
 MTD	study_variable[4]-assay_refs	assay[2]|assay[6]
 MTD	study_variable[4]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[4]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[4]-description	Variable experiment, value exp2
-MTD	study_variable[4]-group_refs	study_variable_group[2]
+MTD	study_variable[4]-group_ref	study_variable_group[2]
 MTD	study_variable[5]	exp3
 MTD	study_variable[5]-assay_refs	assay[3]|assay[7]
 MTD	study_variable[5]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[5]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[5]-description	Variable experiment, value exp3
-MTD	study_variable[5]-group_refs	study_variable_group[2]
+MTD	study_variable[5]-group_ref	study_variable_group[2]
 MTD	study_variable[6]	exp4
 MTD	study_variable[6]-assay_refs	assay[4]|assay[8]
 MTD	study_variable[6]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[6]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[6]-description	Variable experiment, value exp4
-MTD	study_variable[6]-group_refs	study_variable_group[2]
-MTD	study_variable[7]	QC
-MTD	study_variable[7]-assay_refs	assay[1]|assay[4]|assay[7]
-MTD	study_variable[7]-average_function	[MS, MS:1002962, mean, ]
-MTD	study_variable[7]-variation_function	[MS, MS:1002963, variation coefficient, ]
-MTD	study_variable[7]-description	Variable sample_type, value QC
-MTD	study_variable[7]-group_refs	study_variable_group[3]
-MTD	study_variable[8]	study
-MTD	study_variable[8]-assay_refs	assay[2]|assay[3]|assay[5]|assay[6]|assay[8]
-MTD	study_variable[8]-average_function	[MS, MS:1002962, mean, ]
-MTD	study_variable[8]-variation_function	[MS, MS:1002963, variation coefficient, ]
-MTD	study_variable[8]-description	Variable sample_type, value study
-MTD	study_variable[8]-group_refs	study_variable_group[3]
+MTD	study_variable[6]-group_ref	study_variable_group[2]
 MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary
 MTD	cv[1]-version	4.1.138
@@ -146,5 +129,5 @@ MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantifi
 MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule-identification_reliability	[MS, MS:1002896, compound identification confidence level, ]
 
-SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	abundance_study_variable[1]	abundance_study_variable[2]	abundance_study_variable[3]	abundance_study_variable[4]	abundance_study_variable[5]	abundance_study_variable[6]	abundance_study_variable[7]	abundance_study_variable[8]	abundance_variation_study_variable[1]	abundance_variation_study_variable[2]	abundance_variation_study_variable[3]	abundance_variation_study_variable[4]	abundance_variation_study_variable[5]	abundance_variation_study_variable[6]	abundance_variation_study_variable[7]	abundance_variation_study_variable[8]
-SML	1	null	null	null	null	null	null	null	null	null	4	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null
+SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	abundance_study_variable[1]	abundance_study_variable[2]	abundance_study_variable[3]	abundance_study_variable[4]	abundance_study_variable[5]	abundance_study_variable[6]	abundance_variation_study_variable[1]	abundance_variation_study_variable[2]	abundance_variation_study_variable[3]	abundance_variation_study_variable[4]	abundance_variation_study_variable[5]	abundance_variation_study_variable[6]
+SML	1	null	null	null	null	null	null	null	null	null	4	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null

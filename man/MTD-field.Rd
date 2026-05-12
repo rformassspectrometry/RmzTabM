@@ -52,7 +52,7 @@ entirely or append new values to the existing ones.
 x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
 ## Add a metadata field to an existing mzTab object
 mtd <- setMtdField(x, field = "publication",
-          value = "https://pubs.acs.org/doi/10.1021/acs.analchem.8b04310")
+          value = "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6")
 
 ## Replace all existing values for a metadata field
 mtd <- setMtdField(mtd, field = "custom",
