@@ -53,12 +53,12 @@
 #' @examples
 #'
 #' ## Basic usage
-#' result <- importMztabm(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
+#' result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
 #'                                    package = "RmzTabM"))
 #' names(result)
 #'
 #' @export
-importMztabm <- function(path, ...) {
+readMzTabM <- function(path, ...) {
     if(!file.exists(path))
         stop("The file does not exist.")
 

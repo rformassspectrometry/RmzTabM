@@ -1,4 +1,11 @@
-# RmzTabM version 0.97
+# RmzTabM version 0.98
+
+## Changes in version 0.98.0
+
+- First version of general read function `readMzTabM()`
+- Add example and tests.
+- Fix bug related `study_variable[1-n]-group_ref`
+- Change type `study_variable_group[1-n]` to CV param
 
 ## Changes in version 0.97.9
 

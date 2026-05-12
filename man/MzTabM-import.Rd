@@ -2,10 +2,10 @@
 % Please edit documentation in R/import.R
 \name{MzTabM-import}
 \alias{MzTabM-import}
-\alias{importMztabm}
+\alias{readMzTabM}
 \title{Import a mzTab-M 2.1 file}
 \usage{
-importMztabm(path, ...)
+readMzTabM(path, ...)
 }
 \arguments{
 \item{path}{\code{character(1)}with the path to the mzTab-M file.}
@@ -55,7 +55,7 @@ row; its two-column key–value structure is returned without column names.
 \examples{
 
 ## Basic usage
-result <- importMztabm(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
+result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
                                    package = "RmzTabM"))
 names(result)
 
