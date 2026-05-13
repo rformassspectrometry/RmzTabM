@@ -26,6 +26,9 @@
   [`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)
   : Add or Update Instrument Metadata in an MTD section
 
+- [`writeMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)
+  : Export a mzTab-M 2.1 file
+
 - [`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
   : Import a mzTab-M 2.1 file
 
