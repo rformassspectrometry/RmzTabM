@@ -21,17 +21,17 @@ Write and validate an mzTab-M (version 2.1) file.
 
 The writer recognises the four standard sections:
 \itemize{
-\item{\strong{MTD} (Metadata)}: Always required. The metadata section
+\item \strong{MTD} (Metadata): Always required. The metadata section
 provides additional information about the dataset(s) reported in the
 mzTab-M 2.1 file.
-\item{\strong{SML} (Small Molecule Summary)}: Optional. Each row of the
+\item \strong{SML} (Small Molecule Summary): Optional. Each row of the
 small molecule section is intended to report one final result to be
 communicated in terms of a molecule that has been quantified.
-\item{\strong{SMF} (Small Molecule Feature)}: Optional but required when
+\item \strong{SMF} (Small Molecule Feature): Optional but required when
 the SME section is present. The small molecule feature section
 represents individual MS regions that have been measured/quantified.
 Each SMF row SHOULD represent a single isotopomer.
-\item{\strong{SME} (Small Molecule Evidence)}: Optional. The small
+\item \strong{SME} (Small Molecule Evidence): Optional. The small
 molecule evidence section represents evidence for identifications of
 small molecules/features. In a typical case, each row represents one
 result from a single search or intepretation of a piece of evidence.
