@@ -1,6 +1,6 @@
-# RmzTabM version 0.98
+# RmzTabM version 0.97
 
-## Changes in version 0.98.0
+## Changes in version 0.97.10
 
 - First version of general read function `readMzTabM()`
 - Add example and tests.

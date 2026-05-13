@@ -17,13 +17,13 @@ readMzTabM(path, ...)
 A named \code{list} containing between one and four elements, depending on
 which sections are present in the file:
 \itemize{
-\item{\code{MTD}}: A \code{matrix} with two columns. Column names are absent (the
+\item \code{MTD}: A \code{matrix} with two columns. Column names are absent (the
 prefix column is dropped).
-\item{\code{SML}}: A \code{matrix} whose column names are taken from the \code{SMH}
+\item \code{SML}: A \code{matrix} whose column names are taken from the \code{SMH}
 header row. Present only when \code{SMH} is found in the file.
-\item{\code{SMF}}: A \code{matrix} whose column names are taken from the \code{SFH}
+\item \code{SMF}: A \code{matrix} whose column names are taken from the \code{SFH}
 header row. Present only when \code{SFH} is found in the file.
-\item{\code{SME}}: A \code{matrix} whose column names are taken from the \code{SEH}
+\item \code{SME}: A \code{matrix} whose column names are taken from the \code{SEH}
 header row. Present only when both \code{SFH} and \code{SEH} are found in the file.
 }
 }
@@ -32,17 +32,17 @@ Reads and parses an mzTab-M (version 2.1) file into a named list.
 
 The parser recognises the four standard sections:
 \itemize{
-\item{\strong{MTD} (Metadata)}: Always required. The metadata section
+\item \strong{MTD} (Metadata): Always required. The metadata section
 provides additional information about the dataset(s) reported in the
 mzTab-M 2.1 file.
-\item{\strong{SML} (Small Molecule Summary)}: Optional. Each row of the
+\item \strong{SML} (Small Molecule Summary): Optional. Each row of the
 small molecule section is intended to report one final result to be
 communicated in terms of a molecule that has been quantified.
-\item{\strong{SMF} (Small Molecule Feature)}: Optional but required when
+\item \strong{SMF} (Small Molecule Feature): Optional but required when
 the SME section is present. The small molecule feature section
 represents individual MS regions that have been measured/quantified.
 Each SMF row SHOULD represent a single isotopomer.
-\item{\strong{SME} (Small Molecule Evidence)}: Optional. The small
+\item \strong{SME} (Small Molecule Evidence): Optional. The small
 molecule evidence section represents evidence for identifications of
 small molecules/features. In a typical case, each row represents one
 result from a single search or intepretation of a piece of evidence.
