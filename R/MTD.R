@@ -92,7 +92,7 @@
 #' @seealso [SMF-export] and [SML-export] for creating and formatting the small
 #'     molecule feature (SMF) and small molecule (SML) sections.
 #'
-#' @seealso [MTD-instrument], [MTD-database], [MTD-CV], [MTD-contact] and
+#' @seealso [setMtdInstrument()], [MTD-database], [MTD-CV], [MTD-contact] and
 #'     [MTD-field].
 #'
 #' @examples
@@ -1629,7 +1629,9 @@ mtdSort <- function(x) {
 
 #' @title Add, update or get instrument metadata of an mzTab-M MTD section
 #'
-#' @name MTD-instrument
+#' @name setMtdInstrument
+#'
+#' @aliases setMtdInstrument,dfmatrix-method setMtdInstrument,MzTabM-method
 #'
 #' @description
 #'
@@ -1641,8 +1643,9 @@ mtdSort <- function(x) {
 #' `getMtdInstrument()` returns the instrument information from an MTD section.
 #'
 #' @param x A MTD section that stores metadata fields. Can be a two-column
-#'     `character` matrix or a [MzTabM()] object. Defaults to `matrix()`.
-#'     If all values are `NA`, the function returns `x` unchanged.
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
 #'
 #' @param name `character` with the name of the instrument used in the
 #'     experiment. (e.g., `"[MS, MS:1000449, LTQ Orbitrap,]"`).
@@ -1701,13 +1704,14 @@ mtdSort <- function(x) {
 #'
 #' getMtdInstrument(mtd)
 #'
-#' @export
-setMtdInstrument <- function(x = matrix(), name = character(),
-                          source = character(), analyzer = character(),
-                          detector = character(), replace = FALSE) {
-    if (inherits(x, "MzTabM")) m <- x@mtd
-    else m <- x
-    if (!all(is.na(m))) {
+#' @exportMethod setMtdInstrument
+setMethod("setMtdInstrument", "dfmatrix", function(x = matrix(),
+                                                   name = character(),
+                                                   source = character(),
+                                                   analyzer = character(),
+                                                   detector = character(),
+                                                   replace = FALSE) {
+    if (!all(is.na(x))) {
         if (!length(name))
             stop("Missing \"name\", provide a valid one.")
         if (!length(source))
@@ -1716,30 +1720,27 @@ setMtdInstrument <- function(x = matrix(), name = character(),
             stop("Missing \"analyzer\", provide a valid one.")
         if (!length(detector))
             stop("Missing \"detector\", provide a valid one.")
-        instr <- .mtd_get_field(m, "^instrument\\[\\d+\\]", exact = FALSE,
+        instr <- .mtd_get_field(x, "^instrument\\[\\d+\\]", exact = FALSE,
                                 fixed = FALSE)[[1]]
         list_param <- c(list(name = name, source = source, detector = detector),
                         as.list(analyzer))
         if (!all(is.na(instr))) {
             if (!replace) {
                 list_param <- Map(function(f) {
-                                c(instr[grep(f, names(instr), fixed = TRUE)],
-                                  list_param[[f]])},
-                               names(list_param))
+                    c(instr[grep(f, names(instr), fixed = TRUE)],
+                      list_param[[f]])},
+                    names(list_param))
             }
-            m <- m[!(m[, 1] %in% names(instr)), ]
+            x <- x[!(x[, 1] %in% names(instr)), ]
         }
         new_instr <- do.call(mtdFields, c(list(field_prefix = "instrument"),
                                           list_param))
-        m <- mtdSort(rbind(m, new_instr))
+        x <- mtdSort(rbind(x, new_instr))
     }
-    if (inherits(x, "MzTabM")) {
-        x@mtd <- m
-        x
-    } else m
-}
+    x
+})
 
-#' @rdname MTD-instrument
+#' @rdname setMtdInstrument
 #'
 #' @export
 getMtdInstrument <- function(x = matrix()) {

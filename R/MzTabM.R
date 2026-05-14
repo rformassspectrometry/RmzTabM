@@ -57,10 +57,10 @@ NULL
 #'
 #' @export
 setClass("MzTabM",
-         slots = c(mtd = "matrix",
-                   sml = "matrix",
-                   smf = "matrix",
-                   sme = "matrix"),
+         slots = c(mtd = "dfmatrix",
+                   sml = "dfmatrix",
+                   smf = "dfmatrix",
+                   sme = "dfmatrix"),
          prototype = prototype(mtd = matrix(ncol = 2, nrow = 0),
                                sml = matrix(ncol = 0, nrow = 0),
                                smf = matrix(ncol = 0, nrow = 0),
@@ -95,6 +95,15 @@ setMethod("show", "MzTabM", function(object) {
     if (nrow(object@sme))
         cat(" SME section with ", nrow(object@sme), " rows and ",
             ncol(object@sme), " columns.\n", sep = "")
+})
+
+setMethod("setMtdInstrument", "MzTabM", function(x, name = character(),
+                                                 source = character(),
+                                                 analyzer = character(),
+                                                 detector = character(),
+                                                 replace = FALSE) {
+    x@mtd <- setMtdInstrument(x@mtd, name, source, analyzer, detector, replace)
+    x
 })
 
 ################################################################################
