@@ -49,6 +49,9 @@
 #' )
 #' mtd <- mtdSkeleton(id = "EXP_1", software = "[MS, MS:1001582, xcms, 4.1.0]")
 #'
+#' mtd_s <- mtdSample(sample = unique(exp$sample_id))
+#' mtd <- rbind(mtd, mtd_s)
+#'
 #' mtd_msr <- mtdMsRun(
 #'     location = exp$file_name,
 #'     format = "[MS, MS:1000584, mzML file, ]",
@@ -148,7 +151,7 @@ writeMzTabM <- function(x, path, comments = character()) {
                                     fileEncoding = "UTF-8"))
     }
 
-    ## TODO: call the validator on the file.
+    ## TODO: manage the errors.
+    mzTabMValidator(path)
 }
-
 

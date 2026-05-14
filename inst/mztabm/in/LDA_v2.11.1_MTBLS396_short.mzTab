@@ -1,0 +1,190 @@
+MTD	mzTab-version	2.1.0-M																																		
+MTD	mzTab-ID	1																																		
+MTD	contact[1]-name	Juergen Hartler																																		
+MTD	contact[1]-email	juergen.hartler@uni-graz.at																																		
+MTD	contact[1]-affiliation	Institute of Pharmaceutical Sciences, University of Graz, Universitaetsplatz 1/I, 8010 Graz, Austria																																		
+MTD	publication[1]	pubmed:29058722|doi:10.1038/nmeth.4470																																		
+MTD	instrument[1]-name	[MS, MS:1001742, LTQ Orbitrap Velos, ]																																		
+MTD	instrument[1]-source	[MS, MS:1000073, Electrospray Ionization, ]																																		
+MTD	instrument[1]-analyzer[1]	[MS, MS:1000484, orbitrap, ]																																		
+MTD	instrument[1]-detector	[MS, MS:1000112, Faraday Cup, ]																																		
+MTD	quantification_method	[MS, MS:1002019, label free raw feature quantitation, ]																																		
+MTD	sample[1]-species[1]	[NCBITaxon, NCBITaxon:10090, Mus musculus, ]																																		
+MTD	sample[1]-cell_type[1]	[CL, CL:0000182, hepatocyte, ]																																		
+MTD	sample[1]-disease[1]	[DOID, DOID:409, liver disease, ]																																		
+MTD	sample[1]-tissue[1]	[BTO, BTO:0000759, liver, ]																																		
+MTD	sample_processing[1]	[CHMO, CHMO:0001050, reversed-phase liquid chromatography, ]																																		
+MTD	software[1]	[, , LipidDataAnalyzer, 2.11.1]																																		
+MTD	software[1]-setting[1]	isotope_pattern_checked																																		
+MTD	ms_run[1]-location	file://C:/mzTab/MurineLiver/neg/002_liver2-1_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[1]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[1]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[1]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[1]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[2]-location	file://C:/mzTab/MurineLiver/neg/003_liver2-1_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[2]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[2]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[2]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[2]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[2]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[3]-location	file://C:/mzTab/MurineLiver/neg/004_liver2-1_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[3]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[3]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[3]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[3]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[3]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[4]-location	file://C:/mzTab/MurineLiver/neg/005_liver2-1_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[4]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[4]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[4]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[4]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[4]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[5]-location	file://C:/mzTab/MurineLiver/neg/006_liver2-1_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[5]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[5]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[5]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[5]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[5]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[6]-location	file://C:/mzTab/MurineLiver/neg/008_liver2-2_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[6]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[6]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[6]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[6]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[6]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[7]-location	file://C:/mzTab/MurineLiver/neg/009_liver2-2_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[7]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[7]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[7]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[7]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[7]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[8]-location	file://C:/mzTab/MurineLiver/neg/010_liver2-2_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[8]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[8]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[8]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[8]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[8]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[9]-location	file://C:/mzTab/MurineLiver/neg/011_liver2-2_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[9]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[9]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[9]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[9]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[9]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[10]-location	file://C:/mzTab/MurineLiver/neg/012_liver2-2_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[10]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[10]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[10]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[10]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[10]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[11]-location	file://C:/mzTab/MurineLiver/neg/014_liver2-3_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[11]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[11]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[11]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[11]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[11]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[12]-location	file://C:/mzTab/MurineLiver/neg/015_liver2-3_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[12]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[12]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[12]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[12]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[12]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[13]-location	file://C:/mzTab/MurineLiver/neg/016_liver2-3_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[13]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[13]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[13]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[13]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[13]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[14]-location	file://C:/mzTab/MurineLiver/neg/017_liver2-3_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[14]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[14]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[14]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[14]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[14]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	ms_run[15]-location	file://C:/mzTab/MurineLiver/neg/018_liver2-3_Orbitrap_CID_neg.chrom																																		
+MTD	ms_run[15]-hash_method	[MS, MS:1000569, SHA-1, ]																																		
+MTD	ms_run[15]-format	[MS, MS:1002966, The Lipid Data Analyzer native chrom format., ]																																		
+MTD	ms_run[15]-fragmentation_method[1]	[MS, MS:1000133, collision-induced dissociation, ]																																		
+MTD	ms_run[15]-scan_polarity[1]	[MS, MS:1000129, negative scan, ]																																		
+MTD	ms_run[15]-id_format	[MS, MS:1000776, scan number only nativeID format, ]																																		
+MTD	assay[1]-ms_run_ref	ms_run[1]																																		
+MTD	assay[2]-ms_run_ref	ms_run[2]																																		
+MTD	assay[3]-ms_run_ref	ms_run[3]																																		
+MTD	assay[4]-ms_run_ref	ms_run[4]																																		
+MTD	assay[5]-ms_run_ref	ms_run[5]																																		
+MTD	assay[6]-ms_run_ref	ms_run[6]																																		
+MTD	assay[7]-ms_run_ref	ms_run[7]																																		
+MTD	assay[8]-ms_run_ref	ms_run[8]																																		
+MTD	assay[9]-ms_run_ref	ms_run[9]																																		
+MTD	assay[10]-ms_run_ref	ms_run[10]																																		
+MTD	assay[11]-ms_run_ref	ms_run[11]																																		
+MTD	assay[12]-ms_run_ref	ms_run[12]																																		
+MTD	assay[13]-ms_run_ref	ms_run[13]																																		
+MTD	assay[14]-ms_run_ref	ms_run[14]																																		
+MTD	assay[15]-ms_run_ref	ms_run[15]																																		
+MTD	study_variable_group[1]	[,,sample,]																																		
+MTD	study_variable_group[1]-description	Sample																																		
+MTD	study_variable_group[1]-type	[STATO, STATO:0000252, categorical variable, ]																																		
+MTD	study_variable_group[1]-datatype	xsd:string																																		
+MTD	study_variable[1]	mouse liver 1																																		
+MTD	study_variable[1]-description	mouse liver 1																																		
+MTD	study_variable[1]-average_function	[MS, MS:1002962, The arithmetic mean, ]																																		
+MTD	study_variable[1]-variation_function	[MS, MS:1002963, The coefficient of variation, ]																																		
+MTD	study_variable[1]-assay_refs	assay[1]|assay[2]|assay[3]|assay[4]|assay[5]																																		
+MTD	study_variable[1]-group_ref	study_variable_group[1]																																		
+MTD	study_variable[2]	mouse liver 2																																		
+MTD	study_variable[2]-description	mouse liver 2																																		
+MTD	study_variable[2]-average_function	[MS, MS:1002962, The arithmetic mean, ]																																		
+MTD	study_variable[2]-variation_function	[MS, MS:1002963, The coefficient of variation, ]																																		
+MTD	study_variable[2]-assay_refs	assay[6]|assay[7]|assay[8]|assay[9]|assay[10]																																		
+MTD	study_variable[2]-group_ref	study_variable_group[1]																																		
+MTD	study_variable[3]	mouse liver 3																																		
+MTD	study_variable[3]-description	mouse liver 3																																		
+MTD	study_variable[3]-average_function	[MS, MS:1002962, The arithmetic mean, ]																																		
+MTD	study_variable[3]-variation_function	[MS, MS:1002963, The coefficient of variation, ]																																		
+MTD	study_variable[3]-assay_refs	assay[11]|assay[12]|assay[13]|assay[14]|assay[15]																																		
+MTD	study_variable[3]-group_ref	study_variable_group[1]																																		
+MTD	cv[1]-label	MS																																		
+MTD	cv[1]-uri	https://www.ebi.ac.uk/ols/ontologies/ms																																		
+MTD	cv[1]-version	20-06-2018																																		
+MTD	cv[1]-full_name	PSI-MS controlled vocabulary																																		
+MTD	cv[2]-label	PRIDE																																		
+MTD	cv[2]-uri	https://www.ebi.ac.uk/ols/ontologies/pride																																		
+MTD	cv[2]-version	14-06-2018																																		
+MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary																																		
+MTD	cv[3]-label	CHMO																																		
+MTD	cv[3]-uri	http://purl.obolibrary.org/obo/chmo.owl																																		
+MTD	cv[3]-version	14-11-2019																																		
+MTD	cv[3]-full_name	Chemical Methods Ontology																																		
+MTD	cv[4]-label	NCBITaxon																																		
+MTD	cv[4]-uri	https://www.ebi.ac.uk/ols/ontologies/ncbitaxon																																		
+MTD	cv[4]-version	2018-03-02																																		
+MTD	cv[4]-full_name	NCBI organismal classification																																		
+MTD	cv[5]-label	CL																																		
+MTD	cv[5]-uri	https://www.ebi.ac.uk/ols/ontologies/cl																																		
+MTD	cv[5]-version	2018-07-07																																		
+MTD	cv[5]-full_name	Cell Ontology																																		
+MTD	cv[6]-label	BTO																																		
+MTD	cv[6]-uri	https://www.ebi.ac.uk/ols/ontologies/bto																																		
+MTD	cv[6]-version	2016-05-05																																		
+MTD	cv[6]-full_name	BRENDA tissue / enzyme source																																		
+MTD	cv[7]-label	DOID																																		
+MTD	cv[7]-uri	https://www.ebi.ac.uk/ols/ontologies/doid																																		
+MTD	cv[7]-version	2018-07-05																																		
+MTD	cv[7]-full_name	Human Disease Ontology																																		
+MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]																																		
+MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]																																		
+MTD	small_molecule-identification_reliability	[MS, MS:1002896, compound identification confidence level, ]																																		
+MTD	database[1]	[, , LipidDataAnalyzer2, lda2]																																		
+MTD	database[1]-prefix	lda2																																		
+MTD	database[1]-uri	https://github.com/ThallingerLab/LDA2																																		
+MTD	database[1]-version	2.11.1																																		
+MTD	id_confidence_measure[1]	[MS, MS:1002890, fragmentation score, ]																																		
+																																				
+SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	abundance_assay[9]	abundance_assay[10]	abundance_assay[11]	abundance_assay[12]	abundance_assay[13]	abundance_assay[14]	abundance_assay[15]	abundance_study_variable[1]	abundance_study_variable[2]	abundance_study_variable[3]	abundance_variation_study_variable[1]	abundance_variation_study_variable[2]	abundance_variation_study_variable[3]	opt_global_lipid_species	opt_global_lipid_lda_species
+SML	1	1	lda2:LPS 11:1	C17H32NO9P	null	null	LPS 11:1	null	425.181468792	[M-H]-	3	[MS, MS:1002890, fragmentation score, ]	null	32605.1391601563	null	null	null	null	null	null	null	null	null	null	null	null	null	null	32605.1391601563	0	0	NaN	NaN	NaN	LPS 11:1	LPS 11:1_38.45
+																																				
+SFH	SMF_ID	SME_ID_REFS	SME_ID_REF_ambiguity_code	adduct_ion	isotopomer	exp_mass_to_charge	charge	retention_time_in_seconds	retention_time_in_seconds_start	retention_time_in_seconds_end	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	abundance_assay[9]	abundance_assay[10]	abundance_assay[11]	abundance_assay[12]	abundance_assay[13]	abundance_assay[14]	abundance_assay[15]											
+SMF	1	null	null	[M-H]-	null	424.177185058594	-1	2306.94995117188	2285.84008789063	2339.75	32605.138671875	null	null	null	null	null	null	null	null	null	null	null	null	null	null											
+																																				
+SEH	SME_ID	evidence_input_id	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	derivatized_form	adduct_ion	exp_mass_to_charge	charge	theoretical_mass_to_charge	spectra_ref	identification_method	ms_level	id_confidence_measure[1]	rank	opt_global_lipid_species	opt_global_lipid_lda_species																
+SME	1	1	lda2:P-PE 34:1	C39H75NO7P	null	null	P-PE 34:1	null	null	[M-H]-	700.527709960938	-1	700.528116037	ms_run[1]:scan=7661	[, , LipidDataAnalyzer, 2.11.1]	[MS, MS:1000511, ms level, 2]	null	1	P-PE 34:1	P-PE 34:1_28.05																

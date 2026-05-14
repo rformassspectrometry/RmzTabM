@@ -41,7 +41,8 @@ URL: https://github.com/RforMassSpectrometry/RmzTabM
 BugReports: https://github.com/RforMassSpectrometry/RmzTabM/issues
 SystemRequirements:
     pandoc,
-    quarto
+    quarto,
+    Java
 Imports:
     data.table
 Suggests:

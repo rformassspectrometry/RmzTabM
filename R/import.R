@@ -58,16 +58,23 @@ readMzTabM <- function(path, ...) {
     if(!file.exists(path))
         stop("The file does not exist.")
 
-    ## TODO: call the validator on the file.
-
     lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
     if (length(which(!grepl("^\\s*$", lines))) == 0L)
         stop("The file is empty.")
 
-    out <- list()
-    ## MTD
     if (!any(grepl("^MTD\\t", lines)))
         stop("The file is not in the mzTab-M format. Missing \"MTD\" section.")
+
+    ## If SME is present also SMF must be present.
+    if (any(grepl("^SEH\\t", lines)) && !any(grepl("^SFH\\t", lines)))
+        stop("The file is not in the mzTab-M format. Missing \"SFH\" header
+              for SMF section, which is required if SME section is present.")
+
+    ## TODO: manage the errors.
+    mzTabMValidator(path)
+
+    out <- list()
+    ## MTD
     mtd_lines <- grep("^MTD\\t", lines, value = TRUE)
     out[["MTD"]] <- as.matrix(fread(text = mtd_lines, sep = "\t",
                                     header = FALSE, fill = TRUE, drop = 1, ...))
@@ -85,11 +92,6 @@ readMzTabM <- function(path, ...) {
         out[["SMF"]] <- as.matrix(fread(text = smf_lines, sep = "\t",
                                         header = TRUE, fill = TRUE, ...))
     }
-
-    ## If SME is present also SMF must be present.
-    if (any(grepl("^SEH\\t", lines)) && !any(grepl("^SFH\\t", lines)))
-        stop("The file is not in the mzTab-M format. Missing \"SFH\" header
-              for SMF section, which is required if SME section is present.")
 
     ## If both SMF and SME are present, read SME
     if (any(grepl("^SFH\\t", lines)) && any(grepl("^SEH\\t", lines))) {
