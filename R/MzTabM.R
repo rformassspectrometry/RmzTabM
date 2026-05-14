@@ -15,6 +15,13 @@
 #' content for the MTD, SML, SMF and SML sections (through parameters `mtd`,
 #' `sml`, `smf`, and `sml`, respectively).
 #'
+#' @section Adding/getting metadata to/from the MTD section:
+#'
+#' Various functions are available to get or set metadata information of a
+#' `MzTabM` class:
+#'
+#' - [getMtdInstrument()] and [setMtdInstrument()] for instrument information.
+#'
 #' @param mtd Two-column `matrix` with the MTD content (see [MTD-export] for
 #'     details and expected format/content).
 #'
@@ -36,6 +43,14 @@
 #' ## Create a minimal mzTab-M with only MTD content.
 #' m <- MzTabM(mtd = mtdSkeleton(id = "001", software = "[,,RmzTabM,]"))
 #' m
+#'
+#' ## Add instrument information to the MTD section
+#' m <- setMtdInstrument(m, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+#'           source = "[MS, MS:1000073, ESI,]",
+#'           analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+#'           detector = "[MS, MS:1000253, electron multiplier,]")
+#' m
+#' getMtdInstrument(m)
 NULL
 
 #' @noRd

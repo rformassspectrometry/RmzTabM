@@ -34,11 +34,29 @@ New instances can be created using the \code{MzTabM()} function providing the
 content for the MTD, SML, SMF and SML sections (through parameters \code{mtd},
 \code{sml}, \code{smf}, and \code{sml}, respectively).
 }
+\section{Adding/getting metadata to/from the MTD section}{
+
+
+Various functions are available to get or set metadata information of a
+\code{MzTabM} class:
+\itemize{
+\item \code{\link[=getMtdInstrument]{getMtdInstrument()}} and \code{\link[=setMtdInstrument]{setMtdInstrument()}} for instrument information.
+}
+}
+
 \examples{
 
 ## Create a minimal mzTab-M with only MTD content.
 m <- MzTabM(mtd = mtdSkeleton(id = "001", software = "[,,RmzTabM,]"))
 m
+
+## Add instrument information to the MTD section
+m <- setMtdInstrument(m, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+          source = "[MS, MS:1000073, ESI,]",
+          analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+          detector = "[MS, MS:1000253, electron multiplier,]")
+m
+getMtdInstrument(m)
 }
 \author{
 Johannes Rainer

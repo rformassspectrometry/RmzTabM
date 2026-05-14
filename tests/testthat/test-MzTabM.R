@@ -30,3 +30,32 @@ test_that("MzTabM class, constructor, show and validation works", {
     expect_match(res[5L], "3 rows and 4 columns")
     expect_match(res[6L], "5 rows and 7 columns")
 })
+
+test_that("mtdSetInstrument/mtdGetInstrument works with MzTabM", {
+    m <- MzTabM(mtd = mtdSkeleton(id = "001", software = "[,,RmzTabM,]"))
+    res <- getMtdInstrument(m)
+    expect_equal(res, NA_character_)
+    m <- setMtdInstrument(
+        m, name = "[MS, MS:1000449, LTQ Orbitrap,]",
+        source = "[MS, MS:1000073, ESI,]",
+        analyzer = c(`analyzer[1]` = "[MS, MS:1000291, linear ion trap,]"),
+        detector = "[MS, MS:1000253, electron multiplier,]")
+    res <- getMtdInstrument(m)
+    expect_equal(length(res), 4L)
+    ## add
+    m <- setMtdInstrument(m, name = "[,,name,]", source = "[,,source,]",
+                          analyzer = c(`analyzer[1]` = "[,,analyzer,]"),
+                          detector = "[,,detector,]", replace = FALSE)
+    res <- getMtdInstrument(m)
+    expect_equal(length(res), 8L)
+    expect_equal(grep("instrument[1]", names(res), fixed = TRUE), 1:4)
+    expect_equal(grep("instrument[2]", names(res), fixed = TRUE), 5:8)
+    ## replace
+    m <- setMtdInstrument(m, name = "[,,name2,]", source = "[,,source2,]",
+                          analyzer = c(`analyzer[1]` = "[,,analyzer2,]"),
+                          detector = "[,,detector2,]", replace = TRUE)
+    res <- getMtdInstrument(m)
+    expect_equal(length(res), 4L)
+    expect_equal(grep("instrument[1]", names(res), fixed = TRUE), 1:4)
+    expect_equal(res[1L], c(`instrument[1]-name` = "[,,name2,]"))
+})

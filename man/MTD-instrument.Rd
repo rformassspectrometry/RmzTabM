@@ -4,7 +4,7 @@
 \alias{MTD-instrument}
 \alias{setMtdInstrument}
 \alias{getMtdInstrument}
-\title{Add or Update Instrument Metadata in an MTD section}
+\title{Add, update or get instrument metadata of an mzTab-M MTD section}
 \usage{
 setMtdInstrument(
   x = matrix(),
@@ -18,7 +18,8 @@ setMtdInstrument(
 getMtdInstrument(x = matrix())
 }
 \arguments{
-\item{x}{A MTD section that stores metadata fields. Defaults to \code{matrix()}.
+\item{x}{A MTD section that stores metadata fields. Can be a two-column
+\code{character} matrix or a \code{\link[=MzTabM]{MzTabM()}} object. Defaults to \code{matrix()}.
 If all values are \code{NA}, the function returns \code{x} unchanged.}
 
 \item{name}{\code{character} with the name of the instrument used in the
@@ -49,13 +50,17 @@ replaced entirely by the supplied arguments.
 \itemize{
 \item For \code{setMtdInstrument()}: the input object \code{x} updated to include the new
 or merged instrument metadata fields. If \code{x} is empty, the empty \code{x}.
-\item For \code{getMtdInstrument()}: the instrument information.
+\item For \code{getMtdInstrument()}: a named \code{character} with the instrument
+information, names being the field names.
 }
 }
 \description{
-Sets or updates instrument-related metadata fields within an MTD (metadata)
-section. When instrument metadata already exists, the function can either
-replace it entirely or append new values to the existing ones.
+\code{setMtdInstrument()} sets or updates instrument-related metadata fields
+within an MTD (metadata) section. When instrument metadata already exists,
+the function can either replace it entirely or append new values to the
+existing ones.
+
+\code{getMtdInstrument()} returns the instrument information from an MTD section.
 }
 \examples{
 
