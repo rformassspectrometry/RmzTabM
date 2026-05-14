@@ -1453,15 +1453,15 @@ mtdSort <- function(x) {
 #'     ))
 #'
 #' ## Get the value for the first instrument
-#' .mtd_get(m, name = "instrument[1]-name")
+#' .mtd_get_field(m, name = "instrument[1]-name")
 #'
 #' ## Get all fields for the first instrument
-#' .mtd_get(m, name = "instrument[1]", fixed = FALSE)
+#' .mtd_get_field(m, name = "instrument[1]", fixed = FALSE)
 #'
 #' ## Get all fields for the
 #'
 #' ## If field is not present
-#' .mtd_get(m, name = "missing")
+#' .mtd_get_field(m, name = "missing")
 .mtd_get_field <- function(x, name = character(), exact = TRUE,
                            fixed = TRUE, ...) {
     names(name) <- name
