@@ -1,5 +1,9 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.11
+
+- Add `MzTabM` class as a container for mzTab-M content.
+
 ## Changes in version 0.97.10
 
 - First version of general read function `readMzTabM()`
