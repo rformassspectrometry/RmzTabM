@@ -22,17 +22,17 @@
 #'
 #' - [getMtdInstrument()] and [setMtdInstrument()] for instrument information.
 #'
-#' @param mtd Two-column `matrix` with the MTD content (see [MTD-export] for
-#'     details and expected format/content).
+#' @param mtd Two-column `matrix` or `data.frame with the MTD content (see
+#'     [MTD-export] for details and expected format/content).
 #'
-#' @param sml `matrix` with the SML content (see [SML-export] for details
-#'     and expected format/content).
+#' @param sml `matrix` or `data.frame` with the SML content (see [SML-export]
+#'     for details and expected format/content).
 #'
-#' @param smf `matrix` with the SMF content (see [SMF-export] for details
-#'     and expected format/content).
+#' @param smf `matrix` or `data.frame` with the SMF content (see [SMF-export]
+#'     for details and expected format/content).
 #'
-#' @param sme `matrix` with the SME content (see [SME-export] for details
-#'     and expected format/content).
+#' @param sme `matrix` or `data.frame` with the SME content (see [SME-export]
+#'     for details and expected format/content).
 #'
 #' @author Johannes Rainer
 #'

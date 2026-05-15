@@ -13,17 +13,17 @@ MzTabM(
 )
 }
 \arguments{
-\item{mtd}{Two-column \code{matrix} with the MTD content (see \link{MTD-export} for
-details and expected format/content).}
+\item{mtd}{Two-column \code{matrix} or `data.frame with the MTD content (see
+\link{MTD-export} for details and expected format/content).}
 
-\item{sml}{\code{matrix} with the SML content (see \link{SML-export} for details
-and expected format/content).}
+\item{sml}{\code{matrix} or \code{data.frame} with the SML content (see \link{SML-export}
+for details and expected format/content).}
 
-\item{smf}{\code{matrix} with the SMF content (see \link{SMF-export} for details
-and expected format/content).}
+\item{smf}{\code{matrix} or \code{data.frame} with the SMF content (see \link{SMF-export}
+for details and expected format/content).}
 
-\item{sme}{\code{matrix} with the SME content (see \link{SME-export} for details
-and expected format/content).}
+\item{sme}{\code{matrix} or \code{data.frame} with the SME content (see \link{SME-export}
+for details and expected format/content).}
 }
 \description{
 The \code{MzTabM} class is a simple container for the mzTab-M data/file content.
