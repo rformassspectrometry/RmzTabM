@@ -2,9 +2,11 @@
 
 ## Authors
 
-- **Nils Hoffmann**. Author. [](https://orcid.org/0000-0002-6540-6875)
+- **Nils Hoffmann**. Contributor.
+  [](https://orcid.org/0000-0002-6540-6875)
 
-- **Steffen Neumann**. Author. [](https://orcid.org/0000-0002-7899-7192)
+- **Steffen Neumann**. Contributor.
+  [](https://orcid.org/0000-0002-7899-7192)
 
 - **Johannes Rainer**. Author, maintainer.
   [](https://orcid.org/0000-0002-6977-7147)
@@ -24,14 +26,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/RforMassSpectrometry/RmzTabM/blob/main/DESCRIPTION)
 
-Hoffmann N, Neumann S, Rainer J, Louail P, Tomè G (2026). *RmzTabM: R
-API for the mzTab-M Reference Implementation*. R package version
-0.97.10, <https://github.com/RforMassSpectrometry/RmzTabM>.
+Rainer J, Louail P, Tomè G (2026). *RmzTabM: R API for the mzTab-M
+Reference Implementation*. R package version 0.97.11,
+<https://github.com/RforMassSpectrometry/RmzTabM>.
 
     @Manual{,
       title = {RmzTabM: R API for the mzTab-M Reference Implementation},
-      author = {Nils Hoffmann and Steffen Neumann and Johannes Rainer and Philippine Louail and Gabriele Tomè},
+      author = {Johannes Rainer and Philippine Louail and Gabriele Tomè},
       year = {2026},
-      note = {R package version 0.97.10},
+      note = {R package version 0.97.11},
       url = {https://github.com/RforMassSpectrometry/RmzTabM},
     }

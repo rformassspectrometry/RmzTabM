@@ -119,7 +119,7 @@ section.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.11</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,7 +191,7 @@ define the MTD section of an experiment.</p>
 <p>In addition, various helper functions are available to assist in MTD data
 generation:</p><ul><li><p><code><a href="mtdSort.html">mtdSort()</a></code>: to sort the MTD <code>matrix</code> into the expected order.</p></li>
 <li><p><code><a href="mtdFields.html">mtdFields()</a></code>: helps formatting values into the mzTab-M-specific format.</p></li>
-<li><p><code><a href="MTD-instrument.html">setMtdInstrument()</a></code>/<code><a href="MTD-instrument.html">getMtdInstrument()</a></code>: set/get Instrument Metadata in
+<li><p><code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>/<code><a href="setMtdInstrument.html">getMtdInstrument()</a></code>: set/get Instrument Metadata in
 an MTD section.</p></li>
 <li><p><code><a href="MTD-database.html">setMtdDatabase()</a></code>/<code><a href="MTD-database.html">getMtdDatabase()</a></code>: set/get Database Metadata in an MTD
 section.</p></li>
@@ -216,7 +216,7 @@ with multiple assays.</p></li>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="SMF-export.html">SMF-export</a> and <a href="SML-export.html">SML-export</a> for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.</p>
-<p><a href="MTD-instrument.html">MTD-instrument</a>, <a href="MTD-database.html">MTD-database</a>, <a href="MTD-CV.html">MTD-CV</a>, <a href="MTD-contact.html">MTD-contact</a> and
+<p><code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>, <a href="MTD-database.html">MTD-database</a>, <a href="MTD-CV.html">MTD-CV</a>, <a href="MTD-contact.html">MTD-contact</a> and
 <a href="MTD-field.html">MTD-field</a>.</p></div>
     </div>
     <div class="section level2">
@@ -328,7 +328,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span>    value <span class="op">=</span> <span class="st">"The preprocessed data of experiment 1 samples."</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We also add information on the MS instrumentation used</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-instrument.html">setMtdInstrument</a></span><span class="op">(</span><span class="va">mtd</span>,</span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdInstrument.html">setMtdInstrument</a></span><span class="op">(</span><span class="va">mtd</span>,</span></span>
 <span class="r-in"><span>    name <span class="op">=</span> <span class="st">"[MS, MS:1000449, LTQ Orbitrap,]"</span>,</span></span>
 <span class="r-in"><span>    source <span class="op">=</span> <span class="st">"[MS, MS:1000073, ESI,]"</span>,</span></span>
 <span class="r-in"><span>    analyzer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"analyzer[1]"</span> <span class="op">=</span> <span class="st">"[MS, MS:1000291, linear ion trap,]"</span><span class="op">)</span>,</span></span>
@@ -719,7 +719,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Nils Hoffmann, Steffen Neumann, Johannes Rainer, Philippine Louail, Gabriele Tomè.</p>
+  <p>Developed by Johannes Rainer, Philippine Louail, Gabriele Tomè.</p>
 </div>
 
 <div class="pkgdown-footer-right">

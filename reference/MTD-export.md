@@ -66,7 +66,7 @@ data generation:
 - [`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md):
   helps formatting values into the mzTab-M-specific format.
 
-- [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)/[`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md):
+- [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)/[`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md):
   set/get Instrument Metadata in an MTD section.
 
 - [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md)/[`getMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md):
@@ -101,7 +101,7 @@ and
 for creating and formatting the small molecule feature (SMF) and small
 molecule (SML) sections.
 
-[MTD-instrument](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md),
+[`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md),
 [MTD-database](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md),
 [MTD-CV](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md),
 [MTD-contact](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)

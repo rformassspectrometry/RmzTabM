@@ -2,6 +2,10 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.11
+
+- Add `MzTabM` class as a container for mzTab-M content.
+
 ### Changes in version 0.97.10
 
 - First version of general read function
@@ -19,7 +23,7 @@
 ### Changes in version 0.97.8
 
 - Add functions
-  [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md),
+  [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md),
   [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md),
   [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md),
   [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md),

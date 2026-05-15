@@ -143,15 +143,14 @@ TODO - add names of hackathon participants, etc.
   [`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)
   : Add or Update a Metadata Field in an MTD section
 
-- [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)
-  [`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-instrument.md)
-  : Add or Update Instrument Metadata in an MTD section
-
 - [`writeMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)
   : Export a mzTab-M 2.1 file
 
 - [`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
   : Import a mzTab-M 2.1 file
+
+- [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  : mzTab-M data container
 
 - [`smeCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
   [`smeSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
@@ -201,6 +200,10 @@ TODO - add names of hackathon participants, etc.
 - [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   : Utility functions for CV parameters
+
+- [`setMtdInstrument(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)
+  [`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)
+  : Add, update or get instrument metadata of an mzTab-M MTD section
 
 # Articles
 

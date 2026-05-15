@@ -1,13 +1,17 @@
-# Add or Update Instrument Metadata in an MTD section
+# Add, update or get instrument metadata of an mzTab-M MTD section
 
-Sets or updates instrument-related metadata fields within an MTD
-(metadata) section. When instrument metadata already exists, the
-function can either replace it entirely or append new values to the
-existing ones.
+`setMtdInstrument()` sets or updates instrument-related metadata fields
+within an MTD (metadata) section. When instrument metadata already
+exists, the function can either replace it entirely or append new values
+to the existing ones.
+
+`getMtdInstrument()` returns the instrument information from an MTD
+section.
 
 ## Usage
 
 ``` r
+# S4 method for class 'dfmatrix'
 setMtdInstrument(
   x = matrix(),
   name = character(),
@@ -24,9 +28,11 @@ getMtdInstrument(x = matrix())
 
 - x:
 
-  A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
-  `NA`, the function returns `x` unchanged.
+  A MTD section that stores metadata fields. Can be a two-column
+  `character` matrix, a two-column `data.frame` or a
+  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  object. Defaults to [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  If all values are `NA`, the function returns `x` unchanged.
 
 - name:
 
@@ -67,7 +73,8 @@ getMtdInstrument(x = matrix())
   new or merged instrument metadata fields. If `x` is empty, the empty
   `x`.
 
-- For `getMtdInstrument()`: the instrument information.
+- For `getMtdInstrument()`: a named `character` with the instrument
+  information, names being the field names.
 
 ## Author
 
