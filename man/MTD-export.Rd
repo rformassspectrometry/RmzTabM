@@ -226,7 +226,7 @@ mtd <- mtdSort(mtd)
 \link{SMF-export} and \link{SML-export} for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.
 
-\link{MTD-instrument}, \link{MTD-database}, \link{MTD-CV}, \link{MTD-contact} and
+\code{\link[=setMtdInstrument]{setMtdInstrument()}}, \link{MTD-database}, \link{MTD-CV}, \link{MTD-contact} and
 \link{MTD-field}.
 }
 \author{

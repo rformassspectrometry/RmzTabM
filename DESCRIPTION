@@ -1,16 +1,16 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.97.10
+Version: 0.97.11
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
 	   email = "nils.hoffmann@cebitec.uni-bielefeld.de",
-	   role = c("aut"),
+	   role = c("ctb"),
 	   comment = c(ORCID = "0000-0002-6540-6875")),
     person(given = "Steffen",
            family = "Neumann",
 	   email = "sneumann@ipb-halle.de",
-	   role = c("aut"),
+	   role = c("ctb"),
 	   comment = c(ORCID = "0000-0002-7899-7192")),
     person(given = "Johannes", family = "Rainer",
            email = "johannes.rainer@eurac.edu",
@@ -44,7 +44,8 @@ SystemRequirements:
     quarto,
     Java
 Imports:
-    data.table
+    data.table,
+    methods
 Suggests:
     testthat,
     pkgdown,
