@@ -791,7 +791,7 @@ mtdMsRun <- function(location = character(),
         res <- rbind(res, .ms_run_format(s, "hash_method", hash_method))
     ## Paramters
     if (length(parameters)) {
-        res <- rbind(res, .mztab_parameters("ms_run", parameters, l))
+        res <- rbind(res, .mtd_parameters_fields("ms_run", parameters, l))
     }
     res[order(res[, 3L]), 1:2, drop = FALSE]
 }
@@ -937,7 +937,7 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
     }
     ## Paramters
     if (length(parameters)) {
-        res <- rbind(res, .mztab_parameters("assay", parameters, l))
+        res <- rbind(res, .mtd_parameters_fields("assay", parameters, l))
     }
     ## Optional "custom" fields passed through ...
     res <- rbind(
@@ -1256,7 +1256,7 @@ mtdProtocol <- function(name = character(), type = character(),
     }
     ## Paramters
     if (length(parameters)) {
-        res <- rbind(res, .mztab_parameters("protocol", parameters, l))
+        res <- rbind(res, .mtd_parameters_fields("protocol", parameters, l))
     }
     res[order(res[, 3L]), 1:2, drop = FALSE]
 }
