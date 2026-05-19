@@ -204,6 +204,39 @@ test_that("mtdMsRun works", {
                               "[MS, MS:1000133, CID, ]",
                               "[MS, MS:1000422, HCD, ]",
                               "[MS, MS:1000130, positive scan, ]"))
+    ## parameters
+    res <- mtdMsRun(location = c("null", "other"),
+                      scan_polarity = c("positive", "negative"),
+                      parameters = c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
+    expect_equal(res[, 1L], c("ms_run[1]-location",
+                              "ms_run[1]-scan_polarity[1]",
+                              "ms_run[1]-parameter[1]",
+                              "ms_run[2]-location",
+                              "ms_run[2]-scan_polarity[1]",
+                              "ms_run[2]-parameter[1]"))
+    expect_equal(res[, 2L], c("null",
+        "[MS, MS:1000130, positive scan, ]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+        "other",
+        "[MS, MS:1000129, negative scan, ]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
+
+
+    res <- mtdMsRun(location = c("null", "other"),
+        scan_polarity = c("positive", "negative"),
+        parameters = list(c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]", "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"), NULL))
+    expect_equal(res[, 1L], c("ms_run[1]-location",
+                              "ms_run[1]-scan_polarity[1]",
+                              "ms_run[1]-parameter[1]",
+                              "ms_run[1]-parameter[2]",
+                              "ms_run[2]-location",
+                              "ms_run[2]-scan_polarity[1]"))
+    expect_equal(res[, 2L], c("null",
+        "[MS, MS:1000130, positive scan, ]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+        "other",
+        "[MS, MS:1000129, negative scan, ]"))
 
 })
 
@@ -213,6 +246,9 @@ test_that("mtdDefineStudyVariables works", {
                             study_variable_group = character()))
     x <- data.frame(sex = c("male", "female", "female", "male", "male"),
                     group = c("case", "case", "control", "case", "control"))
+    expect_equal(mtdDefineStudyVariables(x),
+                 data.frame(study_variable = "undefined",
+                            study_variable_group = "undefined"))
     res <- mtdDefineStudyVariables(x, c("sex", "group"))
     expect_equal(res,
                  unique(data.frame(
@@ -391,6 +427,49 @@ test_that("mtdAssay works", {
         c("assay[1]", "assay[1]-ms_run_ref[1]", "assay[1]-ms_run_ref[2]",
           "assay[2]", "assay[2]-ms_run_ref[1]"))
     expect_equal(res[, 2L], c("a", "1", "2", "b", "3"))
+
+    expect_error(mtdAssay(assay = c("a", "b"),
+                          ms_run_ref = c("ms_run[1]", "b"),
+                          protocol_ref = c("protocol[1]")),
+                 "has to match")
+    res <- mtdAssay(assay = "a", ms_run_ref = "b", protocol_ref = "P")
+    expect_equal(res[, 1L],
+                 c("assay[1]", "assay[1]-ms_run_ref", "assay[1]-protocol_ref"))
+    expect_equal(res[, 2L], c("a", "b", "P"))
+
+    ## parameters
+    res <- mtdAssay(assay = c("a", "b"),
+                    ms_run_ref = c("ms_run[1]", "ms_run[2]"),
+                    parameters = c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
+    expect_equal(res[, 1L], c("assay[1]",
+                              "assay[1]-ms_run_ref",
+                              "assay[1]-parameter[1]",
+                              "assay[2]",
+                              "assay[2]-ms_run_ref",
+                              "assay[2]-parameter[1]"))
+    expect_equal(res[, 2L], c("a",
+        "ms_run[1]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+        "b",
+        "ms_run[2]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
+
+
+    res <- mtdAssay(assay = c("a", "b"),
+        ms_run_ref = c("ms_run[1]", "ms_run[2]"),
+        parameters = list(c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]", "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"), NULL))
+    expect_equal(res[, 1L], c("assay[1]",
+                              "assay[1]-ms_run_ref",
+                              "assay[1]-parameter[1]",
+                              "assay[1]-parameter[2]",
+                              "assay[2]",
+                              "assay[2]-ms_run_ref"))
+    expect_equal(res[, 2L], c("a",
+        "ms_run[1]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+        "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+        "b",
+        "ms_run[2]"))
 })
 
 test_that(".mtd_custom_fields works", {
@@ -475,12 +554,14 @@ test_that("mtdStudyVariables works", {
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
                    "study_variable[1]-variation_function",
+                   "study_variable[1]-ms_run_ref",
                    "study_variable[1]-description",
                    "study_variable[1]-group_ref",
                    "study_variable[2]",
                    "study_variable[2]-assay_refs",
                    "study_variable[2]-average_function",
                    "study_variable[2]-variation_function",
+                   "study_variable[2]-ms_run_ref",
                    "study_variable[2]-description",
                    "study_variable[2]-group_ref"
                    ))
@@ -493,12 +574,14 @@ test_that("mtdStudyVariables works", {
                    "assay[1]|assay[3]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
+                   "ms_run[1]|ms_run[3]",
                    "Variable T2D, value TRUE",
                    "study_variable_group[1]",
                    "FALSE",
                    "assay[2]|assay[4]|assay[5]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
+                   "ms_run[2]|ms_run[4]|ms_run[5]",
                    "Variable T2D, value FALSE",
                    "study_variable_group[1]"
                    ))
@@ -519,24 +602,28 @@ test_that("mtdStudyVariables works", {
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
                    "study_variable[1]-variation_function",
+                   "study_variable[1]-ms_run_ref",
                    "study_variable[1]-description",
                    "study_variable[1]-group_ref",
                    "study_variable[2]",
                    "study_variable[2]-assay_refs",
                    "study_variable[2]-average_function",
                    "study_variable[2]-variation_function",
+                   "study_variable[2]-ms_run_ref",
                    "study_variable[2]-description",
                    "study_variable[2]-group_ref",
                    "study_variable[3]",
                    "study_variable[3]-assay_refs",
                    "study_variable[3]-average_function",
                    "study_variable[3]-variation_function",
+                   "study_variable[3]-ms_run_ref",
                    "study_variable[3]-description",
                    "study_variable[3]-group_ref",
                    "study_variable[4]",
                    "study_variable[4]-assay_refs",
                    "study_variable[4]-average_function",
                    "study_variable[4]-variation_function",
+                   "study_variable[4]-ms_run_ref",
                    "study_variable[4]-description",
                    "study_variable[4]-group_ref"
                    ))
@@ -554,24 +641,28 @@ test_that("mtdStudyVariables works", {
                    "assay[1]|assay[3]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
+                   "ms_run[1]|ms_run[3]",
                    "Variable T2D, value TRUE",
                    "study_variable_group[1]",
                    "FALSE",
                    "assay[2]|assay[4]|assay[5]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
+                   "ms_run[2]|ms_run[4]|ms_run[5]",
                    "Variable T2D, value FALSE",
                    "study_variable_group[1]",
                    "0",
                    "assay[1]|assay[3]|assay[5]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
+                   "ms_run[1]|ms_run[3]|ms_run[5]",
                    "Variable timepoint, value 0",
                    "study_variable_group[2]",
                    "6",
                    "assay[2]|assay[4]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
+                   "ms_run[2]|ms_run[4]",
                    "Variable timepoint, value 6",
                    "study_variable_group[2]"
                    ))
@@ -586,18 +677,20 @@ test_that("mtdStudyVariables works", {
                               "study_variable[1]-assay_refs",
                               "study_variable[1]-average_function",
                               "study_variable[1]-variation_function",
+                              "study_variable[1]-ms_run_ref",
                               "study_variable[1]-description",
                               "study_variable[1]-group_ref"))
     expect_equal(res[, 2L], c("[,,undefined,]",
-                              "Sample matrix column undefined",
-                              "[STATO, STATO:0000252, categorical variable, ]",
-                              "xsd:string",
-                              "undefined",
-                              "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
-                              "A",
-                              "B",
-                              "Variable undefined, value undefined",
-                              "study_variable_group[1]"))
+                            "Sample matrix column undefined",
+                            "[STATO, STATO:0000252, categorical variable, ]",
+                            "xsd:string",
+                            "undefined",
+                            "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
+                            "A",
+                            "B",
+                            "ms_run[1]|ms_run[2]|ms_run[3]|ms_run[4]|ms_run[5]",
+                            "Variable undefined, value undefined",
+                            "study_variable_group[1]"))
 
     res <- mtdStudyVariables(x, groups = c("T2D", "timepoint", "individual"))
     expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "[,,T2D,]")
@@ -645,6 +738,54 @@ test_that("mtdStudyVariables works", {
                  "assay[2]|assay[4]")
     expect_equal(res[res[, 1L] == "study_variable[7]-assay_refs", 2L],
                  "assay[5]")
+})
+
+test_that("mtdProtocol works", {
+    expect_error(mtdProtocol(), "\'name\' is required")
+    expect_error(mtdProtocol(name = "protocol1"), "\'type\' is required")
+    expect_error(mtdProtocol(name = "protocol1", type = "invalid_CV"),
+                 "\'type\' have to be valid CV parameter")
+
+    ## Minimal protocol
+    res <- mtdProtocol(name = "protocol1", type = "[MS, MS:1000584, sample preparation protocol, ]")
+    expect_equal(res[, 1L], c("protocol[1]-name", "protocol[1]-type"))
+    expect_equal(res[, 2L], c("protocol1", "[MS, MS:1000584, sample preparation protocol, ]"))
+
+    ## Protocol with description and parameters
+    res <- mtdProtocol(name = "protocol1",
+                    type = "[MS, MS:1000584, sample preparation protocol, ]",
+                    description = "This is a sample preparation protocol.",
+                    parameters = c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
+    expect_equal(res[, 1L],
+                 c("protocol[1]-name",
+                   "protocol[1]-type",
+                   "protocol[1]-description",
+                   "protocol[1]-parameter[1]"))
+    expect_equal(res[, 2L],
+                 c("protocol1",
+                 "[MS, MS:1000584, sample preparation protocol, ]",
+                 "This is a sample preparation protocol.",
+                 "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
+
+    ## Protocol with multiple samples
+    res <- mtdProtocol(name = c("protocol1","protocol2"),
+                    type = "[MS, MS:1000584, sample preparation protocol, ]",
+                    parameters = list(c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]", "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"), NULL))
+    expect_equal(res[, 1L],
+                 c("protocol[1]-name",
+                   "protocol[1]-type",
+                   "protocol[1]-parameter[1]",
+                   "protocol[1]-parameter[2]",
+                   "protocol[2]-name",
+                   "protocol[2]-type"))
+    expect_equal(res[, 2L],
+                 c("protocol1",
+                 "[MS, MS:1000584, sample preparation protocol, ]",
+                 "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+                 "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
+                 "protocol2",
+                 "[MS, MS:1000584, sample preparation protocol, ]"))
+
 })
 
 test_that(".mtd_get_field works", {
@@ -1029,32 +1170,43 @@ test_that("setMtdContact works", {
     x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     expect_error(setMtdContact(x), "name")
     expect_error(setMtdContact(x, name = "Name Surname"), "affiliation")
-    expect_error(setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS"),
+    expect_error(setMtdContact(x, name = "Name Surname",
+                               affiliation = "PSI-MS"),
                  "email")
+    expect_error(setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
+                             email = "name.surname@mail.com"), "orcid")
+    expect_error(setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
+                             email = "name.surname@mail.com",
+                             orcid = "error_orcid"), "\"orcid\" is not valid")
 
     ## setMtdContact adds contact metadata fields to a valid MTD section
     x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     result <- setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
-                         email = "name.surname@mail.com")
+                         email = "name.surname@mail.com",
+                         orcid = "0000-0001-2345-6789")
     expect_true(any(grepl("contact\\[1\\]-name", result[, 1])))
     expect_true(any(grepl("contact\\[1\\]-affiliation", result[, 1])))
     expect_true(any(grepl("contact\\[1\\]-email", result[, 1])))
     expect_true(any(grepl("Name Surname", result[, 2])))
     expect_true(any(grepl("PSI-MS", result[, 2])))
     expect_true(any(grepl("name.surname@mail.com", result[, 2])))
+    expect_true(any(grepl("0000-0001-2345-6789", result[, 2])))
 
     ## setMtdContact appends new contact metadata when replace = FALSE
     mtd2 <- setMtdContact(result, name = "Person 2", affiliation = "Lab B",
-        email = "person2@mail.com", replace = FALSE)
+        email = "person2@mail.com", orcid = "0000-0001-2345-6789",
+        replace = FALSE)
     name_rows <- mtd2[grepl("contact.*name$", mtd2[, 1]), , drop = FALSE]
     expect_equal(nrow(name_rows), 2L)
 
     ## setMtdContact replaces existing contact metadata when replace = TRUE
     x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
     mtd <- setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
-                      email = "name.surname@mail.com")
+                        email = "name.surname@mail.com",
+                        orcid = "0000-0001-2345-6789")
     mtd2 <- setMtdContact(mtd, name = "Person 2", affiliation = "Lab B",
-                       email = "person2@mail.com", replace = TRUE)
+                    email = "person2@mail.com", orcid = "0000-0001-2345-678X",
+                    replace = TRUE)
     name_rows <- mtd2[grepl("contact.*name$", mtd2[, 1]), , drop = FALSE]
     expect_equal(nrow(name_rows), 1L)
     expect_equal(mtd2[grepl("contact.*name$", mtd2[, 1]), 2], "Person 2")
@@ -1069,12 +1221,14 @@ test_that("getMtdContact works", {
     expect_true(is.na(res))
 
     x <- setMtdContact(x, name = "Name Surname", affiliation = "PSI-MS",
-                      email = "name.surname@mail.com")
+                      email = "name.surname@mail.com",
+                      orcid = "0000-0001-2345-6789")
     res <- getMtdContact(x)
-    expect_equal(length(res), 3)
+    expect_equal(length(res), 4)
     expect_equal(res[["contact[1]-name"]], "Name Surname")
     expect_equal(res[["contact[1]-affiliation"]], "PSI-MS")
     expect_equal(res[["contact[1]-email"]], "name.surname@mail.com")
+    expect_equal(res[["contact[1]-orcid"]], "0000-0001-2345-6789")
 })
 
 test_that("setMtdField works", {

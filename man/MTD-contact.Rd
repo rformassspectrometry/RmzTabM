@@ -11,6 +11,7 @@ setMtdContact(
   name = character(),
   affiliation = character(),
   email = character(),
+  orcid = character(),
   replace = FALSE
 )
 
@@ -25,6 +26,8 @@ If all values are \code{NA}, the function returns \code{x} unchanged.}
 \item{affiliation}{\code{character} contact’s affiliation.}
 
 \item{email}{\code{character} contact’s e-mail address.}
+
+\item{orcid}{\code{character} contact’s ORCID identifier.}
 
 \item{replace}{\code{logical} flag controlling how pre-existing contact
 metadata is handled:
@@ -53,12 +56,13 @@ x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add contact metadata to an existing mzTab object
 mtd <- setMtdContact(x, name = "Name Surname",
           affiliation = "PSI-MS",
-          email = "name.surname@mail.com")
+          email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 
 ## Replace all existing contact metadata
 mtd <- setMtdContact(mtd, name = "Name Surname",
           affiliation = "PSI-MS",
           email = "name.surname@mail.com",
+          orcid = "0000-0002-1825-0097",
           replace = TRUE)
 
 

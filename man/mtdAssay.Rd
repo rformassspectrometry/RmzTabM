@@ -9,7 +9,9 @@ mtdAssay(
   assay = character(),
   external_uri = character(),
   sample_ref = character(),
-  ms_run_ref = character()
+  ms_run_ref = character(),
+  protocol_ref = character(),
+  parameters = character()
 )
 }
 \arguments{
@@ -35,6 +37,13 @@ multiplexed assays, different assays can refer to the same run. To
 support pre-fractionated samples, it is also possible to provide a
 \code{list} of \code{character} with the runs the assay was measured in. See
 examples below for more details.}
+
+\item{protocol_ref}{optional \code{character} with the ID/name of the protocol for
+the assay (e.g. \code{"protocol[1]"}). If provided, its length has to match
+the length of \code{assay}.}
+
+\item{parameters}{optional \code{character} with additional parameters of the
+assay.}
 }
 \value{
 two-column \code{character} \code{matrix} with the content for the assay
@@ -78,6 +87,14 @@ mtdAssay(
     external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
     sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"))
+
+## Example adding also protocol reference
+mtdAssay(
+   assay = c("a1", "a2", "a3"),
+   external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
+   sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
+   ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"),
+   protocol_ref = c("protocol[1]", "protocol[1]", "protocol[1]|protocol[2]"))
 
 ## Providing additional, custom information for each assay. These can be
 ## passed as `character` vectors (same length than `assay`!).
