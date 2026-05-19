@@ -791,20 +791,7 @@ mtdMsRun <- function(location = character(),
         res <- rbind(res, .ms_run_format(s, "hash_method", hash_method))
     ## Paramters
     if (length(parameters)) {
-        if (length(parameters) != l)
-            parameters <- rep(parameters[1], l)
-        if (!is.list(parameters)) parameters <- as.list(parameters)
-        param_mod <- lapply(seq_along(parameters), function(z) {
-            vals <- parameters[[z]]
-            if (lv <- length(vals)) {
-                cbind(paste0("ms_run[", rep(z, lv), "]-parameter[",
-                            seq_len(lv), "]"),
-                    parameters[[z]],
-                    order = .prefix_zero(rep(z, lv)))
-            }
-        })
-        param_mod <- do.call(rbind, param_mod)
-        res <- rbind(res, param_mod)
+        res <- rbind(res, .mztab_parameters("ms_run", parameters, l))
     }
     res[order(res[, 3L]), 1:2, drop = FALSE]
 }
@@ -950,20 +937,7 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
     }
     ## Paramters
     if (length(parameters)) {
-        if (length(parameters) != l)
-            parameters <- rep(parameters[1], l)
-        if (!is.list(parameters)) parameters <- as.list(parameters)
-        param_mod <- lapply(seq_along(parameters), function(z) {
-            vals <- parameters[[z]]
-            if (lv <- length(vals)) {
-                cbind(paste0("assay[", rep(z, lv), "]-parameter[",
-                            seq_len(lv), "]"),
-                    parameters[[z]],
-                    order = .prefix_zero(rep(z, lv)))
-            }
-        })
-        param_mod <- do.call(rbind, param_mod)
-        res <- rbind(res, param_mod)
+        res <- rbind(res, .mztab_parameters("assay", parameters, l))
     }
     ## Optional "custom" fields passed through ...
     res <- rbind(
@@ -1282,20 +1256,7 @@ mtdProtocol <- function(name = character(), type = character(),
     }
     ## Paramters
     if (length(parameters)) {
-        if (length(parameters) != l)
-            parameters <- rep(parameters[1], l)
-        if (!is.list(parameters)) parameters <- as.list(parameters)
-        param_mod <- lapply(seq_along(parameters), function(z) {
-            vals <- parameters[[z]]
-            if (lv <- length(vals)) {
-                cbind(paste0("protocol[", rep(z, lv), "]-parameter[",
-                            seq_len(lv), "]"),
-                    parameters[[z]],
-                    order = .prefix_zero(rep(z, lv)))
-            }
-        })
-        param_mod <- do.call(rbind, param_mod)
-        res <- rbind(res, param_mod)
+        res <- rbind(res, .mztab_parameters("protocol", parameters, l))
     }
     res[order(res[, 3L]), 1:2, drop = FALSE]
 }
@@ -1508,6 +1469,34 @@ mtdSort <- function(x) {
         study_variable = as.vector(unlist(lapply(x[, groups, drop = FALSE],
                                                  as.character))),
         study_variable_group = rep(groups, each = nrow(x)))
+}
+
+#' Helper to create the parameter fields for a given set of parameters.
+#'
+#' @param prefix `character(1)` with the prefix of the field, e.g. `"assay"`.
+#'
+#' @param parameters `character` with the parameter values.
+#'
+#' @param l `integer(1)` with the number of repetion.
+#'
+#' @return `character` `matrix` with the parameter fields.
+#'
+#' @noRd
+.mtd_parameters_fields <- function(prefix = character(),
+                                    parameters = character(), l = 0L) {
+    if (length(parameters) != l)
+        parameters <- rep(parameters[1], l)
+    if (!is.list(parameters)) parameters <- as.list(parameters)
+    param_mod <- lapply(seq_along(parameters), function(z) {
+        vals <- parameters[[z]]
+        if (lv <- length(vals)) {
+            cbind(paste0(prefix, "[", rep(z, lv), "]-parameter[",
+                        seq_len(lv), "]"),
+                parameters[[z]],
+                order = .prefix_zero(rep(z, lv)))
+        }
+    })
+    do.call(rbind, param_mod)
 }
 
 #' Defines the order of the elements in MTD (pattern provided). This should
