@@ -837,6 +837,24 @@ test_that(".mtd_get_field works", {
                               `instrument[2]-name` = "3"))
 })
 
+test_that(".mtd_parameters_fields works", {
+    res <- .mtd_parameters_fields("assay", c("parameter1"), 2)
+    expect_equal(res[, 1L], c("assay[1]-parameter[1]", "assay[2]-parameter[1]"))
+    expect_equal(res[, 2L], c("parameter1", "parameter1"))
+
+    res <- .mtd_parameters_fields("ms_run", c("parameter1", "parameter2"), 2)
+    expect_equal(res[, 1L],
+                 c("ms_run[1]-parameter[1]", "ms_run[2]-parameter[1]"))
+    expect_equal(res[, 2L], c("parameter1", "parameter2"))
+
+    res <- .mtd_parameters_fields("ms_run",
+                                  list(c("parameter1", "parameter2"), NULL), 2)
+    expect_equal(res[, 1L],
+                 c("ms_run[1]-parameter[1]", "ms_run[1]-parameter[2]"))
+    expect_equal(res[, 2L], c("parameter1", "parameter2"))
+
+})
+
 test_that(".mtd_svar_group_description works", {
     x <- data.frame(a = 1:3, b = "b")
     res <- .mtd_svar_group_description(x)
