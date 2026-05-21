@@ -1140,17 +1140,9 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Length of parameter 'description' has to be equal to ",
              "the number of study variables", call. = FALSE)
     ## Add study variables
-    for (i in seq_len(length(unique(svars$study_variable)))) {
-        current_svar <- unique(svars$study_variable)[i]
-        current_grp <- svars[svars$study_variable %in% current_svar,
-                             "study_variable_group"]
-        if (length(current_grp) == 1L)
-            assay_idx <- which(x[, current_grp] %in% current_svar)
-        else
-            assay_idx <- unique(
-                which(matrix(x[, current_grp] %in% current_svar,
-                             ncol = length(current_grp)),
-                      arr.ind = TRUE)[, "row"])
+    for (i in seq_len(nrow(svars))) {
+        current_svar <- svars$study_variable[i]
+        current_grp <- svars$study_variable_group[i]
 
         res <- rbind(
             res,
@@ -1163,14 +1155,13 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-description"),
                      paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
-                     paste0("assay[", assay_idx, "]", collapse = "|"),
+                     paste0("assay[", which(x[, current_grp] %in% current_svar),
+                            "]", collapse = "|"),
                      average_function[i],
                      variation_function[i],
-                     ## TODO: works if assay == ms_run.
-                     paste0("ms_run[", unique(assay_idx), "]", collapse = "|"),
                      description[i],
                      paste0("study_variable_group[",
-                            match(current_grp, groups), "]", collapse = "|"))
+                            match(current_grp, groups), "]"))
                    )
         )
     }
