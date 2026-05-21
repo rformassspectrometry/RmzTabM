@@ -984,6 +984,8 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
 #' Datatypes `"xsd:date"`, `"xsd:time"`, `"xsd:dateTime"` and `"xsd:anyURI"` are
 #' currently mapped to `character` in R (and *vice versa*).
 #'
+#' At present study variables are mapped to *assays*, but not to *MS runs*.
+#'
 #' @param x `data.frame` with rows corresponding to individual *assays* and
 #'     columns containing the experimental conditions/study variables. The
 #'     number of rows is thus expected to be the same as the number of assays
@@ -1151,7 +1153,6 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-assay_refs"),
                      paste0("study_variable[", i, "]-average_function"),
                      paste0("study_variable[", i, "]-variation_function"),
-                     paste0("study_variable[", i, "]-ms_run_ref"),
                      paste0("study_variable[", i, "]-description"),
                      paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
