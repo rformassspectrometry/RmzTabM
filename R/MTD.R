@@ -1142,7 +1142,7 @@ mtdStudyVariables <- function(x, groups = character(),
     ## Add study variables
     for (i in seq_len(length(unique(svars$study_variable)))) {
         current_svar <- unique(svars$study_variable)[i]
-        current_grp <- svars[svars$study_variable == current_svar,
+        current_grp <- svars[svars$study_variable %in% current_svar,
                              "study_variable_group"]
         if (length(current_grp) == 1L)
             assay_idx <- which(x[, current_grp] %in% current_svar)
