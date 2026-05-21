@@ -97,7 +97,6 @@ Johannes Rainer
 ## parameter name has to be used (e.g., `assay = `).
 mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"))
-#> 0
 #>                                       
 #> [1,] "assay[1]"            "a1"       
 #> [2,] "assay[1]-ms_run_ref" "ms_run[1]"
@@ -109,7 +108,6 @@ mtdAssay(assay = c("a1", "a2", "a3"),
 ## Example for a multiplexed assay.
 mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[1]"))
-#> 0
 #>                                       
 #> [1,] "assay[1]"            "a1"       
 #> [2,] "assay[1]-ms_run_ref" "ms_run[1]"
@@ -123,7 +121,6 @@ mtdAssay(assay = c("a1", "a2", "a3"),
     ms_run_ref = list(c("ms_run[1]", "ms_run[2]"),
                       c("ms_run[3]", "ms_run[4]"),
                       c("ms_run[5]", "ms_run[6]")))
-#> 0
 #>                                           
 #>  [1,] "assay[1]"               "a1"       
 #>  [2,] "assay[1]-ms_run_ref[1]" "ms_run[1]"
@@ -141,7 +138,6 @@ mtdAssay(
     external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
     sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"))
-#> 0
 #>                              
 #>  [1,] "assay[1]"             
 #>  [2,] "assay[1]-external_uri"
@@ -176,7 +172,6 @@ mtdAssay(
    sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
    ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"),
    protocol_ref = c("protocol[1]", "protocol[1]", "protocol[1]|protocol[2]"))
-#> 0
 #>                              
 #>  [1,] "assay[1]"             
 #>  [2,] "assay[1]-external_uri"
@@ -217,7 +212,6 @@ mtdAssay(assay = c("a1", "a2", "a3"),
     c("[MS, , Assay operator, Fred Blogs]",
       "[MS, , Assay operator, Fred Blogs]",
       "[MS, , Assay operator, Frodo]"))
-#> 1
 #>                                                                 
 #>  [1,] "assay[1]"            "a1"                                
 #>  [2,] "assay[1]-ms_run_ref" "ms_run[1]"                         

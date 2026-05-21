@@ -33,7 +33,7 @@ these parameters should suffice."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.12</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,6 +204,7 @@ create such a setup.</p>
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>Datatypes <code>"xsd:date"</code>, <code>"xsd:time"</code>, <code>"xsd:dateTime"</code> and <code>"xsd:anyURI"</code> are
 currently mapped to <code>character</code> in R (and <em>vice versa</em>).</p>
+<p>At present study variables are mapped to <em>assays</em>, but not to <em>MS runs</em>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -252,72 +253,62 @@ currently mapped to <code>character</code> in R (and <em>vice versa</em>).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "study_variable[1]-assay_refs"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "study_variable[1]-average_function"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "study_variable[1]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "study_variable[1]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable[1]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable[1]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "study_variable[2]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "study_variable[2]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable[2]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "study_variable[2]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable[2]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable[2]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable[2]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "study_variable[3]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "study_variable[3]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "study_variable[3]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "study_variable[3]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "study_variable[3]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "study_variable[3]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "study_variable[3]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "study_variable[4]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "study_variable[4]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "study_variable[4]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "study_variable[4]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "study_variable[4]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "study_variable[4]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "study_variable[4]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "study_variable[5]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "study_variable[5]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [47,] "study_variable[5]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [48,] "study_variable[5]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49,] "study_variable[5]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [50,] "study_variable[5]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51,] "study_variable[5]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [52,] "study_variable[6]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [53,] "study_variable[6]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [54,] "study_variable[6]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [55,] "study_variable[6]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56,] "study_variable[6]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [57,] "study_variable[6]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [58,] "study_variable[6]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [59,] "study_variable[7]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [60,] "study_variable[7]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61,] "study_variable[7]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [62,] "study_variable[7]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [63,] "study_variable[7]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [64,] "study_variable[7]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [65,] "study_variable[7]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [66,] "study_variable[8]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [67,] "study_variable[8]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [68,] "study_variable[8]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [69,] "study_variable[8]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [70,] "study_variable[8]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [71,] "study_variable[8]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [72,] "study_variable[8]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [73,] "study_variable[9]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [74,] "study_variable[9]-assay_refs"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [75,] "study_variable[9]-average_function"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [76,] "study_variable[9]-variation_function" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [77,] "study_variable[9]-ms_run_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [78,] "study_variable[9]-description"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [79,] "study_variable[9]-group_ref"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [80,] "study_variable[10]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [81,] "study_variable[10]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [82,] "study_variable[10]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [83,] "study_variable[10]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [84,] "study_variable[10]-ms_run_ref"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [85,] "study_variable[10]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [86,] "study_variable[10]-group_ref"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "study_variable[1]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable[1]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable[2]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "study_variable[2]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "study_variable[2]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable[2]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "study_variable[2]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable[2]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable[3]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable[3]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "study_variable[3]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "study_variable[3]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "study_variable[3]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "study_variable[3]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "study_variable[4]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "study_variable[4]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "study_variable[4]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "study_variable[4]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "study_variable[4]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "study_variable[4]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "study_variable[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "study_variable[5]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "study_variable[5]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "study_variable[5]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "study_variable[5]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "study_variable[5]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [47,] "study_variable[6]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [48,] "study_variable[6]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49,] "study_variable[6]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50,] "study_variable[6]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51,] "study_variable[6]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [52,] "study_variable[6]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [53,] "study_variable[7]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [54,] "study_variable[7]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55,] "study_variable[7]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56,] "study_variable[7]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57,] "study_variable[7]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [58,] "study_variable[7]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [59,] "study_variable[8]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [60,] "study_variable[8]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61,] "study_variable[8]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [62,] "study_variable[8]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [63,] "study_variable[8]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64,] "study_variable[8]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [65,] "study_variable[9]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66,] "study_variable[9]-assay_refs"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [67,] "study_variable[9]-average_function"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [68,] "study_variable[9]-variation_function" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [69,] "study_variable[9]-description"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [70,] "study_variable[9]-group_ref"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71,] "study_variable[10]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [72,] "study_variable[10]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73,] "study_variable[10]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [74,] "study_variable[10]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [75,] "study_variable[10]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76,] "study_variable[10]-group_ref"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "[,,individual,]"                               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "Sample matrix column individual"               </span>
@@ -339,72 +330,62 @@ currently mapped to <code>character</code> in R (and <em>vice versa</em>).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "assay[1]|assay[3]"                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "[MS, MS:1002962, mean, ]"                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "ms_run[1]|ms_run[3]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "Variable individual, value I1"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable_group[1]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "I2"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "assay[2]|assay[4]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "ms_run[2]|ms_run[4]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "Variable individual, value I2"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable_group[1]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "I3"                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "assay[5]"                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "ms_run[5]"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "Variable individual, value I3"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "study_variable_group[1]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "29.3"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "assay[1]|assay[3]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "ms_run[1]|ms_run[3]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "Variable BMI, value 29.3"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "study_variable_group[2]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "31.4"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "assay[2]|assay[4]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [47,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [48,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49,] "ms_run[2]|ms_run[4]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [50,] "Variable BMI, value 31.4"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51,] "study_variable_group[2]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [52,] "26.5"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [53,] "assay[5]"                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [54,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [55,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56,] "ms_run[5]"                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [57,] "Variable BMI, value 26.5"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [58,] "study_variable_group[2]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [59,] "0"                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [60,] "assay[1]|assay[3]|assay[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "Variable individual, value I1"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "I2"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "assay[2]|assay[4]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "Variable individual, value I2"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "I3"                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "assay[5]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "Variable individual, value I3"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "29.3"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "assay[1]|assay[3]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "Variable BMI, value 29.3"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "31.4"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "assay[2]|assay[4]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "Variable BMI, value 31.4"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [47,] "26.5"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [48,] "assay[5]"                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51,] "Variable BMI, value 26.5"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [52,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [53,] "0"                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [54,] "assay[1]|assay[3]|assay[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57,] "Variable timepoint, value 0"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [58,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [59,] "6"                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [60,] "assay[2]|assay[4]"                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61,] "[MS, MS:1002962, mean, ]"                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [62,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [63,] "ms_run[1]|ms_run[3]|ms_run[5]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [64,] "Variable timepoint, value 0"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [65,] "study_variable_group[3]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [66,] "6"                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [67,] "assay[2]|assay[4]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [68,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [69,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [70,] "ms_run[2]|ms_run[4]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [71,] "Variable timepoint, value 6"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [72,] "study_variable_group[3]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [73,] "TRUE"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [74,] "assay[1]|assay[3]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [75,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [76,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [77,] "ms_run[1]|ms_run[3]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [78,] "Variable T2D, value TRUE"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [79,] "study_variable_group[4]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [80,] "FALSE"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [81,] "assay[2]|assay[4]|assay[5]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [82,] "[MS, MS:1002962, mean, ]"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [83,] "[MS, MS:1002963, variation coefficient, ]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [84,] "ms_run[2]|ms_run[4]|ms_run[5]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [85,] "Variable T2D, value FALSE"                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [86,] "study_variable_group[4]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [63,] "Variable timepoint, value 6"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64,] "study_variable_group[3]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [65,] "TRUE"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66,] "assay[1]|assay[3]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [67,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [68,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [69,] "Variable T2D, value TRUE"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [70,] "study_variable_group[4]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71,] "FALSE"                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [72,] "assay[2]|assay[4]|assay[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [74,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [75,] "Variable T2D, value FALSE"                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76,] "study_variable_group[4]"                       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Specifying a different average and variation function and selecting</span></span></span>
 <span class="r-in"><span><span class="co">## just two sample columns</span></span></span>
@@ -425,30 +406,26 @@ currently mapped to <code>character</code> in R (and <em>vice versa</em>).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "study_variable[1]-assay_refs"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "study_variable[1]-average_function"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "study_variable[1]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "study_variable[1]-ms_run_ref"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "study_variable[1]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "study_variable[1]-group_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "study_variable[2]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "study_variable[2]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "study_variable[2]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "study_variable[2]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "study_variable[2]-ms_run_ref"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "study_variable[2]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable[2]-group_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable[3]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "study_variable[3]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "study_variable[3]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable[3]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "study_variable[3]-ms_run_ref"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable[3]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable[3]-group_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable[4]"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "study_variable[4]-assay_refs"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "study_variable[4]-average_function"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "study_variable[4]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "study_variable[4]-ms_run_ref"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "study_variable[4]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "study_variable[4]-group_ref"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "study_variable[1]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "study_variable[1]-group_ref"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "study_variable[2]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "study_variable[2]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "study_variable[2]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "study_variable[2]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "study_variable[2]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "study_variable[2]-group_ref"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "study_variable[3]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable[3]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "study_variable[3]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "study_variable[3]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "study_variable[3]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable[3]-group_ref"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "study_variable[4]"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "study_variable[4]-assay_refs"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable[4]-average_function"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "study_variable[4]-variation_function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "study_variable[4]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "study_variable[4]-group_ref"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "[,,timepoint,]"                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "Sample matrix column timepoint"                </span>
@@ -462,30 +439,26 @@ currently mapped to <code>character</code> in R (and <em>vice versa</em>).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "assay[1]|assay[3]|assay[5]"                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "[MS, MS:1002883, median, ]"                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "[MS, MS:1002885, standard error, ]"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "ms_run[1]|ms_run[3]|ms_run[5]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "Variable timepoint, value 0"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "study_variable_group[1]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "6"                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "assay[2]|assay[4]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "[MS, MS:1002883, median, ]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "[MS, MS:1002885, standard error, ]"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "ms_run[2]|ms_run[4]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "Variable timepoint, value 6"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "study_variable_group[1]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "TRUE"                                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "assay[1]|assay[3]"                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "[MS, MS:1002883, median, ]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "[MS, MS:1002885, standard error, ]"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "ms_run[1]|ms_run[3]"                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "Variable T2D, value TRUE"                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "study_variable_group[2]"                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "FALSE"                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "assay[2]|assay[4]|assay[5]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "[MS, MS:1002883, median, ]"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "[MS, MS:1002885, standard error, ]"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "ms_run[2]|ms_run[4]|ms_run[5]"                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "Variable T2D, value FALSE"                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "Variable timepoint, value 0"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "6"                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "assay[2]|assay[4]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "[MS, MS:1002883, median, ]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "[MS, MS:1002885, standard error, ]"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "Variable timepoint, value 6"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "study_variable_group[1]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "TRUE"                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "assay[1]|assay[3]"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "[MS, MS:1002883, median, ]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "[MS, MS:1002885, standard error, ]"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "Variable T2D, value TRUE"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "study_variable_group[2]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "FALSE"                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "assay[2]|assay[4]|assay[5]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "[MS, MS:1002883, median, ]"                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "[MS, MS:1002885, standard error, ]"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "Variable T2D, value FALSE"                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "study_variable_group[2]"                       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Creating a study variable section without defined study variable groups</span></span></span>
 <span class="r-in"><span><span class="fu">mtdStudyVariables</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
@@ -498,21 +471,19 @@ currently mapped to <code>character</code> in R (and <em>vice versa</em>).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "study_variable[1]-assay_refs"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "study_variable[1]-average_function"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "study_variable[1]-variation_function"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "study_variable[1]-ms_run_ref"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "study_variable[1]-description"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "study_variable[1]-group_ref"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "[,,undefined,]"                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "Sample matrix column undefined"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[STATO, STATO:0000252, categorical variable, ]"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "xsd:string"                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "undefined"                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "[MS, MS:1002962, mean, ]"                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "[MS, MS:1002963, variation coefficient, ]"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "ms_run[1]|ms_run[2]|ms_run[3]|ms_run[4]|ms_run[5]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "Variable undefined, value undefined"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "study_variable_group[1]"                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "study_variable[1]-description"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "study_variable[1]-group_ref"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,2]                                            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "[,,undefined,]"                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "Sample matrix column undefined"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "[STATO, STATO:0000252, categorical variable, ]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "xsd:string"                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "undefined"                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "[MS, MS:1002962, mean, ]"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "[MS, MS:1002963, variation coefficient, ]"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "Variable undefined, value undefined"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "study_variable_group[1]"                       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use `mtdDefineStudyVariables()` to get the definition of study</span></span></span>
 <span class="r-in"><span><span class="co">## variables for a given `x` and `groups`</span></span></span>

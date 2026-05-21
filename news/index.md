@@ -2,6 +2,13 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.13
+
+- Add function
+  [`mtdFromSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+  to create metadata (MTD) content including sample, MS run, assay and
+  study variable information from a *sample data* `data.frame`.
+
 ### Changes in version 0.97.12
 
 - Add fucntion

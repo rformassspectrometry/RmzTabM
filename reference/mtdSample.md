@@ -1,6 +1,6 @@
 # msTab-M *sample* metadata information
 
-The `mtdSamples()` function aids in creating and formatting the
+The `mtdSample()` function aids in creating and formatting the
 (optional) sample information from the mzTab-M metadata section. If
 defined, the sample information **must** be correctly linked to from the
 *assay* section. In particular, the assays need to link to the index of
@@ -40,9 +40,9 @@ mtdSample(
 
 - ...:
 
-  optional *custom* information for each individual sample. Each custom
-  variable is expected to be provided as a `character` of length equal
-  to the length of parameter `sample`.
+  named `character` vectors of length equal to the length of parameter
+  `sample` with optional *custom* information for each individual
+  sample.
 
 - sample:
 
@@ -104,7 +104,6 @@ mtdSample(unique(pd$sample_name))
 mtdSample(
     sample = unique(pd$sample_name),
     species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]")
-#> 0
 #>                                                                          
 #> [1,] "sample[1]"            "ind_1"                                      
 #> [2,] "sample[1]-species[1]" "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
@@ -118,7 +117,6 @@ mtdSample(
                      "[NCBITaxon, NCBITaxon:39767, Human rhinovirus 11, ]"),
                    "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]")
 )
-#> 0
 #>                            
 #> [1,] "sample[1]"           
 #> [2,] "sample[1]-species[1]"
@@ -144,7 +142,6 @@ mtdSample(
                      "[DOID, DOID:9451, alcoholic fatty liver, ]"),
                    NULL)
 )
-#> 0
 #>                               
 #>  [1,] "sample[1]"             
 #>  [2,] "sample[1]-species[1]"  
@@ -176,7 +173,6 @@ mtdSample(sample = c("A", "B"),
       "[,,Extraction date, 2011-12-22]"),
     c("[,,Extraction reason, liver biopsy]",
       "[,,Extraction reason, liver biopsy]"))
-#> 2
 #>                                                                 
 #> [1,] "sample[1]"           "A"                                  
 #> [2,] "sample[1]-custom[1]" "[,,Extraction date, 2011-12-21]"    

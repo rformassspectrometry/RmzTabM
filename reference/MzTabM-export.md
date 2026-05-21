@@ -78,7 +78,6 @@ mtd_a <- mtdAssay(
                    "sample[3]", "sample[3]"),
     ms_run_ref = paste0("ms_run[", seq_len(nrow(exp)), "]")
 )
-#> 0
 mtd <- rbind(mtd, mtd_a)
 
 mtd_svar <- mtdStudyVariables(

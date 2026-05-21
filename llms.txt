@@ -175,6 +175,12 @@ TODO - add names of hackathon participants, etc.
 - [`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)
   : Prepare and format information for the mzTab-M metadata section
 
+- [`mtdFromSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+  [`sampleCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+  [`msRunCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+  [`assayCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+  : Create the mzTab-M MTD content from a sample data frame
+
 - [`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)
   :
 
