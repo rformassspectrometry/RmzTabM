@@ -79,13 +79,14 @@
 #'
 #' The general relationship between *ms_run*, *assay* and *sample*:
 #'
-#' - one *ms_run* is the measurement of one assay.
+#' - one *ms_run* is the measurement of one assay. In most use cases one
+#'   *ms_run* is associated with one *assay*.
 #'
 #' - one assay can be measured by several MS runs (if fractionated) or multiple
 #'   assays can be measured in the same MS run (if multiplexed).
 #'
 #' - one assay is (generally) one sample, but the same sample can be measured
-#'   with multiple assays.
+#'   with multiple assays (i.e., technical replicates).
 #'
 #' @author Philippine Louail, Johannes Rainer
 #'
@@ -505,7 +506,7 @@ mtdSkeleton <- function(id = character(),
 #'
 #' @description
 #'
-#' The `mtdSamples()` function aids in creating and formatting the (optional)
+#' The `mtdSample()` function aids in creating and formatting the (optional)
 #' sample information from the mzTab-M metadata section. If defined, the sample
 #' information **must** be correctly linked to from the *assay* section. In
 #' particular, the assays need to link to the index of the samples defined in
@@ -524,9 +525,9 @@ mtdSkeleton <- function(id = character(),
 #' For details and expected input for the various parameter it is **strongly
 #' suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
 #'
-#' @param ... optional *custom* information for each individual sample. Each
-#'     custom variable is expected to be provided as a `character` of length
-#'     equal to the length of parameter `sample`.
+#' @param ... named `character` vectors of length equal to the length of
+#'     parameter `sample` with optional *custom* information for each
+#'     individual sample.
 #'
 #' @param sample `character` with the labels/names of the individual samples.
 #'
@@ -726,14 +727,14 @@ mtdSample <- function(..., sample = character(), species = list(),
 #' mtdMsRun(location = fls, scan_polarity = "positive",
 #'     fragmentation_method = list(NULL, "[MS, MS:1000133, CID, ]"))
 mtdMsRun <- function(location = character(),
-                       instrument_ref = integer(),
-                       format = character(),
-                       id_format = character(),
-                       fragmentation_method = vector("list", length(location)),
-                       scan_polarity = character(),
-                       hash = character(),
-                       hash_method = character(),
-                       parameters = character()) {
+                     instrument_ref = integer(),
+                     format = character(),
+                     id_format = character(),
+                     fragmentation_method = vector("list", length(location)),
+                     scan_polarity = character(),
+                     hash = character(),
+                     hash_method = character(),
+                     parameters = character()) {
     l <- length(location)
     s <- seq_len(l)
     if (!l)
@@ -983,6 +984,8 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
 #' Datatypes `"xsd:date"`, `"xsd:time"`, `"xsd:dateTime"` and `"xsd:anyURI"` are
 #' currently mapped to `character` in R (and *vice versa*).
 #'
+#' At present study variables are mapped to *assays*, but not to *MS runs*.
+#'
 #' @param x `data.frame` with rows corresponding to individual *assays* and
 #'     columns containing the experimental conditions/study variables. The
 #'     number of rows is thus expected to be the same as the number of assays
@@ -1150,17 +1153,13 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-assay_refs"),
                      paste0("study_variable[", i, "]-average_function"),
                      paste0("study_variable[", i, "]-variation_function"),
-                     paste0("study_variable[", i, "]-ms_run_ref"),
                      paste0("study_variable[", i, "]-description"),
                      paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
-                     paste0("assay[", which(x[, current_grp] == current_svar),
+                     paste0("assay[", which(x[, current_grp] %in% current_svar),
                             "]", collapse = "|"),
                      average_function[i],
                      variation_function[i],
-                     ## TODO: works if assay == ms_run.
-                     paste0("ms_run[", which(x[, current_grp] == current_svar),
-                            "]", collapse = "|"),
                      description[i],
                      paste0("study_variable_group[",
                             match(current_grp, groups), "]"))
@@ -1277,6 +1276,313 @@ mtdSort <- function(x) {
     x[.sort_order(x[, 1L], .MTD_FIELD_ORDER), , drop = FALSE]
 }
 
+#' @title Create the mzTab-M MTD content from a sample data frame
+#'
+#' @description
+#'
+#' `mtdFromSampleData()` compiles the *sample*, *ms_run*, *assay* and
+#' *study variable* content of the MTD section from a *sample data*
+#' `data.frame`. Each row of this `data.frame` (parameter `x`) is expected to
+#' represent on MS run (i.e., acquisition of a sample) of an experimen with
+#' columns containing information on the individual MS run and the sample(s).
+#'
+#' The columns providing information on the MS run can be specified with
+#' parameter `msRunCols`. Mandatory columns are *location* and *scan_polarity*.
+#'
+#' The columns providing information on the individual *assays* can be defined
+#' with parameter `assayCols`. In most cases one assay represents one MS run.
+#'
+#' The columns from which sample information can be retrieved can be defined
+#' with `sampleCols`. See notes below for more information.
+#'
+#' The columns containing experimental/phenotype information can be defined
+#' with parameter `groups`.
+#'
+#' Arguments defining columns for MS runs, assays and samples are grouped with
+#' parameters `msRunCols.`, `assayCols.` and `sampleCols,`. For each a helper
+#' function is available providing defaults and assisting in defining the
+#' arguments. See section *Defining columns with information on MS runs, assays
+#' and samples*
+#'
+#' The MTD information is compiled from the sample data `x` as follows:
+#'
+#' - MS runs: each row in `x` is added as one MS run. The column in `x` with
+#'   the respective file name needs to be defined through parameter
+#'   `msRunCols.`.
+#'
+#' - samples: the unique set of rows based on the column(s) defined with
+#'   `sampleCols.` are added as samples.
+#'
+#' - assay: each unique element in the column defined through `assayCols.`
+#'   (`assay`) is added as one *assay* referencing to samples and MS runs.
+#'   In most cases the number of MS runs will match the number of assays, i.e.,
+#'   each row in `x` is one MS run as well as one assay. A 1:n mapping between
+#'   assay and MS run is also possible.
+#'
+#' - study variables: each column defined with parameter `groups` is added as
+#'   one *study variable group*.
+#'
+#' @section Defining columns with information on MS runs, assays and samples:
+#'
+#' - `msRunCols()`: function to create a named `character` defining the columns
+#'   in `x` containinig information for the individual parameters. To change
+#'   the default for the column containing the MS data file names (default
+#'   `location = "location"`) to a column called e.g. `"mzml_file"`:
+#'   `msRunCols(location = "mzml_file")`. Parameters `location` and
+#'   `scan_polarity` have to be set to match the column names in `x` with the
+#'   respective information. See examples for more information.
+#'
+#' - `assayCols()`: function to define columns containing information on assays.
+#'   Parameter `assay` has to be adapted. Through `...` it is also possible
+#'   to define additional columns with optional information on each assay.
+#'
+#' - `sampleCols()`: function to define columns containing sample information.
+#'   Through `...` additional optional columns with sample information can be
+#'   provided.
+#'
+#' @note
+#'
+#' The SML and SMF sections must report one column for each **assay**. Thus,
+#' each row in the input sample data `x` is expected to be one assay.
+#'
+#' In mzTab-M a *sample* is the source of an biological sample. If in an
+#' experiment e.g. multiple blood samples are taken at different time points
+#' from the same individual, the individual is considered a single sample.
+#' Information on the time points can be provided as study variables using the
+#' `groups` parameter.
+#'
+#' @param x `data.frame` with information on samples, MS runs and assays. Each
+#'     row is expected to represent one MS run (MS data file) and columns
+#'     providing information on the measured sample(s) along with
+#'     experimental and technical information.
+#'
+#' @param sampleCols. named `character` vector defining the columns in `x`
+#'     containing information for the individual sample fields (with names
+#'     being the name of the mzTab-M field and values the respective column
+#'     name in `x`). The `sampleCols()` function can be used to define this
+#'     parameter. See examples below and [mtdSample()] for more information.
+#'
+#' @param msRunCols. named `character` vector defining the columns in `x`
+#'     containing information on the MS runs (with names being the name of the
+#'     mzTab-M field and values the respective column name in `x`). Required
+#'     fields/parameters are `location` and `scan_polarity`. The `msRunCols()`
+#'     function can be used to define this parameter. See examples below and
+#'     [mtdMsRun()] for more information.
+#'
+#' @param assayCols. named `character` vector defining the columns in `x`
+#'     containing information for the individual assays fields (with names
+#'     being the name of the mzTab-M field and values the respective column
+#'     name in `x`). Parameter/field `assay` is required. The `assayCols()`
+#'     function can be used to define this parameter. See examples below and
+#'     [mtdAssay()] for more information.
+#'
+#' @inheritParams mtdSample
+#'
+#' @inheritParams mtdMsRun
+#'
+#' @inheritParams mtdAssay
+#'
+#' @inheritParams mtdDefineStudyVariables
+#'
+#' @return two column `character` `matrix`.
+#'
+#' @author Johannes Rainer
+#'
+#' @examples
+#'
+#' ## Defining an example sample data:
+#' ## - file: the mzML file, i.e., the *MS run*.
+#' ## - name: the name of the measurement. This is also the name of the sample:
+#' ##         QC is the pool of all samples, s1 to s4 the ID of the individual.
+#' ## - phenotype: defining the biological replicates, 2 for CVD, 2 for CTR.
+#' ## - age: covariate, age of the individuals.
+#' ## - injection_index: the order in which samples were measured.
+#' sdata <- data.frame(
+#'     file = c("1.mzML", "2.mzML", "3.mzML", "4.mzML", "5.mzML", "6.mzML"),
+#'     name = c("QC", "s1", "s2", "QC", "s3", "s4"),
+#'     phenotype = c(NA, "CVD", "CTR", NA, "CTR", "CVD"),
+#'     age = c(NA, 35, 32, NA, 43, 32),
+#'     injection_index = c(1, 2, 3, 4, 5, 6))
+#' ## Add additional required columns:
+#' sdata$polarity <- "positive"
+#'
+#' ## Add columns with optional, additional information to the individual
+#' ## samples or assays.
+#' sdata$organism <- "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+#' sdata$assay_info <- c("run1", "run2", "run3", "run4", "run5", "run6")
+#'
+#' ## Define the columns in `sdata` that provide information on the individual
+#' ## samples.
+#' scols <- sampleCols(sample = "name", species = "organism")
+#'
+#' ## Define the columns in `sdata` that provide MS run information
+#' mscols <- msRunCols(location = "file", scan_polarity = "polarity")
+#'
+#' ## Define the columns in `sdata` that provide assay information; we use
+#' ## the MS run/file name also for the assay name and add an additional
+#' ## column with optional content/information.
+#' acols <- assayCols(assay = "file", assay_info = "assay_info")
+#'
+#' ## Create the MTD section from the `sdata` `data.frame`. Parameter `groups`
+#' ## allows to define the columns in `sdata` that should be encoded as
+#' ## *study variable groups*.
+#' m <- mtdFromSampleData(sdata, sampleCols = scols, msRunCols = mscols,
+#'     assayCols = acols, groups = c("phenotype", "age", "injection_index"))
+#'
+#' ## The sample to assay mapping:
+#' ## The repeated injection (assay 1 and 4) of the QC sample are assigned
+#' ## to the same sample (1).
+#' getMtdField(m, "assay\\[\\d\\]-sample_ref")
+#'
+#' ## The study variable 2 represents a value of `"CVD"` for the *phenotype*
+#' ## study variable group
+#' getMtdField(m, "study_variable\\[2\\]$")
+#'
+#' ## and this study variable references the 2nd and 6th assay
+#' getMtdField(m, "study_variable\\[2\\]-assay_refs")
+#'
+#'
+#' ## It is also possible to create a MTD section without samples or
+#' ## study variables
+#' m <- mtdFromSampleData(
+#'     sdata,
+#'     msRunCols = c(location = "file", scan_polarity = "polarity"),
+#'     assayCols = c(assay = "assay_info"))
+#' m
+#' @export
+mtdFromSampleData <- function(x,
+                              sampleCols. = sampleCols(),
+                              msRunCols. = msRunCols(),
+                              assayCols. = assayCols(),
+                              groups = character(),
+                              group_description = character(),
+                              group_type = character(),
+                              group_datatype = character(),
+                              group_unit = character(),
+                              average_function = "[MS, MS:1002962, mean, ]",
+                              variation_function = "[MS, MS:1002963, variation coefficient, ]",
+                              description = character()
+                              ) {
+    ## mtdSample: all is optional; have a 0-row matrix if not provided
+    sampleCols. <- sampleCols.[sampleCols. %in% colnames(x)]
+    xsample <- unique(x[, sampleCols., drop = FALSE])
+    colnames(xsample) <- names(sampleCols.)
+    s <- do.call(mtdSample, as.list(xsample))
+
+    ## mtdMsRun: required columns are: `"location"` and `"scan_polarity"`
+    if (!any(names(msRunCols.) == "location") ||
+        !any(colnames(x) == msRunCols.["location"]))
+        stop("Column \"", msRunCols.["location"], "\" not found in 'x'. This ",
+             "column is mandatory and needs to provide the file name of each ",
+             "MS run (or \"null\" if there are no files). Please provide the ",
+             "respective column name with ",
+             "'msRunCols = msRunCols(location = <column name>, ...)'.",
+             call. = FALSE)
+    if (!any(names(msRunCols.) == "scan_polarity") ||
+        !any(colnames(x) == msRunCols.["scan_polarity"]))
+        stop("Column \"", msRunCols.["scan_polarity"], "\" not found in 'x'. ",
+             "This column is mandatory and needs to provide the polarity of ",
+             "each MS run. Please provide the respective column name with ",
+             "'msRunCols = msRunCols(scan_polarity = <column name>, ...)'.",
+             call. = FALSE)
+    msRunCols. <- msRunCols.[msRunCols. %in% colnames(x)]
+    l <- as.list(x[, msRunCols., drop = FALSE])
+    names(l) <- names(msRunCols.)
+    m <- do.call(mtdMsRun, l)
+
+    ## mtdAssay: required column: `"assay"`
+    if (!any(names(assayCols.) == "assay") ||
+        !any(colnames(x) == assayCols.["assay"]))
+        stop("Column \"", assayCols.["assay"], "\" not found in 'x'. This ",
+             "column is mandatory and needs to provide a name/identifier for ",
+             "each *assay*. In most cases, assay will be the same as the MS ",
+             "run. Please provide the respective column name with",
+             "'assayCols = assayCols(assay = <column name>, ...)'.",
+             call. = FALSE)
+    if (anyDuplicated(x[, assayCols.["assay"]]))
+        message("Relationship between assay and ms_run is 1:n. Please be ",
+                "aware that the SMF and SML section are expected to contain ",
+                "an abundance column for each assay, not ms_run.")
+    assayCols. <- assayCols.[assayCols. %in% colnames(x)]
+    l <- as.list(unique(x[, assayCols., drop = FALSE]))
+    names(l) <- names(assayCols.)
+    if (ncol(xsample) && !any(names(l) == "sample_ref")) {
+        ## unique identifier for each sample
+        sample_id <- apply(x[, sampleCols., drop = FALSE], MARGIN = 1,
+                           paste0, collapse = "-")
+        ## ref assay -> sample: based on unique sample and assay columns.
+        assay_sample <- unique(cbind(x[, assayCols.["assay"]], sample_id))[, 2L]
+        l$sample_ref <- paste0(
+            "sample[", match(assay_sample, unique(assay_sample)), "]")
+    }
+    if (!any(names(l) == "ms_run_ref")) {
+        ## ref assay -> ms_run: each row in `x` is assumed to be one ms_run: we
+        ## expect/support only ms_run:assay = 1:n mapping
+        idx <- match(x[, assayCols.["assay"]], unique(x[, assayCols.["assay"]]))
+        l$ms_run_ref <- vapply(
+            split(seq_along(idx), idx),
+            function(z) paste0("ms_run[", z, "]", collapse = "|"),
+            NA_character_)
+    }
+    a <- do.call(mtdAssay, l)
+
+    ## mtdStudyVariables; arguments can not be extracted from `x`.
+    ## If assay:ms_run is not 1:1: make x unique on groups and assay.
+    if (length(l[[1L]]) != nrow(x)) {
+        x <- unique(x[, c(assayCols., groups)])
+        if (nrow(x) != length(l[[1L]]))
+            stop("Study variable information (parameter 'group') and assays ",
+                 "don't align.", call. = FALSE)
+    }
+    sv <- mtdStudyVariables(
+        x, groups = groups, group_description = group_description,
+        group_type = group_type, group_datatype = group_datatype,
+        group_unit = group_unit, average_function = average_function,
+        variation_function = variation_function, description = description)
+    m <- rbind(m, s, a, sv)
+    mtdSort(m)
+}
+
+#' @export
+#'
+#' @rdname mtdFromSampleData
+sampleCols <- function(sample = "sample", species = "species",
+                       tissue = "tissue", cell_type = "cell_type",
+                       disease = "disease", description = "description", ...) {
+    dots <- list(...)
+    opt_cn <- as.character(dots)
+    names(opt_cn) <- names(dots)
+    c(sample = sample, species = species, tissue = tissue,
+      cell_type = cell_type, disease = disease, description = description,
+      opt_cn)
+}
+
+#' @export
+#'
+#' @rdname mtdFromSampleData
+msRunCols <- function(location = "location", instrument_ref = "instrument_ref",
+                      format = "format", id_format = "id_format",
+                      fragmentation_method = "fragmentation_method",
+                      scan_polarity = "scan_polarity", hash = "hash",
+                      hash_method = "hash_method") {
+    c(location = location, instrument_ref = instrument_ref, format = format,
+      id_format = id_format, fragmentation_method = fragmentation_method,
+      scan_polarity = scan_polarity, hash = hash, hash_method = hash_method)
+}
+
+#' @export
+#'
+#' @rdname mtdFromSampleData
+assayCols <- function(assay = "assay", external_uri = "external_uri",
+                      sample_ref = "sample_ref", ms_run_ref = "ms_run_ref",
+                      ...) {
+    dots <- list(...)
+    opt_cn <- as.character(dots)
+    names(opt_cn) <- names(dots)
+    c(assay = assay, external_uri = external_uri, sample_ref = sample_ref,
+      ms_run_ref = ms_run_ref, opt_cn)
+}
+
 ################################################################################
 ##    INTERNAL HELPER FUNCTIONS
 ################################################################################
@@ -1339,7 +1645,6 @@ mtdSort <- function(x) {
 .mtd_custom_fields <- function(..., prefix = "sample", suffix = "custom",
                                expected_length = 0L) {
     dots <- list(...)
-    message(length(dots))
     s <- seq_len(expected_length)
     if (length(dots)) {
         do.call(rbind, lapply(seq_along(dots), function(i) {

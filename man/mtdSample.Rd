@@ -15,9 +15,9 @@ mtdSample(
 )
 }
 \arguments{
-\item{...}{optional \emph{custom} information for each individual sample. Each
-custom variable is expected to be provided as a \code{character} of length
-equal to the length of parameter \code{sample}.}
+\item{...}{named \code{character} vectors of length equal to the length of
+parameter \code{sample} with optional \emph{custom} information for each
+individual sample.}
 
 \item{sample}{\code{character} with the labels/names of the individual samples.}
 
@@ -44,7 +44,7 @@ two column \code{character} \code{matrix} with the information formatted as
 sample section of the mzTab-M format.
 }
 \description{
-The \code{mtdSamples()} function aids in creating and formatting the (optional)
+The \code{mtdSample()} function aids in creating and formatting the (optional)
 sample information from the mzTab-M metadata section. If defined, the sample
 information \strong{must} be correctly linked to from the \emph{assay} section. In
 particular, the assays need to link to the index of the samples defined in
