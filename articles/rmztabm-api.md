@@ -510,36 +510,42 @@ pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[1\]-ms_run_ref | ms_run\[1\]\|ms_run\[3\]\|ms_run\[5\] |
 | study_variable\[1\]-description | Variable timepoint, value 0h |
 | study_variable\[1\]-group_ref | study_variable_group\[1\] |
 | study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[2\]-ms_run_ref | ms_run\[2\]\|ms_run\[4\]\|ms_run\[6\] |
 | study_variable\[2\]-description | Variable timepoint, value 6h |
 | study_variable\[2\]-group_ref | study_variable_group\[1\] |
 | study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[3\]-ms_run_ref | ms_run\[1\]\|ms_run\[2\] |
 | study_variable\[3\]-description | Variable genotype, value WT |
 | study_variable\[3\]-group_ref | study_variable_group\[2\] |
 | study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[4\]-ms_run_ref | ms_run\[3\]\|ms_run\[4\]\|ms_run\[5\]\|ms_run\[6\] |
 | study_variable\[4\]-description | Variable genotype, value KO |
 | study_variable\[4\]-group_ref | study_variable_group\[2\] |
 | study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[5\]-ms_run_ref | ms_run\[1\]\|ms_run\[2\]\|ms_run\[3\]\|ms_run\[4\] |
 | study_variable\[5\]-description | Variable operator, value BB |
 | study_variable\[5\]-group_ref | study_variable_group\[3\] |
 | study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[6\]-ms_run_ref | ms_run\[5\]\|ms_run\[6\] |
 | study_variable\[6\]-description | Variable operator, value FB |
 | study_variable\[6\]-group_ref | study_variable_group\[3\] |
 
@@ -664,36 +670,42 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[1\]-ms_run_ref | ms_run\[1\]\|ms_run\[3\]\|ms_run\[5\] |
 | study_variable\[1\]-description | Variable timepoint, value 0h |
 | study_variable\[1\]-group_ref | study_variable_group\[1\] |
 | study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[2\]-ms_run_ref | ms_run\[2\]\|ms_run\[4\]\|ms_run\[6\] |
 | study_variable\[2\]-description | Variable timepoint, value 6h |
 | study_variable\[2\]-group_ref | study_variable_group\[1\] |
 | study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[3\]-ms_run_ref | ms_run\[1\]\|ms_run\[2\] |
 | study_variable\[3\]-description | Variable genotype, value WT |
 | study_variable\[3\]-group_ref | study_variable_group\[2\] |
 | study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[4\]-ms_run_ref | ms_run\[3\]\|ms_run\[4\]\|ms_run\[5\]\|ms_run\[6\] |
 | study_variable\[4\]-description | Variable genotype, value KO |
 | study_variable\[4\]-group_ref | study_variable_group\[2\] |
 | study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[5\]-ms_run_ref | ms_run\[1\]\|ms_run\[2\]\|ms_run\[3\]\|ms_run\[4\] |
 | study_variable\[5\]-description | Variable operator, value BB |
 | study_variable\[5\]-group_ref | study_variable_group\[3\] |
 | study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
+| study_variable\[6\]-ms_run_ref | ms_run\[5\]\|ms_run\[6\] |
 | study_variable\[6\]-description | Variable operator, value FB |
 | study_variable\[6\]-group_ref | study_variable_group\[3\] |
 | cv\[1\]-label | MS |
@@ -1119,7 +1131,7 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6    RmzTabM_0.97.11
+    [1] pander_0.6.6    RmzTabM_0.97.12
 
     loaded via a namespace (and not attached):
      [1] digest_0.6.39     fastmap_1.2.0     xfun_0.57         knitr_1.51

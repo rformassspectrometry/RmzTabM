@@ -12,6 +12,7 @@ setMtdContact(
   name = character(),
   affiliation = character(),
   email = character(),
+  orcid = character(),
   replace = FALSE
 )
 
@@ -37,6 +38,10 @@ getMtdContact(x = matrix())
 - email:
 
   `character` contact’s e-mail address.
+
+- orcid:
+
+  `character` contact’s ORCID identifier.
 
 - replace:
 
@@ -67,16 +72,19 @@ x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
 ## Add contact metadata to an existing mzTab object
 mtd <- setMtdContact(x, name = "Name Surname",
           affiliation = "PSI-MS",
-          email = "name.surname@mail.com")
+          email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 
 ## Replace all existing contact metadata
 mtd <- setMtdContact(mtd, name = "Name Surname",
           affiliation = "PSI-MS",
           email = "name.surname@mail.com",
+          orcid = "0000-0002-1825-0097",
           replace = TRUE)
 
 
 getMtdContact(mtd)
 #>         contact[1]-name  contact[1]-affiliation        contact[1]-email 
 #>          "Name Surname"                "PSI-MS" "name.surname@mail.com" 
+#>        contact[1]-orcid 
+#>   "0000-0002-1825-0097" 
 ```

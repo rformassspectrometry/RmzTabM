@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>The R API for the mzTab-M File Format • RmzTabM</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="rmztabm-api_files/libs/quarto-html/popper.min.js"></script><script src="rmztabm-api_files/libs/quarto-html/tippy.umd.min.js"></script><link href="rmztabm-api_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="rmztabm-api_files/libs/quarto-html/light-border.css" rel="stylesheet">
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -645,28 +645,36 @@
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">study_variable[1]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]|ms_run[3]|ms_run[5]</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]-description</td>
 <td style="text-align: left;">Variable timepoint, value 0h</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[1]-group_ref</td>
 <td style="text-align: left;">study_variable_group[1]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[2]</td>
 <td style="text-align: left;">6h</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[2]-assay_refs</td>
 <td style="text-align: left;">assay[2]|assay[4]|assay[6]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[2]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[2]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[2]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[2]|ms_run[4]|ms_run[6]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable[2]-description</td>
@@ -693,28 +701,36 @@
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">study_variable[3]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]|ms_run[2]</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">study_variable[3]-description</td>
 <td style="text-align: left;">Variable genotype, value WT</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[3]-group_ref</td>
 <td style="text-align: left;">study_variable_group[2]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[4]</td>
 <td style="text-align: left;">KO</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[4]-assay_refs</td>
 <td style="text-align: left;">assay[3]|assay[4]|assay[5]|assay[6]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[4]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[4]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[4]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[3]|ms_run[4]|ms_run[5]|ms_run[6]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable[4]-description</td>
@@ -741,28 +757,36 @@
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">study_variable[5]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]|ms_run[2]|ms_run[3]|ms_run[4]</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">study_variable[5]-description</td>
 <td style="text-align: left;">Variable operator, value BB</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[5]-group_ref</td>
 <td style="text-align: left;">study_variable_group[3]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[6]</td>
 <td style="text-align: left;">FB</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[6]-assay_refs</td>
 <td style="text-align: left;">assay[5]|assay[6]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[6]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[6]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable[6]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[5]|ms_run[6]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable[6]-description</td>
@@ -1135,28 +1159,36 @@
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">study_variable[1]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]|ms_run[3]|ms_run[5]</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">study_variable[1]-description</td>
 <td style="text-align: left;">Variable timepoint, value 0h</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]-group_ref</td>
 <td style="text-align: left;">study_variable_group[1]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[2]</td>
 <td style="text-align: left;">6h</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[2]-assay_refs</td>
 <td style="text-align: left;">assay[2]|assay[4]|assay[6]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[2]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[2]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[2]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[2]|ms_run[4]|ms_run[6]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable[2]-description</td>
@@ -1183,28 +1215,36 @@
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">study_variable[3]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]|ms_run[2]</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">study_variable[3]-description</td>
 <td style="text-align: left;">Variable genotype, value WT</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[3]-group_ref</td>
 <td style="text-align: left;">study_variable_group[2]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[4]</td>
 <td style="text-align: left;">KO</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[4]-assay_refs</td>
 <td style="text-align: left;">assay[3]|assay[4]|assay[5]|assay[6]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[4]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[4]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[4]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[3]|ms_run[4]|ms_run[5]|ms_run[6]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable[4]-description</td>
@@ -1231,28 +1271,36 @@
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">study_variable[5]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[1]|ms_run[2]|ms_run[3]|ms_run[4]</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">study_variable[5]-description</td>
 <td style="text-align: left;">Variable operator, value BB</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[5]-group_ref</td>
 <td style="text-align: left;">study_variable_group[3]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[6]</td>
 <td style="text-align: left;">FB</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[6]-assay_refs</td>
 <td style="text-align: left;">assay[5]|assay[6]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[6]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[6]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable[6]-ms_run_ref</td>
+<td style="text-align: left;">ms_run[5]|ms_run[6]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable[6]-description</td>
@@ -1684,7 +1732,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base
 
 other attached packages:
-[1] pander_0.6.6    RmzTabM_0.97.11
+[1] pander_0.6.6    RmzTabM_0.97.12
 
 loaded via a namespace (and not attached):
  [1] digest_0.6.39     fastmap_1.2.0     xfun_0.57         knitr_1.51

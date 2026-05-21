@@ -24,7 +24,9 @@ mtdAssay(
   assay = character(),
   external_uri = character(),
   sample_ref = character(),
-  ms_run_ref = character()
+  ms_run_ref = character(),
+  protocol_ref = character(),
+  parameters = character()
 )
 ```
 
@@ -61,6 +63,16 @@ mtdAssay(
   pre-fractionated samples, it is also possible to provide a `list` of
   `character` with the runs the assay was measured in. See examples
   below for more details.
+
+- protocol_ref:
+
+  optional `character` with the ID/name of the protocol for the assay
+  (e.g. `"protocol[1]"`). If provided, its length has to match the
+  length of `assay`.
+
+- parameters:
+
+  optional `character` with additional parameters of the assay.
 
 ## Value
 
@@ -156,6 +168,47 @@ mtdAssay(
 #> [10,] "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt"
 #> [11,] "sample[2]"                                                            
 #> [12,] "ms_run[3]"                                                            
+
+## Example adding also protocol reference
+mtdAssay(
+   assay = c("a1", "a2", "a3"),
+   external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
+   sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
+   ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"),
+   protocol_ref = c("protocol[1]", "protocol[1]", "protocol[1]|protocol[2]"))
+#> 0
+#>                              
+#>  [1,] "assay[1]"             
+#>  [2,] "assay[1]-external_uri"
+#>  [3,] "assay[1]-sample_ref"  
+#>  [4,] "assay[1]-ms_run_ref"  
+#>  [5,] "assay[1]-protocol_ref"
+#>  [6,] "assay[2]"             
+#>  [7,] "assay[2]-external_uri"
+#>  [8,] "assay[2]-sample_ref"  
+#>  [9,] "assay[2]-ms_run_ref"  
+#> [10,] "assay[2]-protocol_ref"
+#> [11,] "assay[3]"             
+#> [12,] "assay[3]-external_uri"
+#> [13,] "assay[3]-sample_ref"  
+#> [14,] "assay[3]-ms_run_ref"  
+#> [15,] "assay[3]-protocol_ref"
+#>                                                                              
+#>  [1,] "a1"                                                                   
+#>  [2,] "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt"
+#>  [3,] "sample[1]"                                                            
+#>  [4,] "ms_run[1]"                                                            
+#>  [5,] "protocol[1]"                                                          
+#>  [6,] "a2"                                                                   
+#>  [7,] "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt"
+#>  [8,] "sample[1]"                                                            
+#>  [9,] "ms_run[2]"                                                            
+#> [10,] "protocol[1]"                                                          
+#> [11,] "a3"                                                                   
+#> [12,] "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt"
+#> [13,] "sample[2]"                                                            
+#> [14,] "ms_run[3]"                                                            
+#> [15,] "protocol[1]|protocol[2]"                                              
 
 ## Providing additional, custom information for each assay. These can be
 ## passed as `character` vectors (same length than `assay`!).

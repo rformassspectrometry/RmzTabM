@@ -2,6 +2,16 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.12
+
+- Add fucntion
+  [`mtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdProtocol.md)
+  for MTD section.
+- Update regex for CV parameter.
+- Support `ms_run-parameter`, `assay-protocol_ref`, `assay-parameter`,
+  `study_variable-ms_run_ref` and `contact-orcid`.
+- Update tests and examples.
+
 ### Changes in version 0.97.11
 
 - Add `MzTabM` class as a container for mzTab-M content.

@@ -21,7 +21,8 @@ mtdMsRun(
   fragmentation_method = vector("list", length(location)),
   scan_polarity = character(),
   hash = character(),
-  hash_method = character()
+  hash_method = character(),
+  parameters = character()
 )
 ```
 
@@ -79,6 +80,10 @@ mtdMsRun(
   (optional) `character` with the hash method used to generate the value
   in `hash`. If provided, also `hash` needs to be defined. The length of
   `hash_method` has to match the length of `hash`.
+
+- parameters:
+
+  (optional) `character` with additional parameters of the assays.
 
 ## Value
 

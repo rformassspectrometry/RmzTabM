@@ -59,6 +59,11 @@
 
   msTab-M *ms_run* metadata fields
 
+- [`mtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdProtocol.md)
+  :
+
+  mzTab-M *protocol* metadata information
+
 - [`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
   :
 
