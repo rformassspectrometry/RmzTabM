@@ -69,11 +69,12 @@ section.
 \note{
 The general relationship between \emph{ms_run}, \emph{assay} and \emph{sample}:
 \itemize{
-\item one \emph{ms_run} is the measurement of one assay.
+\item one \emph{ms_run} is the measurement of one assay. In most use cases one
+\emph{ms_run} is associated with one \emph{assay}.
 \item one assay can be measured by several MS runs (if fractionated) or multiple
 assays can be measured in the same MS run (if multiplexed).
 \item one assay is (generally) one sample, but the same sample can be measured
-with multiple assays.
+with multiple assays (i.e., technical replicates).
 }
 }
 \examples{

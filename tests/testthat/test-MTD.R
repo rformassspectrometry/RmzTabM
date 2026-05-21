@@ -645,6 +645,18 @@ test_that("mtdStudyVariables works", {
                  "assay[2]|assay[4]")
     expect_equal(res[res[, 1L] == "study_variable[7]-assay_refs", 2L],
                  "assay[5]")
+
+    ## NA values in input:
+    x <- data.frame(a = c("a", "b", NA, "d"), time = c(NA, 0, 6, NA))
+    res <- mtdStudyVariables(x, groups = c("a", "time"))
+    expect_equal(unname(getMtdField(res, "study_variable\\[3\\]$")),
+                 NA_character_)
+    expect_equal(unname(getMtdField(res, "study_variable\\[3\\]-assay_refs")),
+                 "assay[3]")
+    expect_equal(unname(getMtdField(res, "study_variable\\[5\\]$")),
+                 NA_character_)
+    expect_equal(unname(getMtdField(res, "study_variable\\[5\\]-assay_refs")),
+                 "assay[1]|assay[4]")
 })
 
 test_that(".mtd_get_field works", {
@@ -1159,4 +1171,106 @@ test_that("getMtdField works", {
     expect_equal(length(res), 1)
     expect_equal(res[["title"]], "Title 1")
 
+})
+
+test_that("mtdFromSampleData works", {
+    sd <- data.frame(
+        fname = c("a.mzML", "b.mzML", "c.mzML", "d.mzML", "e.mzML"),
+        sname = c("QC", "A", "A", "B", "QC"),
+        sid = c("a", "b", "c", "d", "e"),
+        inj_idx = c(1, 2, 3, 4, 5),
+        sex = c(NA_character_, "F", "F", "M", NA_character_),
+        time = c(NA_integer_, 0, 6, 0, NA_integer_),
+        species = c(NA, "HSapiens", "HSapiens", "HSapiens", NA))
+    sd$polarity <- "positive"
+    ## no samples
+    m <- mtdFromSampleData(sd, sampleCols = character(),
+                           msRunCols = msRunCols(location = "fname",
+                                                 scan_polarity = "polarity"),
+                           assayCols = c(assay = "fname"))
+    expect_true(all(is.na(getMtdField(m, "sample"))))
+    expect_true(all(is.na(getMtdField(m, "assay\\[\\d\\]-sample_ref"))))
+    expect_equal(length(getMtdField(m, "study_variable_group\\[\\d\\]$")), 1L)
+    expect_equal(length(getMtdField(m, "study_variable\\[\\d\\]$")), 1L)
+    res <- getMtdField(m, "ms_run\\[\\d\\]-location")
+    expect_equal(unname(res), sd$fname)
+
+    ## each row one sample
+    m <- mtdFromSampleData(sd, sampleCols = sampleCols(sample = "sid"),
+                           msRunCols = c(location = "fname",
+                                         scan_polarity = "polarity"),
+                           assayCols = assayCols(assay = "fname"))
+    res <- getMtdField(m, "sample\\[\\d\\]$")
+    expect_equal(unname(res), sd$sid)
+    res <- getMtdField(m, "assay\\[\\d\\]-sample_ref")
+    expect_equal(unname(res), paste0("sample[", 1:5, "]"))
+    res <- getMtdField(m, "assay\\[\\d\\]-ms_run_ref")
+    expect_equal(unname(res), paste0("ms_run[", 1:5, "]"))
+
+    ## unique samples
+    m <- mtdFromSampleData(sd, sampleCols = c(sample = "sname"),
+                           msRunCols = c(location = "fname",
+                                         scan_polarity = "polarity"),
+                           assayCols = assayCols(assay = "fname"))
+    res <- getMtdField(m, "sample\\[\\d\\]$")
+    expect_equal(unname(res), c("QC", "A", "B"))
+    res <- getMtdField(m, "assay\\[\\d\\]-sample_ref")
+    expect_equal(unname(res), c("sample[1]", "sample[2]", "sample[2]",
+                                "sample[3]", "sample[1]"))
+    res <- getMtdField(m, "assay\\[\\d\\]-ms_run_ref")
+    expect_equal(unname(res), paste0("ms_run[", 1:5, "]"))
+
+    ## collapse only technical replicates into a sample
+    m <- mtdFromSampleData(sd, sampleCols = sampleCols(sample = "sname",
+                                                       time = "time"),
+                           msRunCols = c(location = "fname",
+                                         scan_polarity = "polarity"),
+                           assayCols = assayCols(assay = "fname"))
+    res <- getMtdField(m, "sample\\[\\d\\]$")
+    expect_equal(unname(res), c("QC", "A", "A", "B"))
+    res <- getMtdField(m, "assay\\[\\d\\]-sample_ref")
+    expect_equal(unname(res), c("sample[1]", "sample[2]", "sample[3]",
+                                "sample[4]", "sample[1]"))
+    res <- getMtdField(m, "assay\\[\\d\\]-ms_run_ref")
+    expect_equal(unname(res), paste0("ms_run[", 1:5, "]"))
+
+    ## With study variables too
+    m <- mtdFromSampleData(sd, sampleCols = sampleCols(sample = "sname"),
+                           msRunCols = c(location = "fname",
+                                         scan_polarity = "polarity"),
+                           assayCols = assayCols(assay = "fname"),
+                           groups = c("sex", "time"))
+    res <- getMtdField(m, "study_variable_group\\[\\d\\]$")
+    expect_true(length(res) == 2)
+    expect_equal(unname(getMtdField(m, "study_variable\\[1\\]-assay_refs")),
+                 "assay[1]|assay[5]")
+
+    ## ERRORS
+    expect_error(mtdFromSampleData(sd), "location = <column")
+    expect_error(mtdFromSampleData(sd, msRunCols. = c(location = "aaa")),
+                 "location = <column")
+    expect_error(mtdFromSampleData(sd, msRunCols. = c(location = "fname")),
+                 "scan_polarity = <column")
+    expect_error(mtdFromSampleData(sd, msRunCols. = c(location = "fname",
+                                                      scan_polarity = "z")),
+                 "scan_polarity = <column")
+    expect_error(mtdFromSampleData(
+        sd, msRunCols. = c(location = "fname", scan_polarity = "polarity")),
+                 "assay = <column")
+
+    expect_error(mtdFromSampleData(
+        sd, msRunCols. = c(location = "fname", scan_polarity = "polarity"),
+        assayCols. = c(assay = "sname"), sampleCols. = c(sample = "sname"),
+        groups = c("sex", "time")), "don't align")
+
+
+    ## MESSAGES
+    expect_message(m <- mtdFromSampleData(
+        sd, msRunCols. = c(location = "fname", scan_polarity = "polarity"),
+        assayCols. = c(assay = "sname"), sampleCols. = c(sample = "sname"),
+        groups = c("sex")), "Relationship between assay and ms_run is")
+    res <- getMtdField(m, "assay\\[\\d\\]$")
+    expect_equal(unname(res), c("QC", "A", "B"))
+    res <- getMtdField(m, "study_variable\\[\\d\\]-assay_refs")
+    expect_equal(unname(res), c("assay[1]", "assay[2]", "assay[3]"))
 })
