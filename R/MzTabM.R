@@ -106,6 +106,39 @@ setMethod("setMtdInstrument", "MzTabM", function(x, name = character(),
     x
 })
 
+setMethod("setMtdDatabase", "MzTabM", function(x, name = character(),
+                                                 prefix = character(),
+                                                 version = character(),
+                                                 uri = character(),
+                                                 replace = FALSE) {
+    x@mtd <- setMtdDatabase(x@mtd, name, prefix, version, uri, replace)
+    x
+})
+
+setMethod("setMtdCv", "MzTabM", function(x, label = character(),
+                                         full_name = character(),
+                                         version = character(),
+                                         uri = character(), replace = FALSE) {
+    x@mtd <- setMtdCv(x@mtd, label, full_name, version, uri, replace)
+    x
+})
+
+setMethod("setMtdContact", "MzTabM", function(x, name = character(),
+                                              affiliation = character(),
+                                              email = character(),
+                                              orcid = character(),
+                                              replace = FALSE) {
+    x@mtd <- setMtdContact(x@mtd, name, affiliation, email, orcid, replace)
+    x
+})
+
+setMethod("setMtdField", "MzTabM", function(x, field = character(),
+                                            value = character(),
+                                            replace = FALSE) {
+    x@mtd <- setMtdField(x@mtd, field, value, replace)
+    x
+})
+
 ################################################################################
 ##   FUNCTIONS
 
