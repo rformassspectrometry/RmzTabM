@@ -6,7 +6,8 @@ test_that("readMzTabM works", {
                     "MTD\tpublication[1]\ttest pub",
                     "MTD\tcontact[1]-name\tauthor_1",
                     "MTD\tcontact[1]-affiliation\tEURAC",
-                    "MTD\tcontact[1]-email\tauthor_1@mail.com"
+                    "MTD\tcontact[1]-email\tauthor_1@mail.com",
+                    "MTD\tcontact[1]-orcid\t0000-0001-2345-6789"
     )
 
     SML_block <- c(
@@ -110,7 +111,7 @@ test_that("readMzTabM works", {
     ## blank lines interspersed in file do not break parsing
     f <- write_tmp(
         mtd_block[1], "",
-        mtd_block[2:7], "",
+        mtd_block[2:8], "",
         SML_block
     )
     res <- readMzTabM(f)

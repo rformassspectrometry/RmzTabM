@@ -12,7 +12,8 @@ mtdMsRun(
   fragmentation_method = vector("list", length(location)),
   scan_polarity = character(),
   hash = character(),
-  hash_method = character()
+  hash_method = character(),
+  parameters = character()
 )
 }
 \arguments{
@@ -53,6 +54,9 @@ defined. The length of \code{hash} has to match the length of \code{location}.}
 \item{hash_method}{(optional) \code{character} with the hash method used to
 generate the value in \code{hash}. If provided, also \code{hash} needs to be
 defined. The length of \code{hash_method} has to match the length of \code{hash}.}
+
+\item{parameters}{(optional) \code{character} with additional parameters of the
+assays.}
 }
 \value{
 two column \code{character} \code{matrix} with the \emph{ms_run} metadata fields

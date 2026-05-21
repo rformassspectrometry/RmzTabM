@@ -153,7 +153,8 @@
 #' ## We can also add contact information
 #' mtd <- setMtdContact(mtd, name = c("frodo", "sauron"),
 #'     affiliation = c("fellowship of the ring", "the dark side"),
-#'     email = c("frodo@shire.net", "sauron@mordor.net"))
+#'     email = c("frodo@shire.net", "sauron@mordor.net"),
+#'     orcid = c("0000-0001-2345-6789", "0000-0001-2345-678X"))
 #'
 #' mtd
 #'
@@ -693,6 +694,9 @@ mtdSample <- function(..., sample = character(), species = list(),
 #'     generate the value in `hash`. If provided, also `hash` needs to be
 #'     defined. The length of `hash_method` has to match the length of `hash`.
 #'
+#' @param parameters (optional) `character` with additional parameters of the
+#'     assays.
+#'
 #' @note
 #'
 #' At present only a single polarity per run/file is supported.
@@ -728,7 +732,8 @@ mtdMsRun <- function(location = character(),
                        fragmentation_method = vector("list", length(location)),
                        scan_polarity = character(),
                        hash = character(),
-                       hash_method = character()) {
+                       hash_method = character(),
+                       parameters = character()) {
     l <- length(location)
     s <- seq_len(l)
     if (!l)
@@ -784,6 +789,10 @@ mtdMsRun <- function(location = character(),
     if (length(hash)) res <- rbind(res, .ms_run_format(s, "hash", hash))
     if (length(hash_method))
         res <- rbind(res, .ms_run_format(s, "hash_method", hash_method))
+    ## Paramters
+    if (length(parameters)) {
+        res <- rbind(res, .mtd_parameters_fields("ms_run", parameters, l))
+    }
     res[order(res[, 3L]), 1:2, drop = FALSE]
 }
 
@@ -827,6 +836,13 @@ mtdMsRun <- function(location = character(),
 #'     `list` of `character` with the runs the assay was measured in. See
 #'     examples below for more details.
 #'
+#' @param protocol_ref optional `character` with the ID/name of the protocol for
+#'     the assay (e.g. `"protocol[1]"`). If provided, its length has to match
+#'     the length of `assay`.
+#'
+#' @param parameters optional `character` with additional parameters of the
+#'     assay.
+#'
 #' @return two-column `character` `matrix` with the content for the assay
 #'     metadata section.
 #'
@@ -861,6 +877,14 @@ mtdMsRun <- function(location = character(),
 #'     sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
 #'     ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"))
 #'
+#' ## Example adding also protocol reference
+#' mtdAssay(
+#'    assay = c("a1", "a2", "a3"),
+#'    external_uri = "https://www.ebi.ac.uk/metabolights/MTBLS517/files/i_Investigation.txt",
+#'    sample_ref = c("sample[1]", "sample[1]", "sample[2]"),
+#'    ms_run_ref = c("ms_run[1]", "ms_run[2]", "ms_run[3]"),
+#'    protocol_ref = c("protocol[1]", "protocol[1]", "protocol[1]|protocol[2]"))
+#'
 #' ## Providing additional, custom information for each assay. These can be
 #' ## passed as `character` vectors (same length than `assay`!).
 #' mtdAssay(assay = c("a1", "a2", "a3"),
@@ -869,7 +893,8 @@ mtdMsRun <- function(location = character(),
 #'       "[MS, , Assay operator, Fred Blogs]",
 #'       "[MS, , Assay operator, Frodo]"))
 mtdAssay <- function(..., assay = character(), external_uri = character(),
-                      sample_ref = character(), ms_run_ref = character()) {
+                      sample_ref = character(), ms_run_ref = character(),
+                      protocol_ref = character(), parameters = character()) {
     l <- length(assay)
     if (!length(assay))
         return(matrix(ncol = 2, nrow = 0, NA_character_))
@@ -903,6 +928,17 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
     } else
         res <- rbind(res, cbind(mtdFields(ms_run_ref = ms_run_ref,
                                            field_prefix = "assay"), s))
+    if (length(protocol_ref)) {
+        if (length(protocol_ref) != l)
+            stop("Length of 'protocol_ref' has to match the length of 'assay'",
+                 call. = FALSE)
+        res <- rbind(res, cbind(mtdFields(protocol_ref = protocol_ref,
+                                           field_prefix = "assay"), s))
+    }
+    ## Paramters
+    if (length(parameters)) {
+        res <- rbind(res, .mtd_parameters_fields("assay", parameters, l))
+    }
     ## Optional "custom" fields passed through ...
     res <- rbind(
         res, .mtd_custom_fields(..., expected_length = l, prefix = "assay"))
@@ -1103,9 +1139,17 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Length of parameter 'description' has to be equal to ",
              "the number of study variables", call. = FALSE)
     ## Add study variables
-    for (i in seq_len(nrow(svars))) {
-        current_svar <- svars$study_variable[i]
-        current_grp <- svars$study_variable_group[i]
+    for (i in seq_len(length(unique(svars$study_variable)))) {
+        current_svar <- unique(svars$study_variable)[i]
+        current_grp <- svars[svars$study_variable == current_svar,
+                             "study_variable_group"]
+        if (length(current_grp) == 1L){
+            assay_idx <- which(x[, current_grp] == current_svar)
+        } else{
+            assay_idx <- unique(which(x[, current_grp] == current_svar,
+                                arr.ind = TRUE)[, "row"])
+        }
+
         res <- rbind(
             res,
             matrix(ncol = 2,
@@ -1113,16 +1157,18 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-assay_refs"),
                      paste0("study_variable[", i, "]-average_function"),
                      paste0("study_variable[", i, "]-variation_function"),
+                     paste0("study_variable[", i, "]-ms_run_ref"),
                      paste0("study_variable[", i, "]-description"),
                      paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
-                     paste0("assay[", which(x[, current_grp] == current_svar),
-                            "]", collapse = "|"),
+                     paste0("assay[", assay_idx, "]", collapse = "|"),
                      average_function[i],
                      variation_function[i],
+                     ## TODO: works if assay == ms_run.
+                     paste0("ms_run[", unique(assay_idx), "]", collapse = "|"),
                      description[i],
                      paste0("study_variable_group[",
-                            match(current_grp, groups), "]"))
+                            match(current_grp, groups), "]", collapse = "|"))
                    )
         )
     }
@@ -1140,6 +1186,79 @@ mtdDefineStudyVariables <- function(x = data.frame(), groups = character()) {
         data.frame(study_variable = "undefined",
                    study_variable_group = "undefined")
     else unique(.mztab_study_variables(x, groups))
+}
+
+#' @title mzTab-M *protocol* metadata information
+#'
+#' @description
+#'
+#' The `mtdProtocol()` function assists in compiling the *protocol* information
+#' of the metadata section. Each protocol is referenced from an *assay* section
+#' (see [mtdAssay()]).
+#'
+#' For details and expected input for the various parameter it is **strongly
+#' suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
+#'
+#' @param name `character` with protocol name describing one or more steps of
+#'     an experimental procedure, such as sample preparation, data acquisition
+#'     or data processing.
+#'
+#' @param type `character` with the protocol type, as defined by the parameter.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param description optional `character` with the description of the protocol.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param parameters optional `character` with additional parameters of the
+#'     protocol
+#'
+#' @return two-column `character` `matrix` with the content for the protocol
+#'     metadata section.
+#'
+#' @author Gabriele Tomè
+#'
+#' @seealso [MTD-export] for other functions defining metadata information
+#'
+#' @export
+#'
+#' @examples
+#'
+#' ## Minimal example with protocol.
+#' mtdProtocol(name = c("protocol1", "protocol2", "protocol3"),
+#'             type = c("[,,,type1]", "[,,,type2]", "[,,,type3]"))
+#'
+#' ## Example with all the fields
+#' mtdProtocol(name = c("protocol1", "protocol2", "protocol3"),
+#'             type = c("[,,,type]", "[,,,type2]", "[,,,type3]"),
+#'             description = c("description1", "description2", "description3"),
+#'             parameters = list(c("param1.1", "param1.2"), "param2", "param3"))
+mtdProtocol <- function(name = character(), type = character(),
+                        description = character(), parameters = character()) {
+    if (!length(name))
+        stop("Parameter 'name' is required", call. = FALSE)
+    if (!length(type))
+        stop("Parameter 'type' is required", call. = FALSE)
+    if (!all(sapply(type, isCvParameter)))
+        stop("All entries in parameter 'type' have to be valid CV parameters",
+             call. = FALSE)
+    l = length(name)
+    s <- seq_len(l)
+    res <- cbind(mtdFields(name = name, field_prefix = "protocol"), order = s)
+    if (length(type)) {
+        if (length(type) != l) type <- rep(type[1L], l)
+        res <- rbind(res, cbind(mtdFields(type = type,
+                                           field_prefix = "protocol"), s))
+    }
+    if (length(description)) {
+        if (length(description) != l) description <- rep(description[1L], l)
+        res <- rbind(res, cbind(mtdFields(description = description,
+                                           field_prefix = "protocol"), s))
+    }
+    ## Paramters
+    if (length(parameters)) {
+        res <- rbind(res, .mtd_parameters_fields("protocol", parameters, l))
+    }
+    res[order(res[, 3L]), 1:2, drop = FALSE]
 }
 
 #' @title Sort rows in a MTD matrix to match the expected order
@@ -1352,6 +1471,34 @@ mtdSort <- function(x) {
         study_variable_group = rep(groups, each = nrow(x)))
 }
 
+#' Helper to create the parameter fields for a given set of parameters.
+#'
+#' @param prefix `character(1)` with the prefix of the field, e.g. `"assay"`.
+#'
+#' @param parameters `character` with the parameter values.
+#'
+#' @param l `integer(1)` with the number of repetion.
+#'
+#' @return `character` `matrix` with the parameter fields.
+#'
+#' @noRd
+.mtd_parameters_fields <- function(prefix = character(),
+                                    parameters = character(), l = 0L) {
+    if (length(parameters) != l)
+        parameters <- rep(parameters[1], l)
+    if (!is.list(parameters)) parameters <- as.list(parameters)
+    param_mod <- lapply(seq_along(parameters), function(z) {
+        vals <- parameters[[z]]
+        if (lv <- length(vals)) {
+            cbind(paste0(prefix, "[", rep(z, lv), "]-parameter[",
+                        seq_len(lv), "]"),
+                parameters[[z]],
+                order = .prefix_zero(rep(z, lv)))
+        }
+    })
+    do.call(rbind, param_mod)
+}
+
 #' Defines the order of the elements in MTD (pattern provided). This should
 #' be used in a function that orders the MTD part of a mzTab-M file.
 #'
@@ -1374,6 +1521,7 @@ mtdSort <- function(x) {
     "^assay",
     "^study_variable_group",
     "^study_variable",
+    "^protocol",
     "^custom",
     "^cv",
     "^database",
@@ -1989,6 +2137,8 @@ getMtdCv <- function(x = matrix()) {
 #'
 #' @param email `character` contact’s e-mail address.
 #'
+#' @param orcid `character` contact’s ORCID identifier.
+#'
 #' @param replace `logical` flag controlling how pre-existing contact
 #'     metadata is handled:
 #'     \itemize{
@@ -2012,12 +2162,13 @@ getMtdCv <- function(x = matrix()) {
 #' ## Add contact metadata to an existing mzTab object
 #' mtd <- setMtdContact(x, name = "Name Surname",
 #'           affiliation = "PSI-MS",
-#'           email = "name.surname@mail.com")
+#'           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 #'
 #' ## Replace all existing contact metadata
 #' mtd <- setMtdContact(mtd, name = "Name Surname",
 #'           affiliation = "PSI-MS",
 #'           email = "name.surname@mail.com",
+#'           orcid = "0000-0002-1825-0097",
 #'           replace = TRUE)
 #'
 #'
@@ -2025,8 +2176,7 @@ getMtdCv <- function(x = matrix()) {
 #'
 #' @export
 setMtdContact <- function(x = matrix(), name = character(),
-                            affiliation = character(), email = character(),
-                            replace = FALSE) {
+                            affiliation = character(), email = character(), orcid = character(), replace = FALSE) {
     if(!all(is.na(x))) {
         if(!length(name))
             stop("Missing \"name\", provide a valid one.")
@@ -2037,10 +2187,17 @@ setMtdContact <- function(x = matrix(), name = character(),
         if(!length(email))
             stop("Missing \"email\", provide a valid one.")
 
+        if(!length(orcid))
+            stop("Missing \"orcid\", provide a valid one.")
+
+        if (any(!grepl("^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$", orcid)))
+            stop("Provided \"orcid\" is not valid. It should be in the format ",
+                 "\"dddd-dddd-dddd-dddd\".")
+
         contact <- .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE,
                                     fixed = FALSE)[[1]]
         list_param <- list(name = name, affiliation = affiliation,
-                            email = email)
+                            email = email, orcid = orcid)
         if (!all(is.na(contact))) {
             if (!replace) {
                 list_param <- Map(function(f) {
