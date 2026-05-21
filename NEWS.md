@@ -1,5 +1,10 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.14
+
+- Refactor `setMtdInstrument()`, `setMtdDatabase()`, `setMtdCv()`,
+  `setMtdContact()`, `setMtdField()` as method.
+
 ## Changes in version 0.97.13
 
 - Add function `mtdFromSampleData()` to create metadata (MTD) content including

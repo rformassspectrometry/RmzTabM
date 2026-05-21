@@ -2318,6 +2318,7 @@ setMethod("setMtdDatabase", "dfmatrix", function(x = matrix(),
 #'
 #' @export
 getMtdDatabase <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^database\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
@@ -2438,6 +2439,7 @@ setMethod("setMtdCv", "dfmatrix", function(x = matrix(), label = character(),
 #'
 #' @export
 getMtdCv <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^cv\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
@@ -2553,6 +2555,7 @@ setMethod("setMtdContact", "dfmatrix", function(x = matrix(),
 #'
 #' @export
 getMtdContact <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
@@ -2664,5 +2667,6 @@ getMtdField <- function(x = matrix(), field = character()) {
     if(!length(field))
         stop("Parameter \"field\" is empty. Please provide a valid field.")
 
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, paste0("^", field), exact = FALSE, fixed = FALSE)[[1]]
 }
