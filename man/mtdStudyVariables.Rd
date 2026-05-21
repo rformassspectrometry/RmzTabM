@@ -120,6 +120,8 @@ The \code{mtdDefineStudyVariables()} function can be used to get the set
 \note{
 Datatypes \code{"xsd:date"}, \code{"xsd:time"}, \code{"xsd:dateTime"} and \code{"xsd:anyURI"} are
 currently mapped to \code{character} in R (and \emph{vice versa}).
+
+At present study variables are mapped to \emph{assays}, but not to \emph{MS runs}.
 }
 \examples{
 
