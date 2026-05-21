@@ -135,7 +135,8 @@ mtd <- setMtdInstrument(mtd,
 ## We can also add contact information
 mtd <- setMtdContact(mtd, name = c("frodo", "sauron"),
     affiliation = c("fellowship of the ring", "the dark side"),
-    email = c("frodo@shire.net", "sauron@mordor.net"))
+    email = c("frodo@shire.net", "sauron@mordor.net"),
+    orcid = c("0000-0001-2345-6789", "0000-0001-2345-678X"))
 
 mtd
 

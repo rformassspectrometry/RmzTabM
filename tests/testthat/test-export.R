@@ -2,9 +2,9 @@
 test_that("writeMzTabM works", {
     mtd_block <- data.frame(
         c("mzTab-version", "mzTab-ID", "software[1]", "publication[1]",
-          "contact[1]-name", "contact[1]-affiliation", "contact[1]-email"),
+          "contact[1]-name", "contact[1]-affiliation", "contact[1]-email", "contact[1]-orcid"),
         c("2.1.0-M", "xcms_mzTab-M_2-1_v2", "[MS, MS:1001582, xcms, 4.8.0]",
-          "test pub", "author_1", "EURAC", "author_1@mail.com"))
+          "test pub", "author_1", "EURAC", "author_1@mail.com", "0000-0001-2345-6789"))
 
     SML_block <- data.frame("SMH" = "SML", "SML_ID" = "1",
         "SMF_ID_REFS" = "null", "database_identifier" = "null",

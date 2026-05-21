@@ -113,7 +113,8 @@ parseCvParameter <- function(x, element = 2L) {
 #'
 #' @rdname parseCvParameter
 isCvParameter <- function(x) {
-    grepl("^\\[([^,]*,){3}[^,]*\\]$", x)
+    grepl("^\\[([^,\\[\\]]*,){3}\\s*(\\[([^,]*,){3}[^,]*\\]|[^,\\[\\]]*)\\]$",
+          x, perl = TRUE)
 }
 
 #' @title Internal helper to format an abundance matrix
