@@ -21,6 +21,10 @@
 #' `MzTabM` class:
 #'
 #' - [getMtdInstrument()] and [setMtdInstrument()] for instrument information.
+#' - [getMtdDatabase()] and [setMtdDatabase()] for database information.
+#' - [getMtdCv()] and [setMtdCv()] for CV information.
+#' - [getMtdContact()] and [setMtdContact()] for contact information.
+#' - [getMtdField()] and [setMtdField()] for additional information.
 #'
 #' @param mtd Two-column `matrix` or `data.frame with the MTD content (see
 #'     [MTD-export] for details and expected format/content).
@@ -51,6 +55,36 @@
 #'           detector = "[MS, MS:1000253, electron multiplier,]")
 #' m
 #' getMtdInstrument(m)
+#'
+#' ## Add database metadata to an existing mzTab object
+#' m <- setMtdDatabase(m, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+#'           prefix = "hmdb",
+#'           version = "3.6",
+#'           uri = "http://www.hmdb.ca/")
+#' m
+#' getMtdDatabase(m)
+#'
+#' ## Add CV metadata to an existing mzTab object
+#' m <- setMtdCv(m, label = "MS",
+#'           full_name = "PSI-MS controlled vocabulary",
+#'           version = "4.1.11",
+#'           uri = "https://purl.obolibrary.org/obo/ms.obo")
+#' m
+#' getMtdCv(m)
+#'
+#' ## Add contact metadata to an existing mzTab object
+#' m <- setMtdContact(m, name = "Name Surname",
+#'           affiliation = "PSI-MS",
+#'           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
+#' m
+#' getMtdContact(m)
+#'
+#' ## Add a metadata field to an existing mzTab object
+#' m <- setMtdField(m, field = "publication",
+#'           value = "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6")
+#' m
+#' getMtdField(m, field = "publication")
+#'
 NULL
 
 #' @noRd

@@ -41,6 +41,10 @@ Various functions are available to get or set metadata information of a
 \code{MzTabM} class:
 \itemize{
 \item \code{\link[=getMtdInstrument]{getMtdInstrument()}} and \code{\link[=setMtdInstrument]{setMtdInstrument()}} for instrument information.
+\item \code{\link[=getMtdDatabase]{getMtdDatabase()}} and \code{\link[=setMtdDatabase]{setMtdDatabase()}} for database information.
+\item \code{\link[=getMtdCv]{getMtdCv()}} and \code{\link[=setMtdCv]{setMtdCv()}} for CV information.
+\item \code{\link[=getMtdContact]{getMtdContact()}} and \code{\link[=setMtdContact]{setMtdContact()}} for contact information.
+\item \code{\link[=getMtdField]{getMtdField()}} and \code{\link[=setMtdField]{setMtdField()}} for additional information.
 }
 }
 
@@ -57,6 +61,36 @@ m <- setMtdInstrument(m, name = "[MS, MS:1000449, LTQ Orbitrap,]",
           detector = "[MS, MS:1000253, electron multiplier,]")
 m
 getMtdInstrument(m)
+
+## Add database metadata to an existing mzTab object
+m <- setMtdDatabase(m, name = "[MIRIAM, MIR:00100079, HMDB, ]",
+          prefix = "hmdb",
+          version = "3.6",
+          uri = "http://www.hmdb.ca/")
+m
+getMtdDatabase(m)
+
+## Add CV metadata to an existing mzTab object
+m <- setMtdCv(m, label = "MS",
+          full_name = "PSI-MS controlled vocabulary",
+          version = "4.1.11",
+          uri = "https://purl.obolibrary.org/obo/ms.obo")
+m
+getMtdCv(m)
+
+## Add contact metadata to an existing mzTab object
+m <- setMtdContact(m, name = "Name Surname",
+          affiliation = "PSI-MS",
+          email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
+m
+getMtdContact(m)
+
+## Add a metadata field to an existing mzTab object
+m <- setMtdField(m, field = "publication",
+          value = "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6")
+m
+getMtdField(m, field = "publication")
+
 }
 \author{
 Johannes Rainer
