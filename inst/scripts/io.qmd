@@ -189,7 +189,8 @@ library(SummarizedExperiment)
         }
     }
     m <- rbind(m, mtdMsRun(location = rownames(colData(x)),
-                             scan_polarity = polarity))
+                             scan_polarity = polarity,
+                             parameters = "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
     ## add assay
     m <- rbind(m, mtdAssay(
                       assay = rownames(colData(x)),

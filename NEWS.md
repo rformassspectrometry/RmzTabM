@@ -1,5 +1,24 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.14
+
+- Refactor `setMtdInstrument()`, `setMtdDatabase()`, `setMtdCv()`,
+  `setMtdContact()`, `setMtdField()` as method.
+
+## Changes in version 0.97.13
+
+- Add function `mtdFromSampleData()` to create metadata (MTD) content including
+  sample, MS run, assay and study variable information from a *sample data*
+  `data.frame`.
+
+## Changes in version 0.97.12
+
+- Add fucntion `mtdProtocol()` for MTD section.
+- Update regex for CV parameter.
+- Support `ms_run-parameter`, `assay-protocol_ref`, `assay-parameter`,
+  `study_variable-ms_run_ref` and `contact-orcid`.
+- Update tests and examples.
+
 ## Changes in version 0.97.11
 
 - Add `MzTabM` class as a container for mzTab-M content.
