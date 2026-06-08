@@ -1,13 +1,16 @@
-# Add or Update Database Metadata in an MTD section
+# Add or Update Database Metadata of an mzTab-M MTD section
 
-Sets or updates database-related metadata fields within an MTD
-(metadata) section. When database metadata already exists, the function
-can either replace it entirely or append new values to the existing
-ones.
+`setMtdDatabase()` sets or updates database-related metadata fields
+within an MTD (metadata) section. When database metadata already exists,
+the function can either replace it entirely or append new values to the
+existing ones.
+
+`getMtdDatabase()` returns the database information from an MTD section.
 
 ## Usage
 
 ``` r
+# S4 method for class 'dfmatrix'
 setMtdDatabase(
   x = matrix(),
   name = character(),
@@ -24,9 +27,11 @@ getMtdDatabase(x = matrix())
 
 - x:
 
-  A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
-  `NA`, the function returns `x` unchanged.
+  A MTD section that stores metadata fields. Can be a two-column
+  `character` matrix, a two-column `data.frame` or a
+  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  object. Defaults to [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  If all values are `NA`, the function returns `x` unchanged.
 
 - name:
 
@@ -66,7 +71,8 @@ getMtdDatabase(x = matrix())
   new or merged database metadata fields. If `x` is empty, the empty
   `x`.
 
-- For `getMtdDatabase()`: get the database metadata.
+- For `getMtdDatabase()`: a named `character` with the database
+  information, names being the field names.
 
 ## Author
 

@@ -1,12 +1,16 @@
-# Add or Update contact Metadata in an MTD section
+# Add or Update contact Metadata of an mzTab-M MTD section
 
-Sets or updates contact-related metadata fields within an MTD (metadata)
-in a MTD section. When contact metadata already exists, the function can
-either replace it entirely or append new values to the existing ones.
+`setMtdContact()` sets or updates contact-related metadata fields within
+an MTD (metadata) section. When contact metadata already exists, the
+function can either replace it entirely or append new values to the
+existing ones.
+
+`getMtdContact()` returns the contact information from an MTD section.
 
 ## Usage
 
 ``` r
+# S4 method for class 'dfmatrix'
 setMtdContact(
   x = matrix(),
   name = character(),
@@ -23,9 +27,11 @@ getMtdContact(x = matrix())
 
 - x:
 
-  A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
-  `NA`, the function returns `x` unchanged.
+  A MTD section that stores metadata fields. Can be a two-column
+  `character` matrix, a two-column `data.frame` or a
+  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  object. Defaults to [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  If all values are `NA`, the function returns `x` unchanged.
 
 - name:
 
@@ -58,7 +64,8 @@ getMtdContact(x = matrix())
 - For `setMtdContact()`: the input object `x` updated to include the new
   or merged contact metadata fields. If `x` is empty, the empty `x`.
 
-- For `getMtdContact()`: returns the contact information.
+- For `getMtdContact()`: a named `character` with the contact
+  information, names being the field names.
 
 ## Author
 

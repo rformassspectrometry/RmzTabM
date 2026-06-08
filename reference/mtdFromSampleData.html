@@ -71,7 +71,7 @@ one study variable group.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -484,7 +484,7 @@ provided.</p></li>
 <span class="r-in"><span><span class="co">## The sample to assay mapping:</span></span></span>
 <span class="r-in"><span><span class="co">## The repeated injection (assay 1 and 4) of the QC sample are assigned</span></span></span>
 <span class="r-in"><span><span class="co">## to the same sample (1).</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="MTD-field.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"assay\\[\\d\\]-sample_ref"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"assay\\[\\d\\]-sample_ref"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> assay[1]-sample_ref assay[2]-sample_ref assay[3]-sample_ref assay[4]-sample_ref </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         "sample[1]"         "sample[2]"         "sample[3]"         "sample[1]" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> assay[5]-sample_ref assay[6]-sample_ref </span>
@@ -492,12 +492,12 @@ provided.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The study variable 2 represents a value of `"CVD"` for the *phenotype*</span></span></span>
 <span class="r-in"><span><span class="co">## study variable group</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="MTD-field.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"study_variable\\[2\\]$"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"study_variable\\[2\\]$"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> study_variable[2] </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             "CVD" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## and this study variable references the 2nd and 6th assay</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="MTD-field.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"study_variable\\[2\\]-assay_refs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"study_variable\\[2\\]-assay_refs"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> study_variable[2]-assay_refs </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          "assay[2]|assay[6]" </span>
 <span class="r-in"><span></span></span>

@@ -17,7 +17,7 @@ sml, smf, and sml, respectively)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,10 @@ for details and expected format/content).</p></dd>
 
 <p>Various functions are available to get or set metadata information of a
 <code>MzTabM</code> class:</p><ul><li><p><code><a href="setMtdInstrument.html">getMtdInstrument()</a></code> and <code><a href="setMtdInstrument.html">setMtdInstrument()</a></code> for instrument information.</p></li>
+<li><p><code><a href="setMtdDatabase.html">getMtdDatabase()</a></code> and <code><a href="setMtdDatabase.html">setMtdDatabase()</a></code> for database information.</p></li>
+<li><p><code><a href="setMtdCv.html">getMtdCv()</a></code> and <code><a href="setMtdCv.html">setMtdCv()</a></code> for CV information.</p></li>
+<li><p><code><a href="setMtdContact.html">getMtdContact()</a></code> and <code><a href="setMtdContact.html">setMtdContact()</a></code> for contact information.</p></li>
+<li><p><code><a href="setMtdField.html">getMtdField()</a></code> and <code><a href="setMtdField.html">setMtdField()</a></code> for additional information.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -131,6 +135,90 @@ for details and expected format/content).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "[MS, MS:1000253, electron multiplier,]" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                instrument[1]-analyzer[1] </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "[MS, MS:1000291, linear ion trap,]" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add database metadata to an existing mzTab object</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdDatabase.html">setMtdDatabase</a></span><span class="op">(</span><span class="va">m</span>, name <span class="op">=</span> <span class="st">"[MIRIAM, MIR:00100079, HMDB, ]"</span>,</span></span>
+<span class="r-in"><span>          prefix <span class="op">=</span> <span class="st">"hmdb"</span>,</span></span>
+<span class="r-in"><span>          version <span class="op">=</span> <span class="st">"3.6"</span>,</span></span>
+<span class="r-in"><span>          uri <span class="op">=</span> <span class="st">"http://www.hmdb.ca/"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 27 rows.</span>
+<span class="r-in"><span><span class="fu"><a href="setMtdDatabase.html">getMtdDatabase</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      database[1]               database[1]-prefix </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "[MIRIAM, MIR:00100079, HMDB, ]"                           "hmdb" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              database[1]-version                  database[1]-uri </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                            "3.6"            "http://www.hmdb.ca/" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add CV metadata to an existing mzTab object</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdCv.html">setMtdCv</a></span><span class="op">(</span><span class="va">m</span>, label <span class="op">=</span> <span class="st">"MS"</span>,</span></span>
+<span class="r-in"><span>          full_name <span class="op">=</span> <span class="st">"PSI-MS controlled vocabulary"</span>,</span></span>
+<span class="r-in"><span>          version <span class="op">=</span> <span class="st">"4.1.11"</span>,</span></span>
+<span class="r-in"><span>          uri <span class="op">=</span> <span class="st">"https://purl.obolibrary.org/obo/ms.obo"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 31 rows.</span>
+<span class="r-in"><span><span class="fu"><a href="setMtdCv.html">getMtdCv</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                               cv[1]-label </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                      "MS" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                           cv[1]-full_name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            "PSI-MS controlled vocabulary" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                             cv[1]-version </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 "4.1.138" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 cv[1]-uri </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                               cv[2]-label </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   "PRIDE" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                           cv[2]-full_name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                             cv[2]-version </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                        "16:10:2023 11:38" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 cv[2]-uri </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              "https://www.ebi.ac.uk/ols/ontologies/pride" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                               cv[3]-label </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   "STATO" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                           cv[3]-full_name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                     "General purpose STATistics Ontology" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                             cv[3]-version </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                              "2026-04-20" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 cv[3]-uri </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             "https://www.ebi.ac.uk/ols4/ontologies/stato" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                               cv[4]-label </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                      "MS" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                           cv[4]-full_name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                            "PSI-MS controlled vocabulary" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                             cv[4]-version </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                  "4.1.11" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 cv[4]-uri </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  "https://purl.obolibrary.org/obo/ms.obo" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add contact metadata to an existing mzTab object</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdContact.html">setMtdContact</a></span><span class="op">(</span><span class="va">m</span>, name <span class="op">=</span> <span class="st">"Name Surname"</span>,</span></span>
+<span class="r-in"><span>          affiliation <span class="op">=</span> <span class="st">"PSI-MS"</span>,</span></span>
+<span class="r-in"><span>          email <span class="op">=</span> <span class="st">"name.surname@mail.com"</span>, orcid <span class="op">=</span> <span class="st">"0000-0002-1825-0097"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 35 rows.</span>
+<span class="r-in"><span><span class="fu"><a href="setMtdContact.html">getMtdContact</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         contact[1]-name  contact[1]-affiliation        contact[1]-email </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          "Name Surname"                "PSI-MS" "name.surname@mail.com" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        contact[1]-orcid </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   "0000-0002-1825-0097" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add a metadata field to an existing mzTab object</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdField.html">setMtdField</a></span><span class="op">(</span><span class="va">m</span>, field <span class="op">=</span> <span class="st">"publication"</span>,</span></span>
+<span class="r-in"><span>          value <span class="op">=</span> <span class="st">"pubmed:21063943|doi:10.1007/978-1-60761-987-1_6"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 36 rows.</span>
+<span class="r-in"><span><span class="fu"><a href="setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, field <span class="op">=</span> <span class="st">"publication"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    publication[1] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6" </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

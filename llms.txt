@@ -123,25 +123,8 @@ TODO - add names of hackathon participants, etc.
 
 ## All functions
 
-- [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md)
-  [`getMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md)
-  : Add or Update Controlled Vocabularies (CV) Metadata in an MTD
-  section
-
-- [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)
-  [`getMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)
-  : Add or Update contact Metadata in an MTD section
-
-- [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md)
-  [`getMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md)
-  : Add or Update Database Metadata in an MTD section
-
 - [`MTD-export`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.md)
   : Defining and exporting the mzTab-M metadata table
-
-- [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)
-  [`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)
-  : Add or Update a Metadata Field in an MTD section
 
 - [`writeMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)
   : Export a mzTab-M 2.1 file
@@ -211,6 +194,23 @@ TODO - add names of hackathon participants, etc.
 - [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   : Utility functions for CV parameters
+
+- [`setMtdContact(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
+  [`getMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
+  : Add or Update contact Metadata of an mzTab-M MTD section
+
+- [`setMtdCv(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md)
+  [`getMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md)
+  : Add or Update Controlled Vocabularies (CV) Metadata of an mzTab-M
+  MTD section
+
+- [`setMtdDatabase(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md)
+  [`getMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md)
+  : Add or Update Database Metadata of an mzTab-M MTD section
+
+- [`setMtdField(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
+  [`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
+  : Add or Update a Metadata Field of an mzTab-M MTD section
 
 - [`setMtdInstrument(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)
   [`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)

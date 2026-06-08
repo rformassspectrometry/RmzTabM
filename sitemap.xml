@@ -5,11 +5,7 @@
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/authors.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/index.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/news/index.html</loc></url>
-<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.html</loc></url>
-<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.html</loc></url>
-<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.html</loc></url>
-<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.html</loc></url>
@@ -27,6 +23,10 @@
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdStudyVariables.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.html</loc></url>
 </urlset>
 

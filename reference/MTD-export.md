@@ -69,16 +69,16 @@ data generation:
 - [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)/[`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md):
   set/get Instrument Metadata in an MTD section.
 
-- [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md)/[`getMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md):
+- [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md)/[`getMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md):
   set/get Database Metadata in an MTD section.
 
-- [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md)/[`getMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md):
+- [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md)/[`getMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md):
   set/get Controlled Vocabularies (CV) Metadata in an MTD section.
 
-- [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)/[`getMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md):
+- [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)/[`getMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md):
   set/get contact Metadata in an MTD section.
 
-- [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)/[`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md):
+- [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)/[`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md):
   set/get a Metadata Field in an MTD section.
 
 ## Note
@@ -103,11 +103,11 @@ for creating and formatting the small molecule feature (SMF) and small
 molecule (SML) sections.
 
 [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md),
-[MTD-database](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md),
-[MTD-CV](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md),
-[MTD-contact](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md)
+[`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md),
+[`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md),
+[`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
 and
-[MTD-field](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md).
+[`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md).
 
 ## Author
 

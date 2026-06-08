@@ -119,7 +119,7 @@ section.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -193,13 +193,13 @@ generation:</p><ul><li><p><code><a href="mtdSort.html">mtdSort()</a></code>: to 
 <li><p><code><a href="mtdFields.html">mtdFields()</a></code>: helps formatting values into the mzTab-M-specific format.</p></li>
 <li><p><code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>/<code><a href="setMtdInstrument.html">getMtdInstrument()</a></code>: set/get Instrument Metadata in
 an MTD section.</p></li>
-<li><p><code><a href="MTD-database.html">setMtdDatabase()</a></code>/<code><a href="MTD-database.html">getMtdDatabase()</a></code>: set/get Database Metadata in an MTD
+<li><p><code><a href="setMtdDatabase.html">setMtdDatabase()</a></code>/<code><a href="setMtdDatabase.html">getMtdDatabase()</a></code>: set/get Database Metadata in an MTD
 section.</p></li>
-<li><p><code><a href="MTD-CV.html">setMtdCv()</a></code>/<code><a href="MTD-CV.html">getMtdCv()</a></code>: set/get Controlled Vocabularies (CV) Metadata
+<li><p><code><a href="setMtdCv.html">setMtdCv()</a></code>/<code><a href="setMtdCv.html">getMtdCv()</a></code>: set/get Controlled Vocabularies (CV) Metadata
 in an MTD section.</p></li>
-<li><p><code><a href="MTD-contact.html">setMtdContact()</a></code>/<code><a href="MTD-contact.html">getMtdContact()</a></code>: set/get contact Metadata in an MTD
+<li><p><code><a href="setMtdContact.html">setMtdContact()</a></code>/<code><a href="setMtdContact.html">getMtdContact()</a></code>: set/get contact Metadata in an MTD
 section.</p></li>
-<li><p><code><a href="MTD-field.html">setMtdField()</a></code>/<code><a href="MTD-field.html">getMtdField()</a></code>: set/get a Metadata Field in an MTD
+<li><p><code><a href="setMtdField.html">setMtdField()</a></code>/<code><a href="setMtdField.html">getMtdField()</a></code>: set/get a Metadata Field in an MTD
 section.</p></li>
 </ul></div>
 
@@ -217,8 +217,8 @@ with multiple assays (i.e., technical replicates).</p></li>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="SMF-export.html">SMF-export</a> and <a href="SML-export.html">SML-export</a> for creating and formatting the small
 molecule feature (SMF) and small molecule (SML) sections.</p>
-<p><code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>, <a href="MTD-database.html">MTD-database</a>, <a href="MTD-CV.html">MTD-CV</a>, <a href="MTD-contact.html">MTD-contact</a> and
-<a href="MTD-field.html">MTD-field</a>.</p></div>
+<p><code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>, <code><a href="setMtdDatabase.html">setMtdDatabase()</a></code>, <code><a href="setMtdCv.html">setMtdCv()</a></code>,
+<code><a href="setMtdContact.html">setMtdContact()</a></code> and <code><a href="setMtdField.html">setMtdField()</a></code>.</p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -323,9 +323,9 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="co">## We can add additional content to this *skeleton* MTD information with</span></span></span>
 <span class="r-in"><span><span class="co">## any of the `setMtd*` functions.</span></span></span>
 <span class="r-in"><span><span class="co">## We next add a title and description for the experiment.</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-field.html">setMtdField</a></span><span class="op">(</span><span class="va">mtd</span>, field <span class="op">=</span> <span class="st">"title"</span>,</span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdField.html">setMtdField</a></span><span class="op">(</span><span class="va">mtd</span>, field <span class="op">=</span> <span class="st">"title"</span>,</span></span>
 <span class="r-in"><span>    value <span class="op">=</span> <span class="st">"Experiment 1 preprocessed data"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-field.html">setMtdField</a></span><span class="op">(</span><span class="va">mtd</span>, field <span class="op">=</span> <span class="st">"description"</span>,</span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdField.html">setMtdField</a></span><span class="op">(</span><span class="va">mtd</span>, field <span class="op">=</span> <span class="st">"description"</span>,</span></span>
 <span class="r-in"><span>    value <span class="op">=</span> <span class="st">"The preprocessed data of experiment 1 samples."</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We also add information on the MS instrumentation used</span></span></span>
@@ -337,7 +337,7 @@ molecule feature (SMF) and small molecule (SML) sections.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We can also add contact information</span></span></span>
-<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="MTD-contact.html">setMtdContact</a></span><span class="op">(</span><span class="va">mtd</span>, name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"frodo"</span>, <span class="st">"sauron"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="va">mtd</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdContact.html">setMtdContact</a></span><span class="op">(</span><span class="va">mtd</span>, name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"frodo"</span>, <span class="st">"sauron"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    affiliation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fellowship of the ring"</span>, <span class="st">"the dark side"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    email <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"frodo@shire.net"</span>, <span class="st">"sauron@mordor.net"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    orcid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0000-0001-2345-6789"</span>, <span class="st">"0000-0001-2345-678X"</span><span class="op">)</span><span class="op">)</span></span></span>

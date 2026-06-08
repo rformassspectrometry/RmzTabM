@@ -1,12 +1,16 @@
-# Add or Update a Metadata Field in an MTD section
+# Add or Update a Metadata Field of an mzTab-M MTD section
 
-Sets or updates a generic metadata field within an MTD (metadata)
+`setMtdField()` sets or updates metadata fields within an MTD (metadata)
 section. When the field already exists, the function can either replace
 it entirely or append new values to the existing ones.
+
+`getMtdField()` returns the information from an MTD section of the
+requested field.
 
 ## Usage
 
 ``` r
+# S4 method for class 'dfmatrix'
 setMtdField(
   x = matrix(),
   field = character(),
@@ -21,9 +25,11 @@ getMtdField(x = matrix(), field = character())
 
 - x:
 
-  A MTD section that stores metadata fields. Defaults to
-  [`matrix()`](https://rdrr.io/r/base/matrix.html). If all values are
-  `NA`, the function returns `x` unchanged.
+  A MTD section that stores metadata fields. Can be a two-column
+  `character` matrix, a two-column `data.frame` or a
+  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  object. Defaults to [`matrix()`](https://rdrr.io/r/base/matrix.html).
+  If all values are `NA`, the function returns `x` unchanged.
 
 - field:
 
@@ -52,9 +58,8 @@ getMtdField(x = matrix(), field = character())
 - For `setMtdField()`: the input object `x` updated to include the new
   or merged field metadata. If `x` is empty, the empty `x`.
 
-- For `getMtdField()`:
-  [`character()`](https://rdrr.io/r/base/character.html) with the
-  requested metadata.
+- For `getMtdField()`: a named `character` with the requested
+  information, names being the field names.
 
 ## Author
 

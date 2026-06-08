@@ -2,6 +2,16 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.14
+
+- Refactor
+  [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md),
+  [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md),
+  [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md),
+  [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md),
+  [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
+  as method.
+
 ### Changes in version 0.97.13
 
 - Add function
@@ -41,10 +51,10 @@
 
 - Add functions
   [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md),
-  [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-database.md),
-  [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-CV.md),
-  [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-contact.md),
-  [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-field.md)
+  [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md),
+  [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md),
+  [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md),
+  [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
   and `updateMtdContent()` for MTD section
 - Add examples and tests.
 
