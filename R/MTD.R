@@ -93,8 +93,8 @@
 #' @seealso [SMF-export] and [SML-export] for creating and formatting the small
 #'     molecule feature (SMF) and small molecule (SML) sections.
 #'
-#' @seealso [setMtdInstrument()], [MTD-database], [MTD-CV], [MTD-contact] and
-#'     [MTD-field].
+#' @seealso [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()],
+#'     [setMtdContact()] and [setMtdField()].
 #'
 #' @examples
 #'
@@ -2197,18 +2197,25 @@ getMtdInstrument <- function(x = matrix()) {
                     fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update Database Metadata in an MTD section
+#' @title Add or Update Database Metadata of an mzTab-M MTD section
 #'
-#' @name MTD-database
+#' @name setMtdDatabase
+#'
+#' @aliases setMtdDatabase,dfmatrix-method setMtdDatabase,MzTabM-method
 #'
 #' @description
 #'
-#' Sets or updates database-related metadata fields within an MTD (metadata)
-#' section. When database metadata already exists, the function can either
-#' replace it entirely or append new values to the existing ones.
+#' `setMtdDatabase()` sets or updates database-related metadata fields within
+#' an MTD (metadata) section. When database metadata already exists, the
+#' function can either replace it entirely or append new values to the existing
+#' ones.
 #'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'     If all values are `NA`, the function returns `x` unchanged.
+#' `getMtdDatabase()` returns the database information from an MTD section.
+#'
+#' @param x A MTD section that stores metadata fields. Can be a two-column
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
 #'
 #' @param name `character` with the description of databases used. For cases,
 #'     where a known database has not been used for identification.
@@ -2237,7 +2244,8 @@ getMtdInstrument <- function(x = matrix()) {
 #'
 #' - For `setMtdDatabase()`: the input object `x` updated to include the new
 #'   or merged database metadata fields. If `x` is empty, the empty `x`.
-#' - For `getMtdDatabase()`: get the database metadata.
+#' - For `getMtdDatabase()`: a named `character` with the database information,
+#'   names being the field names.
 #'
 #' @author Gabriele Tomè
 #'
@@ -2260,10 +2268,13 @@ getMtdInstrument <- function(x = matrix()) {
 #' ## Get the database metadata
 #' getMtdDatabase(mtd)
 #'
-#' @export
-setMtdDatabase <- function(x = matrix(), name = character(),
-                            prefix = character(), version = character(),
-                            uri = character(), replace = FALSE) {
+#' @exportMethod setMtdDatabase
+setMethod("setMtdDatabase", "dfmatrix", function(x = matrix(),
+                                                 name = character(),
+                                                 prefix = character(),
+                                                 version = character(),
+                                                 uri = character(),
+                                                 replace = FALSE) {
     if(!all(is.na(x))) {
         if(!length(name))
             stop("Missing \"name\", provide a valid one.")
@@ -2301,27 +2312,35 @@ setMtdDatabase <- function(x = matrix(), name = character(),
         x <- mtdSort(rbind(x, new_db))
     }
     x
-}
+})
 
-#' @rdname MTD-database
+#' @rdname setMtdDatabase
 #'
 #' @export
 getMtdDatabase <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^database\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update Controlled Vocabularies (CV) Metadata in an MTD section
+#' @title Add or Update Controlled Vocabularies (CV) Metadata  of an mzTab-M
+#'     MTD section
 #'
-#' @name MTD-CV
+#' @name setMtdCv
+#'
+#' @aliases setMtdCv,dfmatrix-method setMtdCv,MzTabM-method
 #'
 #' @description
 #'
-#' Sets or updates CV-related metadata fields within an MTD (metadata)
-#' section. When CV metadata already exists, the function can either replace it
-#' entirely or append new values to the existing ones.
+#' `setMtdCv()` sets or updates CV-related metadata fields within an MTD
+#' (metadata) section. When CV metadata already exists, the function can either
+#' replace it entirely or append new values to the existing ones.
 #'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'     If all values are `NA`, the function returns `x` unchanged.
+#' `getMtdCv()` returns the CV information from an MTD section.
+#'
+#' @param x A MTD section that stores metadata fields. Can be a two-column
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
 #'
 #' @param label `character` describing the labels of the controlled
 #'     vocabularies/ontologies used in the *mzTab-M* file (e.g. `"MS"` for
@@ -2353,7 +2372,8 @@ getMtdDatabase <- function(x = matrix()) {
 #'
 #' - For `setMtdCv()`: the input object `x` updated to include the new or
 #'   merged CV metadata fields. If `x` is empty, the empty `x`.
-#' - For `getMtdCv()`: returns the CV information.
+#' - For `getMtdCv()`: a named `character` with the CV information, names being
+#'   the field names.
 #'
 #' @author Gabriele Tomè
 #'
@@ -2376,9 +2396,12 @@ getMtdDatabase <- function(x = matrix()) {
 #' ## Get CV infrmation
 #' getMtdCv(mtd)
 #'
-#' @export
-setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
-                  version = character(), uri = character(), replace = FALSE) {
+#' @exportMethod setMtdCv
+setMethod("setMtdCv", "dfmatrix", function(x = matrix(), label = character(),
+                                           full_name = character(),
+                                           version = character(),
+                                           uri = character(),
+                                           replace = FALSE) {
     if(!all(is.na(x))) {
         if(!length(label))
             stop("Missing \"label\", provide a valid one.")
@@ -2410,27 +2433,36 @@ setMtdCv <- function(x = matrix(), label = character(), full_name = character(),
         x <- mtdSort(rbind(x, new_cv))
     }
     x
-}
+})
 
-#' @rdname MTD-CV
+#' @rdname setMtdCv
 #'
 #' @export
 getMtdCv <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^cv\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update contact Metadata in an MTD section
+#' @title Add or Update contact Metadata  of an mzTab-M MTD section
 #'
-#' @name MTD-contact
+#' @name setMtdContact
+#'
+#' @aliases setMtdContact,dfmatrix-method setMtdContact,MzTabM-method
 #'
 #' @description
 #'
-#' Sets or updates contact-related metadata fields within an MTD (metadata)
-#' in a MTD section. When contact metadata already exists, the function
-#' can either replace it entirely or append new values to the existing ones.
+#' `setMtdContact()` sets or updates contact-related metadata fields within
+#' an MTD (metadata) section. When contact metadata already exists, the
+#' function can either replace it entirely or append new values to the existing
+#' ones.
 #'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'     If all values are `NA`, the function returns `x` unchanged.
+#' `getMtdContact()` returns the contact information from an MTD section.
+#'
+#' @param x A MTD section that stores metadata fields. Can be a two-column
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
+#'
 #' @param name `character` contact’s name.
 #'
 #' @param affiliation `character` contact’s affiliation.
@@ -2452,7 +2484,8 @@ getMtdCv <- function(x = matrix()) {
 #'
 #' - For `setMtdContact()`: the input object `x` updated to include the new or
 #'   merged contact metadata fields. If `x` is empty, the empty `x`.
-#' - For `getMtdContact()`: returns the contact information.
+#' - For `getMtdContact()`: a named `character` with the contact information,
+#'   names being the field names.
 #'
 #' @author Gabriele Tomè
 #'
@@ -2474,9 +2507,13 @@ getMtdCv <- function(x = matrix()) {
 #'
 #' getMtdContact(mtd)
 #'
-#' @export
-setMtdContact <- function(x = matrix(), name = character(),
-                            affiliation = character(), email = character(), orcid = character(), replace = FALSE) {
+#' @exportMethod setMtdContact
+setMethod("setMtdContact", "dfmatrix", function(x = matrix(),
+                                                name = character(),
+                                                affiliation = character(),
+                                                email = character(),
+                                                orcid = character(),
+                                                replace = FALSE) {
     if(!all(is.na(x))) {
         if(!length(name))
             stop("Missing \"name\", provide a valid one.")
@@ -2512,27 +2549,35 @@ setMtdContact <- function(x = matrix(), name = character(),
         x <- mtdSort(rbind(x, new_contact))
     }
     x
-}
+})
 
-#' @rdname MTD-contact
+#' @rdname setMtdContact
 #'
 #' @export
 getMtdContact <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
 
-#' @title Add or Update a Metadata Field in an MTD section
+#' @title Add or Update a Metadata Field of an mzTab-M MTD section
 #'
-#' @name MTD-field
+#' @name setMtdField
+#'
+#' @aliases setMtdField,dfmatrix-method setMtdField,MzTabM-method
 #'
 #' @description
 #'
-#' Sets or updates a generic metadata field within an MTD (metadata)
+#' `setMtdField()` sets or updates metadata fields within an MTD (metadata)
 #' section. When the field already exists, the function can either replace it
 #' entirely or append new values to the existing ones.
 #'
-#' @param x A MTD section that stores metadata fields. Defaults to `matrix()`.
-#'     If all values are `NA`, the function returns `x` unchanged.
+#' `getMtdField()` returns the information from an MTD section of the requested
+#' field.
+#'
+#' @param x A MTD section that stores metadata fields. Can be a two-column
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
 #'
 #' @param field `character(1)` name of the metadata field to set or update.
 #'     Must be a valid [MTD field name](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section). (e.g. `"publication"`)
@@ -2554,7 +2599,8 @@ getMtdContact <- function(x = matrix()) {
 #'
 #' - For `setMtdField()`: the input object `x` updated to include the new or
 #'   merged field metadata. If `x` is empty, the empty `x`.
-#' - For `getMtdField()`: `character()` with the requested metadata.
+#' - For `getMtdField()`: a named `character` with the requested information,
+#'   names being the field names.
 #'
 #' @author Gabriele Tomè
 #'
@@ -2572,9 +2618,11 @@ getMtdContact <- function(x = matrix()) {
 #'
 #' getMtdField(mtd, field = "mzTab-ID")
 #'
-#' @export
-setMtdField <- function(x = matrix(), field = character(), value = character(),
-                        replace = FALSE) {
+#' @exportMethod setMtdField
+setMethod("setMtdField", "dfmatrix", function(x = matrix(),
+                                              field = character(),
+                                              value = character(),
+                                              replace = FALSE) {
     if(!all(is.na(x))) {
         if (length(field) != 1)
             stop("A single value should be submitted to 'field'")
@@ -2610,14 +2658,15 @@ setMtdField <- function(x = matrix(), field = character(), value = character(),
         x <- mtdSort(rbind(x, new_field))
     }
     x
-}
+})
 
-#' @rdname MTD-field
+#' @rdname setMtdField
 #'
 #' @export
 getMtdField <- function(x = matrix(), field = character()) {
     if(!length(field))
         stop("Parameter \"field\" is empty. Please provide a valid field.")
 
+    if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, paste0("^", field), exact = FALSE, fixed = FALSE)[[1]]
 }
