@@ -198,3 +198,15 @@ test_that("mtdGetField works with MzTabM", {
     result <- getMtdField(f4, "title")
     expect_equal(result, c("title" = "Title 1"))
 })
+
+test_that("smf,MzTabM works", {
+    a <- MzTabM()
+    res <- smf(a)
+    expect_equal(dim(res), c(0, 0))
+})
+
+test_that("smf,MzTabM works", {
+    a <- MzTabM()
+    res <- mtd(a)
+    expect_equal(res, a@mtd)
+})

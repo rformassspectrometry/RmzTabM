@@ -5,6 +5,12 @@
 #'
 #' @aliases MzTabM-class
 #'
+#' @aliases MzTabM,missing-method
+#'
+#' @aliases mtd
+#'
+#' @aliases smf
+#'
 #' @description
 #'
 #' The `MzTabM` class is a simple container for the mzTab-M data/file content.
@@ -15,7 +21,7 @@
 #' content for the MTD, SML, SMF and SML sections (through parameters `mtd`,
 #' `sml`, `smf`, and `sml`, respectively).
 #'
-#' @section Adding/getting metadata to/from the MTD section:
+#' @section MTD section; adding or getting metadata:
 #'
 #' Various functions are available to get or set metadata information of a
 #' `MzTabM` class:
@@ -26,8 +32,14 @@
 #' - [getMtdContact()] and [setMtdContact()] for contact information.
 #' - [getMtdField()] and [setMtdField()] for additional information.
 #'
-#' @param mtd Two-column `matrix` or `data.frame with the MTD content (see
+#' @section SMF section; adding or getting small feature abundance matrix:
+#'
+#' - `smf()`: returns the SMF feature abundance matrix of an `MzTabM` object.
+#'
+#' @param mtd Two-column `matrix` or `data.frame` with the MTD content (see
 #'     [MTD-export] for details and expected format/content).
+#'
+#' @param object `MzTabM` object.
 #'
 #' @param sml `matrix` or `data.frame` with the SML content (see [SML-export]
 #'     for details and expected format/content).
@@ -173,22 +185,42 @@ setMethod("setMtdField", "MzTabM", function(x, field = character(),
     x
 })
 
-################################################################################
-##   FUNCTIONS
-
 #' @rdname MzTabM
 #'
 #' @importFrom methods new validObject
 #'
-#' @export
-MzTabM <- function(mtd = mtdSkeleton(id = "<replace>", software = "<replace>"),
+#' @exportMethod MzTabM
+setMethod("MzTabM", signature(mtd = "dfmatrix"),
+          function(mtd = mtdSkeleton(id = "<replace>", software = "<replace>"),
                    sml = matrix(ncol = 0, nrow = 0),
                    smf = matrix(ncol = 0, nrow = 0),
                    sme = matrix(ncol = 0, nrow = 0)) {
-    res <- new("MzTabM", mtd = mtd, sml = sml, smf = smf, sme = sme)
-    validObject(res)
-    res
-}
+              res <- new("MzTabM", mtd = mtd, sml = sml, smf = smf, sme = sme)
+              validObject(res)
+              res
+          })
+
+setMethod("MzTabM", signature(mtd = "missing"),
+          function(...) {
+              MzTabM(mtdSkeleton(id = "<replace>", software = "<replace>"))
+          })
+
+#' @rdname MzTabM
+#'
+#' @exportMethod smf
+setMethod("smf", signature(object = "MzTabM"), function(object) {
+    object@smf
+})
+
+#' @rdname MzTabM
+#'
+#' @exportMethod mtd
+setMethod("mtd", signature(object = "MzTabM"), function(object) {
+    object@mtd
+})
+
+################################################################################
+##   FUNCTIONS
 
 #' Basic check on presence and content of the slots.
 #'
