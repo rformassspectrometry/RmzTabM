@@ -31,7 +31,7 @@ test_that("RmzTabM,SummarizedExperiment works", {
     expect_equal(res@smf$exp_mass_to_charge, as.character(rowData(se)$mzmed))
     expect_equal(res@smf$retention_time_in_seconds,
                  as.character(rowData(se)$rtmed))
-    expect_equal(res@smf$opt_rtmin, as.character(rowData(se)$rtmin))
+    expect_equal(res@smf$opt_global_rtmin, as.character(rowData(se)$rtmin))
 })
 
 test_that("smfCols works", {

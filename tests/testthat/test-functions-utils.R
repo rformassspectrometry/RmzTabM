@@ -109,11 +109,12 @@ test_that(".add_opt_cols works", {
     res <- .add_opt_cols(x = x)
     expect_equal(x, x)
     res <- .add_opt_cols(x = x, other = numeric())
-    expect_equal(colnames(res), c("a", "b", "opt_other"))
-    expect_equal(res$opt_other, c("null", "null", "null"))
+    expect_equal(colnames(res), c("a", "b", "opt_global_other"))
+    expect_equal(res$opt_global_other, c("null", "null", "null"))
     res <- .add_opt_cols(x = x, other = numeric(), bla = 1:3)
-    expect_equal(colnames(res), c("a", "b", "opt_other", "opt_bla"))
-    expect_equal(res$opt_bla, as.character(1:3))
+    expect_equal(colnames(res),
+                c("a", "b", "opt_global_other", "opt_global_bla"))
+    expect_equal(res$opt_global_bla, as.character(1:3))
     expect_error(.add_opt_cols(x = x, other = numeric(), 1:4), "must be named")
 })
 
