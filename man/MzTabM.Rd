@@ -3,17 +3,27 @@
 \name{MzTabM}
 \alias{MzTabM}
 \alias{MzTabM-class}
+\alias{MzTabM,missing-method}
+\alias{mtd}
+\alias{smf}
+\alias{MzTabM,dfmatrix-method}
+\alias{smf,MzTabM-method}
+\alias{mtd,MzTabM-method}
 \title{mzTab-M data container}
 \usage{
-MzTabM(
+\S4method{MzTabM}{dfmatrix}(
   mtd = mtdSkeleton(id = "<replace>", software = "<replace>"),
   sml = matrix(ncol = 0, nrow = 0),
   smf = matrix(ncol = 0, nrow = 0),
   sme = matrix(ncol = 0, nrow = 0)
 )
+
+\S4method{smf}{MzTabM}(object)
+
+\S4method{mtd}{MzTabM}(object)
 }
 \arguments{
-\item{mtd}{Two-column \code{matrix} or `data.frame with the MTD content (see
+\item{mtd}{Two-column \code{matrix} or \code{data.frame} with the MTD content (see
 \link{MTD-export} for details and expected format/content).}
 
 \item{sml}{\code{matrix} or \code{data.frame} with the SML content (see \link{SML-export}
@@ -24,6 +34,8 @@ for details and expected format/content).}
 
 \item{sme}{\code{matrix} or \code{data.frame} with the SME content (see \link{SME-export}
 for details and expected format/content).}
+
+\item{object}{\code{MzTabM} object.}
 }
 \description{
 The \code{MzTabM} class is a simple container for the mzTab-M data/file content.
@@ -34,7 +46,7 @@ New instances can be created using the \code{MzTabM()} function providing the
 content for the MTD, SML, SMF and SML sections (through parameters \code{mtd},
 \code{sml}, \code{smf}, and \code{sml}, respectively).
 }
-\section{Adding/getting metadata to/from the MTD section}{
+\section{MTD section; adding or getting metadata}{
 
 
 Various functions are available to get or set metadata information of a
@@ -45,6 +57,13 @@ Various functions are available to get or set metadata information of a
 \item \code{\link[=getMtdCv]{getMtdCv()}} and \code{\link[=setMtdCv]{setMtdCv()}} for CV information.
 \item \code{\link[=getMtdContact]{getMtdContact()}} and \code{\link[=setMtdContact]{setMtdContact()}} for contact information.
 \item \code{\link[=getMtdField]{getMtdField()}} and \code{\link[=setMtdField]{setMtdField()}} for additional information.
+}
+}
+
+\section{SMF section; adding or getting small feature abundance matrix}{
+
+\itemize{
+\item \code{smf()}: returns the SMF feature abundance matrix of an \code{MzTabM} object.
 }
 }
 

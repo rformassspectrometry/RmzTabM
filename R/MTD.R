@@ -459,26 +459,26 @@ mtdFields <- function(..., field_prefix = "") {
 #' mtd <- mtdSort(mtd)
 #' mtd
 mtdSkeleton <- function(id = character(),
-                         software = character(),
-                         quantification_method = "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]",
-                         cv_label = c("MS", "PRIDE", "STATO"),
-                         cv_full_name = c("PSI-MS controlled vocabulary",
-                                          "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary",
-                                          "General purpose STATistics Ontology"),
-                         cv_version = c("4.1.138",
-                                        "16:10:2023 11:38",
-                                        "2026-04-20"),
-                         cv_uri = c("https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo",
-                                    "https://www.ebi.ac.uk/ols/ontologies/pride",
-                                    "https://www.ebi.ac.uk/ols4/ontologies/stato"),
-                         database = c("[,, \"no database\", null ]"),
-                         database_prefix = c("null"),
-                         database_version = c("Unknown"),
-                         database_uri = c("null"),
-                         small_molecule_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
-                         small_molecule_feature_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
-                         small_molecule_identification_reliability = "[MS, MS:1002896, compound identification confidence level, ]",
-                         mztab_version = "2.1.0-M") {
+                        software = character(),
+                        quantification_method = "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]",
+                        cv_label = c("MS", "PRIDE", "STATO"),
+                        cv_full_name = c("PSI-MS controlled vocabulary",
+                                         "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary",
+                                         "General purpose STATistics Ontology"),
+                        cv_version = c("4.1.138",
+                                       "16:10:2023 11:38",
+                                       "2026-04-20"),
+                        cv_uri = c("https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo",
+                                   "https://www.ebi.ac.uk/ols/ontologies/pride",
+                                   "https://www.ebi.ac.uk/ols4/ontologies/stato"),
+                        database = c("[,, \"no database\", null ]"),
+                        database_prefix = c("null"),
+                        database_version = c("Unknown"),
+                        database_uri = c("null"),
+                        small_molecule_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
+                        small_molecule_feature_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
+                        small_molecule_identification_reliability = "[MS, MS:1002896, compound identification confidence level, ]",
+                        mztab_version = "2.1.0-M") {
     if (!length(id)) stop("Parameter 'id' is required", call. = FALSE)
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
     if (!isCvParameter(software))
@@ -497,7 +497,6 @@ mtdSkeleton <- function(id = character(),
         c("small_molecule-identification_reliability",
           small_molecule_identification_reliability)
     )
-    ## Add sample and run information...
     ## Order them.
     mtdSort(sk)
 }
@@ -1476,14 +1475,14 @@ mtdFromSampleData <- function(x,
              "column is mandatory and needs to provide the file name of each ",
              "MS run (or \"null\" if there are no files). Please provide the ",
              "respective column name with ",
-             "'msRunCols = msRunCols(location = <column name>, ...)'.",
+             "'msRunCols. = msRunCols(location = <column name>, ...)'.",
              call. = FALSE)
     if (!any(names(msRunCols.) == "scan_polarity") ||
         !any(colnames(x) == msRunCols.["scan_polarity"]))
         stop("Column \"", msRunCols.["scan_polarity"], "\" not found in 'x'. ",
              "This column is mandatory and needs to provide the polarity of ",
              "each MS run. Please provide the respective column name with ",
-             "'msRunCols = msRunCols(scan_polarity = <column name>, ...)'.",
+             "'msRunCols. = msRunCols(scan_polarity = <column name>, ...)'.",
              call. = FALSE)
     msRunCols. <- msRunCols.[msRunCols. %in% colnames(x)]
     l <- as.list(x[, msRunCols., drop = FALSE])
@@ -1496,8 +1495,8 @@ mtdFromSampleData <- function(x,
         stop("Column \"", assayCols.["assay"], "\" not found in 'x'. This ",
              "column is mandatory and needs to provide a name/identifier for ",
              "each *assay*. In most cases, assay will be the same as the MS ",
-             "run. Please provide the respective column name with",
-             "'assayCols = assayCols(assay = <column name>, ...)'.",
+             "run. Please provide the respective column name with ",
+             "'assayCols. = assayCols(assay = <column name>, ...)'.",
              call. = FALSE)
     if (anyDuplicated(x[, assayCols.["assay"]]))
         message("Relationship between assay and ms_run is 1:n. Please be ",

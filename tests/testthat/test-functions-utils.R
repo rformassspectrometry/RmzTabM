@@ -11,14 +11,14 @@ test_that(".resolve_fun works", {
     expect_length(res, 1L)
     expect_true(is.list(res))
     expect_true(is.function(res[[1L]]))
-    expect_equal(res[[1L]], median)
+    expect_equal(res[[1L]](1:4), median(1:4))
     res <- .resolve_fun(c("MS:1002883", "MS:1002962"))
     expect_length(res, 2L)
     expect_true(is.list(res))
     expect_true(is.function(res[[1L]]))
-    expect_equal(res[[1L]], median)
+    expect_equal(res[[1L]](1:20), median(1:20))
     expect_true(is.function(res[[2L]]))
-    expect_equal(res[[2L]], mean)
+    expect_equal(res[[2L]](1:17), mean(1:17))
 })
 
 test_that("parseCvParameter works", {
