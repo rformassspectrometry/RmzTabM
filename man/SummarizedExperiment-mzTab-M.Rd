@@ -124,32 +124,33 @@ or \code{description}}
 \item{object}{A \code{SummarizedExperiment}.}
 
 \item{exp_mass_to_charge}{For \code{smfCols()}: \code{character(1)} defining the
-column name in the \code{SummarizedExperiment}'s \code{colData()} containing the
+column name in the \code{SummarizedExperiment}'s \code{rowData()} containing the
 information on the features' m/z. \strong{Mandatory}.}
 
-\item{retention_time_in_seconds}{For \verb{smfCols(): }character(1)\verb{defining the column name in the}SummarizedExperiment\verb{'s }colData()` containing the
+\item{retention_time_in_seconds}{For \code{smfCols()}: \code{character(1)} defining the
+column name in the \code{SummarizedExperiment}'s \code{rowData()} containing the
 retention times of the features. Optional}
 
 \item{retention_time_in_seconds_start}{For \code{smfCols()}: \code{character(1)}
-defining the column name in the \code{SummarizedExperiment}'s \code{colData()}
+defining the column name in the \code{SummarizedExperiment}'s \code{rowData()}
 with the retention time start of the features' chromatographic signal.
 Optional.}
 
 \item{retention_time_in_seconds_end}{For \code{smfCols()}: \code{character(1)}
-defining the column name in the \code{SummarizedExperiment}'s \code{colData()}
+defining the column name in the \code{SummarizedExperiment}'s \code{rowData()}
 with the retention time end of the features' chromatographic signal.
 Optional.}
 
 \item{SME_ID_REFS}{For \code{smfCols()}: \code{character(1)} defining the column name
-in the \code{SummarizedExperiment}'s \code{colData()} providing the references
+in the \code{SummarizedExperiment}'s \code{rowData()} providing the references
 to rows in the \emph{small molecule evidence} (SME) section.}
 
 \item{SME_ID_REF_ambiguity_code}{For \code{smfCols}: \code{character(1)} defining the
-column name in the \code{SummarizedExperiment}'s \code{colData()} with ambiguity
+column name in the \code{SummarizedExperiment}'s \code{rowData()} with ambiguity
 codes for SME ID references.}
 
 \item{charge}{For \code{smfCols()}: \code{character(1)} defining the column name in
-the \code{SummarizedExperiment}'s \code{colData()} containing the information on
+the \code{SummarizedExperiment}'s \code{rowData()} containing the information on
 the features' charge state (integer). Optional.}
 
 \item{adduct_ion}{For \code{smfCols()}: \code{character(1)} defining the column name
@@ -157,7 +158,7 @@ in the \code{SummarizedExperiment}'s \code{rowData()} containing information on
 the adduct/ion for each feature. Optional.}
 
 \item{isotopomer}{For \code{smfCols()}: \code{character(1)} defining the column name in
-the \code{SummarizedExperiment}'s \code{colData()} containing the information on
+the \code{SummarizedExperiment}'s \code{rowData()} containing the information on
 the features' isotopomer description. Optional.}
 }
 \value{

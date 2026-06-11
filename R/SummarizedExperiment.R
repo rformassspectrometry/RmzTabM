@@ -76,11 +76,11 @@
 #'     [mtdFromSampleData()] for more information.
 #'
 #' @param charge For `smfCols()`: `character(1)` defining the column name in
-#'     the `SummarizedExperiment`'s `colData()` containing the information on
+#'     the `SummarizedExperiment`'s `rowData()` containing the information on
 #'     the features' charge state (integer). Optional.
 #'
 #' @param exp_mass_to_charge For `smfCols()`: `character(1)` defining the
-#'     column name in the `SummarizedExperiment`'s `colData()` containing the
+#'     column name in the `SummarizedExperiment`'s `rowData()` containing the
 #'     information on the features' m/z. **Mandatory**.
 #'
 #' @param group_datatype For `MzTabM()`: optional `character` defining the data
@@ -123,7 +123,7 @@
 #'     **Mandatory**.
 #'
 #' @param isotopomer For `smfCols()`: `character(1)` defining the column name in
-#'     the `SummarizedExperiment`'s `colData()` containing the information on
+#'     the `SummarizedExperiment`'s `rowData()` containing the information on
 #'     the features' isotopomer description. Optional.
 #'
 #' @param msRunCols. named `character` vector defining the columns in the
@@ -139,17 +139,17 @@
 #'
 #' @param object A `SummarizedExperiment`.
 #'
-#' @param retention_time_in_seconds For `smfCols(): `character(1)` defining the
-#'     column name in the `SummarizedExperiment`'s `colData()` containing the
+#' @param retention_time_in_seconds For `smfCols()`: `character(1)` defining the
+#'     column name in the `SummarizedExperiment`'s `rowData()` containing the
 #'     retention times of the features. Optional
 #'
 #' @param retention_time_in_seconds_start For `smfCols()`: `character(1)`
-#'     defining the column name in the `SummarizedExperiment`'s `colData()`
+#'     defining the column name in the `SummarizedExperiment`'s `rowData()`
 #'     with the retention time start of the features' chromatographic signal.
 #'     Optional.
 #'
 #' @param retention_time_in_seconds_end For `smfCols()`: `character(1)`
-#'     defining the column name in the `SummarizedExperiment`'s `colData()`
+#'     defining the column name in the `SummarizedExperiment`'s `rowData()`
 #'     with the retention time end of the features' chromatographic signal.
 #'     Optional.
 #'
@@ -161,11 +161,11 @@
 #'     [mtdSample()] and [mtdFromSampleData()] for more information.
 #'
 #' @param SME_ID_REFS For `smfCols()`: `character(1)` defining the column name
-#'     in the `SummarizedExperiment`'s `colData()` providing the references
+#'     in the `SummarizedExperiment`'s `rowData()` providing the references
 #'     to rows in the *small molecule evidence* (SME) section.
 #'
 #' @param SME_ID_REF_ambiguity_code For `smfCols`: `character(1)` defining the
-#'     column name in the `SummarizedExperiment`'s `colData()` with ambiguity
+#'     column name in the `SummarizedExperiment`'s `rowData()` with ambiguity
 #'     codes for SME ID references.
 #'
 #' @param smfCols. For `MzTabM()` and `smf()`: named `character` defining which
