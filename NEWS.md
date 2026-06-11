@@ -1,5 +1,9 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.15
+
+- Add functionality to generate mzTab-M content from a `SummarizedExperiment`.
+
 ## Changes in version 0.97.14
 
 - Refactor `setMtdInstrument()`, `setMtdDatabase()`, `setMtdCv()`,
