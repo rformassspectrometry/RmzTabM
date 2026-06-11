@@ -244,12 +244,32 @@ isCvParameter <- function(x) {
             stop("All optional arguments provided in '...' must be named.",
                  call. = FALSE)
         nms <- names(dots)
-        needs_prefix <- !grepl("^opt_", nms)
-        nms[needs_prefix] <- paste0("opt_", nms[needs_prefix])
+        needs_prefix <- !grepl("^opt_global_", nms)
+        nms[needs_prefix] <- paste0("opt_global_", nms[needs_prefix])
         names(dots) <- nms
         nx <- nrow(x)
         for (i in seq_along(dots))
             x[[nms[i]]] <- .check_fill_column(dots[[i]], nx)
     }
+    x
+}
+
+#' @description
+#'
+#' Helper function to convert `numeric` columns to `character`. Also, it map
+#' `NA` to `null` for export.
+#'
+#' @param x `data.frame` to convert.
+#'
+#' @return `data.frame` with `numeric` columns converted to `character`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.NAtonull <- function(x) {
+    numeric_cols <- vapply(x, is.numeric, FUN.VALUE = logical(1L))
+    x[numeric_cols] <- lapply(x[numeric_cols], function(z) {
+        ifelse(is.na(z), "null", as.character(z))
+    })
     x
 }

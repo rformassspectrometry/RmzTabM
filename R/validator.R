@@ -32,8 +32,9 @@ mzTabMValidator <- function(mztab_file) {
                                  package = "RmzTabM")
 
     ## Capture stdout/stderr of the jar execution.
-    raw_output <- system2(command = validator_jar, args = c("-c", mztab_file),
-                            stdout = TRUE, stderr = TRUE)
+    raw_output <- system2(command = "java",
+                          args = c("-jar", validator_jar, "-c", mztab_file),
+                          stdout = TRUE, stderr = TRUE)
     result <- parse_validation_output(raw_output)
 
     if (result$n_errors)

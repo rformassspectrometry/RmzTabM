@@ -310,7 +310,7 @@ setMethod("MzTabM", signature(mtd = "SummarizedExperiment"),
                   groups = groups, group_description = group_description,
                   group_type = group_type, group_datatype = group_datatype,
                   group_unit = group_unit, ...))
-              res <- MzTabM(mtd = m)
+              res <- MzTabM(mtd = mtdSort(m))
               if (length(smfCols.))
                   res@smf <- .smf_from_summarized_experiment(
                       mtd, smfCols. = smfCols., assayName = assayName)
