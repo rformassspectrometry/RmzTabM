@@ -11,19 +11,26 @@ content for the MTD, SML, SMF and SML sections (through parameters
 ## Usage
 
 ``` r
+# S4 method for class 'dfmatrix'
 MzTabM(
   mtd = mtdSkeleton(id = "<replace>", software = "<replace>"),
   sml = matrix(ncol = 0, nrow = 0),
   smf = matrix(ncol = 0, nrow = 0),
   sme = matrix(ncol = 0, nrow = 0)
 )
+
+# S4 method for class 'MzTabM'
+smf(object)
+
+# S4 method for class 'MzTabM'
+mtd(object)
 ```
 
 ## Arguments
 
 - mtd:
 
-  Two-column `matrix` or \`data.frame with the MTD content (see
+  Two-column `matrix` or `data.frame` with the MTD content (see
   [MTD-export](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.md)
   for details and expected format/content).
 
@@ -45,7 +52,11 @@ MzTabM(
   [SME-export](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
   for details and expected format/content).
 
-## Adding/getting metadata to/from the MTD section
+- object:
+
+  `MzTabM` object.
+
+## MTD section; adding or getting metadata
 
 Various functions are available to get or set metadata information of a
 `MzTabM` class:
@@ -74,6 +85,11 @@ Various functions are available to get or set metadata information of a
   and
   [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
   for additional information.
+
+## SMF section; adding or getting small feature abundance matrix
+
+- `smf()`: returns the SMF feature abundance matrix of an `MzTabM`
+  object.
 
 ## Author
 

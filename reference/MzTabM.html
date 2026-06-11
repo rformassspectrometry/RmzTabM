@@ -17,7 +17,7 @@ sml, smf, and sml, respectively)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.14</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.15</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,12 +58,19 @@ content for the MTD, SML, SMF and SML sections (through parameters <code>mtd</co
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">MzTabM</span><span class="op">(</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for class 'dfmatrix'</span></span>
+<span><span class="fu">MzTabM</span><span class="op">(</span></span>
 <span>  mtd <span class="op">=</span> <span class="fu"><a href="mtdSkeleton.html">mtdSkeleton</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"&lt;replace&gt;"</span>, software <span class="op">=</span> <span class="st">"&lt;replace&gt;"</span><span class="op">)</span>,</span>
 <span>  sml <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">0</span>, nrow <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
 <span>  smf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">0</span>, nrow <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
 <span>  sme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">0</span>, nrow <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'MzTabM'</span></span>
+<span><span class="fu">smf</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'MzTabM'</span></span>
+<span><span class="fu">mtd</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,7 +78,7 @@ content for the MTD, SML, SMF and SML sections (through parameters <code>mtd</co
 
 
 <dl><dt id="arg-mtd">mtd<a class="anchor" aria-label="anchor" href="#arg-mtd"></a></dt>
-<dd><p>Two-column <code>matrix</code> or `data.frame with the MTD content (see
+<dd><p>Two-column <code>matrix</code> or <code>data.frame</code> with the MTD content (see
 <a href="MTD-export.html">MTD-export</a> for details and expected format/content).</p></dd>
 
 
@@ -89,9 +96,13 @@ for details and expected format/content).</p></dd>
 <dd><p><code>matrix</code> or <code>data.frame</code> with the SME content (see <a href="SME-export.html">SME-export</a>
 for details and expected format/content).</p></dd>
 
+
+<dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
+<dd><p><code>MzTabM</code> object.</p></dd>
+
 </dl></div>
     <div class="section level2">
-    <h2 id="adding-getting-metadata-to-from-the-mtd-section">Adding/getting metadata to/from the MTD section<a class="anchor" aria-label="anchor" href="#adding-getting-metadata-to-from-the-mtd-section"></a></h2>
+    <h2 id="mtd-section-adding-or-getting-metadata">MTD section; adding or getting metadata<a class="anchor" aria-label="anchor" href="#mtd-section-adding-or-getting-metadata"></a></h2>
 
 
 
@@ -101,6 +112,12 @@ for details and expected format/content).</p></dd>
 <li><p><code><a href="setMtdCv.html">getMtdCv()</a></code> and <code><a href="setMtdCv.html">setMtdCv()</a></code> for CV information.</p></li>
 <li><p><code><a href="setMtdContact.html">getMtdContact()</a></code> and <code><a href="setMtdContact.html">setMtdContact()</a></code> for contact information.</p></li>
 <li><p><code><a href="setMtdField.html">getMtdField()</a></code> and <code><a href="setMtdField.html">setMtdField()</a></code> for additional information.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="smf-section-adding-or-getting-small-feature-abundance-matrix">SMF section; adding or getting small feature abundance matrix<a class="anchor" aria-label="anchor" href="#smf-section-adding-or-getting-small-feature-abundance-matrix"></a></h2>
+
+
+<ul><li><p><code>smf()</code>: returns the SMF feature abundance matrix of an <code>MzTabM</code> object.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

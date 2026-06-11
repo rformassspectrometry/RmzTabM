@@ -1115,10 +1115,24 @@ sessionInfo()
     [1] stats     graphics  grDevices utils     datasets  methods   base
 
     other attached packages:
-    [1] pander_0.6.6    RmzTabM_0.97.14
+    [1] pander_0.6.6    RmzTabM_0.97.15
 
     loaded via a namespace (and not attached):
-     [1] digest_0.6.39     fastmap_1.2.0     xfun_0.58         knitr_1.51
-     [5] htmltools_0.5.9   rmarkdown_2.31    cli_3.6.6         data.table_1.18.4
-     [9] compiler_4.6.0    tools_4.6.0       evaluate_1.0.5    Rcpp_1.1.1-1.1
-    [13] yaml_2.3.12       otel_0.2.0        rlang_1.2.0       jsonlite_2.0.0   
+     [1] cli_3.6.6                   knitr_1.51
+     [3] rlang_1.2.0                 xfun_0.58
+     [5] otel_0.2.0                  generics_0.1.4
+     [7] data.table_1.18.4           DelayedArray_0.39.3
+     [9] jsonlite_2.0.0              SummarizedExperiment_1.43.0
+    [11] S4Vectors_0.51.3            htmltools_0.5.9
+    [13] stats4_4.6.0                MatrixGenerics_1.25.0
+    [15] rmarkdown_2.31              Biobase_2.73.1
+    [17] grid_4.6.0                  Seqinfo_1.3.0
+    [19] evaluate_1.0.5              abind_1.4-8
+    [21] fastmap_1.2.0               yaml_2.3.12
+    [23] IRanges_2.47.2              compiler_4.6.0
+    [25] Rcpp_1.1.1-1.1              XVector_0.53.0
+    [27] lattice_0.22-9              digest_0.6.39
+    [29] SparseArray_1.13.2          GenomicRanges_1.65.0
+    [31] Matrix_1.7-5                tools_4.6.0
+    [33] matrixStats_1.5.0           S4Arrays_1.13.0
+    [35] BiocGenerics_0.59.7        

@@ -11,7 +11,9 @@
 - [`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
   : Import a mzTab-M 2.1 file
 
-- [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+- [`MzTabM(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  [`smf(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  [`mtd(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
   : mzTab-M data container
 
 - [`smeCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
@@ -28,6 +30,13 @@
   [`smlSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
   [`smlAddStudyVariableColumns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
   : Creating the mzTab-M Small Molecule (SML) Table
+
+- [`MzTabM(`*`<SummarizedExperiment>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+  [`smf(`*`<SummarizedExperiment>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+  [`smfCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+  :
+
+  Create a mzTab-M file from a `SummarizedExperiment` object
 
 - [`mtdAssay()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)
   :
@@ -73,6 +82,9 @@
 - [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   : Utility functions for CV parameters
+
+- [`se`](https://rformassspectrometry.github.io/RmzTabM/reference/se.md)
+  : Quantified LC-MS preprocessing result test data from Metabonaut
 
 - [`setMtdContact(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
   [`getMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
