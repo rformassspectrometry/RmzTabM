@@ -2,6 +2,16 @@
 
 ## Changes in version 0.97.15
 
+- Add function `mzTabMValidator()` for the validation of the MzTab-M files
+  before the import and after the export.
+- Add helper functions `mzTabMToList()` and `.NAtonull()`.
+- Fix bug in instrument field sorting.
+- Support `identifier` for optional columns in SML, SMF, SME.
+- Update tests and examples.
+
+
+## Changes in version 0.97.15
+
 - Add functionality to generate mzTab-M content from a `SummarizedExperiment`.
 
 ## Changes in version 0.97.14
