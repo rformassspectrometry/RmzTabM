@@ -195,10 +195,11 @@ test_that("writeMzTabM works", {
 
     SMF_block <- c(
     "SFH\tSMF_ID\tSME_ID_REFS\tSME_ID_REF_ambiguity_code\tadduct_ion\tisotopomer\texp_mass_to_charge\tcharge\tretention_time_in_seconds\tretention_time_in_seconds_start\tretention_time_in_seconds_end\tabundance_assay[1]\tabundance_assay[2]\tabundance_assay[3]\tabundance_assay[4]\tabundance_assay[5]\tabundance_assay[6]\tabundance_assay[7]\tabundance_assay[8]\tabundance_assay[9]\tabundance_assay[10]\tabundance_assay[11]\tabundance_assay[12]\tabundance_assay[13]\tabundance_assay[14]\tabundance_assay[15]",
-    "SMF\t1\tnull\tnull\t[M-H]-\tnull\t424.177185058594\t-1\t2306.94995117188\t2285.84008789063\t2339.75\t32605.138671875\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull"
+    "SMF\t1\tnull\tnull\t[M-H]-\tnull\t424.177185058594\t-1\t2306.94995117188\t2285.84008789063\t2339.75\t32605.138671875\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA"
     )
     SMF_block <- read.table(text = SMF_block, sep = "\t", header = TRUE,
                             check.names = FALSE, colClasses = "character")
+    SMF_block[, 12:26] <- as.numeric(SMF_block[, 12:26])
 
     SME_block <- c(
     "SEH\tSME_ID\tevidence_input_id\tdatabase_identifier\tchemical_formula\tsmiles\tinchi\tchemical_name\turi\tderivatized_form\tadduct_ion\texp_mass_to_charge\tcharge\ttheoretical_mass_to_charge\tspectra_ref\tidentification_method\tms_level\tid_confidence_measure[1]\trank\topt_global_lipid_species\topt_global_lipid_lda_species" ,
@@ -222,6 +223,9 @@ test_that("writeMzTabM works", {
 
     ## Test save only MTD in a pregenerated file
     x <- list("MTD" = mtd_block)
+    expect_no_error(writeMzTabM(x, path = f))
+    ## Test save only MTD in a pregenerated file a MzTabM object
+    x <- MzTabM(mtd = mtd_block)
     expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML in a pregenerated file
     x <- list("MTD" = mtd_block, "SML" = SML_block)

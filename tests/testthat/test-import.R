@@ -232,50 +232,54 @@ test_that("readMzTabM works", {
     ## MTD-only file returns a list with exactly one element named MTD
     f <- write_tmp(mtd_block)
     res <- readMzTabM(f)
-    expect_type(res, "list")
-    expect_identical(names(res), "MTD")
-    expect_true(is.matrix(res[["MTD"]]))
-    expect_equal(ncol(res[["MTD"]]), 2L)
-    expect_equal(nrow(res[["MTD"]]), length(mtd_block))
-    expect_equal(as.character(res[["MTD"]][1, 1]), "mzTab-version")
-    expect_equal(as.character(res[["MTD"]][1, 2]), "2.1.0-M")
+    expect_s4_class(res, "MzTabM")
+    res_l <- mzTabMToList(res)
+    expect_identical(names(res_l), "MTD")
+    expect_true(is.matrix(res_l[["MTD"]]))
+    expect_equal(ncol(res_l[["MTD"]]), 2L)
+    expect_equal(nrow(res_l[["MTD"]]), length(mtd_block))
+    expect_equal(as.character(res_l[["MTD"]][1, 1]), "mzTab-version")
+    expect_equal(as.character(res_l[["MTD"]][1, 2]), "2.1.0-M")
 
     ## SML section is present and is a matrix when SMH is in file
     f <- write_tmp(mtd_block, "\n", SML_block)
     res <- readMzTabM(f)
-    expect_true(!is.null(res[["SML"]]))
-    expect_true(is.matrix(res[["SML"]]))
+    res_l <- mzTabMToList(res)
+    expect_true(!is.null(res_l[["SML"]]))
+    expect_true(is.matrix(res_l[["SML"]]))
     expected_cols <- strsplit(SML_block[1], "\t")[[1]]
-    expect_identical(colnames(res[["SML"]]), expected_cols)
-    expect_equal(nrow(res[["SML"]]), 1)
-    expect_equal(as.character(res[["SML"]][1, "SML_ID"]), "1")
+    expect_identical(colnames(res_l[["SML"]]), expected_cols)
+    expect_equal(nrow(res_l[["SML"]]), 1)
+    expect_equal(as.character(res_l[["SML"]][1, "SML_ID"]), "1")
 
     ## SMF section is present and is a matrix when SFH is in file
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block)
     res <- readMzTabM(f)
-    expect_true(!is.null(res[["SMF"]]))
-    expect_true(is.matrix(res[["SMF"]]))
+    res_l <- mzTabMToList(res)
+    expect_true(!is.null(res_l[["SMF"]]))
+    expect_true(is.matrix(res_l[["SMF"]]))
     expected_cols <- strsplit(SMF_block[1], "\t")[[1]]
-    expect_identical(colnames(res[["SMF"]]), expected_cols)
-    expect_equal(nrow(res[["SMF"]]), 1)
-    expect_equal(as.character(res[["SMF"]][1, "SMF_ID"]), "1")
-    expect_equal(as.character(res[["SMF"]][1, "exp_mass_to_charge"]),
+    expect_identical(colnames(res_l[["SMF"]]), expected_cols)
+    expect_equal(nrow(res_l[["SMF"]]), 1)
+    expect_equal(as.character(res_l[["SMF"]][1, "SMF_ID"]), "1")
+    expect_equal(as.character(res_l[["SMF"]][1, "exp_mass_to_charge"]),
                  "424.1772")
 
     ## SME section is present when both SFH and SEH are in file
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block, "\n", SME_block)
     res <- readMzTabM(f)
-    expect_true(!is.null(res[["SME"]]))
-    expect_true(is.matrix(res[["SME"]]))
+    res_l <- mzTabMToList(res)
+    expect_true(!is.null(res_l[["SME"]]))
+    expect_true(is.matrix(res_l[["SME"]]))
     expected_cols <- strsplit(SME_block[1], "\t")[[1]]
-    expect_identical(colnames(res[["SME"]]), expected_cols)
-    expect_equal(nrow(res[["SME"]]), 1)
-    expect_equal(as.character(res[["SME"]][1, "SME_ID"]), "1")
-    expect_equal(as.character(res[["SME"]][1, "exp_mass_to_charge"]),
+    expect_identical(colnames(res_l[["SME"]]), expected_cols)
+    expect_equal(nrow(res_l[["SME"]]), 1)
+    expect_equal(as.character(res_l[["SME"]][1, "SME_ID"]), "1")
+    expect_equal(as.character(res_l[["SME"]][1, "exp_mass_to_charge"]),
                  "700.5277")
 
     ## full file returns all four sections in correct order
-    expect_identical(names(res), c("MTD", "SML", "SMF", "SME"))
+    expect_identical(names(res_l), c("MTD", "SML", "SMF", "SME"))
 
     ## blank lines interspersed in file do not break parsing
     f <- write_tmp(
@@ -284,8 +288,9 @@ test_that("readMzTabM works", {
         SML_block
     )
     res <- readMzTabM(f)
-    expect_identical(names(res), c("MTD", "SML"))
-    expect_equal(nrow(res[["MTD"]]), length(mtd_block))
+    res_l <- mzTabMToList(res)
+    expect_identical(names(res_l), c("MTD", "SML"))
+    expect_equal(nrow(res_l[["MTD"]]), length(mtd_block))
 
     ## extra fread arguments via ... are accepted without error
     f <- write_tmp(mtd_block, SML_block)

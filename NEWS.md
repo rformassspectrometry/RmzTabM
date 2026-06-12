@@ -7,6 +7,7 @@
 - Add helper functions `mzTabMToList()` and `.NAtonull()`.
 - Fix bug in instrument field sorting.
 - Support `identifier` for optional columns in SML, SMF, SME.
+- Update `readMzTabM()` to create a `MzTabM` object.
 - Update tests and examples.
 
 
