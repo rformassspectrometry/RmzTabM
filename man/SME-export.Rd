@@ -27,6 +27,7 @@ smeCreate(
   ms_level = character(),
   id_confidence_measure = NULL,
   rank = 1,
+  opt_identifier = "global",
   mtd = NULL
 )
 
@@ -144,6 +145,12 @@ used, as \code{"id_confidence_measure[1-n]"}.}
 this approach as increasing integers from 1 (best ranked
 identification). Ties (equal score) are represented by using the same
 rank, defaults to \code{"1"} if there is no ranking system used.}
+
+\item{opt_identifier}{\code{character} with the identifier to be used for optional
+columns passed through \code{...}. This is used to create the column names for
+optional columns in the format \verb{opt_\{opt_identifier\}_\{column_name\}}. If
+not provided, the default is \code{"global"}. Must the same length of the opt
+columns provided in \code{...} or \code{1L}.}
 
 \item{mtd}{two-column \code{matrix} or \code{data.frame} with the metadata (MTD)
 definition of the data set. The first column needs to contain the

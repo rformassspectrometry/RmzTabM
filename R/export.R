@@ -158,5 +158,5 @@ writeMzTabM <- function(x, path, comments = character()) {
     }
 
     ## TODO: manage the errors.
-    mzTabMValidator(path)
+    validation_res <- mzTabMValidator(path)
 }

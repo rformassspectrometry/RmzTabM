@@ -20,6 +20,8 @@
 #'
 #' @author Gabriele Tomè
 #'
+#' @importFrom utils capture.output
+#'
 #' @export
 mzTabMValidator <- function(mztab_file) {
     if (!file.exists(mztab_file))
@@ -45,6 +47,16 @@ mzTabMValidator <- function(mztab_file) {
     if (result$n_warnings)
         warning("mzTab validation: ", result$n_warnings, " warning(s) found.")
 
+    message("Validation finished successfully: ", result$total_messages,
+                 " message(s) found, including:")
+    message("\t- Info(s): ", result$n_info)
+    message("\t- Warning(s): ", result$n_warnings)
+    message("\t- Error(s): ", result$n_errors)
+
+    if (nrow(result$messages)) {
+        message("\nValidation messages:")
+        message(paste0(capture.output(result$messages), collapse = "\n"))
+    }
     result
 }
 

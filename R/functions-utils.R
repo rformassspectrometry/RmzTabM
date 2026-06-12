@@ -229,6 +229,10 @@ isCvParameter <- function(x) {
 #'
 #' @param x `data.frame` to which columns should be added.
 #'
+#' @param identifier `character(1)` defining the identifier to use in the
+#'     optional column names. Must the same length of the opt columns provided
+#'     in `...` or `1L`.
+#'
 #' @param ... **named** parameters with values that should be appended as
 #'     optional columns.
 #'
@@ -237,15 +241,23 @@ isCvParameter <- function(x) {
 #' @author Philippine Louail
 #'
 #' @noRd
-.add_opt_cols <- function(..., x) {
+.add_opt_cols <- function(..., x, identifier = "global") {
     dots <- list(...)
     if (length(dots) > 0) {
         if (is.null(names(dots)) || any(names(dots) == ""))
             stop("All optional arguments provided in '...' must be named.",
                  call. = FALSE)
         nms <- names(dots)
-        needs_prefix <- !grepl("^opt_global_", nms)
-        nms[needs_prefix] <- paste0("opt_global_", nms[needs_prefix])
+        if (length(identifier) != 1L && length(identifier) != length(dots))
+            stop("Length of 'identifier' must be either 1 or match the number ",
+                 "of optional columns provided in '...'.")
+        if (length(identifier) == 1L)
+            identifier <- rep(identifier, length(dots))
+        needs_prefix <- vapply(seq_along(nms), function(i) {
+                        !grepl(paste0("^opt_", identifier[i], "_"), nms[i])},
+                        FUN.VALUE = logical(1L))
+        nms[needs_prefix] <- paste0("opt_", identifier[needs_prefix], "_",
+                                    nms[needs_prefix])
         names(dots) <- nms
         nx <- nrow(x)
         for (i in seq_along(dots))

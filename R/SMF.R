@@ -81,6 +81,12 @@
 #' @param isotopomer `character` vector for isotopomer description.
 #'   Defaults to `"null"`.
 #'
+#' @param opt_identifier `character` with the identifier to be used for optional
+#'     columns passed through `...`. This is used to create the column names for
+#'     optional columns in the format `opt_{opt_identifier}_{column_name}`. If
+#'     not provided, the default is `"global"`. Must the same length of the opt
+#'     columns provided in `...` or `1L`.
+#'
 #' @param ... Additional optional columns to add. These arguments must be named.
 #'   The function will automatically prepend `"opt_"` to the names if not
 #'   already present.
@@ -137,7 +143,7 @@ smfCreate <- function(..., x, exp_mass_to_charge = numeric(),
                        SME_ID_REFS = character(),
                        SME_ID_REF_ambiguity_code = character(),
                        charge = numeric(), adduct_ion = character(),
-                       isotopomer = character()) {
+                       isotopomer = character(), opt_identifier = "global") {
     if (!length(exp_mass_to_charge))
         stop("The argument 'exp_mass_to_charge' is mandatory.")
     smf_df <- .abundance_matrix(x)
@@ -155,7 +161,7 @@ smfCreate <- function(..., x, exp_mass_to_charge = numeric(),
     smf_df$SFH <- "SMF"
     smf_df[names(cols_to_fill)] <- lapply(cols_to_fill, .check_fill_column,
                                           lout = nrow(smf_df))
-    smf_df <- .add_opt_cols(x = smf_df, ...)
+    smf_df <- .add_opt_cols(x = smf_df, identifier = opt_identifier, ...)
     smfSort(smf_df)
 }
 

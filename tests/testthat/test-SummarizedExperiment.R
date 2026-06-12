@@ -44,7 +44,7 @@ test_that("smfCols works", {
                SME_ID_REFS = "SME_ID_REFS",
                SME_ID_REF_ambiguity_code = "SME_ID_REF_ambiguity_code",
                charge = "charge", adduct_ion = "adduct_ion",
-               isotopomer = "isotopomer"))
+               isotopomer = "isotopomer", opt_identifier = "global"))
     res <- smfCols(exp_mass_to_charge = "mzmed",
                    retention_time_in_seconds = "rtmed",
                    retention_time_in_seconds_start = "rtmin",
@@ -60,7 +60,7 @@ test_that("smfCols works", {
                SME_ID_REFS = "SME_ID_REFS",
                SME_ID_REF_ambiguity_code = "SME_ID_REF_ambiguity_code",
                charge = "charge", adduct_ion = "adduct",
-               isotopomer = "isotopomer",
+               isotopomer = "isotopomer", opt_identifier = "global",
                min_mass_to_charge = "mzmin",
                max_mass_to_charge = "mzmax"))
 })

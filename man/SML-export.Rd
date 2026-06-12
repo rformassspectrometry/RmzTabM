@@ -21,7 +21,8 @@ smlCreate(
   adduct_ions = character(),
   reliability = character(),
   best_id_confidence_measure = character(),
-  best_id_confidence_value = character()
+  best_id_confidence_value = character(),
+  opt_identifier = "global"
 )
 
 smlSort(x)
@@ -111,6 +112,12 @@ If provided, the length has to match \code{nrow(x)}.}
 confidence measure. If provided, the length has to match \code{nrow(x)}. The
 type of score \strong{must} be defined in the metadata section. Can also be
 \code{NA} if not available.}
+
+\item{opt_identifier}{\code{character} with the identifier to be used for optional
+columns passed through \code{...}. This is used to create the column names for
+optional columns in the format \verb{opt_\{opt_identifier\}_\{column_name\}}. If
+not provided, the default is \code{"global"}. Must the same length of the opt
+columns provided in \code{...} or \code{1L}.}
 
 \item{mtd}{two-column \code{matrix} or \code{data.frame} with the metadata (MTD)
 definition of the data set. The first column needs to contain the
