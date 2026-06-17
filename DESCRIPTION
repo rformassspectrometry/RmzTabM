@@ -49,6 +49,11 @@ Imports:
     SummarizedExperiment
 Suggests:
     testthat,
+    alabaster.se,
+    xcms,
+    MsIO,
+    MsBackendMetaboLights,
+    Metabonaut,
     pkgdown,
     BiocStyle,
     knitr,

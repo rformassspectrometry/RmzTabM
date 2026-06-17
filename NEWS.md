@@ -1,6 +1,6 @@
 # RmzTabM version 0.97
 
-## Changes in version 0.97.15
+## Changes in version 0.97.16
 
 - Add function `mzTabMValidator()` for the validation of the MzTab-M files
   before the import and after the export.
@@ -8,6 +8,7 @@
 - Fix bug in instrument field sorting.
 - Support `identifier` for optional columns in SML, SMF, SME.
 - Update `readMzTabM()` to create a `MzTabM` object.
+- Update vignette to generate mzTab-M file from SE.
 - Update tests and examples.
 
 
