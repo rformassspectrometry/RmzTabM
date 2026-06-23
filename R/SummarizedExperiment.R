@@ -126,6 +126,12 @@
 #'     the `SummarizedExperiment`'s `rowData()` containing the information on
 #'     the features' isotopomer description. Optional.
 #'
+#' @param opt_identifier `character` with the identifier to be used for optional
+#'     columns passed through `...`. This is used to create the column names for
+#'     optional columns in the format `opt_{opt_identifier}_{column_name}`. If
+#'     not provided, the default is `"global"`. Must the same length of the opt
+#'     columns provided in `...` or `1L`. Optional.
+#'
 #' @param msRunCols. named `character` vector defining the columns in the
 #'     `SummarizedExperiment`'s `colData()` containing information on the MS
 #'     runs (with names being the name of the mzTab-M field and values the
@@ -310,7 +316,7 @@ setMethod("MzTabM", signature(mtd = "SummarizedExperiment"),
                   groups = groups, group_description = group_description,
                   group_type = group_type, group_datatype = group_datatype,
                   group_unit = group_unit, ...))
-              res <- MzTabM(mtd = m)
+              res <- MzTabM(mtd = mtdSort(m))
               if (length(smfCols.))
                   res@smf <- .smf_from_summarized_experiment(
                       mtd, smfCols. = smfCols., assayName = assayName)
@@ -337,7 +343,7 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
                     SME_ID_REF_ambiguity_code = "SME_ID_REF_ambiguity_code",
                     charge = "charge",
                     adduct_ion = "adduct_ion",
-                    isotopomer = "isotopomer", ...) {
+                    isotopomer = "isotopomer", opt_identifier = "global", ...) {
     dots <- list(...)
     opt_cn <- as.character(dots)
     names(opt_cn) <- names(dots)
@@ -350,6 +356,7 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
       charge = charge,
       adduct_ion = adduct_ion,
       isotopomer = isotopomer,
+      opt_identifier = opt_identifier,
       opt_cn)
 }
 

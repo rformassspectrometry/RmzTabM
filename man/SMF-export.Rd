@@ -17,7 +17,8 @@ smfCreate(
   SME_ID_REF_ambiguity_code = character(),
   charge = numeric(),
   adduct_ion = character(),
-  isotopomer = character()
+  isotopomer = character(),
+  opt_identifier = "global"
 )
 
 smfSort(x)
@@ -60,6 +61,12 @@ Defaults to \code{"null"}.}
 
 \item{isotopomer}{\code{character} vector for isotopomer description.
 Defaults to \code{"null"}.}
+
+\item{opt_identifier}{\code{character} with the identifier to be used for optional
+columns passed through \code{...}. This is used to create the column names for
+optional columns in the format \verb{opt_\{opt_identifier\}_\{column_name\}}. If
+not provided, the default is \code{"global"}. Must the same length of the opt
+columns provided in \code{...} or \code{1L}.}
 }
 \value{
 A complete SMF \code{data.frame} ready for export. The data frame contains

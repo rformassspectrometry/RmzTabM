@@ -143,6 +143,19 @@ setMethod("show", "MzTabM", function(object) {
             ncol(object@sme), " columns.\n", sep = "")
 })
 
+setMethod("mzTabMToList", "MzTabM", function(x, ...) {
+    l <- list()
+    if (nrow(x@mtd))
+        l[["MTD"]] <- x@mtd
+    if (nrow(x@sml))
+        l[["SML"]] <- x@sml
+    if (nrow(x@smf))
+        l[["SMF"]] <- x@smf
+    if (nrow(x@sme))
+        l[["SME"]] <- x@sme
+    l
+})
+
 setMethod("setMtdInstrument", "MzTabM", function(x, name = character(),
                                                  source = character(),
                                                  analyzer = character(),

@@ -109,12 +109,17 @@ test_that(".add_opt_cols works", {
     res <- .add_opt_cols(x = x)
     expect_equal(x, x)
     res <- .add_opt_cols(x = x, other = numeric())
-    expect_equal(colnames(res), c("a", "b", "opt_other"))
-    expect_equal(res$opt_other, c("null", "null", "null"))
-    res <- .add_opt_cols(x = x, other = numeric(), bla = 1:3)
-    expect_equal(colnames(res), c("a", "b", "opt_other", "opt_bla"))
-    expect_equal(res$opt_bla, as.character(1:3))
+    expect_equal(colnames(res), c("a", "b", "opt_global_other"))
+    expect_equal(res$opt_global_other, c("null", "null", "null"))
+    res <- .add_opt_cols(x = x, other = numeric(), bla = 1:3,
+                         identifier = c("ms_run[1]", "ms_run[2]"))
+    expect_equal(colnames(res),
+                c("a", "b", "opt_ms_run[1]_other", "opt_ms_run[2]_bla"))
+    expect_equal(res$`opt_ms_run[2]_bla`, as.character(1:3))
     expect_error(.add_opt_cols(x = x, other = numeric(), 1:4), "must be named")
+    expect_error(.add_opt_cols(x = x, other = numeric(),
+                                identifier = c("a", "b")),
+                "must be either 1 or match the number of optional columns")
 })
 
 test_that("isCvParameter works", {

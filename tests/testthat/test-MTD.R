@@ -355,9 +355,9 @@ test_that("mtdSample works", {
                               "sample[2]-custom[1]", "sample[2]-custom[2]",
                               "sample[3]", "sample[3]-description",
                               "sample[3]-custom[1]", "sample[3]-custom[2]"))
-    expect_equal(res[, 2L], c("a", "1", "custom 1", "other 1",
-                              "b", "2", "custom 2", "other 2",
-                              "c", "3", "custom 3", "other 3"))
+    expect_equal(res[, 2L], c("a", "1", "[,,, custom 1]", "[,,, other 1]",
+                              "b", "2", "[,,, custom 2]", "[,,, other 2]",
+                              "c", "3", "[,,, custom 3]", "[,,, other 3]"))
 })
 
 test_that("mtdAssay works", {
@@ -416,7 +416,7 @@ test_that("mtdAssay works", {
           "assay[2]-custom[1]", "assay[2]-custom[2]"))
     expect_equal(
         res[, 2L],
-        c("a", "1", "1", "3", "b", "2", "2", "4"))
+        c("a", "1", "[,,a, 1]", "[,,b, 3]", "b", "2", "[,,a, 2]", "[,,b, 4]"))
 
     ## multi assignment assay->ms_run
     expect_error(mtdAssay(assay = c("a", "b"), ms_run_ref = list(1:2, NULL)),
@@ -486,7 +486,8 @@ test_that(".mtd_custom_fields works", {
         res[, 1L],
         c("sample[1]-custom[1]", "sample[2]-custom[1]", "sample[3]-custom[1]",
           "sample[1]-custom[2]", "sample[2]-custom[2]", "sample[3]-custom[2]"))
-    expect_equal(res[, 2L], c("1", "2", "3", "a", "b", "c"))
+    expect_equal(res[, 2L], c("[,,, 1]", "[,,, 2]", "[,,, 3]",
+                              "[,,, a]", "[,,, b]", "[,,, c]"))
     expect_equal(res[, 3L], c("1", "2", "3", "1", "2", "3"))
 })
 
