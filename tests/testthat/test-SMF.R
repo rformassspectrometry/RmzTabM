@@ -12,16 +12,17 @@ test_that("smfCreate works", {
     res <- smfCreate(
         x = mat,
         exp_mass_to_charge = c(100.1, 100.2),
-        global_custom = c("A", "B")
+        custom = c("A", "B")
     )
     expect_true("opt_global_custom" %in% colnames(res))
     expect_equal(res$opt_global_custom, c("A", "B"))
     res <- smfCreate(
         x = mat,
         exp_mass_to_charge = c(100.1, 100.2),
-        opt_existing = c("X", "Y")
+        opt_global_existing = c("X", "Y")
     )
-    expect_true("opt_existing" %in% colnames(res))
+    ## REVIEW THIS CHECK AND THE FUNCTION
+    expect_true("opt_global_existing" %in% colnames(res))
     expect_false("opt_opt_existing" %in% colnames(res))
 
     expect_error(smfCreate(c("bad", "arg"), x = mat,

@@ -35,6 +35,7 @@ smfCols(
   charge = "charge",
   adduct_ion = "adduct_ion",
   isotopomer = "isotopomer",
+  opt_identifier = "global",
   ...
 )
 }
@@ -160,6 +161,12 @@ the adduct/ion for each feature. Optional.}
 \item{isotopomer}{For \code{smfCols()}: \code{character(1)} defining the column name in
 the \code{SummarizedExperiment}'s \code{rowData()} containing the information on
 the features' isotopomer description. Optional.}
+
+\item{opt_identifier}{\code{character} with the identifier to be used for optional
+columns passed through \code{...}. This is used to create the column names for
+optional columns in the format \verb{opt_\{opt_identifier\}_\{column_name\}}. If
+not provided, the default is \code{"global"}. Must be of length 1 or matching
+the number of opt columns provided in \code{...}. Optional.}
 }
 \value{
 \itemize{

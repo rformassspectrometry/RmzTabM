@@ -143,7 +143,7 @@ test_that("smeCreate works", {
         spectra_ref = spectra_ref,
         identification_method = identification_method,
         ms_level = ms_level, mtd = mtd,
-        global_custom = c("A", "B", "C")
+        custom = c("A", "B", "C")
     )
     expect_true("opt_global_custom" %in% colnames(res))
     expect_equal(res$opt_global_custom, c("A", "B", "C"))

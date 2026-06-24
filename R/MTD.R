@@ -1647,11 +1647,13 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
     s <- seq_len(expected_length)
     if (length(dots)) {
         do.call(rbind, lapply(seq_along(dots), function(i) {
+            name_i <- names(dots)[i]
             z <- dots[[i]]
             if (length(z) != expected_length)
                 stop("If optional custom information is provided the length ",
                      "has to match the length of '", prefix, "'", call. = FALSE)
-            cbind(paste0(prefix, "[", s, "]-", suffix, "[", i, "]"), z, s)
+            cbind(paste0(prefix, "[", s, "]-", suffix, "[", i, "]"),
+                  paste0("[,,", name_i, ", ", z, "]"), s)
         }))
     } else matrix(ncol = 3, nrow = 0, NA_character_)
 }
@@ -2169,8 +2171,8 @@ setMethod("setMtdInstrument", "dfmatrix", function(x = matrix(),
             stop("Missing \"detector\", provide a valid one.")
         instr <- .mtd_get_field(x, "^instrument\\[\\d+\\]", exact = FALSE,
                                 fixed = FALSE)[[1]]
-        list_param <- c(list(name = name, source = source, detector = detector),
-                        as.list(analyzer))
+        list_param <- c(list(name = name, source = source), as.list(analyzer),
+                        list(detector = detector))
         if (!all(is.na(instr))) {
             if (!replace) {
                 list_param <- Map(function(f) {

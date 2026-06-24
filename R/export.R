@@ -49,6 +49,9 @@
 #' )
 #' mtd <- mtdSkeleton(id = "EXP_1", software = "[MS, MS:1001582, xcms, 4.1.0]")
 #'
+#' mtd_s <- mtdSample(sample = unique(exp$sample_id))
+#' mtd <- rbind(mtd, mtd_s)
+#'
 #' mtd_msr <- mtdMsRun(
 #'     location = exp$file_name,
 #'     format = "[MS, MS:1000584, mzML file, ]",
@@ -81,6 +84,9 @@
 #'
 #' @export
 writeMzTabM <- function(x, path, comments = character()) {
+    if(inherits(x, "MzTabM"))
+        x <- as.list(x)
+
     if (!is.list(x))
         stop("x must be a list.")
 
@@ -119,7 +125,8 @@ writeMzTabM <- function(x, path, comments = character()) {
 
     ## SML
     if ("SML" %in% names(x)) {
-        suppressWarnings(write.table(as.data.frame(x[["SML"]]), file = path,
+        sml <- .NAtonull(x[["SML"]])
+        suppressWarnings(write.table(as.data.frame(sml), file = path,
                                     sep = "\t", row.names = FALSE,
                                     append = TRUE, quote = FALSE,
                                     fileEncoding = "UTF-8"))
@@ -130,7 +137,8 @@ writeMzTabM <- function(x, path, comments = character()) {
     }
     ## SMF
     if ("SMF" %in% names(x)) {
-        suppressWarnings(write.table(as.data.frame(x[["SMF"]]), file = path,
+        smf <- .NAtonull(x[["SMF"]])
+        suppressWarnings(write.table(as.data.frame(smf), file = path,
                                     sep = "\t", row.names = FALSE,
                                     append = TRUE, quote = FALSE,
                                     fileEncoding = "UTF-8"))
@@ -142,7 +150,8 @@ writeMzTabM <- function(x, path, comments = character()) {
     }
     ## SME
     if ("SME" %in% names(x)) {
-        suppressWarnings(write.table(as.data.frame(x[["SME"]]), file = path,
+        sme <- .NAtonull(x[["SME"]])
+        suppressWarnings(write.table(as.data.frame(sme), file = path,
                                     sep = "\t", row.names = FALSE,
                                     append = TRUE, quote = FALSE,
                                     fileEncoding = "UTF-8"))
@@ -150,5 +159,3 @@ writeMzTabM <- function(x, path, comments = character()) {
 
     ## TODO: call the validator on the file.
 }
-
-

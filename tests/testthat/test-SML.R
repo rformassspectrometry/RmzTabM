@@ -13,8 +13,8 @@ test_that("smlCreate works", {
                                   "reliability", "best_id_confidence_measure",
                                   "best_id_confidence_value",
                                   "abundance_assay[1]", "abundance_assay[2]",
-                                  "opt_other"))
-    expect_equal(res$opt_other, as.character(1:4))
+                                  "opt_global_other"))
+    expect_equal(res$opt_global_other, as.character(1:4))
 })
 
 test_that("smlSort works", {

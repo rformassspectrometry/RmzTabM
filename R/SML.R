@@ -167,6 +167,12 @@
 #'     type of score **must** be defined in the metadata section. Can also be
 #'     `NA` if not available.
 #'
+#' @param opt_identifier `character` with the identifier to be used for optional
+#'     columns passed through `...`. This is used to create the column names for
+#'     optional columns in the format `opt_{opt_identifier}_{column_name}`. If
+#'     not provided, the default is `"global"`. Must be of length 1 or matching
+#'     the number of opt columns provided in `...`.
+#'
 #' @param mtd two-column `matrix` or `data.frame` with the metadata (MTD)
 #'     definition of the data set. The first column needs to contain the
 #'     metadata field names, the second the corresponding values. See
@@ -293,7 +299,8 @@ smlCreate <- function(..., x,
                        adduct_ions = character(),
                        reliability = character(),
                        best_id_confidence_measure = character(),
-                       best_id_confidence_value = character()) {
+                       best_id_confidence_value = character(),
+                       opt_identifier = "global") {
     x <- .abundance_matrix(x, id_col = "SML_ID")
     nr <- nrow(x)
     x <- cbind(SMH = rep("SML", nr), x)
@@ -321,7 +328,7 @@ smlCreate <- function(..., x,
     x$best_id_confidence_value <- .check_fill_column(
         best_id_confidence_value, nr)
     ## Add optional columns
-    x <- .add_opt_cols(x = x, ...)
+    x <- .add_opt_cols(x = x, identifier = opt_identifier, ...)
     smlSort(x)
 }
 

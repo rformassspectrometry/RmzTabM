@@ -14,7 +14,7 @@ readMzTabM(path, ...)
 \code{data.table::fread}.}
 }
 \value{
-A named \code{list} containing between one and four elements, depending on
+A \code{MzTabM} object containing between one and four elements, depending on
 which sections are present in the file:
 \itemize{
 \item \code{MTD}: A \code{matrix} with two columns. Column names are absent (the
@@ -28,7 +28,7 @@ header row. Present only when both \code{SFH} and \code{SEH} are found in the fi
 }
 }
 \description{
-Reads and parses an mzTab-M (version 2.1) file into a named list.
+Reads and parses an mzTab-M (version 2.1) file into a \link{MzTabM} object.
 
 The parser recognises the four standard sections:
 \itemize{
@@ -57,7 +57,7 @@ row; its two-column key–value structure is returned without column names.
 ## Basic usage
 result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
                                    package = "RmzTabM"))
-names(result)
+result
 
 }
 \author{

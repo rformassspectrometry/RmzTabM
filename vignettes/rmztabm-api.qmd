@@ -21,11 +21,9 @@ files in mzTab-M format. The functions can be re-used and integrated by other R
 packages to support import and export of their respective
 metabolomics/lipidomics result objects in this format.
 
-For a general overview of the mzTab-M format see [this
-figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
+For a general overview of the mzTab-M format see [this figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
 
-![mzTab-M
-format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+![mzTab-M format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
 
 The *RmzTabM* package supports mzTab-M version **2.1**.
 
@@ -41,10 +39,11 @@ an analysis that should be reported, i.e., the (annotated) molecules and their
 respective abundances. The SMF section contains information on the
 measured (LC-MS) *features* and their abundance values. The SME section
 contains information on the annotation process (and reliability) of the
-molecules reported in the SML section. The SML is supposed to be a subset of the
-SMF table. The structure and relationship between rows in these different tables
-is defined by the mzTab-M standard and follows strict rules. The functions from
-the *RmzTabM* package assist in creating and formatting these tables.
+molecules reported in the SML section. The SML is supposed to be a subset of
+the SMF table. The structure and relationship between rows in these different
+tables is defined by the mzTab-M standard and follows strict rules. The
+functions from the *RmzTabM* package assist in creating and formatting these
+tables.
 
 # R mzTab-M API
 
@@ -56,8 +55,7 @@ developer-oriented, providing helper functions that can be re-used in other R
 packages to read and write from and to mzTab-M files.
 
 For a description of the mzTab-M format and the set of mandatory and optional
-fields refer to the official [format
-definition](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc).
+fields refer to the official [format definition](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc).
 
 ```{r}
 library(RmzTabM)
@@ -65,24 +63,221 @@ library(RmzTabM)
 
 ## High-level, user faced functions
 
-TODO: implement these functions. These functions should simplify import/export
-taking more complex or multiple data parts (`data.frame`s, `matrix` etc) as
-input and write the formatted data directly to a mzTab-M file, or should read a
-mzTab-M file returning it's content as e.g. a `list` of elements.
+In this section we export the data set used in the *Metabonaut* end-to-end
+metabolomics data workflow in mzTab-M format. The raw MS data is available in
+MetaboLights (accession number *MTBLS8735* with 2 separate MS runs, one with
+LC-MS and a second with LC-MS/MS data for selected samples). The preprocessed
+data is available as a `SummarizedExperiment` in Metabonaut. After compiling
+all necessary experimental metadata, we export this result object as a mzTab-M
+file with only the metadata and the small feature abundances (MTD+SMF).
+
+```{r}
+#| message: FALSE
+#' required packages
+library(alabaster.se)
+library(MsIO)
+library(xcms)
+library(Metabonaut)
+library(MsBackendMetaboLights)
+```
+
+### Get the *Metabonaut* result object
+
+Data preprocessing, normalization, statistical data analysis and annotation is
+described in [*Metabonaut* (version 1.5.0)](https://doi.org/10.5281/zenodo.15062929).
+
+The result object is a `SummarizedExperiment` with the preprocessing results.
+
+```{r}
+pth <- system.file("extdata", "preprocessed_res", package = "Metabonaut")
+
+se <- readObject(pth)
+se
+```
+
+We load also the full *xcms* result object. This is required to use the
+**correct** *m/z* and retention time ranges for the features (which are based
+on the ranges of the chromatographic peaks).
+
+```{r}
+lcms1 <- readObject(system.file("extdata", "preprocessed_lcms1",
+                                package = "Metabonaut"))
+```
+
+Get the *feature area* and replace the *m/z* and retention time ranges in the
+`SummarizedExperiment`'s `rowData()`.
+
+```{r}
+fa <- featureArea(lcms1)[rownames(se), ]
+rowData(se)$mzmin <- fa[, "mzmin"]
+rowData(se)$mzmax <- fa[, "mzmax"]
+rowData(se)$rtmin <- fa[, "rtmin"]
+rowData(se)$rtmax <- fa[, "rtmax"]
+```
+
+### Define the data set's metadata (MTD)
+
+Compiling the metadata information for the present data set. We need to
+add/adapt some columns of the `SummarizedExperiment`'s `colData()` to complete
+or match the expected format:
+
+- use a CV param for species: `"[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"`
+- blood plasma: `"[BTO, BTO:0000131, blood plasma, ]"`
+- blood serum: `"[BTO, BTO:0000133, blood serum, ]"`
+- add polarity information.
+- assign the same name to all sample pools.
+- Add the MS instrument.
+
+```{r}
+colData(se)$species <- "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+colData(se)$tissue <- "[BTO, BTO:0000131, blood plasma, ]"
+colData(se)$tissue[colData(se)$blood_sample_type == "blood serum"] <-
+              "[BTO, BTO:0000133, blood serum, ]"
+colData(se)$polarity <- "positive"
+colData(se)$sample_name[grep("POOL", colData(se)$sample_name)] <- "POOL"
+colData(se)$instrument <- "1"
+```
+
+We can now start compiling the metadata information from information provided
+in the `SummarizedExperiment`'s `colData()`.
+
+```{r}
+#' Key metadata information
+mtd <- mtdSkeleton(
+    id = "MTBLS8735",
+    software = "[MS, MS:1001582, xcms, 4.10.0]")
+
+#' define mapping of `colData()` column names to mzTab-M fields
+scols <- sampleCols(sample = "sample_name", species = "species",
+                    tissue = "tissue", sample_type = "sample_type")
+mscols <- msRunCols(location = "derived_spectra_data_file",
+                    instrument_ref = "instrument", scan_polarity = "polarity")
+acols <- assayCols(assay = "derived_spectra_data_file")
+
+#' Add sample, MS run, assay and study variable information to the MTD
+mtd <- rbind(
+    mtd,
+    mtdFromSampleData(as.data.frame(colData(se)), sampleCols = scols,
+                      msRunCols = mscols, assayCols = acols,
+                      groups = c("age", "phenotype")))
+
+#' Create a MzTabM object
+mzt <- MzTabM(mtd = mtd)
+```
+
+Need to add the *BTO* and the NCBI taxonomy ontology definition to the metadata.
+
+```{r}
+mzt <- setMtdCv(mzt, label = c("BTO", "NCBITaxon"),
+                full_name = c("The BRENDA Tissue Ontology (BTO)",
+                              "NCBI organismal classification"),
+                version = c("2021-10-26", "2025-12-03"),
+                uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
+                        "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"))
+```
+
+Add instrument information:
+
+- chromatography instrument: Agilent 1290 Infinity UHPLC (MTBLS_000871)
+- column type: HILIC
+- column: ACQUITY UPLC BEH Amide (1.7 µm, 2.1 mm x 100 mm; Waters)
+- mass instrument: AB SCIEX TripleTOF 5600+ (MTBLS_000602)
+- ion source: electrospray ionization (MS_1000073)
+- mass analyzer: quadrupole time-of-flight (MTBLS_000699)
+
+```{r}
+#' Adding MS instrument information; seems we can't add chromatography
+#' information (yet)? Also, adding an empty parameter for detector.
+mzt <- setMtdInstrument(
+    mzt, name = "[MS, MS:1002584, AB Sciex TripleTOF 5600+, ]",
+    source = "[MS, MS:1000073, ESI, ]",
+    analyzer = c(`analyzer[1]` =
+                    "[MS, MS:1003763, quadrupole time-of-flight instrument, ]"),
+    detector = "[,,null,null]")
+```
+
+Add contact information.
+
+```{r}
+mzt <- setMtdContact(
+    mzt, name = c("Johannes Rainer", "Philippine Louail"),
+    affiliation= c("Institute for Biomedicine, Eurac Research, Bolzano, Italy",
+                   "Institute for Biomedicine, Eurac Research, Bolzano, Italy"),
+    email = c("johannes.rainer@eurac.edu", "philippine.louail@eurac.edu"),
+    orcid = c("0000-0002-6977-7147", "0009-0007-5429-6846"))
+```
+
+Now the Metadata section of a mzTab-M is ready to be exported. Before doing that
+ we add to the MzTabM object the SMF matrix.
+
+### Add feature abundance matrix (SMF)
+
+We next add the feature abundances to the mzTab-M. We need to specify which
+columns in the `SummarizedExperiment`'s `rowData()` contain information
+characterizing the individual features.
+
+```{r}
+colnames(rowData(se))
+```
+
+- *mzmed* defines the features *m/z* value and can be mapped to the SMF field
+  (column) *exp_mass_to_charge*.
+- *rtmed* reports the median retention time of the feature and can be used for
+  the SMF field *retention_time_in_seconds*. We will in addition add an optional
+  field *feature_id* to report and add the IDs of the individual features from
+  the `SummarizedExperiment`: add a column `"feature_id"` to the `rowData()`
+
+```{r}
+rowData(se)$feature_id <- rownames(se)
+```
+
+Define the mapping of SMF fields to `rowData()` columns:
+
+```{r}
+smf_cols <- smfCols(exp_mass_to_charge = "mzmed",
+    retention_time_in_seconds = "rtmed", feature_id = "feature_id")
+```
+
+We can use the `smf()` function to create the SMF section. For the SMF
+abundances we use the data from the `"raw_filled"` assay
+
+```{r}
+smf <- smf(se, assayName = "raw_filled", smfCols. = smf_cols)
+```
+
+Now we can creae a MzTabM object with MTD and SMF section. We extract the MTD
+section from the object we generate previously using the function `mtd()`.
+
+```{r}
+mztab <- MzTabM(mtd = mtd(mzt), smf = smf)
+```
+
+### Export to an MTD+SMF mzTab-M file
+
+The MzTabM object, containing the MTD and SMF sections, is ready for export to
+an mzTab-M file. Following generation, the file is verified using the mzTab-M
+validator. The validation report confirms that the file was generated
+successfully, returning only a single Info message. This message notes the
+absence of the SML section, which is expected given that we intentionally
+generated an MTD+SMF file.
+
+```{r}
+writeMzTabM(mztab, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
+```
 
 ## Low-level functions
 
-The low-level functions listed in this section provide the base functionality to
-convert or format information and data for/from the [mzTab-M
-format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc). These
-functions are designed to be re-used by other R packages and take and return
-only basic, plain R data types.
+The low-level functions listed in this section provide the base functionality
+to convert or format information and data for/from the
+[mzTab-M format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc).
+These functions are designed to be re-used by other R packages and take and
+return only basic, plain R data types.
 
 ### Formatting and exporting
 
 All formatting and export functions require that all their parameters, if
-specified, **must** be fully named, i.e., no positional matching of a function's
-arguments is supported.
+specified, **must** be fully named, i.e., no positional matching of a
+function's arguments is supported.
 
 #### Metadata
 
@@ -90,18 +285,18 @@ The mzTab-M format defines various fields and parameters to describe the data
 and information of an experiment. The *RmzTabM* package provides a variety of
 utility functions that help defining and formatting this information.
 
-See also the [specification of the MTD
-section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
+See also the [specification of the MTD section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
 for more information and optional and mandatory metadata fields.
 
-The general categories of the metadadata in the mzTab-M MTD section are *core
-information*, *sample information*, *MS run information*, *assay information*
-and *study variable information*. For each of these categories a separate R
-function is available to create and format the respective fields. As an example,
-we define below a `data.frame` with sample information. In our example we assume
-3 samples (e.g. cell lines) each measured at two different time points. An
-additional column *genotype* specifies the genotype of the individual samples
-and a column *operator* the initials of the researcher extracting the samples.
+The general categories of the metadadata in the mzTab-M MTD section are
+*core information*, *sample information*, *MS run information*,
+*assay information* and *study variable information*. For each of these
+categories a separate R function is available to create and format the
+respective fields. As an example, we define below a `data.frame` with sample
+information. In our example we assume 3 samples (e.g. cell lines) each measured
+at two different time points. An additional column *genotype* specifies the
+genotype of the individual samples and a column *operator* the initials of the
+researcher extracting the samples.
 
 ```{r}
 #' Define a simple data.frame of the measured samples of an experiment
@@ -117,11 +312,12 @@ exp <- data.frame(
 exp
 ```
 
-We will next compile the MTD information for the experiment using the individual
-helper functions, starting with the **Core information**: this comprises general
-information about the experiment. A minimal set of fields can be compiled using
-the `mtdSkeleton()` function. We have to provide an ID for the experiment and
-in addition we specify the software used to process the data:
+We will next compile the MTD information for the experiment using the
+individual helper functions, starting with the **Core information**: this
+comprises general information about the experiment. A minimal set of fields
+can be compiled using the `mtdSkeleton()` function. We have to provide an ID
+for the experiment and in addition we specify the software used to process the
+data:
 
 ```{r}
 mtd <- mtdSkeleton(
@@ -138,8 +334,8 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 This represents some minimal information. The data of the MTD section is
 formatted as a `character` 2-column `matrix`. We could now either change the
 value (i.e., the elements in the second column of this matrix) of existing
-fields, or also manually add additional fields/information. As an example we add
-a title and description for the experiment. See also the
+fields, or also manually add additional fields/information. As an example we
+add a title and description for the experiment. See also the
 [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
 format definition for other supported fields.
 
@@ -183,9 +379,9 @@ compiling this information. Parameters `sample`, `species`, `tissue` and
 properties. Additional sample annotations and details can be provided through
 the function's `...`. For the example below we define some of these properties
 and in addition provide a custom field for the extraction data. Be aware that
-`mtdSample()` does **not** support partial or positional matching of
-parameters; for each of the parameters the **full parameter name** has to be
-used (i.e., `sample = ...` instead of `sam = ...` or `s = ...`).
+`mtdSample()` does **not** support partial or positional matching of parameters;
+ for each of the parameters the **full parameter name** has to be used
+ (i.e., `sample = ...` instead of `sam = ...` or `s = ...`).
 
 ```{r}
 mtd_s <- mtdSample(
@@ -209,11 +405,12 @@ default ontologies added by the `mtb_skeleton()` function are the *PSI-MS*,
 *PRIDE* and *STATO* ontologies. If other vocabularies are used, they should be
 either added manually (following the scheme of the others, i.e., the fields
 starting with `"cv["`) or provided with the `cv_*` function arguments of the
-`mtb_skeleton()` function. For our example we use also the *BRENDA tissue
-ontology* (BTO) and the *NCBITaxon* ontology to define the tissue of origin and
-species of the samples and hence need to add these ontologies to the general
-metadata section. We use the `mtdFields()` function for this. For a CV entry we
-need to provide a *label*, the *full_name*, the *version* and the *uri*:
+`mtb_skeleton()` function. For our example we use also the
+*BRENDA tissue ontology* (BTO) and the *NCBITaxon* ontology to define the
+tissue of origin and species of the samples and hence need to add these
+ontologies to the general metadata section. We use the `mtdFields()` function
+for this. For a CV entry we need to provide a *label*, the *full_name*, the
+*version* and the *uri*:
 
 ```{r}
 add_cv <- mtdFields(
@@ -244,12 +441,11 @@ We can then add the sample information to the `mtd` variable by simply
 mtd <- rbind(mtd, mtd_s)
 ```
 
-Next we compile **MS run information** of the experiment using the
-`mtdMsRun()` helper function. This should comprise all (MS-specific)
-information related to the measurement of each sample - including also the MS
-data file names and locations. For our example we use the file names
-reported in the sample data frame and specify the polarity of the measurement
-runs.
+Next we compile **MS run information** of the experiment using the `mtdMsRun()`
+helper function. This should comprise all (MS-specific) information related to
+the measurement of each sample - including also the MS data file names and
+locations. For our example we use the file names reported in the sample data
+frame and specify the polarity of the measurement runs.
 
 ```{r}
 mtd_msr <- mtdMsRun(
@@ -272,14 +468,14 @@ mtd <- rbind(mtd, mtd_msr)
 ```
 
 Next we define the **assay information**. Generally, each measurement (MS run)
-is associated to one assay, but also more complex configurations are
-supported. See the help of the `mtdAssay()` function for details on multiplexed
-or pre-fractionated samples. Mandatory information that has to be provided to
-the `mtdAssay()` function are the name (ID) of the assay and the reference to
-the MS run in which the assay was measured. For the latter, a format of
+is associated to one assay, but also more complex configurations are supported.
+See the help of the `mtdAssay()` function for details on multiplexed or
+pre-fractionated samples. Mandatory information that has to be provided to the
+`mtdAssay()` function are the name (ID) of the assay and the reference to the
+MS run in which the assay was measured. For the latter, a format of
 `"ms_run[<index of the MS run>]"` is expected. For our example we provide in
-addition also the (optional, but suggested) reference to the original
-sample. Note that each assay must represent one column in the following feature
+addition also the (optional, but suggested) reference to the original sample.
+Note that each assay must represent one column in the following feature
 abundance table (SMF).
 
 ```{r}
@@ -303,25 +499,25 @@ We add this information to the `mtd` variable.
 mtd <- rbind(mtd, mtd_a)
 ```
 
-At last we compile the **study variable information** of our example
-experiment. This should capture all experiment-relevant study variables
-(phenotype or experimental conditions). In R, such information is generally
-encoded in a *sample* or *phenotype* `data.frame`, with rows being individual
-samples (or measurements thereof) and columns the sample characteristics (i.e.,
-the *study variable groups*, with the individual values of the columns being, in
+At last we compile the **study variable information** of our example experiment.
+This should capture all experiment-relevant study variables (phenotype or
+experimental conditions). In R, such information is generally encoded in a
+*sample* or *phenotype* `data.frame`, with rows being individual samples
+(or measurements thereof) and columns the sample characteristics (i.e., the
+*study variable groups*, with the individual values of the columns being, in
 the mzTab-M definition, the *study variables*). The `mtdStudyVariables()`
-function formats a sample/experiment `data.frame` into the corresponding mzTab-M
-fields. Parameter `groups` allows to select the columns of the input
+function formats a sample/experiment `data.frame` into the corresponding
+mzTab-M fields. Parameter `groups` allows to select the columns of the input
 `data.frame` which represent the study variable groups (phenotype or
-experimental conditions). Additional function arguments allow to specify
-the statistical type and the datatype for each column/study variable group, but
-the defaults should work in most situations. By default, R data types
-`character` and `factor` are mapped to the STATO type *categorical*, while the
-STATO type *continuous* is used for `numeric` and `integer` columns. If the
-`data.frame` contains *ordinal* variables it should be manually specified with
-parameter `group_type`. In our example we define in addition an optional *unit*
-for the study variable *timepoint*. Units have to be provided in CV parameter
-format; for study variable groups without unit `""` or `NA` has to be used.
+experimental conditions). Additional function arguments allow to specify the
+statistical type and the datatype for each column/study variable group, but the
+defaults should work in most situations. By default, R data types `character`
+and `factor` are mapped to the STATO type *categorical*, while the STATO type
+*continuous* is used for `numeric` and `integer` columns. If the `data.frame`
+contains *ordinal* variables it should be manually specified with parameter
+`group_type`. In our example we define in addition an optional *unit* for the
+study variable *timepoint*. Units have to be provided in CV parameter format;
+for study variable groups without unit `""` or `NA` has to be used.
 
 ```{r}
 mtd_svar <- mtdStudyVariables(
@@ -338,8 +534,8 @@ pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
 For each column a *study variable group* was defined while each unique value in
 each of the specified columns was encoded as a `"study_variable"` (or rather as
 a *study variable value*), with its *assay_refs* attribute containing the
-rows/assays in which this value was measured. The variable's `"description"` (by
-default) indicates the name of the column. The `"average_function"` and
+rows/assays in which this value was measured. The variable's `"description"`
+(by default) indicates the name of the column. The `"average_function"` and
 `"variation_function"` attributes allow to define the function that was used to
 calculate the average and variance of the abundance values for that variable
 value.
@@ -350,8 +546,8 @@ We next add the study variable information to the `mtd` variable.
 mtd <- rbind(mtd, mtd_svar)
 ```
 
-At last we sort the elements according to the expected order in the MTD
-section using the `mtdSort()` function.
+At last we sort the elements according to the expected order in the MTD section
+using the `mtdSort()` function.
 
 ```{r}
 mtd <- mtdSort(mtd)
@@ -375,12 +571,13 @@ eventual additional annotations such as the ion or the exact mass. The
 abundance matrix and feature specifications.
 
 Below we create an example abundance matrix and feature characteristics data
-matching the metadata from the previous section. Generally, such information can
-be extracted from the result objects of preprocessing software. We first define
-the abundance matrix: columns are assays, rows features. Importantly, the number
-and order of the assays has to match the *assay* definition in the metadata
-(defined above with the `mtdAssay()` function). Our example data consists of
-quantification of 7 features in 6 measurements (assays) of 3 samples.
+matching the metadata from the previous section. Generally, such information
+can be extracted from the result objects of preprocessing software. We first
+define the abundance matrix: columns are assays, rows features. Importantly,
+the number and order of the assays has to match the *assay* definition in the
+metadata (defined above with the `mtdAssay()` function). Our example data
+consists of quantification of 7 features in 6 measurements (assays) of 3
+samples.
 
 ```{r}
 abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8, 23.1, NA),
@@ -415,10 +612,10 @@ rownames(feature_info) <- rownames(abundances)
 We can now feed this information to the `smfCreate()` function. In addition to
 the predefined, parameters, also additional feature annotations/columns can be
 passed to the function through it's `...` parameter. We provide the IDs of the
-individual features with `feature_id = `. These are then stored into a column
-`"opt_feature_id"`. Note that all parameters **must** be fully named, i.e., `x =
-` or `charge = ` since the function does not support positional matching of its
-arguments.
+individual features with `feature_id =`. These are then stored into a column
+`"opt_global_feature_id"`. Note that all parameters **must** be fully named,
+i.e., `x =` or `charge =` since the function does not support positional
+matching of its arguments.
 
 ```{r}
 smf <- smfCreate(
@@ -500,9 +697,9 @@ abundances_sml <- abundances[c(1, 4, 6, 7), ]
 
 With this information we can use the `smlCreate()` function to compile the SML
 table. Note that (again) we **must fully name** all function arguments to which
-we pass values. Any additional (named) parameters provided to the function (like
-`note = anns$note` below) will be added as *optional* columns (prefixed with
-`"opt_"`)
+we pass values. Any additional (named) parameters provided to the function
+(like `note = anns$note` below) will be added as *optional* columns (prefixed
+with `"opt_"`)
 
 ```{r}
 sml <- smlCreate(x = abundances_sml,
@@ -524,8 +721,7 @@ sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
 
 And finally we need to add columns with abundance average and variation for
 study variables defined in the MTD section. Here we can use the
-`smlAddStudyVariableColumns()` helper function providing both the SML and
-the MTD data.
+`smlAddStudyVariableColumns()` helper function providing both the SML and the MTD data.
 
 ```{r}
 sml <- smlAddStudyVariableColumns(sml, mtd)

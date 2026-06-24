@@ -3,7 +3,7 @@
 #' @name MzTabM-import
 #'
 #' @description
-#' Reads and parses an mzTab-M (version 2.1) file into a named list.
+#' Reads and parses an mzTab-M (version 2.1) file into a [MzTabM] object.
 #'
 #' The parser recognises the four standard sections:
 #' - **MTD** (Metadata): Always required. The metadata section
@@ -31,7 +31,7 @@
 #'     `data.table::fread`.
 #'
 #' @return
-#' A named `list` containing between one and four elements, depending on
+#' A `MzTabM` object containing between one and four elements, depending on
 #' which sections are present in the file:
 #' - `MTD`: A `matrix` with two columns. Column names are absent (the
 #'     prefix column is dropped).
@@ -51,7 +51,7 @@
 #' ## Basic usage
 #' result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
 #'                                    package = "RmzTabM"))
-#' names(result)
+#' result
 #'
 #' @export
 readMzTabM <- function(path, ...) {
@@ -64,41 +64,43 @@ readMzTabM <- function(path, ...) {
     if (length(which(!grepl("^\\s*$", lines))) == 0L)
         stop("The file is empty.")
 
-    out <- list()
-    ## MTD
     if (!any(grepl("^MTD\\t", lines)))
         stop("The file is not in the mzTab-M format. Missing \"MTD\" section.")
-    mtd_lines <- grep("^MTD\\t", lines, value = TRUE)
-    out[["MTD"]] <- as.matrix(fread(text = mtd_lines, sep = "\t",
-                                    header = FALSE, fill = TRUE, drop = 1, ...))
-
-    ## SML
-    if (any(grepl("^SMH\\t", lines))) {
-        sml_lines <- grep("^SMH\\t|^SML\\t", lines, value = TRUE)
-        out[["SML"]] <- as.matrix(fread(text = sml_lines, sep = "\t",
-                                        header = TRUE, fill = TRUE, ...))
-    }
-
-    ## SMF
-    if (any(grepl("^SFH\\t", lines))) {
-        smf_lines <- grep("^SFH\\t|^SMF\\t", lines, value = TRUE)
-        out[["SMF"]] <- as.matrix(fread(text = smf_lines, sep = "\t",
-                                        header = TRUE, fill = TRUE, ...))
-    }
 
     ## If SME is present also SMF must be present.
     if (any(grepl("^SEH\\t", lines)) && !any(grepl("^SFH\\t", lines)))
         stop("The file is not in the mzTab-M format. Missing \"SFH\" header
               for SMF section, which is required if SME section is present.")
 
+    out <- list()
+    ## MTD
+    mtd_lines <- grep("^MTD\\t", lines, value = TRUE)
+    out[["mtd"]] <- as.matrix(fread(text = mtd_lines, sep = "\t",
+                                    header = FALSE, fill = TRUE, drop = 1, ...))
+
+    ## SML
+    if (any(grepl("^SMH\\t", lines))) {
+        sml_lines <- grep("^SMH\\t|^SML\\t", lines, value = TRUE)
+        out[["sml"]] <- as.matrix(fread(text = sml_lines, sep = "\t",
+                                        header = TRUE, fill = TRUE, ...))
+    }
+
+    ## SMF
+    if (any(grepl("^SFH\\t", lines))) {
+        smf_lines <- grep("^SFH\\t|^SMF\\t", lines, value = TRUE)
+        out[["smf"]] <- as.matrix(fread(text = smf_lines, sep = "\t",
+                                        header = TRUE, fill = TRUE, ...))
+    }
+
     ## If both SMF and SME are present, read SME
     if (any(grepl("^SFH\\t", lines)) && any(grepl("^SEH\\t", lines))) {
         ## SME
         sme_lines <- grep("^SEH\\t|^SME\\t", lines, value = TRUE)
-        out[["SME"]] <- as.matrix(fread(text = sme_lines, sep = "\t",
+        out[["sme"]] <- as.matrix(fread(text = sme_lines, sep = "\t",
                                         header = TRUE, fill = TRUE, ...))
     }
 
+    out <- do.call(MzTabM, out)
     out
 }
 

@@ -1,5 +1,15 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.16
+
+- Update vignette with high-level functionality to export a mzTab-M file.
+- Add helper functions `.NAtonull()`.
+- Add `as.list()`.
+- Fix bug in instrument field sorting.
+- Support `identifier` for optional columns in SML, SMF, SME.
+- Update `readMzTabM()` to create a `MzTabM` object.
+- Update tests and examples.
+
 ## Changes in version 0.97.15
 
 - Add functionality to generate mzTab-M content from a `SummarizedExperiment`.

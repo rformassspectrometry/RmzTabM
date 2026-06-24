@@ -229,6 +229,10 @@ isCvParameter <- function(x) {
 #'
 #' @param x `data.frame` to which columns should be added.
 #'
+#' @param identifier `character(1)` defining the identifier to use in the
+#'     optional column names. Must have the same length of the opt columns
+#'     provided in `...` or `1L`.
+#'
 #' @param ... **named** parameters with values that should be appended as
 #'     optional columns.
 #'
@@ -237,19 +241,54 @@ isCvParameter <- function(x) {
 #' @author Philippine Louail
 #'
 #' @noRd
-.add_opt_cols <- function(..., x) {
+.add_opt_cols <- function(..., x, identifier = "global") {
     dots <- list(...)
     if (length(dots) > 0) {
         if (is.null(names(dots)) || any(names(dots) == ""))
             stop("All optional arguments provided in '...' must be named.",
                  call. = FALSE)
         nms <- names(dots)
-        needs_prefix <- !grepl("^opt_", nms)
-        nms[needs_prefix] <- paste0("opt_", nms[needs_prefix])
+        if (length(identifier) != 1L && length(identifier) != length(dots))
+            stop("Length of 'identifier' must be either 1 or match the number ",
+                 "of optional columns provided in '...'.")
+        if (length(identifier) == 1L)
+            identifier <- rep(identifier, length(dots))
+        needs_prefix <- vapply(seq_along(nms), function(i) {
+                        !grepl(paste0("^opt_", identifier[i], "_"), nms[i])},
+                        FUN.VALUE = logical(1L))
+        nms[needs_prefix] <- paste0("opt_", identifier[needs_prefix], "_",
+                                    nms[needs_prefix])
         names(dots) <- nms
         nx <- nrow(x)
         for (i in seq_along(dots))
             x[[nms[i]]] <- .check_fill_column(dots[[i]], nx)
     }
+    x
+}
+
+#' @description
+#'
+#' Helper function to convert `numeric` columns to `character`. Also, it map:
+#' - For numeric columns: `NA` to `"null"`,
+#' - For character columns: `""` to `"null"`
+#'
+#' @param x `data.frame` to convert.
+#'
+#' @return `data.frame` with `numeric` columns converted to `character`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.NAtonull <- function(x) {
+    ## Character columns: "" to "null"
+    char_cols <- vapply(x, is.character, FUN.VALUE = logical(1L))
+    x[char_cols] <- lapply(x[char_cols], function(z) {
+        ifelse(z == "", "null", z)
+    })
+    ## Numeric colums: NA to "null"
+    numeric_cols <- vapply(x, is.numeric, FUN.VALUE = logical(1L))
+    x[numeric_cols] <- lapply(x[numeric_cols], function(z) {
+        ifelse(is.na(z), "null", as.character(z))
+    })
     x
 }
