@@ -165,8 +165,8 @@ the features' isotopomer description. Optional.}
 \item{opt_identifier}{\code{character} with the identifier to be used for optional
 columns passed through \code{...}. This is used to create the column names for
 optional columns in the format \verb{opt_\{opt_identifier\}_\{column_name\}}. If
-not provided, the default is \code{"global"}. Must the same length of the opt
-columns provided in \code{...} or \code{1L}. Optional.}
+not provided, the default is \code{"global"}. Must be of length 1 or matching
+the number of opt columns provided in \code{...}. Optional.}
 }
 \value{
 \itemize{

@@ -230,8 +230,8 @@ isCvParameter <- function(x) {
 #' @param x `data.frame` to which columns should be added.
 #'
 #' @param identifier `character(1)` defining the identifier to use in the
-#'     optional column names. Must the same length of the opt columns provided
-#'     in `...` or `1L`.
+#'     optional column names. Must have the same length of the opt columns
+#'     provided in `...` or `1L`.
 #'
 #' @param ... **named** parameters with values that should be appended as
 #'     optional columns.
@@ -268,8 +268,9 @@ isCvParameter <- function(x) {
 
 #' @description
 #'
-#' Helper function to convert `numeric` columns to `character`. Also, it map
-#' `NA` to `null` for export.
+#' Helper function to convert `numeric` columns to `character`. Also, it map:
+#' - For numeric columns: `NA` to `"null"`,
+#' - For character columns: `""` to `"null"`
 #'
 #' @param x `data.frame` to convert.
 #'
@@ -279,6 +280,12 @@ isCvParameter <- function(x) {
 #'
 #' @noRd
 .NAtonull <- function(x) {
+    ## Character columns: "" to "null"
+    char_cols <- vapply(x, is.character, FUN.VALUE = logical(1L))
+    x[char_cols] <- lapply(x[char_cols], function(z) {
+        ifelse(z == "", "null", z)
+    })
+    ## Numeric colums: NA to "null"
     numeric_cols <- vapply(x, is.numeric, FUN.VALUE = logical(1L))
     x[numeric_cols] <- lapply(x[numeric_cols], function(z) {
         ifelse(is.na(z), "null", as.character(z))

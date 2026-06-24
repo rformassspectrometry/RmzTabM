@@ -232,7 +232,7 @@ test_that("readMzTabM works", {
     f <- write_tmp(mtd_block)
     res <- readMzTabM(f)
     expect_s4_class(res, "MzTabM")
-    res_l <- mzTabMToList(res)
+    res_l <- as.list(res)
     expect_identical(names(res_l), "MTD")
     expect_true(is.matrix(res_l[["MTD"]]))
     expect_equal(ncol(res_l[["MTD"]]), 2L)
@@ -243,7 +243,7 @@ test_that("readMzTabM works", {
     ## SML section is present and is a matrix when SMH is in file
     f <- write_tmp(mtd_block, "\n", SML_block)
     res <- readMzTabM(f)
-    res_l <- mzTabMToList(res)
+    res_l <- as.list(res)
     expect_true(!is.null(res_l[["SML"]]))
     expect_true(is.matrix(res_l[["SML"]]))
     expected_cols <- strsplit(SML_block[1], "\t")[[1]]
@@ -254,7 +254,7 @@ test_that("readMzTabM works", {
     ## SMF section is present and is a matrix when SFH is in file
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block)
     res <- readMzTabM(f)
-    res_l <- mzTabMToList(res)
+    res_l <- as.list(res)
     expect_true(!is.null(res_l[["SMF"]]))
     expect_true(is.matrix(res_l[["SMF"]]))
     expected_cols <- strsplit(SMF_block[1], "\t")[[1]]
@@ -267,7 +267,7 @@ test_that("readMzTabM works", {
     ## SME section is present when both SFH and SEH are in file
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block, "\n", SME_block)
     res <- readMzTabM(f)
-    res_l <- mzTabMToList(res)
+    res_l <- as.list(res)
     expect_true(!is.null(res_l[["SME"]]))
     expect_true(is.matrix(res_l[["SME"]]))
     expected_cols <- strsplit(SME_block[1], "\t")[[1]]
@@ -293,7 +293,7 @@ test_that("readMzTabM works", {
         SML_block
     )
     res <- readMzTabM(f)
-    res_l <- mzTabMToList(res)
+    res_l <- as.list(res)
     expect_identical(names(res_l), c("MTD", "SML"))
     expect_equal(nrow(res_l[["MTD"]]), length(mtd_block))
 

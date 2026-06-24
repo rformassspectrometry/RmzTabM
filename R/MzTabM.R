@@ -143,19 +143,6 @@ setMethod("show", "MzTabM", function(object) {
             ncol(object@sme), " columns.\n", sep = "")
 })
 
-setMethod("mzTabMToList", "MzTabM", function(x, ...) {
-    l <- list()
-    if (nrow(x@mtd))
-        l[["MTD"]] <- x@mtd
-    if (nrow(x@sml))
-        l[["SML"]] <- x@sml
-    if (nrow(x@smf))
-        l[["SMF"]] <- x@smf
-    if (nrow(x@sme))
-        l[["SME"]] <- x@sme
-    l
-})
-
 setMethod("setMtdInstrument", "MzTabM", function(x, name = character(),
                                                  source = character(),
                                                  analyzer = character(),
@@ -232,6 +219,14 @@ setMethod("mtd", signature(object = "MzTabM"), function(object) {
     object@mtd
 })
 
+setMethod("as.list", "MzTabM", function(x, ...) {
+    .mztab_to_list(x)
+})
+
+setAs("MzTabM", "list", function(from, to) {
+    .mztab_to_list(from)
+})
+
 ################################################################################
 ##   FUNCTIONS
 
@@ -251,6 +246,22 @@ setMethod("mtd", signature(object = "MzTabM"), function(object) {
     if (r_sme &! r_smf)
         msg <- c(msg, "SMF section needs to be defined if SME is present")
     msg
+}
+
+#' Convert a MzTabM object to a list
+#'
+#' @noRd
+.mztab_to_list <- function(x) {
+    l <- list()
+    if (nrow(x@mtd))
+        l[["MTD"]] <- x@mtd
+    if (nrow(x@sml))
+        l[["SML"]] <- x@sml
+    if (nrow(x@smf))
+        l[["SMF"]] <- x@smf
+    if (nrow(x@sme))
+        l[["SME"]] <- x@sme
+    l
 }
 
 #' Use the official validator to run a validity check including semantic

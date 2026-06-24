@@ -127,3 +127,15 @@ test_that("isCvParameter works", {
     expect_equal(isCvParameter(vals), c(FALSE, FALSE, FALSE, FALSE, FALSE,
                                         TRUE, FALSE))
 })
+
+test_that(".NAtonull works", {
+  df <- data.frame(
+    num  = c(1, NA, 3),
+    chr  = c("a", "", "b")
+  )
+  result <- .NAtonull(df)
+  expect_true(is.data.frame(result))
+  expect_equal(result$num, c("1", "null", "3"))
+  expect_equal(result$chr, c("a", "null", "b"))
+  expect_named(result, c("num", "chr"))
+})

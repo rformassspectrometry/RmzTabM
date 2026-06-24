@@ -28,7 +28,7 @@ header row. Present only when both \code{SFH} and \code{SEH} are found in the fi
 }
 }
 \description{
-Reads and parses an mzTab-M (version 2.1) file into a MzTabM object.
+Reads and parses an mzTab-M (version 2.1) file into a \link{MzTabM} object.
 
 The parser recognises the four standard sections:
 \itemize{

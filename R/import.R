@@ -3,7 +3,7 @@
 #' @name MzTabM-import
 #'
 #' @description
-#' Reads and parses an mzTab-M (version 2.1) file into a MzTabM object.
+#' Reads and parses an mzTab-M (version 2.1) file into a [MzTabM] object.
 #'
 #' The parser recognises the four standard sections:
 #' - **MTD** (Metadata): Always required. The metadata section
