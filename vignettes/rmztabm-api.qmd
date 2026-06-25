@@ -854,3 +854,5 @@ General utility functions include:
 ```{r}
 sessionInfo()
 ```
+
+# References
