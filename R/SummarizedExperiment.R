@@ -308,7 +308,7 @@ setMethod("MzTabM", signature(mtd = "SummarizedExperiment"),
               m <- mtdSkeleton(
                   id = id,
                   software = paste0(
-                      "[,,RmzTabM,RmzTabM version",
+                      "[,,RmzTabM,RmzTabM version ",
                       as.character(packageVersion("RmzTabM")), "]"))
               m <- rbind(m, mtdFromSampleData(
                   as.data.frame(colData(mtd)), sampleCols. = sampleCols.,
