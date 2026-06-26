@@ -69,6 +69,7 @@ smfCols(
   charge = "charge",
   adduct_ion = "adduct_ion",
   isotopomer = "isotopomer",
+  opt_identifier = "global",
   ...
 )
 ```
@@ -303,6 +304,14 @@ smfCols(
   [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
   containing the information on the features' isotopomer description.
   Optional.
+
+- opt_identifier:
+
+  `character` with the identifier to be used for optional columns passed
+  through `...`. This is used to create the column names for optional
+  columns in the format `opt_{opt_identifier}_{column_name}`. If not
+  provided, the default is `"global"`. Must be of length 1 or matching
+  the number of opt columns provided in `...`. Optional.
 
 ## Value
 
@@ -618,15 +627,15 @@ head(mtd(m))
 #> [2,] "mzTab-ID"             
 #> [3,] "software[1]"          
 #> [4,] "quantification_method"
-#> [5,] "cv[1]-label"          
-#> [6,] "cv[1]-full_name"      
+#> [5,] "sample[1]"            
+#> [6,] "sample[1]-species[1]" 
 #>      values                                                      
 #> [1,] "2.1.0-M"                                                   
 #> [2,] "MTBLS8735"                                                 
-#> [3,] "[,,RmzTabM,RmzTabM version0.97.15]"                        
+#> [3,] "[,,RmzTabM,RmzTabM version 0.97.17]"                       
 #> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
-#> [5,] "MS"                                                        
-#> [6,] "PSI-MS controlled vocabulary"                              
+#> [5,] "POOL"                                                      
+#> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
 
 ## Importantly, depending on the provided information, the MTD section might
 ## be needed to be completed. See also the help for `MzTabM` for more
@@ -703,13 +712,13 @@ head(tmp)
 #> FT0004         16965.7762         23432.1252         22198.4607
 #> FT0005          3270.5290          4533.8667          4161.0132
 #> FT0006          2382.1788          9236.9799          6817.8785
-#>        abundance_assay[10] opt_feature_id
-#> FT0001            437.0340         FT0001
-#> FT0002            711.0361         FT0002
-#> FT0003            232.1075         FT0003
-#> FT0004          16796.4497         FT0004
-#> FT0005           3142.2268         FT0005
-#> FT0006           6911.5439         FT0006
+#>        abundance_assay[10] opt_global_feature_id
+#> FT0001            437.0340                FT0001
+#> FT0002            711.0361                FT0002
+#> FT0003            232.1075                FT0003
+#> FT0004          16796.4497                FT0004
+#> FT0005           3142.2268                FT0005
+#> FT0006           6911.5439                FT0006
 
 ## We use the same parameters in the `MzTabM()` function to create a mzTab-M
 ## with MTD + SMF content. For the MTD we re-use all parameters defined above
@@ -764,11 +773,11 @@ head(smf(m))
 #> FT0004         16965.7762         23432.1252         22198.4607
 #> FT0005          3270.5290          4533.8667          4161.0132
 #> FT0006          2382.1788          9236.9799          6817.8785
-#>        abundance_assay[10] opt_feature_id
-#> FT0001            437.0340         FT0001
-#> FT0002            711.0361         FT0002
-#> FT0003            232.1075         FT0003
-#> FT0004          16796.4497         FT0004
-#> FT0005           3142.2268         FT0005
-#> FT0006           6911.5439         FT0006
+#>        abundance_assay[10] opt_global_feature_id
+#> FT0001            437.0340                FT0001
+#> FT0002            711.0361                FT0002
+#> FT0003            232.1075                FT0003
+#> FT0004          16796.4497                FT0004
+#> FT0005           3142.2268                FT0005
+#> FT0006           6911.5439                FT0006
 ```

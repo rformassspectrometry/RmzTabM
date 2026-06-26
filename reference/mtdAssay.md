@@ -212,14 +212,14 @@ mtdAssay(assay = c("a1", "a2", "a3"),
     c("[MS, , Assay operator, Fred Blogs]",
       "[MS, , Assay operator, Fred Blogs]",
       "[MS, , Assay operator, Frodo]"))
-#>                                                                 
-#>  [1,] "assay[1]"            "a1"                                
-#>  [2,] "assay[1]-ms_run_ref" "ms_run[1]"                         
-#>  [3,] "assay[1]-custom[1]"  "[MS, , Assay operator, Fred Blogs]"
-#>  [4,] "assay[2]"            "a2"                                
-#>  [5,] "assay[2]-ms_run_ref" "ms_run[2]"                         
-#>  [6,] "assay[2]-custom[1]"  "[MS, , Assay operator, Fred Blogs]"
-#>  [7,] "assay[3]"            "a3"                                
-#>  [8,] "assay[3]-ms_run_ref" "ms_run[3]"                         
-#>  [9,] "assay[3]-custom[1]"  "[MS, , Assay operator, Frodo]"     
+#>                                                                       
+#>  [1,] "assay[1]"            "a1"                                      
+#>  [2,] "assay[1]-ms_run_ref" "ms_run[1]"                               
+#>  [3,] "assay[1]-custom[1]"  "[,,, [MS, , Assay operator, Fred Blogs]]"
+#>  [4,] "assay[2]"            "a2"                                      
+#>  [5,] "assay[2]-ms_run_ref" "ms_run[2]"                               
+#>  [6,] "assay[2]-custom[1]"  "[,,, [MS, , Assay operator, Fred Blogs]]"
+#>  [7,] "assay[3]"            "a3"                                      
+#>  [8,] "assay[3]-ms_run_ref" "ms_run[3]"                               
+#>  [9,] "assay[3]-custom[1]"  "[,,, [MS, , Assay operator, Frodo]]"     
 ```

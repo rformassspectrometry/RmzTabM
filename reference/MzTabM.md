@@ -120,10 +120,10 @@ getMtdInstrument(m)
 #>        "[MS, MS:1000449, LTQ Orbitrap,]" 
 #>                     instrument[1]-source 
 #>                 "[MS, MS:1000073, ESI,]" 
-#>                   instrument[1]-detector 
-#> "[MS, MS:1000253, electron multiplier,]" 
 #>                instrument[1]-analyzer[1] 
 #>     "[MS, MS:1000291, linear ion trap,]" 
+#>                   instrument[1]-detector 
+#> "[MS, MS:1000253, electron multiplier,]" 
 
 ## Add database metadata to an existing mzTab object
 m <- setMtdDatabase(m, name = "[MIRIAM, MIR:00100079, HMDB, ]",

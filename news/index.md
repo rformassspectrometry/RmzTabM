@@ -2,6 +2,24 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.17
+
+- Update and simplify the `SummarizedExperiment` export example in the
+  vignette.
+
+### Changes in version 0.97.16
+
+- Update vignette with high-level functionality to export a mzTab-M
+  file.
+- Add helper functions `.NAtonull()`.
+- Add [`as.list()`](https://rdrr.io/r/base/list.html).
+- Fix bug in instrument field sorting.
+- Support `identifier` for optional columns in SML, SMF, SME.
+- Update
+  [`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
+  to create a `MzTabM` object.
+- Update tests and examples.
+
 ### Changes in version 0.97.15
 
 - Add functionality to generate mzTab-M content from a

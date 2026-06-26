@@ -113,7 +113,7 @@ smlSort(): sorts the columns of an SML table into the expected order.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.17</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -208,7 +208,8 @@ section.</p>
 <span>  adduct_ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  reliability <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  best_id_confidence_measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  best_id_confidence_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  best_id_confidence_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  opt_identifier <span class="op">=</span> <span class="st">"global"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">smlSort</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
@@ -329,6 +330,14 @@ If provided, the length has to match <code>nrow(x)</code>.</p></dd>
 confidence measure. If provided, the length has to match <code>nrow(x)</code>. The
 type of score <strong>must</strong> be defined in the metadata section. Can also be
 <code>NA</code> if not available.</p></dd>
+
+
+<dt id="arg-opt-identifier">opt_identifier<a class="anchor" aria-label="anchor" href="#arg-opt-identifier"></a></dt>
+<dd><p><code>character</code> with the identifier to be used for optional
+columns passed through <code>...</code>. This is used to create the column names for
+optional columns in the format <code>opt_{opt_identifier}_{column_name}</code>. If
+not provided, the default is <code>"global"</code>. Must be of length 1 or matching
+the number of opt columns provided in <code>...</code>.</p></dd>
 
 
 <dt id="arg-mtd">mtd<a class="anchor" aria-label="anchor" href="#arg-mtd"></a></dt>

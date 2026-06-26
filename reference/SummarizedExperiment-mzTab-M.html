@@ -47,7 +47,7 @@ and column names of the rowData() containing the relevant information.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.17</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,6 +130,7 @@ and column names of the <code>rowData()</code> containing the relevant informati
 <span>  charge <span class="op">=</span> <span class="st">"charge"</span>,</span>
 <span>  adduct_ion <span class="op">=</span> <span class="st">"adduct_ion"</span>,</span>
 <span>  isotopomer <span class="op">=</span> <span class="st">"isotopomer"</span>,</span>
+<span>  opt_identifier <span class="op">=</span> <span class="st">"global"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -304,6 +305,14 @@ the adduct/ion for each feature. Optional.</p></dd>
 <dd><p>For <code>smfCols()</code>: <code>character(1)</code> defining the column name in
 the <code>SummarizedExperiment</code>'s <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> containing the information on
 the features' isotopomer description. Optional.</p></dd>
+
+
+<dt id="arg-opt-identifier">opt_identifier<a class="anchor" aria-label="anchor" href="#arg-opt-identifier"></a></dt>
+<dd><p><code>character</code> with the identifier to be used for optional
+columns passed through <code>...</code>. This is used to create the column names for
+optional columns in the format <code>opt_{opt_identifier}_{column_name}</code>. If
+not provided, the default is <code>"global"</code>. Must be of length 1 or matching
+the number of opt columns provided in <code>...</code>. Optional.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -592,15 +601,15 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "mzTab-ID"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "software[1]"          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "quantification_method"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "cv[1]-label"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "cv[1]-full_name"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "sample[1]"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "sample[1]-species[1]" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      values                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "2.1.0-M"                                                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "MTBLS8735"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version0.97.15]"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version 0.97.17]"                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "MS"                                                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "PSI-MS controlled vocabulary"                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "POOL"                                                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Importantly, depending on the provided information, the MTD section might</span></span></span>
 <span class="r-in"><span><span class="co">## be needed to be completed. See also the help for `MzTabM` for more</span></span></span>
@@ -677,13 +686,13 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-out co"><span class="r-pr">#&gt;</span> FT0004         16965.7762         23432.1252         22198.4607</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FT0005          3270.5290          4533.8667          4161.0132</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FT0006          2382.1788          9236.9799          6817.8785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        abundance_assay[10] opt_feature_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0001            437.0340         FT0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0002            711.0361         FT0002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0003            232.1075         FT0003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0004          16796.4497         FT0004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0005           3142.2268         FT0005</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0006           6911.5439         FT0006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        abundance_assay[10] opt_global_feature_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0001            437.0340                FT0001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0002            711.0361                FT0002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0003            232.1075                FT0003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0004          16796.4497                FT0004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0005           3142.2268                FT0005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0006           6911.5439                FT0006</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## We use the same parameters in the `MzTabM()` function to create a mzTab-M</span></span></span>
 <span class="r-in"><span><span class="co">## with MTD + SMF content. For the MTD we re-use all parameters defined above</span></span></span>
@@ -738,13 +747,13 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-out co"><span class="r-pr">#&gt;</span> FT0004         16965.7762         23432.1252         22198.4607</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FT0005          3270.5290          4533.8667          4161.0132</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FT0006          2382.1788          9236.9799          6817.8785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        abundance_assay[10] opt_feature_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0001            437.0340         FT0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0002            711.0361         FT0002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0003            232.1075         FT0003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0004          16796.4497         FT0004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0005           3142.2268         FT0005</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FT0006           6911.5439         FT0006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        abundance_assay[10] opt_global_feature_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0001            437.0340                FT0001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0002            711.0361                FT0002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0003            232.1075                FT0003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0004          16796.4497                FT0004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0005           3142.2268                FT0005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FT0006           6911.5439                FT0006</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

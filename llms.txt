@@ -84,7 +84,7 @@ core functionality to extract the SME data table from an mzTab-M file
 core functionality to extract the SML data table from an mzTab-M file
 
 high-level functionality to simplify exporting experimental data in
-mzTab-M format
+mzTab-M format.
 
 support for mzTab-M JSON format
 

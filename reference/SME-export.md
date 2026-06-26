@@ -75,6 +75,7 @@ smeCreate(
   ms_level = character(),
   id_confidence_measure = NULL,
   rank = 1,
+  opt_identifier = "global",
   mtd = NULL
 )
 
@@ -229,6 +230,14 @@ smeSpectraRefValidator(x, mtd)
   increasing integers from 1 (best ranked identification). Ties (equal
   score) are represented by using the same rank, defaults to `"1"` if
   there is no ranking system used.
+
+- opt_identifier:
+
+  `character` with the identifier to be used for optional columns passed
+  through `...`. This is used to create the column names for optional
+  columns in the format `opt_{opt_identifier}_{column_name}`. If not
+  provided, the default is `"global"`. Must be of length 1 or matching
+  the number of opt columns provided in `...`.
 
 - mtd:
 

@@ -85,7 +85,7 @@ standard columns are in the correct order for export.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.17</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,6 +173,7 @@ standard columns are in the correct order for export.</p></li>
 <span>  ms_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  id_confidence_measure <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rank <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  opt_identifier <span class="op">=</span> <span class="st">"global"</span>,</span>
 <span>  mtd <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -329,6 +330,14 @@ used, as <code>"id_confidence_measure[1-n]"</code>.</p></dd>
 this approach as increasing integers from 1 (best ranked
 identification). Ties (equal score) are represented by using the same
 rank, defaults to <code>"1"</code> if there is no ranking system used.</p></dd>
+
+
+<dt id="arg-opt-identifier">opt_identifier<a class="anchor" aria-label="anchor" href="#arg-opt-identifier"></a></dt>
+<dd><p><code>character</code> with the identifier to be used for optional
+columns passed through <code>...</code>. This is used to create the column names for
+optional columns in the format <code>opt_{opt_identifier}_{column_name}</code>. If
+not provided, the default is <code>"global"</code>. Must be of length 1 or matching
+the number of opt columns provided in <code>...</code>.</p></dd>
 
 
 <dt id="arg-mtd">mtd<a class="anchor" aria-label="anchor" href="#arg-mtd"></a></dt>

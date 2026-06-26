@@ -173,11 +173,11 @@ mtdSample(sample = c("A", "B"),
       "[,,Extraction date, 2011-12-22]"),
     c("[,,Extraction reason, liver biopsy]",
       "[,,Extraction reason, liver biopsy]"))
-#>                                                                 
-#> [1,] "sample[1]"           "A"                                  
-#> [2,] "sample[1]-custom[1]" "[,,Extraction date, 2011-12-21]"    
-#> [3,] "sample[1]-custom[2]" "[,,Extraction reason, liver biopsy]"
-#> [4,] "sample[2]"           "B"                                  
-#> [5,] "sample[2]-custom[1]" "[,,Extraction date, 2011-12-22]"    
-#> [6,] "sample[2]-custom[2]" "[,,Extraction reason, liver biopsy]"
+#>                                                                       
+#> [1,] "sample[1]"           "A"                                        
+#> [2,] "sample[1]-custom[1]" "[,,, [,,Extraction date, 2011-12-21]]"    
+#> [3,] "sample[1]-custom[2]" "[,,, [,,Extraction reason, liver biopsy]]"
+#> [4,] "sample[2]"           "B"                                        
+#> [5,] "sample[2]-custom[1]" "[,,, [,,Extraction date, 2011-12-22]]"    
+#> [6,] "sample[2]-custom[2]" "[,,, [,,Extraction reason, liver biopsy]]"
 ```

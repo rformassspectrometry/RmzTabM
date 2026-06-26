@@ -56,11 +56,661 @@ library(RmzTabM)
 
 ### High-level, user faced functions
 
-TODO: implement these functions. These functions should simplify
-import/export taking more complex or multiple data parts (`data.frame`s,
-`matrix` etc) as input and write the formatted data directly to a
-mzTab-M file, or should read a mzTab-M file returning it’s content as
-e.g. a `list` of elements.
+In this section we export the data set used in the *Metabonaut*
+end-to-end metabolomics data workflow ([Louail et al.
+2026](#ref-louail_rformassspectrometrymetabonaut_2026)) in mzTab-M
+format. The raw MS data is available in MetaboLights (accession number
+*MTBLS8735* with 2 separate MS runs, one with LC-MS and a second with
+LC-MS/MS data for selected samples). The original *xcms* preprocessing
+result object is available in Metabonaut and is included also within the
+*RmzTabM* package. After collecting all necessary experimental metadata,
+we export this result object as a mzTab-M file with only the metadata
+and the small feature abundances (MTD+SMF).
+
+The *RmzTabM* package defines a
+[`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+convenience function to create a mzTab-M file from a
+`SummarizedExperiment` object. Information provided in such objects is
+automatically converted and formatted into content for the right mzTab-M
+section. The user simply needs to define the columns containing
+information for the various mzTab-M fields and a mzTab-M is compiled.
+This mzTab-M object should then be completed adding eventually missing
+data.
+
+> **Note**
+>
+> ℹ️ individual mzTab-M sections could also be compiled individually
+> with helper functions such as
+> [`mtdFromSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+> to generate a metadata section from a *sample* `data.frame`.
+
+``` r
+
+#' required packages
+library(SummarizedExperiment)
+```
+
+#### Get the *Metabonaut* result object
+
+Data preprocessing, normalization, statistical data analysis and
+annotation is described in [*Metabonaut* (version
+1.5.0)](https://doi.org/10.5281/zenodo.15062929) ([Louail et al.
+2026](#ref-louail_rformassspectrometrymetabonaut_2026)).
+
+The result from the *xcms*-based preprocessing, a `SummarizedExperiment`
+object, is included within the *RmzTabM* package as the `se` data set,
+which we load below.
+
+``` r
+
+#' Load the Metabonaut preprocessing result
+data(se)
+se
+```
+
+    class: SummarizedExperiment
+    dim: 9068 10
+    metadata(0):
+    assays(2): raw raw_filled
+    rownames(9068): FT0001 FT0002 ... FT9067 FT9068
+    rowData names(11): mzmed mzmin ... QC ms_level
+    colnames(10): MS_QC_POOL_1_POS.mzML MS_A_POS.mzML ... MS_F_POS.mzML
+      MS_QC_POOL_4_POS.mzML
+    colData names(15): sample_name derived_spectra_data_file ... polarity
+      instrument
+
+The object contains sample information in
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
+
+``` r
+
+colData(se)
+```
+
+    DataFrame with 10 rows and 15 columns
+                          sample_name derived_spectra_data_file
+                          <character>               <character>
+    MS_QC_POOL_1_POS.mzML        POOL    FILES/MS_QC_POOL_1_P..
+    MS_A_POS.mzML                   A       FILES/MS_A_POS.mzML
+    MS_B_POS.mzML                   B       FILES/MS_B_POS.mzML
+    MS_QC_POOL_2_POS.mzML        POOL    FILES/MS_QC_POOL_2_P..
+    MS_C_POS.mzML                   C       FILES/MS_C_POS.mzML
+    MS_D_POS.mzML                   D       FILES/MS_D_POS.mzML
+    MS_QC_POOL_3_POS.mzML        POOL    FILES/MS_QC_POOL_3_P..
+    MS_E_POS.mzML                   E       FILES/MS_E_POS.mzML
+    MS_F_POS.mzML                   F       FILES/MS_F_POS.mzML
+    MS_QC_POOL_4_POS.mzML        POOL    FILES/MS_QC_POOL_4_P..
+                          metabolite_asssignment_file      source_name     organism
+                                          <character>      <character>  <character>
+    MS_QC_POOL_1_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
+    MS_A_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_A_POS Homo sapiens
+    MS_B_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_B_POS Homo sapiens
+    MS_QC_POOL_2_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
+    MS_C_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_C_POS Homo sapiens
+    MS_D_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_D_POS Homo sapiens
+    MS_QC_POOL_3_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
+    MS_E_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_E_POS Homo sapiens
+    MS_F_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_F_POS Homo sapiens
+    MS_QC_POOL_4_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
+                          blood_sample_type         sample_type       age
+                                <character>         <character> <integer>
+    MS_QC_POOL_1_POS.mzML       blood serum                pool        NA
+    MS_A_POS.mzML              blood plasma experimental sample        53
+    MS_B_POS.mzML              blood plasma experimental sample        30
+    MS_QC_POOL_2_POS.mzML       blood serum                pool        NA
+    MS_C_POS.mzML              blood plasma experimental sample        66
+    MS_D_POS.mzML              blood plasma experimental sample        36
+    MS_QC_POOL_3_POS.mzML       blood serum                pool        NA
+    MS_E_POS.mzML              blood plasma experimental sample        66
+    MS_F_POS.mzML              blood plasma experimental sample        44
+    MS_QC_POOL_4_POS.mzML       blood serum                pool        NA
+                                 unit   phenotype injection_index
+                          <character> <character>       <integer>
+    MS_QC_POOL_1_POS.mzML        year          QC               1
+    MS_A_POS.mzML                year         CVD               2
+    MS_B_POS.mzML                year         CTR               3
+    MS_QC_POOL_2_POS.mzML        year          QC               4
+    MS_C_POS.mzML                year         CTR               5
+    MS_D_POS.mzML                year         CVD               6
+    MS_QC_POOL_3_POS.mzML        year          QC               7
+    MS_E_POS.mzML                year         CTR               8
+    MS_F_POS.mzML                year         CVD               9
+    MS_QC_POOL_4_POS.mzML        year          QC              10
+                                         species                 tissue    polarity
+                                     <character>            <character> <character>
+    MS_QC_POOL_1_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
+    MS_A_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
+    MS_B_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
+    MS_QC_POOL_2_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
+    MS_C_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
+    MS_D_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
+    MS_QC_POOL_3_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
+    MS_E_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
+    MS_F_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
+    MS_QC_POOL_4_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
+                           instrument
+                          <character>
+    MS_QC_POOL_1_POS.mzML           1
+    MS_A_POS.mzML                   1
+    MS_B_POS.mzML                   1
+    MS_QC_POOL_2_POS.mzML           1
+    MS_C_POS.mzML                   1
+    MS_D_POS.mzML                   1
+    MS_QC_POOL_3_POS.mzML           1
+    MS_E_POS.mzML                   1
+    MS_F_POS.mzML                   1
+    MS_QC_POOL_4_POS.mzML           1
+
+LC-MS feature definitions and characteristics in its
+[`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
+
+``` r
+
+rowData(se)
+```
+
+    DataFrame with 9068 rows and 11 columns
+               mzmed     mzmin     mzmax     rtmed     rtmin     rtmax    npeaks
+           <numeric> <numeric> <numeric> <numeric> <numeric> <numeric> <numeric>
+    FT0001   50.9898   50.9893   50.9904   203.600   201.459   208.108         8
+    FT0002   51.0590   51.0581   51.0599   191.167   190.053   194.525         9
+    FT0003   51.9866   51.9863   51.9879   203.147   201.459   207.046         7
+    FT0004   53.0204   53.0161   53.0205   203.234   200.962   217.922        10
+    FT0005   53.5208   53.5184   53.5216   203.194   201.183   209.900        10
+    ...          ...       ...       ...       ...       ...       ...       ...
+    FT9064   998.697   998.691   998.705    25.352   23.6341   26.4839         4
+    FT9065   998.779   998.758   998.784   162.691  161.5110  164.8667         8
+    FT9066   999.204   999.191   999.218   146.163  143.0103  147.9139         8
+    FT9067   999.330   999.318   999.339   157.048  154.3261  159.1735         7
+    FT9068   999.781   999.775   999.794   162.763  161.5110  164.3995         7
+                 CTR       CVD        QC  ms_level
+           <numeric> <numeric> <numeric> <integer>
+    FT0001         1         3         4         1
+    FT0002         2         3         4         1
+    FT0003         0         3         4         1
+    FT0004         3         3         4         1
+    FT0005         3         3         4         1
+    ...          ...       ...       ...       ...
+    FT9064         0         0         4         1
+    FT9065         2         2         4         1
+    FT9066         3         1         4         1
+    FT9067         3         1         3         1
+    FT9068         1         3         3         1
+
+and has two *assays* with feature abundances, one with the original
+integrated peak areas of identified chromatographic peaks and one with
+additional gap-filled abundances.
+
+``` r
+
+assayNames(se)
+```
+
+    [1] "raw"        "raw_filled"
+
+#### Define the data set’s metadata (MTD)
+
+Comprehensive data set descriptions and metadata are important to enable
+re-use of the data and follow FAIR principles. Collecting the
+experiment’s metadata consists mostly of manual work e.g. looking up CV
+parameters for used instruments or sample tissues. Metadata for samples
+and related measurements is ideally added to the
+`SummarizedExperiment`’s
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html).
+For the present data set sample characteristics such as the species and
+tissue are defined in columns `"species"` and `"tissue"`:
+
+``` r
+
+colData(se)$species
+```
+
+     [1] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [2] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [3] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [4] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [5] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [6] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [7] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [8] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+     [9] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+    [10] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+
+``` r
+
+colData(se)$tissue
+```
+
+     [1] "[BTO, BTO:0000133, blood serum, ]"  "[BTO, BTO:0000131, blood plasma, ]"
+     [3] "[BTO, BTO:0000131, blood plasma, ]" "[BTO, BTO:0000133, blood serum, ]"
+     [5] "[BTO, BTO:0000131, blood plasma, ]" "[BTO, BTO:0000131, blood plasma, ]"
+     [7] "[BTO, BTO:0000133, blood serum, ]"  "[BTO, BTO:0000131, blood plasma, ]"
+     [9] "[BTO, BTO:0000131, blood plasma, ]" "[BTO, BTO:0000133, blood serum, ]" 
+
+> **Note**
+>
+> ℹ️ ideally, CV parameters should be used as much as possible to ensure
+> a standardized description of the data. The [EMBL-EBI Ontology Lookup
+> Service](https://www.ebi.ac.uk/ols4/) can be used to find ontology
+> terms (CV parameters) for various controlled vocabularies.
+
+Also measurement-related information are defined in the
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html),
+including the polarity:
+
+``` r
+
+colData(se)$polarity
+```
+
+     [1] "positive" "positive" "positive" "positive" "positive" "positive"
+     [7] "positive" "positive" "positive" "positive"
+
+We can use this information to compile the data set’s metadata. To this
+end we define the column names in the `SummarizedExperiment`’s
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
+that contain information for sample, measurement run and assay mzTab-M
+fields. This mapping of mzTab-M fields to column names can be defined
+with the
+[`sampleCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md),
+[`msRunCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+and
+[`assayCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
+helper functions. We use for example the content of the column
+`"sample_name"` for the mzTab-M *sample* name. Content from the
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
+columns `"species"`, `"tissue"` and `"sample_type"` is used for mzTab-M
+sample fields `species`, `tissue` and `sample_type`.
+
+``` r
+
+colData(se)$sample_name
+```
+
+     [1] "POOL" "A"    "B"    "POOL" "C"    "D"    "POOL" "E"    "F"    "POOL"
+
+``` r
+
+#' define mapping of `colData()` column names to mzTab-M sample fields
+scols <- sampleCols(sample = "sample_name", species = "species",
+                    tissue = "tissue", sample_type = "sample_type")
+```
+
+Similarly we specify columns from the same
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
+with information on individual MS runs (and assays):
+
+``` r
+
+#' Define columns for MS run and assays
+mscols <- msRunCols(location = "derived_spectra_data_file",
+                    instrument_ref = "instrument", scan_polarity = "polarity")
+acols <- assayCols(assay = "derived_spectra_data_file")
+```
+
+The column `"derived_spectra_data_file"` contains the MS data file name
+which we use both to define the MS runs and assays (assuming thus a 1:1
+mapping between them).
+
+``` r
+
+colData(se)$derived_spectra_data_file
+```
+
+     [1] "FILES/MS_QC_POOL_1_POS.mzML" "FILES/MS_A_POS.mzML"
+     [3] "FILES/MS_B_POS.mzML"         "FILES/MS_QC_POOL_2_POS.mzML"
+     [5] "FILES/MS_C_POS.mzML"         "FILES/MS_D_POS.mzML"
+     [7] "FILES/MS_QC_POOL_3_POS.mzML" "FILES/MS_E_POS.mzML"
+     [9] "FILES/MS_F_POS.mzML"         "FILES/MS_QC_POOL_4_POS.mzML"
+
+At last we define also the study variables of the experiment. These can
+be technical characteristics or phenotype(s) of the samples. The present
+experiment consists of plasma samples of individuals with or without a
+cardiovascular disease (CVD) and repeated measurements of an external
+(serum) sample pools that was used as quality control sample. These are
+defined in
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
+columns `"blood_sample_type"`, `"age"` and `"phenotype"`.
+
+``` r
+
+#' technical variable: the sample matrix
+colData(se)$blood_sample_type
+```
+
+     [1] "blood serum"  "blood plasma" "blood plasma" "blood serum"  "blood plasma"
+     [6] "blood plasma" "blood serum"  "blood plasma" "blood plasma" "blood serum" 
+
+``` r
+
+#' phenotype of study samples or QC for QC samples
+colData(se)$phenotype
+```
+
+     [1] "QC"  "CVD" "CTR" "QC"  "CTR" "CVD" "QC"  "CTR" "CVD" "QC" 
+
+``` r
+
+#' age of study participants; NA for QC samples
+colData(se)$age
+```
+
+     [1] NA 53 30 NA 66 36 NA 66 44 NA
+
+With these information defined we can use the
+[`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+function to create a template mzTab-M for the present experiment.
+Parameter `groups` defines the column names of the
+`SummarizedExperiment`’s
+[`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
+to be used as mzTab-M *study variable groups*.
+
+``` r
+
+mzt <- MzTabM(se, id = "MTBLS8735", sampleCols = scols,
+              msRunCols = mscols, assayCols = acols,
+              groups = c("age", "phenotype", "blood_sample_type"))
+mzt
+```
+
+    Object of class MzTabM
+    mzTab-M version 2.1.0-M
+     MTD section with 189 rows.
+
+This `MzTabM` object contains only metadata information, but no
+abundances/feature data yet. Also, some general metadata are still
+missing and, if exported to a mzTab-M file, it might not yet validate.
+We are next adding the small molecule feature (SMF) content and, in the
+subsequent section *Completing the metadata content*, adding eventually
+missing required metadata fields.
+
+#### Add feature abundance matrix (SMF)
+
+We next add feature abundance information to the mzTab-M. While the
+abundance values can be taken from one of the
+[`assay()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)s
+from the `SummarizedExperiment`, we need to provide also feature
+characteristics. These are usually available in the
+`SummarizedExperiment`s
+[`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
+
+``` r
+
+rowData(se)
+```
+
+    DataFrame with 9068 rows and 11 columns
+               mzmed     mzmin     mzmax     rtmed     rtmin     rtmax    npeaks
+           <numeric> <numeric> <numeric> <numeric> <numeric> <numeric> <numeric>
+    FT0001   50.9898   50.9893   50.9904   203.600   201.459   208.108         8
+    FT0002   51.0590   51.0581   51.0599   191.167   190.053   194.525         9
+    FT0003   51.9866   51.9863   51.9879   203.147   201.459   207.046         7
+    FT0004   53.0204   53.0161   53.0205   203.234   200.962   217.922        10
+    FT0005   53.5208   53.5184   53.5216   203.194   201.183   209.900        10
+    ...          ...       ...       ...       ...       ...       ...       ...
+    FT9064   998.697   998.691   998.705    25.352   23.6341   26.4839         4
+    FT9065   998.779   998.758   998.784   162.691  161.5110  164.8667         8
+    FT9066   999.204   999.191   999.218   146.163  143.0103  147.9139         8
+    FT9067   999.330   999.318   999.339   157.048  154.3261  159.1735         7
+    FT9068   999.781   999.775   999.794   162.763  161.5110  164.3995         7
+                 CTR       CVD        QC  ms_level
+           <numeric> <numeric> <numeric> <integer>
+    FT0001         1         3         4         1
+    FT0002         2         3         4         1
+    FT0003         0         3         4         1
+    FT0004         3         3         4         1
+    FT0005         3         3         4         1
+    ...          ...       ...       ...       ...
+    FT9064         0         0         4         1
+    FT9065         2         2         4         1
+    FT9066         3         1         4         1
+    FT9067         3         1         3         1
+    FT9068         1         3         3         1
+
+For our example we use column `"mzmed"` which defines the features’
+*m/z* value which can be mapped to the SMF field *exp_mass_to_charge*
+and `"rtmed"` that reports the median retention time of the feature
+which can be used for the SMF field *retention_time_in_seconds*. We will
+in addition add an optional field *feature_id* to report and add the IDs
+of the individual features from the `SummarizedExperiment`, which we add
+as a column `"feature_id"` to the
+[`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
+
+``` r
+
+rowData(se)$feature_id <- rownames(se)
+```
+
+Similar to the metadata column mappings above, we define a mapping of
+SMF fields to
+[`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
+columns using the
+[`smfCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+helper function:
+
+``` r
+
+smf_cols <- smfCols(exp_mass_to_charge = "mzmed",
+                    retention_time_in_seconds = "rtmed",
+                    feature_id = "feature_id")
+```
+
+Providing these additional SMF mapping in the
+[`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+call above will compile a `MzTabM` object with an MTD and SMF section
+from the `SummarizedExperiment`. Parameter `assayName` defines which of
+the `SummarizedExperiment`’s assays will be used the SMF section.
+
+``` r
+
+#' Create a MTD+SMF mzTab-M object from the SummarizedExperiment
+mzt <- MzTabM(se, id = "MTBLS8735", sampleCols = scols,
+              msRunCols = mscols, assayCols = acols,
+              groups = c("age", "phenotype", "blood_sample_type"),
+              smfCols. = smf_cols, assayName = "raw_filled")
+mzt
+```
+
+    Object of class MzTabM
+    mzTab-M version 2.1.0-M
+     MTD section with 189 rows.
+     SMF section with 9068 rows and 22 columns.
+
+> **Note**
+>
+> ℹ️ we could also use
+> `smf(se, assayName = "raw_filled", smfCols. = smf_cols)` to extract
+> the SMF table from the `SummarizedExperiment` and add that manually to
+> the a `MzTabM` object.
+
+This `mzt` variable contains now the mzTab-M content that could be
+extracted from the `SummarizedExperiment`. The first rows of the
+metadata section are:
+
+``` r
+
+mtd(mzt) |> head()
+```
+
+    [1,] "mzTab-version"
+    [2,] "mzTab-ID"
+    [3,] "software[1]"
+    [4,] "quantification_method"
+    [5,] "sample[1]"
+    [6,] "sample[1]-species[1]"
+         values
+    [1,] "2.1.0-M"
+    [2,] "MTBLS8735"
+    [3,] "[,,RmzTabM,RmzTabM version 0.97.17]"
+    [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
+    [5,] "POOL"
+    [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
+
+And the first lines of the SMF section:
+
+``` r
+
+smf(mzt) |> head()
+```
+
+           SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
+    FT0001 SMF      1        null                      null       null       null
+    FT0002 SMF      2        null                      null       null       null
+    FT0003 SMF      3        null                      null       null       null
+    FT0004 SMF      4        null                      null       null       null
+    FT0005 SMF      5        null                      null       null       null
+    FT0006 SMF      6        null                      null       null       null
+           exp_mass_to_charge charge retention_time_in_seconds
+    FT0001   50.9897946401403   null          203.600077134134
+    FT0002    51.059035992328   null          191.167453757996
+    FT0003   51.9865730172271   null           203.14665178874
+    FT0004   53.0203569195002   null          203.234292327779
+    FT0005   53.5208004472819   null          203.193618564868
+    FT0006   54.0100702952703   null          159.281630787851
+           retention_time_in_seconds_start retention_time_in_seconds_end
+    FT0001                            null                          null
+    FT0002                            null                          null
+    FT0003                            null                          null
+    FT0004                            null                          null
+    FT0005                            null                          null
+    FT0006                            null                          null
+           abundance_assay[1] abundance_assay[2] abundance_assay[3]
+    FT0001           421.6162           689.2422           411.3295
+    FT0002           710.8078           875.9192           457.5920
+    FT0003           445.5711           613.4410           277.5022
+    FT0004         16994.5260         24605.7340         19766.7069
+    FT0005          3284.2664          4526.0531          3521.8221
+    FT0006         10681.7476         10009.6602          9599.9701
+           abundance_assay[4] abundance_assay[5] abundance_assay[6]
+    FT0001           481.7436           314.7567           635.2732
+    FT0002           693.6997           781.2416           648.4344
+    FT0003           497.8866           425.3774           634.9370
+    FT0004         17808.0933         22780.6683         22873.1061
+    FT0005          3379.8909          4396.0762          4317.7734
+    FT0006         10800.5449          4792.2390          7296.4262
+           abundance_assay[7] abundance_assay[8] abundance_assay[9]
+    FT0001           439.6086           570.5849           579.9360
+    FT0002           700.9716          1054.0207           534.4577
+    FT0003           449.0933           556.2544           461.0465
+    FT0004         16965.7762         23432.1252         22198.4607
+    FT0005          3270.5290          4533.8667          4161.0132
+    FT0006          2382.1788          9236.9799          6817.8785
+           abundance_assay[10] opt_global_feature_id
+    FT0001            437.0340                FT0001
+    FT0002            711.0361                FT0002
+    FT0003            232.1075                FT0003
+    FT0004          16796.4497                FT0004
+    FT0005           3142.2268                FT0005
+    FT0006           6911.5439                FT0006
+
+In the next section we will complete the data adding some metadata
+fields that could not be derived from the result object.
+
+#### Completing the metadata content
+
+Some of the metadata information must be manually added, because it can
+not be extracted from the `SummarizedExperiment`. This depends also on
+the information compiled into the mzTab-M file. We used for example the
+*BTO* and *NCBITaxon* ontologies to describe the samples, but these two
+are not added by default. The
+[`getMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md)
+function can be used to get the set of defined controlled vocabularies
+(ontologies) in the `MzTabM` object:
+
+``` r
+
+getMtdCv(mzt)
+```
+
+                                                                  cv[1]-label
+                                                                         "MS"
+                                                              cv[1]-full_name
+                                               "PSI-MS controlled vocabulary"
+                                                                cv[1]-version
+                                                                    "4.1.138"
+                                                                    cv[1]-uri
+     "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo"
+                                                                  cv[2]-label
+                                                                      "PRIDE"
+                                                              cv[2]-full_name
+    "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
+                                                                cv[2]-version
+                                                           "16:10:2023 11:38"
+                                                                    cv[2]-uri
+                                 "https://www.ebi.ac.uk/ols/ontologies/pride"
+                                                                  cv[3]-label
+                                                                      "STATO"
+                                                              cv[3]-full_name
+                                        "General purpose STATistics Ontology"
+                                                                cv[3]-version
+                                                                 "2026-04-20"
+                                                                    cv[3]-uri
+                                "https://www.ebi.ac.uk/ols4/ontologies/stato" 
+
+We therefore need to add the two missing vocabularies:
+
+``` r
+
+mzt <- setMtdCv(mzt, label = c("BTO", "NCBITaxon"),
+                full_name = c("The BRENDA Tissue Ontology (BTO)",
+                              "NCBI organismal classification"),
+                version = c("2021-10-26", "2025-12-03"),
+                uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
+                        "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"))
+```
+
+Also, we add *xcms* as software to the `MzTabM`:
+
+``` r
+
+mzt <- setMtdField(mzt, "software", "[MS, MS:1001582, xcms, 4.10.0]")
+getMtdField(mzt, "software")
+```
+
+                              software[1]                           software[2]
+    "[,,RmzTabM,RmzTabM version 0.97.17]"      "[MS, MS:1001582, xcms, 4.10.0]" 
+
+Also, we need to add instrument information to the `MzTabM` object.
+
+``` r
+
+#' Adding MS instrument information.
+mzt <- setMtdInstrument(
+    mzt, name = "[MS, MS:1002584, AB Sciex TripleTOF 5600+, ]",
+    source = "[MS, MS:1000073, ESI, ]",
+    analyzer = c(`analyzer[1]` =
+                     "[MS, MS:1003763, quadrupole time-of-flight instrument, ]"),
+    detector = "[,,null,null]")
+```
+
+And at last we add also contact information:
+
+``` r
+
+mzt <- setMtdContact(
+    mzt, name = c("Johannes Rainer", "Philippine Louail"),
+    affiliation= c("Institute for Biomedicine, Eurac Research, Bolzano, Italy",
+                   "Institute for Biomedicine, Eurac Research, Bolzano, Italy"),
+    email = c("johannes.rainer@eurac.edu", "philippine.louail@eurac.edu"),
+    orcid = c("0000-0002-6977-7147", "0009-0007-5429-6846"))
+```
+
+Now we have a complete mzTab-M content compiled and can proceed to
+export it.
+
+#### Export to an MTD+SMF mzTab-M file
+
+The MzTabM object, containing the MTD and SMF sections, is ready for
+export to an mzTab-M file. Following generation, the file is verified
+using the mzTab-M validator. The validation report confirms that the
+file was generated successfully, returning only a single Info message.
+This message notes the absence of the SML section, which is expected
+given that we intentionally generated an MTD+SMF file.
+
+``` r
+
+writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
+```
 
 ### Low-level functions
 
@@ -142,7 +792,6 @@ mtd <- mtdSkeleton(
 library(pander)
 pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
-
 
     |                                            |                                                                         |
     |:-------------------------------------------|:------------------------------------------------------------------------|
@@ -262,17 +911,17 @@ pandoc.table(mtd_s, style = "rmarkdown", split.table = Inf, justify = "ll")
 | sample\[1\]-species\[1\]   | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 | sample\[1\]-tissue\[1\]    | \[BTO, BTO:0000759, liver, \]                 |
 | sample\[1\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \]              |
-| sample\[1\]-custom\[1\]    | \[,,Extraction date, 2011-12-21\]             |
+| sample\[1\]-custom\[1\]    | \[,,, \[,,Extraction date, 2011-12-21\]\]     |
 | sample\[2\]                | S2                                            |
 | sample\[2\]-species\[1\]   | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 | sample\[2\]-tissue\[1\]    | \[BTO, BTO:0000759, liver, \]                 |
 | sample\[2\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \]              |
-| sample\[2\]-custom\[1\]    | \[,,Extraction date, 2011-12-22\]             |
+| sample\[2\]-custom\[1\]    | \[,,, \[,,Extraction date, 2011-12-22\]\]     |
 | sample\[3\]                | S3                                            |
 | sample\[3\]-species\[1\]   | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 | sample\[3\]-tissue\[1\]    | \[BTO, BTO:0000759, liver, \]                 |
 | sample\[3\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \]              |
-| sample\[3\]-custom\[1\]    | \[,,Extraction date, 2011-12-23\]             |
+| sample\[3\]-custom\[1\]    | \[,,, \[,,Extraction date, 2011-12-23\]\]     |
 
 Note that the general information part should also contain the
 references to **all** controlled vocabulary (CV) ontologies used in the
@@ -590,17 +1239,17 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 | sample\[1\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 | sample\[1\]-tissue\[1\] | \[BTO, BTO:0000759, liver, \] |
 | sample\[1\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \] |
-| sample\[1\]-custom\[1\] | \[,,Extraction date, 2011-12-21\] |
+| sample\[1\]-custom\[1\] | \[,,, \[,,Extraction date, 2011-12-21\]\] |
 | sample\[2\] | S2 |
 | sample\[2\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 | sample\[2\]-tissue\[1\] | \[BTO, BTO:0000759, liver, \] |
 | sample\[2\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \] |
-| sample\[2\]-custom\[1\] | \[,,Extraction date, 2011-12-22\] |
+| sample\[2\]-custom\[1\] | \[,,, \[,,Extraction date, 2011-12-22\]\] |
 | sample\[3\] | S3 |
 | sample\[3\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 | sample\[3\]-tissue\[1\] | \[BTO, BTO:0000759, liver, \] |
 | sample\[3\]-cell_type\[1\] | \[CL, CL:0000182, hepatocyte, \] |
-| sample\[3\]-custom\[1\] | \[,,Extraction date, 2011-12-23\] |
+| sample\[3\]-custom\[1\] | \[,,, \[,,Extraction date, 2011-12-23\]\] |
 | ms_run\[1\]-location | s1-t1.mzML |
 | ms_run\[1\]-format | \[MS, MS:1000584, mzML file, \] |
 | ms_run\[1\]-id_format | \[MS, MS:1000530, mzML unique identifier, \] |
@@ -779,10 +1428,10 @@ We can now feed this information to the
 function. In addition to the predefined, parameters, also additional
 feature annotations/columns can be passed to the function through it’s
 `...` parameter. We provide the IDs of the individual features with
-`feature_id =`. These are then stored into a column `"opt_feature_id"`.
-Note that all parameters **must** be fully named, i.e., `x =` or
-`charge =` since the function does not support positional matching of
-its arguments.
+`feature_id =`. These are then stored into a column
+`"opt_global_feature_id"`. Note that all parameters **must** be fully
+named, i.e., `x =` or `charge =` since the function does not support
+positional matching of its arguments.
 
 ``` r
 
@@ -836,14 +1485,22 @@ smf
     FT05              599.8             5344.1             489.90
     FT06               23.1              332.1            3231.22
     FT07                 NA               43.0              23.40
-         abundance_assay[4] abundance_assay[5] abundance_assay[6] opt_feature_id
-    FT01              232.1              264.2              246.2           FT01
-    FT02               43.3             1102.4               52.1           FT02
-    FT03              201.4               43.5              187.2           FT03
-    FT04              434.2              514.5              508.3           FT04
-    FT05             5154.1              583.1              601.5           FT05
-    FT06               43.4              432.3              432.2           FT06
-    FT07              324.3               43.3               34.5           FT07
+         abundance_assay[4] abundance_assay[5] abundance_assay[6]
+    FT01              232.1              264.2              246.2
+    FT02               43.3             1102.4               52.1
+    FT03              201.4               43.5              187.2
+    FT04              434.2              514.5              508.3
+    FT05             5154.1              583.1              601.5
+    FT06               43.4              432.3              432.2
+    FT07              324.3               43.3               34.5
+         opt_global_feature_id
+    FT01                  FT01
+    FT02                  FT02
+    FT03                  FT03
+    FT04                  FT04
+    FT05                  FT05
+    FT06                  FT06
+    FT07                  FT07
 
 Importantly,
 [`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
@@ -959,7 +1616,7 @@ sml
     FT04              599.5             533.10              434.2
     FT06              332.1            3231.22               43.4
     FT07               43.0              23.40              324.3
-         abundance_assay[5] abundance_assay[6]        opt_note
+         abundance_assay[5] abundance_assay[6] opt_global_note
     FT01              264.2              246.2 manual curation
     FT04              514.5              508.3 manual curation
     FT06              432.3              432.2 manual curation
@@ -1054,7 +1711,7 @@ sml
     FT04                             0.1865403
     FT06                             1.7142351
     FT07                             1.2926962
-         abundance_variation_study_variable[6]        opt_note
+         abundance_variation_study_variable[6] opt_global_note
     FT01                          0.0498743027 manual curation
     FT04                          0.0085726673 manual curation
     FT06                          0.0001635875 manual curation
@@ -1112,27 +1769,29 @@ sessionInfo()
     tzcode source: system (glibc)
 
     attached base packages:
-    [1] stats     graphics  grDevices utils     datasets  methods   base
+    [1] stats4    stats     graphics  grDevices utils     datasets  methods
+    [8] base
 
     other attached packages:
-    [1] pander_0.6.6    RmzTabM_0.97.15
+     [1] pander_0.6.6                SummarizedExperiment_1.43.0
+     [3] Biobase_2.73.1              GenomicRanges_1.65.0
+     [5] Seqinfo_1.3.0               IRanges_2.47.2
+     [7] S4Vectors_0.51.3            BiocGenerics_0.59.7
+     [9] generics_0.1.4              MatrixGenerics_1.25.0
+    [11] matrixStats_1.5.0           RmzTabM_0.97.17
 
     loaded via a namespace (and not attached):
-     [1] cli_3.6.6                   knitr_1.51
-     [3] rlang_1.2.0                 xfun_0.58
-     [5] otel_0.2.0                  generics_0.1.4
-     [7] data.table_1.18.4           DelayedArray_0.39.3
-     [9] jsonlite_2.0.0              SummarizedExperiment_1.43.0
-    [11] S4Vectors_0.51.3            htmltools_0.5.9
-    [13] stats4_4.6.0                MatrixGenerics_1.25.0
-    [15] rmarkdown_2.31              Biobase_2.73.1
-    [17] grid_4.6.0                  Seqinfo_1.3.0
-    [19] evaluate_1.0.5              abind_1.4-8
-    [21] fastmap_1.2.0               yaml_2.3.12
-    [23] IRanges_2.47.2              compiler_4.6.0
-    [25] Rcpp_1.1.1-1.1              XVector_0.53.0
-    [27] lattice_0.22-9              digest_0.6.39
-    [29] SparseArray_1.13.2          GenomicRanges_1.65.0
-    [31] Matrix_1.7-5                tools_4.6.0
-    [33] matrixStats_1.5.0           S4Arrays_1.13.0
-    [35] BiocGenerics_0.59.7        
+     [1] cli_3.6.6           knitr_1.51          rlang_1.2.0
+     [4] xfun_0.59           otel_0.2.0          data.table_1.18.4
+     [7] DelayedArray_0.39.3 jsonlite_2.0.0      htmltools_0.5.9
+    [10] rmarkdown_2.31      grid_4.6.0          evaluate_1.0.5
+    [13] abind_1.4-8         fastmap_1.2.0       yaml_2.3.12
+    [16] compiler_4.6.0      Rcpp_1.1.1-1.1      XVector_0.53.0
+    [19] lattice_0.22-9      digest_0.6.39       SparseArray_1.13.2
+    [22] Matrix_1.7-5        tools_4.6.0         S4Arrays_1.13.0    
+
+## References
+
+Louail, Philippine, Vilhelm Suksi, Kozo Nishida, Marilyn De Graeve, and
+Johannes Rainer. 2026. *Rformassspectrometry/Metabonaut: V1.5.0*. April.
+<https://doi.org/10.5281/zenodo.19450619>.

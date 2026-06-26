@@ -1,6 +1,8 @@
 # Import a mzTab-M 2.1 file
 
-Reads and parses an mzTab-M (version 2.1) file into a named list.
+Reads and parses an mzTab-M (version 2.1) file into a
+[MzTabM](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+object.
 
 The parser recognises the four standard sections:
 
@@ -46,7 +48,7 @@ readMzTabM(path, ...)
 
 ## Value
 
-A named `list` containing between one and four elements, depending on
+A `MzTabM` object containing between one and four elements, depending on
 which sections are present in the file:
 
 - `MTD`: A `matrix` with two columns. Column names are absent (the
@@ -72,6 +74,10 @@ Gabriele Tomè
 ## Basic usage
 result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
                                    package = "RmzTabM"))
-names(result)
-#> [1] "MTD" "SML" "SMF"
+result
+#> Object of class MzTabM
+#> mzTab-M version 2.1.0-M
+#>  MTD section with 130 rows.
+#>  SML section with 1 rows and 34 columns.
+#>  SMF section with 351 rows and 20 columns.
 ```

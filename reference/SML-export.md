@@ -89,7 +89,8 @@ smlCreate(
   adduct_ions = character(),
   reliability = character(),
   best_id_confidence_measure = character(),
-  best_id_confidence_value = character()
+  best_id_confidence_value = character(),
+  opt_identifier = "global"
 )
 
 smlSort(x)
@@ -213,6 +214,14 @@ smlAddStudyVariableColumns(x, mtd)
   the best confidence measure. If provided, the length has to match
   `nrow(x)`. The type of score **must** be defined in the metadata
   section. Can also be `NA` if not available.
+
+- opt_identifier:
+
+  `character` with the identifier to be used for optional columns passed
+  through `...`. This is used to create the column names for optional
+  columns in the format `opt_{opt_identifier}_{column_name}`. If not
+  provided, the default is `"global"`. Must be of length 1 or matching
+  the number of opt columns provided in `...`.
 
 - mtd:
 

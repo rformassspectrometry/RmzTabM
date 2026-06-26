@@ -54,7 +54,8 @@ smfCreate(
   SME_ID_REF_ambiguity_code = character(),
   charge = numeric(),
   adduct_ion = character(),
-  isotopomer = character()
+  isotopomer = character(),
+  opt_identifier = "global"
 )
 
 smfSort(x)
@@ -119,6 +120,14 @@ smfSort(x)
 - isotopomer:
 
   `character` vector for isotopomer description. Defaults to `"null"`.
+
+- opt_identifier:
+
+  `character` with the identifier to be used for optional columns passed
+  through `...`. This is used to create the column names for optional
+  columns in the format `opt_{opt_identifier}_{column_name}`. If not
+  provided, the default is `"global"`. Must be of length 1 or matching
+  the number of opt columns provided in `...`.
 
 ## Value
 
@@ -191,8 +200,8 @@ head(smf_final)
 #> 1              100.1              105.2              110.3
 #> 2              200.5              198.2              201.0
 #> 3               50.0               55.0               52.1
-#>   opt_global_custom_attribute
-#> 1                           A
-#> 2                           B
-#> 3                           C
+#>   opt_global_global_custom_attribute
+#> 1                                  A
+#> 2                                  B
+#> 3                                  C
 ```
