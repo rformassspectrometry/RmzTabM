@@ -129,8 +129,8 @@
 #' @param opt_identifier `character` with the identifier to be used for optional
 #'     columns passed through `...`. This is used to create the column names for
 #'     optional columns in the format `opt_{opt_identifier}_{column_name}`. If
-#'     not provided, the default is `"global"`. Must the same length of the opt
-#'     columns provided in `...` or `1L`. Optional.
+#'     not provided, the default is `"global"`. Must be of length 1 or matching
+#'     the number of opt columns provided in `...`. Optional.
 #'
 #' @param msRunCols. named `character` vector defining the columns in the
 #'     `SummarizedExperiment`'s `colData()` containing information on the MS
@@ -308,7 +308,7 @@ setMethod("MzTabM", signature(mtd = "SummarizedExperiment"),
               m <- mtdSkeleton(
                   id = id,
                   software = paste0(
-                      "[,,RmzTabM,RmzTabM version",
+                      "[,,RmzTabM,RmzTabM version ",
                       as.character(packageVersion("RmzTabM")), "]"))
               m <- rbind(m, mtdFromSampleData(
                   as.data.frame(colData(mtd)), sampleCols. = sampleCols.,

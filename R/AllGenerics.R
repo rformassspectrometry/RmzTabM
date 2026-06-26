@@ -16,9 +16,6 @@ setGeneric("setMtdContact", function(x, ...)
 setGeneric("setMtdField", function(x, ...)
     standardGeneric("setMtdField"))
 
-setGeneric("mzTabMToList", function(x, ...)
-    standardGeneric("mzTabMToList"))
-
 setGeneric("MzTabM", function(mtd, ...) standardGeneric("MzTabM"))
 
 setGeneric("smf", function(object, ...) standardGeneric("smf"))

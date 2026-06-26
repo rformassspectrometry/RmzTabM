@@ -8,7 +8,8 @@
 
 This is the mzTab-M R API and reference implementation.
 
-> **_NOTE:_**  This is an *early* development version, please use at your own risk and report issues to help improve it!
+> **_NOTE:_**  This is still actively developed and some part of the code base
+> might be changed. Please report any issues to help improve it!
 
 mzTab-M is intended as a reporting standard for quantitative results from
 metabolomics/lipodomics approaches. This format is further intended to provide
@@ -62,16 +63,21 @@ BiocManager::install("RforMassSpectrometry/RmzTabM")
 base R data types.
 
 - [X] core functionality to format metadata (MTD section)
+      [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.html)
 - [X] core functionality to format small molecule feature (SMF section)
+      [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.html)
 - [X] core functionality to format the (SML section)
-- [ ] core functionality to format the (SME section)
+      [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.html)
+- [X] core functionality to format the (SME section)
+      [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.html)
 - [ ] core functionality to extract metadata from an mzTab-M file and
       reconstruct a sample/experiment `data.frame`
 - [ ] core functionality to extract the SMF data table from an mzTab-M file
 - [ ] core functionality to extract the SME data table from an mzTab-M file
 - [ ] core functionality to extract the SML data table from an mzTab-M file
-- [ ] high-level functionality to simplify exporting experimental data in
-      mzTab-M format
+- [X] high-level functionality to simplify exporting experimental data in
+      mzTab-M
+      format. [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
 - [ ] support for mzTab-M JSON format
 - [ ] mzTab-M file validation
 

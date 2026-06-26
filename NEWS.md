@@ -1,16 +1,23 @@
 # RmzTabM version 0.97
 
-## Changes in version 0.97.16
+## Changes in version 0.97.18
 
 - Add function `mzTabMValidator()` for the validation of the MzTab-M files
   before the import and after the export.
-- Add helper functions `mzTabMToList()` and `.NAtonull()`.
+
+## Changes in version 0.97.17
+
+- Update and simplify the `SummarizedExperiment` export example in the vignette.
+
+## Changes in version 0.97.16
+
+- Update vignette with high-level functionality to export a mzTab-M file.
+- Add helper functions `.NAtonull()`.
+- Add `as.list()`.
 - Fix bug in instrument field sorting.
 - Support `identifier` for optional columns in SML, SMF, SME.
 - Update `readMzTabM()` to create a `MzTabM` object.
-- Update vignette to generate mzTab-M file from SE.
 - Update tests and examples.
-
 
 ## Changes in version 0.97.15
 

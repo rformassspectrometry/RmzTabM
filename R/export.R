@@ -85,7 +85,7 @@
 #' @export
 writeMzTabM <- function(x, path, comments = character()) {
     if(inherits(x, "MzTabM"))
-        x <- mzTabMToList(x)
+        x <- as.list(x)
 
     if (!is.list(x))
         stop("x must be a list.")

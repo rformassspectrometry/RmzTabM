@@ -208,7 +208,6 @@ test_that("writeMzTabM works", {
     SME_block <- read.table(text = SME_block, sep = "\t", header = TRUE,
                             check.names = FALSE, colClasses = "character")
 
-
     f <- tempfile(fileext = ".mztab")
 
     expect_error(writeMzTabM(), "argument \"x\" is missing")

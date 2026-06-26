@@ -170,8 +170,8 @@
 #' @param opt_identifier `character` with the identifier to be used for optional
 #'     columns passed through `...`. This is used to create the column names for
 #'     optional columns in the format `opt_{opt_identifier}_{column_name}`. If
-#'     not provided, the default is `"global"`. Must the same length of the opt
-#'     columns provided in `...` or `1L`.
+#'     not provided, the default is `"global"`. Must be of length 1 or matching
+#'     the number of opt columns provided in `...`.
 #'
 #' @param mtd two-column `matrix` or `data.frame` with the metadata (MTD)
 #'     definition of the data set. The first column needs to contain the
