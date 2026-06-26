@@ -1,5 +1,9 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.17
+
+- Update and simplify the `SummarizedExperiment` export example in the vignette.
+
 ## Changes in version 0.97.16
 
 - Update vignette with high-level functionality to export a mzTab-M file.

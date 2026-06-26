@@ -1,6 +1,6 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.97.16
+Version: 0.97.17
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
@@ -48,11 +48,6 @@ Imports:
     SummarizedExperiment
 Suggests:
     testthat,
-    alabaster.se,
-    xcms,
-    MsIO,
-    MsBackendMetaboLights,
-    Metabonaut,
     pkgdown,
     BiocStyle,
     knitr,
