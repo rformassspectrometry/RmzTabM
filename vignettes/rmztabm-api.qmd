@@ -365,6 +365,42 @@ writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
 ```
 
 
+### Importing an MTD+SMF mzTab-M file
+
+The mzTab-M file generated above can be read back into R using the
+`readMzTabM()` function. The file in verified usign the mzTab-M validator and
+loaded into a `MzTabM` object.
+
+```{r}
+mzt_r <- readMzTabM(file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
+mzt_r
+```
+
+Now we have a `mzTabM` object with the MTD and SMF sections loaded. To make it
+easier to work with the data, we can convert it to a `SummarizedExperiment`
+object using the `makeSummarizedExperimentFromMzTabM()` function.
+By default, the function will use as feature IDs the values in the columns
+`SMF_ID` and keep the column names of the `rowData` as reported in the SMF
+header. In this case, we want to use the original feature IDs from the
+`rowData` of the `SummarizedExperiment` object that are in the optional SMF
+field `opt_global_feature_id`. We also specify the mapping of the SMF fields to
+the original `rowData` columns using the `smfCols` define above.
+
+```{r}
+se_r <- makeSummarizedExperimentFromMzTabM(
+    mzt_r,
+    rowIdCol = "opt_global_feature_id",
+    smfCols. = smf_cols,
+    assayName = "raw_filled"
+)
+se_r
+```
+
+The reconstructed `SummarizedExperiment` contains the same measurement data.
+Differences in `rowData` and `colData` reflect that only fields present in the
+SMF and MTD sections are loaded and that column names follow the mzTab-M
+specification.
+
 ## Low-level functions
 
 The low-level functions listed in this section provide the base functionality

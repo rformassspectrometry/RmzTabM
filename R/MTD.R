@@ -1387,6 +1387,8 @@ mtdSort <- function(x) {
 #'
 #' @author Johannes Rainer
 #'
+#' @seealso [mtdToSampleData()] for the inverse function.
+#'
 #' @examples
 #'
 #' ## Defining an example sample data:
@@ -1467,6 +1469,7 @@ mtdFromSampleData <- function(x,
     xsample <- unique(x[, sampleCols., drop = FALSE])
     colnames(xsample) <- names(sampleCols.)
     s <- do.call(mtdSample, as.list(xsample))
+    if (!nrow(s)) xsample <- data.frame()
 
     ## mtdMsRun: required columns are: `"location"` and `"scan_polarity"`
     if (!any(names(msRunCols.) == "location") ||
@@ -1540,6 +1543,153 @@ mtdFromSampleData <- function(x,
         variation_function = variation_function, description = description)
     m <- rbind(m, s, a, sv)
     mtdSort(m)
+}
+
+#' @title Reconstruct a sample data frame from mzTab-M MTD content
+#'
+#' @description
+#'
+#' `mtdToSampleData()` is the inverse of [mtdFromSampleData()]: it takes an
+#' MTD section and reconstructs a *sample data* `DataFrame` with one row per
+#' *ms_run*, analogous to the input expected by `mtdFromSampleData()`.
+#'
+#' @param mtd MTD section of the MzTabM object.
+#'
+#' @return `DataFrame` with one row per ms_run and columns with information
+#'     on `ms_run`, `assay`, `sample`, `study_variables`, `instrument`,
+#'     `protocol` sections.
+#'
+#' @importFrom tidyr separate_rows
+#'
+#' @importFrom data.table setnames
+#'
+#' @author Gabriele Tomè
+#'
+#' @seealso [mtdFromSampleData()] for the inverse function.
+#'
+#' @examples
+#'
+#' ## Defining an example sample data:
+#' ## - file: the mzML file, i.e., the *MS run*.
+#' ## - name: the name of the measurement. This is also the name of the sample:
+#' ##         QC is the pool of all samples, s1 to s4 the ID of the individual.
+#' ## - phenotype: defining the biological replicates, 2 for CVD, 2 for CTR.
+#' ## - age: covariate, age of the individuals.
+#' ## - injection_index: the order in which samples were measured.
+#' sdata <- data.frame(
+#'     file = c("1.mzML", "2.mzML", "3.mzML", "4.mzML", "5.mzML", "6.mzML"),
+#'     name = c("QC", "s1", "s2", "QC", "s3", "s4"),
+#'     phenotype = c(NA, "CVD", "CTR", NA, "CTR", "CVD"),
+#'     age = c(NA, 35, 32, NA, 43, 32),
+#'     injection_index = c(1, 2, 3, 4, 5, 6))
+#' ## Add additional required columns:
+#' sdata$polarity <- "positive"
+#'
+#' ## Add columns with optional, additional information to the individual
+#' ## samples or assays.
+#' sdata$organism <- "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
+#' sdata$assay_info <- c("run1", "run2", "run3", "run4", "run5", "run6")
+#'
+#' ## Define the columns in `sdata` that provide information on the individual
+#' ## samples.
+#' scols <- sampleCols(sample = "name", species = "organism")
+#'
+#' ## Define the columns in `sdata` that provide MS run information
+#' mscols <- msRunCols(location = "file", scan_polarity = "polarity")
+#'
+#' ## Define the columns in `sdata` that provide assay information; we use
+#' ## the MS run/file name also for the assay name and add an additional
+#' ## column with optional content/information.
+#' acols <- assayCols(assay = "file", assay_info = "assay_info")
+#'
+#' ## Create the MTD section from the `sdata` `data.frame`. Parameter `groups`
+#' ## allows to define the columns in `sdata` that should be encoded as
+#' ## *study variable groups*.
+#' m <- mtdFromSampleData(sdata, sampleCols = scols, msRunCols = mscols,
+#'     assayCols = acols, groups = c("phenotype", "age", "injection_index"))
+#'
+#' ## Reconstruct the sample data from the MTD section. The column names might
+#' ## differ from the original `sdata` `data.frame` if non-mzTabM names are
+#' ## used in the original sdata, but the content is identical.
+#' sdata2 <- mtdToSampleData(m)
+#' sdata2
+#'
+#' @export
+mtdToSampleData <- function(mtd) {
+    fields <- mtd[, 1L]
+
+    ## Extract Assay
+    assay_absent <- is.na(.mtd_get_field(mtd, "^assay\\[([0-9]+)\\]$",
+                                    exact = FALSE, fixed = FALSE)[[1]])
+    if (all(assay_absent))
+        stop("No 'assay' information found in 'mtd'.", call. = FALSE)
+
+    assay_field <- mtd[grepl("^assay\\[([0-9]+)\\]", fields), ]
+    res <- .mtd_long_to_wide(assay_field)
+    setnames(res, "name", "assay")
+
+    ## Extract protocol and merge by assay[i]-protocol_ref
+    if ("protocol_ref" %in% colnames(res)) {
+        protocol_field <- mtd[grepl("^protocol\\[([0-9]+)\\]", fields), ]
+        protocol_w <- .mtd_long_to_wide(protocol_field)
+        setnames(protocol_w, "name", "protocol")
+        res <- merge(res, protocol_w, by.x = "protocol_ref", by.y = "id")
+    }
+
+    ## Extract ms_run and merge by assay[i]-ms_run_ref
+    if ("ms_run_ref" %in% colnames(res)) {
+        ms_run_field <- mtd[grepl("^ms_run\\[([0-9]+)\\]", fields), ]
+        ms_run_w <- .mtd_long_to_wide(ms_run_field)
+
+        if ("instrument_ref" %in% colnames(ms_run_w)) {
+            instrument_field <- mtd[grepl("^instrument\\[([0-9]+)\\]",
+                                          fields), ]
+            instrument_w <- .mtd_long_to_wide(instrument_field)
+            setnames(instrument_w, "name", "instrument")
+            ms_run_w <- merge(ms_run_w, instrument_w,
+                              by.x = "instrument_ref", by.y = "id")
+        }
+
+        res <- res |> separate_rows("ms_run_ref", sep = "\\|")
+        res <- merge(res, ms_run_w, by.x = "ms_run_ref", by.y = "id")
+    }
+
+    ## Extract sample and merge by assay[i]-sample_ref
+    if ("sample_ref" %in% colnames(res)) {
+        res <- res |> separate_rows("sample_ref", sep = "\\|")
+        sample_field <- mtd[grepl("^sample\\[([0-9]+)\\]", fields), ]
+        sample_w <- .mtd_long_to_wide(sample_field)
+        setnames(sample_w, "name", "sample")
+        res <- merge(res, sample_w, by.x = "sample_ref", by.y = "id")
+    }
+
+    ## Exctract study variable and match with study_variable[i]-assay_refs
+    if(any(grepl("^study_variable_group\\[([0-9]+)\\]", fields))) {
+        study_var_grp_field <- mtd[grepl("^study_variable_group\\[([0-9]+)\\]",
+                                        fields), ]
+        study_var_grp_w <- .mtd_long_to_wide(study_var_grp_field)
+        study_var_grp_w$group <- parseCvParameter(study_var_grp_w$name, 3)
+
+        if (all(study_var_grp_w$group != "undefined")) {
+            study_var_field <- mtd[grepl("^study_variable\\[([0-9]+)\\]",
+                                            fields), ]
+            study_var_w <- .mtd_long_to_wide(study_var_field)
+            cols <- c("name", "assay_refs", "group_ref")
+            study_var_w <- study_var_w[, cols] |>
+                                separate_rows("assay_refs", sep = "\\|")
+
+            study_l <- merge(study_var_w, study_var_grp_w[, c("id", "group")],
+                                by.x = "group_ref", by.y = "id")
+            cols_study <- c("assay_refs", "group", "name")
+            study_w <- reshape(study_l[, cols_study], idvar = "assay_refs",
+                                timevar = "group", direction = "wide")
+            colnames(study_w) <- sub("^name\\.", "", colnames(study_w))
+
+            res <- merge(res, study_w, by.x = "id", by.y = "assay_refs")
+        }
+    }
+
+    DataFrame(res, row.names = basename(res$location))
 }
 
 #' @export
