@@ -43,7 +43,7 @@ test_that("makeSummarizedExperimentFromMzTabM works", {
     res <- MzTabM(se, id = "123", msRunCols. = msr, assayCols. = ac)
 
     se_rec <- makeSummarizedExperimentFromMzTabM(res)
-    expect_equal(rowData(se_rec), DataFrame())
+    expect_equal(as.data.frame(rowData(se_rec)), data.frame())
     expect_null(assayNames(se_rec))
     colData <- colData(se)
     colData <- colData[order(colData$derived_spectra_data_file), ]
@@ -247,7 +247,7 @@ test_that(".smfToAssayData works", {
         check.names = FALSE
     )
 
-    sampleData <- DataFrame(
+    sampleData <- data.frame(
         id = c("assay[1]", "assay[2]"),
         row.names = c("Sample1", "Sample2")
     )
@@ -255,6 +255,6 @@ test_that(".smfToAssayData works", {
     res <- .smfToAssayData(smf, sampleData)
 
     expect_equal(colnames(res), c("Sample1", "Sample2"))
-    expect_equal(res$Sample1, c(1, 2))
-    expect_equal(res$Sample2, c(NA, 3))
+    expect_equal(res[, "Sample1"], c(1, 2))
+    expect_equal(res[, "Sample2"], c(NA, 3))
 })

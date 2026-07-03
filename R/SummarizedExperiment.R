@@ -366,17 +366,11 @@ setMethod("smf", signature(object = "SummarizedExperiment"),
 #'
 #' @importMethodsFrom SummarizedExperiment rowData
 #'
-#' @importFrom SummarizedExperiment `rowData<-`
-#'
 #' @importMethodsFrom SummarizedExperiment colData
-#'
-#' @importFrom SummarizedExperiment `colData<-`
 #'
 #' @importFrom stats setNames
 #'
 #' @importFrom stats reshape
-#'
-#' @importFrom S4Vectors DataFrame
 #'
 #' @author Gabriele Tomè
 #'
@@ -404,9 +398,11 @@ makeSummarizedExperimentFromMzTabM <- function(mzt, assayName = 1L,
         featureData <- .smfToFeatureData(smf, smfCols. = smfCols.)
         assayData <- .smfToAssayData(smf, sampleData = sampleData)
 
-        se <- SummarizedExperiment(setNames(list(assayData), assayName))
-        rowData(se) <- featureData
-        colData(se) <- sampleData
+        sampleData  <- sampleData[colnames(assayData), , drop = FALSE]
+        se <- SummarizedExperiment(
+            assays = setNames(list(assayData), assayName),
+            rowData = featureData,
+            colData = sampleData)
     }
     se
 }
@@ -500,9 +496,9 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
 }
 
 #' Helper function to extract the feature data from a SMF section and convert it
-#' to a `DataFrame` suitable for the `rowData()` of a `SummarizedExperiment`.
+#' to a `data.frame` suitable for the `rowData()` of a `SummarizedExperiment`.
 #'
-#' The resulting `DataFrame` contains all columns of the SMF section except for
+#' The resulting `data.frame` contains all columns of the SMF section except for
 #' the abundance assay columns (i.e., columns starting with `"abundance_"`) and
 #' the columns with all values being `"null"`.
 #' The column names are renamed according to the mapping provided in `smfCols.`.
@@ -512,7 +508,8 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
 #' @param smfCols. named `character` defining which SMF section columns should
 #'     be use to characterize each feature.
 #'
-#' @return `DataFrame` suitable for the `rowData()` of a `SummarizedExperiment`.
+#' @return `data.frame` suitable for the `rowData()` of a
+#'     `SummarizedExperiment`.
 #'
 #' @importFrom data.table setnames
 #'
@@ -527,23 +524,23 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
                                 drop = FALSE]
     setnames(rowdata_df, names(smfCols.), smfCols., skip_absent = TRUE)
 
-    DataFrame(rowdata_df, row.names = )
+    data.frame(rowdata_df, row.names = rownames(smf))
 }
 
 #' Helper function to extract the abundance assay data from a SMF section and
-#' convert it to a `DataFrame` suitable for `SummarizedExperiment`.
+#' convert it to a `data.frame` suitable for `SummarizedExperiment`.
 #'
-#' The resulting `DataFrame` contains only the abundance assay columns (i.e.,
+#' The resulting `data.frame` contains only the abundance assay columns (i.e.,
 #' columns starting with `"abundance_assay"`) and the values are converted to
 #' `numeric`.
 #' The column names are renamed according to the rownames provided in the
-#' `sampleData` `DataFrame`.
+#' `sampleData` `data.frame`.
 #'
 #' @param smf `data.frame` containing the SMF section.
 #'
-#' @param sampleData `DataFrame` of the `SummarizedExperiment`'s `colData()`.
+#' @param sampleData `data.frame` of the `SummarizedExperiment`'s `colData()`.
 #'
-#' @return `DataFrame` containing the `SummarizedExperiment` `assay`.
+#' @return `data.frame` containing the `SummarizedExperiment` `assay`.
 #'
 #' @author Gabriele Tomè
 #'
@@ -560,5 +557,5 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
     colnames(assay) <- rownames(sampleData)[match(colnames(assay),
                                                   sampleData$id)]
 
-    DataFrame(assay)
+    data.frame(assay)
 }

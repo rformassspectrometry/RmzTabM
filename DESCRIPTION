@@ -43,11 +43,9 @@ SystemRequirements:
     pandoc,
     quarto
 Imports:
-    S4Vectors,
     data.table,
     methods,
-    SummarizedExperiment,
-    tidyr
+    SummarizedExperiment
 Suggests:
     testthat,
     pkgdown,

@@ -1550,16 +1550,14 @@ mtdFromSampleData <- function(x,
 #' @description
 #'
 #' `mtdToSampleData()` is the inverse of [mtdFromSampleData()]: it takes an
-#' MTD section and reconstructs a *sample data* `DataFrame` with one row per
+#' MTD section and reconstructs a *sample data* `data.frame` with one row per
 #' *ms_run*, analogous to the input expected by `mtdFromSampleData()`.
 #'
 #' @param mtd MTD section of the MzTabM object.
 #'
-#' @return `DataFrame` with one row per ms_run and columns with information
-#'     on `ms_run`, `assay`, `sample`, `study_variables`, `instrument`,
-#'     `protocol` sections.
-#'
-#' @importFrom tidyr separate_rows
+#' @return `data.frame` with one row per `"ms_run"` and columns with information
+#'     on `"ms_run"`, `"assay"`, `"sample"`, `"study_variables"`,
+#'     `"instrument"`, `"protocol"` sections.
 #'
 #' @importFrom data.table setnames
 #'
@@ -1650,13 +1648,13 @@ mtdToSampleData <- function(mtd) {
                               by.x = "instrument_ref", by.y = "id")
         }
 
-        res <- res |> separate_rows("ms_run_ref", sep = "\\|")
+        res <- .separate_multi_links(res, "ms_run_ref")
         res <- merge(res, ms_run_w, by.x = "ms_run_ref", by.y = "id")
     }
 
     ## Extract sample and merge by assay[i]-sample_ref
     if ("sample_ref" %in% colnames(res)) {
-        res <- res |> separate_rows("sample_ref", sep = "\\|")
+        res <- .separate_multi_links(res, "sample_ref")
         sample_field <- mtd[grepl("^sample\\[([0-9]+)\\]", fields), ]
         sample_w <- .mtd_long_to_wide(sample_field)
         setnames(sample_w, "name", "sample")
@@ -1673,10 +1671,9 @@ mtdToSampleData <- function(mtd) {
         if (all(study_var_grp_w$group != "undefined")) {
             study_var_field <- mtd[grepl("^study_variable\\[([0-9]+)\\]",
                                             fields), ]
-            study_var_w <- .mtd_long_to_wide(study_var_field)
             cols <- c("name", "assay_refs", "group_ref")
-            study_var_w <- study_var_w[, cols] |>
-                                separate_rows("assay_refs", sep = "\\|")
+            study_var_w <- .mtd_long_to_wide(study_var_field)[, cols]
+            study_var_w <- .separate_multi_links(study_var_w, "assay_refs")
 
             study_l <- merge(study_var_w, study_var_grp_w[, c("id", "group")],
                                 by.x = "group_ref", by.y = "id")
@@ -1689,7 +1686,7 @@ mtdToSampleData <- function(mtd) {
         }
     }
 
-    DataFrame(res, row.names = basename(res$location))
+    data.frame(res, row.names = basename(res$location))
 }
 
 #' @export

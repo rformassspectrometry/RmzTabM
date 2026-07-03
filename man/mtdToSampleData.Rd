@@ -10,13 +10,13 @@ mtdToSampleData(mtd)
 \item{mtd}{MTD section of the MzTabM object.}
 }
 \value{
-\code{DataFrame} with one row per ms_run and columns with information
-on \code{ms_run}, \code{assay}, \code{sample}, \code{study_variables}, \code{instrument},
-\code{protocol} sections.
+\code{data.frame} with one row per \code{"ms_run"} and columns with information
+on \code{"ms_run"}, \code{"assay"}, \code{"sample"}, \code{"study_variables"},
+\code{"instrument"}, \code{"protocol"} sections.
 }
 \description{
 \code{mtdToSampleData()} is the inverse of \code{\link[=mtdFromSampleData]{mtdFromSampleData()}}: it takes an
-MTD section and reconstructs a \emph{sample data} \code{DataFrame} with one row per
+MTD section and reconstructs a \emph{sample data} \code{data.frame} with one row per
 \emph{ms_run}, analogous to the input expected by \code{mtdFromSampleData()}.
 }
 \examples{

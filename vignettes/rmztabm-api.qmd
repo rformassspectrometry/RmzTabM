@@ -376,7 +376,7 @@ mzt_r <- readMzTabM(file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
 mzt_r
 ```
 
-Now we have a `mzTabM` object with the MTD and SMF sections loaded. To make it
+Now we have a `MzTabM` object with the MTD and SMF sections loaded. To make it
 easier to work with the data, we can convert it to a `SummarizedExperiment`
 object using the `makeSummarizedExperimentFromMzTabM()` function.
 By default, the function will use as feature IDs the values in the columns
