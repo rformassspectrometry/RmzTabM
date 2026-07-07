@@ -13,6 +13,9 @@ setGeneric("setMtdCv", function(x, ...)
 setGeneric("setMtdContact", function(x, ...)
     standardGeneric("setMtdContact"))
 
+setGeneric("setMtdProtocol", function(x, ...)
+    standardGeneric("setMtdProtocol"))
+
 setGeneric("setMtdField", function(x, ...)
     standardGeneric("setMtdField"))
 

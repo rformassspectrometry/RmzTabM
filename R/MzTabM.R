@@ -30,6 +30,7 @@
 #' - [getMtdDatabase()] and [setMtdDatabase()] for database information.
 #' - [getMtdCv()] and [setMtdCv()] for CV information.
 #' - [getMtdContact()] and [setMtdContact()] for contact information.
+#' - [getMtdProtocol()] and [setMtdProtocol()] for protocol information.
 #' - [getMtdField()] and [setMtdField()] for additional information.
 #'
 #' @section SMF section; adding or getting small feature abundance matrix:
@@ -90,6 +91,15 @@
 #'           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 #' m
 #' getMtdContact(m)
+#'
+#' ## Add protocol metadata to an existing mzTab object
+#' m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
+#'        type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+#'        description = c("Eluting compounds were detected ..."),
+#'        parameters = paste0("[MS, MS:1000008, ionization type, ",
+#'                            "[MS,MS:1000073, electrospray ionization, ]]"))
+#' m
+#' getMtdProtocol(m)
 #'
 #' ## Add a metadata field to an existing mzTab object
 #' m <- setMtdField(m, field = "publication",
@@ -175,6 +185,16 @@ setMethod("setMtdContact", "MzTabM", function(x, name = character(),
                                               orcid = character(),
                                               replace = FALSE) {
     x@mtd <- setMtdContact(x@mtd, name, affiliation, email, orcid, replace)
+    x
+})
+
+setMethod("setMtdProtocol", "MzTabM", function(x = matrix(),
+                                            name = character(),
+                                            type = character(),
+                                            description = character(),
+                                            parameters = character(),
+                                            replace = FALSE) {
+    x@mtd <- setMtdProtocol(x@mtd, name, type, description, parameters, replace)
     x
 })
 

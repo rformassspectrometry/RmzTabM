@@ -739,54 +739,6 @@ test_that("mtdStudyVariables works", {
                  "assay[1]|assay[4]")
 })
 
-test_that("mtdProtocol works", {
-    expect_error(mtdProtocol(), "\'name\' is required")
-    expect_error(mtdProtocol(name = "protocol1"), "\'type\' is required")
-    expect_error(mtdProtocol(name = "protocol1", type = "invalid_CV"),
-                 "\'type\' have to be valid CV parameter")
-
-    ## Minimal protocol
-    res <- mtdProtocol(name = "protocol1", type = "[MS, MS:1000584, sample preparation protocol, ]")
-    expect_equal(res[, 1L], c("protocol[1]-name", "protocol[1]-type"))
-    expect_equal(res[, 2L], c("protocol1", "[MS, MS:1000584, sample preparation protocol, ]"))
-
-    ## Protocol with description and parameters
-    res <- mtdProtocol(name = "protocol1",
-                    type = "[MS, MS:1000584, sample preparation protocol, ]",
-                    description = "This is a sample preparation protocol.",
-                    parameters = c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
-    expect_equal(res[, 1L],
-                 c("protocol[1]-name",
-                   "protocol[1]-type",
-                   "protocol[1]-description",
-                   "protocol[1]-parameter[1]"))
-    expect_equal(res[, 2L],
-                 c("protocol1",
-                 "[MS, MS:1000584, sample preparation protocol, ]",
-                 "This is a sample preparation protocol.",
-                 "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"))
-
-    ## Protocol with multiple samples
-    res <- mtdProtocol(name = c("protocol1","protocol2"),
-                    type = "[MS, MS:1000584, sample preparation protocol, ]",
-                    parameters = list(c("[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]", "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]"), NULL))
-    expect_equal(res[, 1L],
-                 c("protocol[1]-name",
-                   "protocol[1]-type",
-                   "protocol[1]-parameter[1]",
-                   "protocol[1]-parameter[2]",
-                   "protocol[2]-name",
-                   "protocol[2]-type"))
-    expect_equal(res[, 2L],
-                 c("protocol1",
-                 "[MS, MS:1000584, sample preparation protocol, ]",
-                 "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
-                 "[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]",
-                 "protocol2",
-                 "[MS, MS:1000584, sample preparation protocol, ]"))
-
-})
-
 test_that(".mtd_get_field works", {
     x <- cbind(
         c("instrument[1]-name",
@@ -1246,6 +1198,87 @@ test_that("getMtdContact works", {
     expect_equal(res[["contact[1]-affiliation"]], "PSI-MS")
     expect_equal(res[["contact[1]-email"]], "name.surname@mail.com")
     expect_equal(res[["contact[1]-orcid"]], "0000-0001-2345-6789")
+})
+
+test_that("setMtdProtocol works", {
+    x <- matrix()
+    result <- setMtdProtocol(x)
+    expect_equal(result, x)
+
+    ## setMtdProtocol errors when parameter is missing
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    expect_error(setMtdProtocol(x), "name")
+    expect_error(setMtdProtocol(x, name = "Mass Spectrometry"), "type")
+    expect_error(setMtdProtocol(x, name = "Mass Spectrometry",
+                    type = c("[CHMO, CHMO:0000470, mass spectrometry, ]")),
+                 "description")
+    expect_error(setMtdProtocol(x, name = "Mass Spectrometry",
+                    type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+                    description = c("Eluting compounds were detected ...")),
+                    "parameters")
+    expect_error(setMtdProtocol(x, name = "Mass Spectrometry",
+                    type = c("not_CV"),
+                    description = c("Eluting compounds were detected ..."),
+                    parameters = c("[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]")), "valid CV")
+
+    ## setMtdProtocol adds contact metadata fields to a valid MTD section
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    result <- setMtdProtocol(x, name = "Mass Spectrometry",
+                    type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+                    description = c("Eluting compounds were detected ..."),
+                    parameters = c("[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]"))
+    expect_true(any(grepl("protocol\\[1\\]-name", result[, 1])))
+    expect_true(any(grepl("protocol\\[1\\]-type", result[, 1])))
+    expect_true(any(grepl("protocol\\[1\\]-description", result[, 1])))
+    expect_true(any(grepl("protocol\\[1\\]-parameter\\[1\\]", result[, 1])))
+    expect_true(any(grepl("Mass Spectrometry", result[, 2])))
+    expect_true(any(grepl("[CHMO, CHMO:0000470, mass spectrometry, ]",
+                          result[, 2])))
+    expect_true(any(grepl("Eluting compounds were detected ...", result[, 2])))
+    expect_true(any(grepl("[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]",
+                          result[, 2])))
+
+    ## setMtdProtocol appends new contact metadata when replace = FALSE
+    mtd2 <- setMtdProtocol(result, name = c("extraction"),
+             type = c("[MSIO, MSIO:0000141, metabolite extraction,]"),
+             description = c("Extraction using 80% methanol"),
+             parameters = list("[MSIO, MSIO:0000107, quenching, [MSIO, MSIO:0000109, liquid nitrogen,]]"),
+             replace = FALSE)
+    name_rows <- mtd2[grepl("protocol.*name$", mtd2[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 2L)
+
+    ## setMtdProtocol replaces existing contact metadata when replace = TRUE
+    mtd3 <- setMtdProtocol(mtd2, name = "Test replace",
+             type = "[, , null, null]",
+             description = "Test description",
+             parameters = "[ , , null, null]", replace = TRUE)
+    name_rows <- mtd3[grepl("protocol.*name$", mtd3[, 1]), , drop = FALSE]
+    expect_equal(nrow(name_rows), 1L)
+    expect_equal(mtd3[grepl("protocol.*name$", mtd3[, 1]), 2][[1]],
+                "Test replace")
+})
+
+test_that("getMtdProtocol works", {
+    res <- getMtdProtocol()
+    expect_true(is.na(res))
+
+    x <- mtdSkeleton("001", software = "[MS, MS:1001582, xcms, 4.0.0]")
+    res <- getMtdProtocol(x)
+    expect_true(is.na(res))
+
+    x <- setMtdProtocol(x, name = "Mass Spectrometry",
+                    type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+                    description = c("Eluting compounds were detected ..."),
+                    parameters = c("[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]"))
+    res <- getMtdProtocol(x)
+    expect_equal(length(res), 4)
+    expect_equal(res[["protocol[1]-name"]], "Mass Spectrometry")
+    expect_equal(res[["protocol[1]-type"]],
+                "[CHMO, CHMO:0000470, mass spectrometry, ]")
+    expect_equal(res[["protocol[1]-description"]],
+                "Eluting compounds were detected ...")
+    expect_equal(res[["protocol[1]-parameter[1]"]],
+                "[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]")
 })
 
 test_that("setMtdField works", {

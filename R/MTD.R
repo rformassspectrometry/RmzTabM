@@ -72,6 +72,8 @@
 #'   in an MTD section.
 #' - [setMtdContact()]/[getMtdContact()]: set/get contact Metadata in an MTD
 #'   section.
+#' - [setMtdProtocol()]/[getMtdProtocol()]: set/get protocol Metadata in an MTD
+#'   section.
 #' - [setMtdField()]/[getMtdField()]: set/get a Metadata Field in an MTD
 #'   section.
 #'
@@ -94,7 +96,7 @@
 #'     molecule feature (SMF) and small molecule (SML) sections.
 #'
 #' @seealso [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()],
-#'     [setMtdContact()] and [setMtdField()].
+#'     [setMtdContact()], [setMtdProtocol()] and [setMtdField()].
 #'
 #' @examples
 #'
@@ -1179,79 +1181,6 @@ mtdDefineStudyVariables <- function(x = data.frame(), groups = character()) {
         data.frame(study_variable = "undefined",
                    study_variable_group = "undefined")
     else unique(.mztab_study_variables(x, groups))
-}
-
-#' @title mzTab-M *protocol* metadata information
-#'
-#' @description
-#'
-#' The `mtdProtocol()` function assists in compiling the *protocol* information
-#' of the metadata section. Each protocol is referenced from an *assay* section
-#' (see [mtdAssay()]).
-#'
-#' For details and expected input for the various parameter it is **strongly
-#' suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
-#'
-#' @param name `character` with protocol name describing one or more steps of
-#'     an experimental procedure, such as sample preparation, data acquisition
-#'     or data processing.
-#'
-#' @param type `character` with the protocol type, as defined by the parameter.
-#'     Can be of length 1 or equal to `length(name)`.
-#'
-#' @param description optional `character` with the description of the protocol.
-#'     Can be of length 1 or equal to `length(name)`.
-#'
-#' @param parameters optional `character` with additional parameters of the
-#'     protocol
-#'
-#' @return two-column `character` `matrix` with the content for the protocol
-#'     metadata section.
-#'
-#' @author Gabriele Tomè
-#'
-#' @seealso [MTD-export] for other functions defining metadata information
-#'
-#' @export
-#'
-#' @examples
-#'
-#' ## Minimal example with protocol.
-#' mtdProtocol(name = c("protocol1", "protocol2", "protocol3"),
-#'             type = c("[,,,type1]", "[,,,type2]", "[,,,type3]"))
-#'
-#' ## Example with all the fields
-#' mtdProtocol(name = c("protocol1", "protocol2", "protocol3"),
-#'             type = c("[,,,type]", "[,,,type2]", "[,,,type3]"),
-#'             description = c("description1", "description2", "description3"),
-#'             parameters = list(c("param1.1", "param1.2"), "param2", "param3"))
-mtdProtocol <- function(name = character(), type = character(),
-                        description = character(), parameters = character()) {
-    if (!length(name))
-        stop("Parameter 'name' is required", call. = FALSE)
-    if (!length(type))
-        stop("Parameter 'type' is required", call. = FALSE)
-    if (!all(sapply(type, isCvParameter)))
-        stop("All entries in parameter 'type' have to be valid CV parameters",
-             call. = FALSE)
-    l = length(name)
-    s <- seq_len(l)
-    res <- cbind(mtdFields(name = name, field_prefix = "protocol"), order = s)
-    if (length(type)) {
-        if (length(type) != l) type <- rep(type[1L], l)
-        res <- rbind(res, cbind(mtdFields(type = type,
-                                           field_prefix = "protocol"), s))
-    }
-    if (length(description)) {
-        if (length(description) != l) description <- rep(description[1L], l)
-        res <- rbind(res, cbind(mtdFields(description = description,
-                                           field_prefix = "protocol"), s))
-    }
-    ## Paramters
-    if (length(parameters)) {
-        res <- rbind(res, .mtd_parameters_fields("protocol", parameters, l))
-    }
-    res[order(res[, 3L]), 1:2, drop = FALSE]
 }
 
 #' @title Sort rows in a MTD matrix to match the expected order
@@ -2559,6 +2488,180 @@ getMtdContact <- function(x = matrix()) {
     if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
+
+#' @title Add or Update protocol Metadata  of an mzTab-M MTD section
+#'
+#' @name setMtdProtocol
+#'
+#' @aliases setMtdProtocol,dfmatrix-method setMtdProtocol,MzTabM-method
+#'
+#' @description
+#'
+#' `setMtdProtocol()` sets or updates protocol-related metadata fields within
+#' an MTD (metadata) section. When protocol metadata already exists, the
+#' function can either replace it entirely or append new values to the existing
+#' ones. Each protocol is referenced from an *assay* section (see [mtdAssay()]).
+#'
+#' `getMtdProtocol()` returns the protocol information from an MTD section.
+#'
+#' @param x A MTD section that stores metadata fields. Can be a two-column
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
+#'
+#' @param name `character` with protocol name describing one or more steps of
+#'     an experimental procedure, such as sample preparation, data acquisition
+#'     or data processing.
+#'
+#' @param type `character` with the protocol type, as defined by the parameter.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param description optional `character` with the description of the protocol.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param parameters optional `character` with additional parameters of the
+#'     protocol
+#'
+#' @param replace `logical` flag controlling how pre-existing contact
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `FALSE` (default): new values are appended to any existing
+#'         values.
+#'         \item `TRUE`: existing instrument metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return
+#'
+#' - For `setMtdProtocol()`: the input object `x` updated to include the new or
+#'   merged protocol metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdProtocol()`: a named `character` with the protocol information,
+#'   names being the field names.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' ## Minimal example with protocol.
+#' mtd <- setMtdProtocol(x, name = c("Mass Spectrometry"),
+#'        type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+#'        description = c("Eluting compounds were detected ..."),
+#'        parameters = paste0("[MS, MS:1000008, ionization type, ",
+#'                            "[MS,MS:1000073, electrospray ionization, ]]"))
+#'
+#' ## Example with all the fields and replace the previous
+#' mtd <- setMtdProtocol(mtd, name = c("Mass Spectrometry", "extraction"),
+#'             type = c("[CHMO, CHMO:0000470, mass spectrometry, ]",
+#'                      "[MSIO, MSIO:0000141, metabolite extraction,]"),
+#'             description = c("Eluting compounds were detected ...",
+#'                             "Extraction using 80% methanol"),
+#'             parameters = list(c(paste0("[MS, MS:1000008, ionization type, ",
+#'                               "[MS,MS:1000073, electrospray ionization, ]]"),
+#'                               "param1.2"),
+#'                               paste0("[MSIO, MSIO:0000107, quenching, ",
+#'                                  "[MSIO, MSIO:0000109, liquid nitrogen,]]")),
+#'             replace = TRUE)
+#'
+#' getMtdProtocol(mtd)
+#'
+#' @exportMethod setMtdProtocol
+setMethod("setMtdProtocol", "dfmatrix", function(x = matrix(),
+                                            name = character(),
+                                            type = character(),
+                                            description = character(),
+                                            parameters = character(),
+                                            replace = FALSE) {
+    if (!all(is.na(x))) {
+        if (!length(name))
+            stop("Missing \"name\", provide a valid one.")
+        if (!length(type))
+            stop("Missing \"type\", provide a valid one.")
+        if (!length(description))
+            stop("Missing \"description\", provide a valid one.")
+        if (!length(parameters))
+            stop("Missing \"parameters\", provide a valid one.")
+        if (!all(sapply(type, isCvParameter)))
+            stop("All entries in parameter 'type' have to be valid CV ",
+                 "parameters", call. = FALSE)
+        prot <- .mtd_get_field(x, "^protocol\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+        list_param <- list(name = name, type = type,
+                            description = description, parameter = parameters)
+        if (!all(is.na(prot))) {
+            if (!replace) {
+                list_param <- Map(function(f) {
+                    c(prot[grep(f, names(prot), fixed = TRUE)],
+                      list_param[[f]])},
+                    names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(prot)), ]
+        }
+        new_prot <- do.call(.mtdProtocol, c(list_param))
+        x <- mtdSort(rbind(x, new_prot))
+    }
+    x
+})
+
+#' @rdname setMtdProtocol
+#'
+#' @export
+getMtdProtocol <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
+    .mtd_get_field(x, "^protocol\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
+}
+
+#' The `mtdProtocol()` function assists in compiling the *protocol* information
+#' of the metadata section.
+#'
+#' @param name `character` with protocol name describing one or more steps of
+#'     an experimental procedure, such as sample preparation, data acquisition
+#'     or data processing.
+#'
+#' @param type `character` with the protocol type, as defined by the parameter.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param description optional `character` with the description of the protocol.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param parameter optional `character` with additional parameters of the
+#'     protocol
+#'
+#' @return two-column `character` `matrix` with the content for the protocol
+#'     metadata section.
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.mtdProtocol <- function(name = character(), type = character(),
+                        description = character(), parameter = character()) {
+    if (!length(name))
+        stop("Parameter 'name' is required", call. = FALSE)
+    if (!length(type))
+        stop("Parameter 'type' is required", call. = FALSE)
+    if (!all(sapply(type, isCvParameter)))
+        stop("All entries in parameter 'type' have to be valid CV parameters",
+             call. = FALSE)
+    l = length(name)
+    s <- seq_len(l)
+    res <- cbind(mtdFields(name = name, field_prefix = "protocol"), order = s)
+    if (length(type)) {
+        if (length(type) != l) type <- rep(type[1L], l)
+        res <- rbind(res, cbind(mtdFields(type = type,
+                                           field_prefix = "protocol"), s))
+    }
+    if (length(description)) {
+        if (length(description) != l) description <- rep(description[1L], l)
+        res <- rbind(res, cbind(mtdFields(description = description,
+                                           field_prefix = "protocol"), s))
+    }
+    ## Paramters
+    if (length(parameter)) {
+        res <- rbind(res, .mtd_parameters_fields("protocol", parameter, l))
+    }
+    res[order(res[, 3L]), 1:2, drop = FALSE]
+}
+
 
 #' @title Add or Update a Metadata Field of an mzTab-M MTD section
 #'

@@ -62,6 +62,8 @@ section.
 in an MTD section.
 \item \code{\link[=setMtdContact]{setMtdContact()}}/\code{\link[=getMtdContact]{getMtdContact()}}: set/get contact Metadata in an MTD
 section.
+\item \code{\link[=setMtdProtocol]{setMtdProtocol()}}/\code{\link[=getMtdProtocol]{getMtdProtocol()}}: set/get protocol Metadata in an MTD
+section.
 \item \code{\link[=setMtdField]{setMtdField()}}/\code{\link[=getMtdField]{getMtdField()}}: set/get a Metadata Field in an MTD
 section.
 }
@@ -229,7 +231,7 @@ mtd <- mtdSort(mtd)
 molecule feature (SMF) and small molecule (SML) sections.
 
 \code{\link[=setMtdInstrument]{setMtdInstrument()}}, \code{\link[=setMtdDatabase]{setMtdDatabase()}}, \code{\link[=setMtdCv]{setMtdCv()}},
-\code{\link[=setMtdContact]{setMtdContact()}} and \code{\link[=setMtdField]{setMtdField()}}.
+\code{\link[=setMtdContact]{setMtdContact()}}, \code{\link[=setMtdProtocol]{setMtdProtocol()}} and \code{\link[=setMtdField]{setMtdField()}}.
 }
 \author{
 Philippine Louail, Johannes Rainer

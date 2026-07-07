@@ -56,6 +56,7 @@ Various functions are available to get or set metadata information of a
 \item \code{\link[=getMtdDatabase]{getMtdDatabase()}} and \code{\link[=setMtdDatabase]{setMtdDatabase()}} for database information.
 \item \code{\link[=getMtdCv]{getMtdCv()}} and \code{\link[=setMtdCv]{setMtdCv()}} for CV information.
 \item \code{\link[=getMtdContact]{getMtdContact()}} and \code{\link[=setMtdContact]{setMtdContact()}} for contact information.
+\item \code{\link[=getMtdProtocol]{getMtdProtocol()}} and \code{\link[=setMtdProtocol]{setMtdProtocol()}} for protocol information.
 \item \code{\link[=getMtdField]{getMtdField()}} and \code{\link[=setMtdField]{setMtdField()}} for additional information.
 }
 }
@@ -103,6 +104,15 @@ m <- setMtdContact(m, name = "Name Surname",
           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 m
 getMtdContact(m)
+
+## Add protocol metadata to an existing mzTab object
+m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
+       type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+       description = c("Eluting compounds were detected ..."),
+       parameters = paste0("[MS, MS:1000008, ionization type, ",
+                           "[MS,MS:1000073, electrospray ionization, ]]"))
+m
+getMtdProtocol(m)
 
 ## Add a metadata field to an existing mzTab object
 m <- setMtdField(m, field = "publication",
