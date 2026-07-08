@@ -1106,23 +1106,8 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Not all column names defined with 'groups' are ",
              "present in 'x'", call. = FALSE)
     x <- as.data.frame(x[, groups, drop = FALSE])
-    ## Convert non Cv groups to Cv parameters
-    groups_cv <- groups
-    if (any(i <- !isCvParameter(groups_cv)))
-        groups_cv[i] <- paste0("[,,", groups_cv[i], ",]")
 
-    svg <- c(groups_cv, .mtd_svar_group_description(x, group_description),
-             .mtd_svar_group_type(x, group_type),
-             .mtd_svar_group_datatype(x, group_datatype),
-             .mtd_svar_group_unit(x, group_unit))
-    ## build study variable group content
-    res <- cbind(paste0("study_variable_group[",
-                        rep(seq_along(groups_cv), each = 5L),
-                        c("]", "]-description", "]-type",
-                          "]-datatype", "]-unit")),
-                 svg[order(rep(seq_along(groups_cv), 5L))])
-    ## drop rows with empty unit
-    res <- res[!(grepl("-unit$", res[, 1L]) & res[, 2L] == ""), , drop = FALSE]
+    ## Add study variables
     svar_df <- .mztab_study_variables(x, groups)
     svars <- unique(svar_df)
     l <- nrow(svars)
@@ -1143,6 +1128,7 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Length of parameter 'description' has to be equal to ",
              "the number of study variables", call. = FALSE)
     ## Add study variables
+    res <- matrix(ncol = 2)
     for (i in seq_len(nrow(svars))) {
         current_svar <- svars$study_variable[i]
         current_grp <- svars$study_variable_group[i]
@@ -1155,19 +1141,37 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-average_function"),
                      paste0("study_variable[", i, "]-variation_function"),
                      paste0("study_variable[", i, "]-description"),
-                     paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
                      paste0("assay[", which(x[, current_grp] %in% current_svar),
                             "]", collapse = "|"),
                      average_function[i],
                      variation_function[i],
-                     description[i],
-                     paste0("study_variable_group[",
-                            match(current_grp, groups), "]"))
+                     description[i])
                    )
         )
     }
-    res
+
+    ## Convert non Cv groups to Cv parameters
+    groups_cv <- groups
+    if (any(i <- !isCvParameter(groups_cv)))
+        groups_cv[i] <- paste0("[,,", groups_cv[i], ",]")
+
+    svg <- c(groups_cv, .mtd_svar_group_description(x, group_description),
+             .mtd_svar_group_type(x, group_type),
+             .mtd_svar_group_datatype(x, group_datatype),
+             .mtd_svar_group_unit(x, group_unit),
+             .mtd_svar_group_variable_ref(svars))
+    ## build study variable group content
+    svar_g_df <- matrix(ncol = 2,
+                        c(paste0("study_variable_group[",
+                        rep(seq_along(groups_cv), each = 6L),
+                        c("]", "]-description", "]-type",
+                          "]-datatype", "]-unit", "]-study_variable_ref")),
+                        unlist(svg[order(rep(seq_along(groups_cv), 6L))])))
+    ## drop rows with empty unit
+    svar_g_df <- svar_g_df[!(grepl("-unit$", svar_g_df[, 1L]) &
+                            svar_g_df[, 2L] == ""), , drop = FALSE]
+    rbind(svar_g_df, res[-1, ])
 }
 
 #' @rdname mtdStudyVariables
@@ -1994,6 +1998,22 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
                  " is/are not a CV parameter.", call. = FALSE)
         group_unit
     } else rep("", ncol(x))
+}
+
+#' Helper function to compute the linkage between `study_variable_group` and
+#' `study_variable`.
+#'
+#' @return returns `study_variable_ref`
+#'
+#' @noRd
+.mtd_svar_group_variable_ref <- function(svars) {
+    svars$index <- seq_len(nrow(svars))
+    variable_ref <- lapply(unique(svars$study_variable_group), function(g) {
+        paste0("study_variable[",
+                svars[svars$study_variable_group == g, "index"],
+                "]", collapse = "|")
+    })
+    variable_ref
 }
 
 .STUDY_VARIABLE_GROUP_DATATYPE <- data.frame(

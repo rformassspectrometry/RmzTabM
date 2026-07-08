@@ -532,8 +532,6 @@ test_that("mtdStudyVariables works", {
     expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "undefined")
     expect_false(any(res[, 1L] == "study_variable_group[2]"))
     expect_false(any(res[, 1L] == "study_variable[2]"))
-    expect_equal(res[res[, 1L] == "study_variable[1]-group_ref", 2L],
-                 "study_variable_group[1]")
     expect_equal(res[res[, 1L] == "study_variable[1]-assay_refs", 2L],
                  "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]")
     ## With a single study variable group
@@ -544,43 +542,39 @@ test_that("mtdStudyVariables works", {
     expect_equal(res[res[, 1L] == "study_variable_group[1]-datatype", 2L],
                  "xsd:string")
     expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "TRUE")
-    expect_equal(res[res[, 1L] == "study_variable[1]-group_ref", 2L],
-                 "study_variable_group[1]")
     expect_equal(res[, 1L],
                  c("study_variable_group[1]",
                    "study_variable_group[1]-description",
                    "study_variable_group[1]-type",
                    "study_variable_group[1]-datatype",
+                   "study_variable_group[1]-study_variable_ref",
                    "study_variable[1]",
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
                    "study_variable[1]-variation_function",
                    "study_variable[1]-description",
-                   "study_variable[1]-group_ref",
                    "study_variable[2]",
                    "study_variable[2]-assay_refs",
                    "study_variable[2]-average_function",
                    "study_variable[2]-variation_function",
-                   "study_variable[2]-description",
-                   "study_variable[2]-group_ref"
+                   "study_variable[2]-description"
                    ))
     expect_equal(res[, 2L],
                  c("[,,T2D,]",
                    "Sample matrix column T2D",
                    "[STATO, STATO:0000252, categorical variable, ]",
                    "xsd:string",
+                   "study_variable[1]|study_variable[2]",
                    "TRUE",
                    "assay[1]|assay[3]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
                    "Variable T2D, value TRUE",
-                   "study_variable_group[1]",
                    "FALSE",
                    "assay[2]|assay[4]|assay[5]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
-                   "Variable T2D, value FALSE",
-                   "study_variable_group[1]"
+                   "Variable T2D, value FALSE"
                    ))
     ## Two groups and providing group_unit
     res <- mtdStudyVariables(x, groups = c("T2D", "timepoint"),
@@ -590,70 +584,66 @@ test_that("mtdStudyVariables works", {
                    "study_variable_group[1]-description",
                    "study_variable_group[1]-type",
                    "study_variable_group[1]-datatype",
+                   "study_variable_group[1]-study_variable_ref",
                    "study_variable_group[2]",
                    "study_variable_group[2]-description",
                    "study_variable_group[2]-type",
                    "study_variable_group[2]-datatype",
                    "study_variable_group[2]-unit",
+                   "study_variable_group[2]-study_variable_ref",
                    "study_variable[1]",
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
                    "study_variable[1]-variation_function",
                    "study_variable[1]-description",
-                   "study_variable[1]-group_ref",
                    "study_variable[2]",
                    "study_variable[2]-assay_refs",
                    "study_variable[2]-average_function",
                    "study_variable[2]-variation_function",
                    "study_variable[2]-description",
-                   "study_variable[2]-group_ref",
                    "study_variable[3]",
                    "study_variable[3]-assay_refs",
                    "study_variable[3]-average_function",
                    "study_variable[3]-variation_function",
                    "study_variable[3]-description",
-                   "study_variable[3]-group_ref",
                    "study_variable[4]",
                    "study_variable[4]-assay_refs",
                    "study_variable[4]-average_function",
                    "study_variable[4]-variation_function",
-                   "study_variable[4]-description",
-                   "study_variable[4]-group_ref"
+                   "study_variable[4]-description"
                    ))
     expect_equal(res[, 2L],
                  c("[,,T2D,]",
                    "Sample matrix column T2D",
                    "[STATO, STATO:0000252, categorical variable, ]",
                    "xsd:boolean",
+                   "study_variable[1]|study_variable[2]",
                    "[,,timepoint,]",
                    "Sample matrix column timepoint",
                    "[STATO, STATO:0000251, continuous variable, ]",
                    "xsd:decimal",
                    "[,,hours,]",
+                   "study_variable[3]|study_variable[4]",
                    "TRUE",
                    "assay[1]|assay[3]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
                    "Variable T2D, value TRUE",
-                   "study_variable_group[1]",
                    "FALSE",
                    "assay[2]|assay[4]|assay[5]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
                    "Variable T2D, value FALSE",
-                   "study_variable_group[1]",
                    "0",
                    "assay[1]|assay[3]|assay[5]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
                    "Variable timepoint, value 0",
-                   "study_variable_group[2]",
                    "6",
                    "assay[2]|assay[4]",
                    "[MS, MS:1002962, mean, ]",
                    "[MS, MS:1002963, variation coefficient, ]",
-                   "Variable timepoint, value 6",
-                   "study_variable_group[2]"
+                   "Variable timepoint, value 6"
                    ))
     ## No study variable group, full result
     res <- mtdStudyVariables(x, average_function = "A",
@@ -662,22 +652,22 @@ test_that("mtdStudyVariables works", {
                               "study_variable_group[1]-description",
                               "study_variable_group[1]-type",
                               "study_variable_group[1]-datatype",
+                              "study_variable_group[1]-study_variable_ref",
                               "study_variable[1]",
                               "study_variable[1]-assay_refs",
                               "study_variable[1]-average_function",
                               "study_variable[1]-variation_function",
-                              "study_variable[1]-description",
-                              "study_variable[1]-group_ref"))
+                              "study_variable[1]-description"))
     expect_equal(res[, 2L], c("[,,undefined,]",
                             "Sample matrix column undefined",
                             "[STATO, STATO:0000252, categorical variable, ]",
                             "xsd:string",
+                            "study_variable[1]",
                             "undefined",
                             "assay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
                             "A",
                             "B",
-                            "Variable undefined, value undefined",
-                            "study_variable_group[1]"))
+                            "Variable undefined, value undefined"))
 
     res <- mtdStudyVariables(x, groups = c("T2D", "timepoint", "individual"))
     expect_equal(res[res[, 1L] == "study_variable_group[1]", 2L], "[,,T2D,]")
@@ -688,12 +678,17 @@ test_that("mtdStudyVariables works", {
     expect_match(res[res[, 1L] == "study_variable_group[1]-type", 2L], "cate")
     expect_match(res[res[, 1L] == "study_variable_group[2]-type", 2L], "conti")
     expect_match(res[res[, 1L] == "study_variable_group[3]-type", 2L], "cate")
+    expect_equal(res[res[, 1L] == "study_variable_group[1]-study_variable_ref",
+                     2L],
+                 "study_variable[1]|study_variable[2]")
+    expect_equal(res[res[, 1L] == "study_variable_group[2]-study_variable_ref",
+                    2L],
+                 "study_variable[3]|study_variable[4]")
+    expect_equal(res[res[, 1L] == "study_variable_group[3]-study_variable_ref",
+                     2L],
+                 "study_variable[5]|study_variable[6]|study_variable[7]")
     expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "TRUE")
     expect_equal(res[res[, 1L] == "study_variable[2]", 2L], "FALSE")
-    expect_equal(res[res[, 1L] == "study_variable[1]-group_ref", 2L],
-                 "study_variable_group[1]")
-    expect_equal(res[res[, 1L] == "study_variable[2]-group_ref", 2L],
-                 "study_variable_group[1]")
     expect_equal(res[res[, 1L] == "study_variable[1]-assay_refs", 2L],
                  "assay[1]|assay[3]")
     expect_equal(res[res[, 1L] == "study_variable[2]-assay_refs", 2L],
@@ -701,10 +696,6 @@ test_that("mtdStudyVariables works", {
 
     expect_equal(res[res[, 1L] == "study_variable[3]", 2L], "0")
     expect_equal(res[res[, 1L] == "study_variable[4]", 2L], "6")
-    expect_equal(res[res[, 1L] == "study_variable[3]-group_ref", 2L],
-                 "study_variable_group[2]")
-    expect_equal(res[res[, 1L] == "study_variable[4]-group_ref", 2L],
-                 "study_variable_group[2]")
     expect_equal(res[res[, 1L] == "study_variable[3]-assay_refs", 2L],
                  "assay[1]|assay[3]|assay[5]")
     expect_equal(res[res[, 1L] == "study_variable[4]-assay_refs", 2L],
@@ -713,12 +704,6 @@ test_that("mtdStudyVariables works", {
     expect_equal(res[res[, 1L] == "study_variable[5]", 2L], "I1")
     expect_equal(res[res[, 1L] == "study_variable[6]", 2L], "I2")
     expect_equal(res[res[, 1L] == "study_variable[7]", 2L], "I3")
-    expect_equal(res[res[, 1L] == "study_variable[5]-group_ref", 2L],
-                 "study_variable_group[3]")
-    expect_equal(res[res[, 1L] == "study_variable[6]-group_ref", 2L],
-                 "study_variable_group[3]")
-    expect_equal(res[res[, 1L] == "study_variable[7]-group_ref", 2L],
-                 "study_variable_group[3]")
     expect_equal(res[res[, 1L] == "study_variable[5]-assay_refs", 2L],
                  "assay[1]|assay[3]")
     expect_equal(res[res[, 1L] == "study_variable[6]-assay_refs", 2L],
