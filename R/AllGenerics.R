@@ -21,6 +21,10 @@ setGeneric("setMtdField", function(x, ...)
 
 setGeneric("MzTabM", function(mtd, ...) standardGeneric("MzTabM"))
 
+setGeneric("mtd", function(object, ...) standardGeneric("mtd"))
+
+setGeneric("sml", function(object, ...) standardGeneric("sml"))
+
 setGeneric("smf", function(object, ...) standardGeneric("smf"))
 
-setGeneric("mtd", function(object, ...) standardGeneric("mtd"))
+setGeneric("sme", function(object, ...) standardGeneric("sme"))

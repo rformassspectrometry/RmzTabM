@@ -225,6 +225,21 @@ setMethod("MzTabM", signature(mtd = "missing"),
               MzTabM(mtdSkeleton(id = "<replace>", software = "<replace>"))
           })
 
+
+#' @rdname MzTabM
+#'
+#' @exportMethod mtd
+setMethod("mtd", signature(object = "MzTabM"), function(object) {
+    object@mtd
+})
+
+#' @rdname MzTabM
+#'
+#' @exportMethod sml
+setMethod("sml", signature(object = "MzTabM"), function(object) {
+    object@sml
+})
+
 #' @rdname MzTabM
 #'
 #' @exportMethod smf
@@ -234,9 +249,9 @@ setMethod("smf", signature(object = "MzTabM"), function(object) {
 
 #' @rdname MzTabM
 #'
-#' @exportMethod mtd
-setMethod("mtd", signature(object = "MzTabM"), function(object) {
-    object@mtd
+#' @exportMethod sme
+setMethod("sme", signature(object = "MzTabM"), function(object) {
+    object@sme
 })
 
 setMethod("as.list", "MzTabM", function(x, ...) {

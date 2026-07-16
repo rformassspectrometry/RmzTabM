@@ -7,8 +7,10 @@
 \alias{mtd}
 \alias{smf}
 \alias{MzTabM,dfmatrix-method}
-\alias{smf,MzTabM-method}
 \alias{mtd,MzTabM-method}
+\alias{sml,MzTabM-method}
+\alias{smf,MzTabM-method}
+\alias{sme,MzTabM-method}
 \title{mzTab-M data container}
 \usage{
 \S4method{MzTabM}{dfmatrix}(
@@ -18,9 +20,13 @@
   sme = matrix(ncol = 0, nrow = 0)
 )
 
+\S4method{mtd}{MzTabM}(object)
+
+\S4method{sml}{MzTabM}(object)
+
 \S4method{smf}{MzTabM}(object)
 
-\S4method{mtd}{MzTabM}(object)
+\S4method{sme}{MzTabM}(object)
 }
 \arguments{
 \item{mtd}{Two-column \code{matrix} or \code{data.frame} with the MTD content (see
