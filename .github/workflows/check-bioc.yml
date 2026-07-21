@@ -128,8 +128,8 @@ jobs:
       - name: Install macOS system dependencies
         if: matrix.config.os == 'macOS-latest'
         run: |
-          install.packages("data.table")
-        shell: Rscript {0}
+          brew install gettext
+          brew link gettext --force
 
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
@@ -175,6 +175,12 @@ jobs:
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
+        shell: Rscript {0}
+
+      - name: Install data.table in macOS
+        if: matrix.config.os == 'macOS-latest'
+        run: |
+          install.packages("data.table")
         shell: Rscript {0}
 
       - name: Install BiocGenerics
