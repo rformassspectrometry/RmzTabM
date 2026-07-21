@@ -1350,7 +1350,7 @@ test_that("getMtdField works", {
 
 })
 
-test_that("mtdFromSampleData works", {
+test_that("mtdFromSampleData and mtdToSampleData works", {
     sd <- data.frame(
         fname = c("a.mzML", "b.mzML", "c.mzML", "d.mzML", "e.mzML"),
         sname = c("QC", "A", "A", "B", "QC"),
@@ -1360,7 +1360,7 @@ test_that("mtdFromSampleData works", {
         time = c(NA_integer_, 0, 6, 0, NA_integer_),
         species = c(NA, "HSapiens", "HSapiens", "HSapiens", NA))
     sd$polarity <- "positive"
-    ## no samples
+    ## mtdFromSampleData: no samples
     m <- mtdFromSampleData(sd, sampleCols = character(),
                            msRunCols = msRunCols(location = "fname",
                                                  scan_polarity = "polarity"),
@@ -1372,7 +1372,13 @@ test_that("mtdFromSampleData works", {
     res <- getMtdField(m, "ms_run\\[\\d\\]-location")
     expect_equal(unname(res), sd$fname)
 
-    ## each row one sample
+    ## mtdToSampleData: no samples
+    sd_rec <- mtdToSampleData(m)
+    expect_equal(nrow(sd_rec), nrow(sd))
+    expect_equal(sd$fname, sd_rec$assay)
+    expect_equal(.ms_scan_polarity(sd$polarity), sd_rec$scan_polarity.1.)
+
+    ## mtdFromSampleData: each row one sample
     m <- mtdFromSampleData(sd, sampleCols = sampleCols(sample = "sid"),
                            msRunCols = c(location = "fname",
                                          scan_polarity = "polarity"),
@@ -1384,7 +1390,15 @@ test_that("mtdFromSampleData works", {
     res <- getMtdField(m, "assay\\[\\d\\]-ms_run_ref")
     expect_equal(unname(res), paste0("ms_run[", 1:5, "]"))
 
-    ## unique samples
+    ## mtdToSampleData: each row one sample
+    sd_rec <- mtdToSampleData(m)
+    expect_equal(nrow(sd_rec), nrow(sd))
+    expect_equal(sd$fname, sd_rec$assay)
+    expect_equal(.ms_scan_polarity(sd$polarity), sd_rec$scan_polarity.1.)
+    expect_equal(sd$sid, sd_rec$sample)
+    expect_equal(sd$species, sd_rec$species.1.)
+
+    ## mtdFromSampleData: unique samples
     m <- mtdFromSampleData(sd, sampleCols = c(sample = "sname"),
                            msRunCols = c(location = "fname",
                                          scan_polarity = "polarity"),
@@ -1397,7 +1411,15 @@ test_that("mtdFromSampleData works", {
     res <- getMtdField(m, "assay\\[\\d\\]-ms_run_ref")
     expect_equal(unname(res), paste0("ms_run[", 1:5, "]"))
 
-    ## collapse only technical replicates into a sample
+    ## mtdToSampleData: unique samples
+    sd_rec <- mtdToSampleData(m)
+    sd_rec <- sd_rec[order(sd_rec$location), ]
+    expect_equal(nrow(sd_rec), nrow(sd))
+    expect_equal(sd$fname, sd_rec$assay)
+    expect_equal(.ms_scan_polarity(sd$polarity), sd_rec$scan_polarity.1.)
+    expect_equal(sd$sname, sd_rec$sample)
+
+    ## mtdFromSampleData: collapse only technical replicates into a sample
     m <- mtdFromSampleData(sd, sampleCols = sampleCols(sample = "sname",
                                                        time = "time"),
                            msRunCols = c(location = "fname",
@@ -1411,7 +1433,19 @@ test_that("mtdFromSampleData works", {
     res <- getMtdField(m, "assay\\[\\d\\]-ms_run_ref")
     expect_equal(unname(res), paste0("ms_run[", 1:5, "]"))
 
-    ## With study variables too
+    ## mtdToSampleData: collapse only technical replicates into a sample
+    sd_rec <- mtdToSampleData(m)
+    sd_rec <- sd_rec[order(sd_rec$location), ]
+    expect_equal(nrow(sd_rec), nrow(sd))
+    expect_equal(sd$fname, sd_rec$assay)
+    expect_equal(.ms_scan_polarity(sd$polarity), sd_rec$scan_polarity.1.)
+    expect_equal(sd$sname, sd_rec$sample)
+    expect_equal(sd$species, sd_rec$species.1.)
+    build_custom_col <- .mtd_custom_fields(time = sd$time,
+                                            expected_length = 5)[, 2]
+    expect_equal(build_custom_col, sd_rec$custom.1.)
+
+    ## mtdFromSampleData: With study variables too
     m <- mtdFromSampleData(sd, sampleCols = sampleCols(sample = "sname"),
                            msRunCols = c(location = "fname",
                                          scan_polarity = "polarity"),
@@ -1422,7 +1456,17 @@ test_that("mtdFromSampleData works", {
     expect_equal(unname(getMtdField(m, "study_variable\\[1\\]-assay_refs")),
                  "assay[1]|assay[5]")
 
-    ## ERRORS
+    ## mtdToSampleData: With study variables too
+    sd_rec <- mtdToSampleData(m)
+    expect_equal(nrow(sd_rec), nrow(sd))
+    expect_equal(sd$fname, sd_rec$assay)
+    expect_equal(.ms_scan_polarity(sd$polarity), sd_rec$scan_polarity.1.)
+    expect_equal(sd$sname, sd_rec$sample)
+    expect_equal(sd$species, sd_rec$species.1.)
+    expect_equal(as.character(sd$time), as.character(sd_rec$time))
+    expect_equal(sd$sex, sd_rec$sex)
+
+    ## mtdFromSampleData: ERRORS
     expect_error(mtdFromSampleData(sd), "location = <column")
     expect_error(mtdFromSampleData(sd, msRunCols. = c(location = "aaa")),
                  "location = <column")
@@ -1440,8 +1484,11 @@ test_that("mtdFromSampleData works", {
         assayCols. = c(assay = "sname"), sampleCols. = c(sample = "sname"),
         groups = c("sex", "time")), "don't align")
 
+    ## mtdToSampleData: ERRORS
+    m_noAssay <- m[!grepl("^assay", m[, 1]), ]
+    expect_error(mtdToSampleData(m_noAssay), "No 'assay' information")
 
-    ## MESSAGES
+    ## mtdFromSampleData: MESSAGES
     expect_message(m <- mtdFromSampleData(
         sd, msRunCols. = c(location = "fname", scan_polarity = "polarity"),
         assayCols. = c(assay = "sname"), sampleCols. = c(sample = "sname"),

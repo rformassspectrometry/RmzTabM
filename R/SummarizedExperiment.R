@@ -332,6 +332,81 @@ setMethod("smf", signature(object = "SummarizedExperiment"),
                                               assayName = assayName)
           })
 
+
+#' @title Convert mzTabM object to SummarizedExperiment
+#'
+#' @rdname SummarizedExperiment-mzTab-M
+#'
+#' @description
+#'
+#' `makeSummarizedExperimentFromMzTabM` converts the content of an `MzTabM`
+#' object into a `SummarizedExperiment` object. Sample information is extracted
+#' from the *MTD* (metadata) section and used to populate the `colData` of the
+#' resulting object, while feature-level quantification values and feature
+#' annotations are extracted from the *SMF* section and used to populate the
+#' assay data and `rowData`, respectively.
+#' If the `MzTabM` object does not contain any small molecule feature data, a
+#' `SummarizedExperiment` with only `colData` populated is returned.
+#'
+#' @param mzt A `MzTabM` object.
+#'
+#' @param assayName `character(1)` defining the name of the assay to be used
+#'     for the `SummarizedExperiment` assay. Defaults to `1L`.
+#'
+#' @param rowIdCol `character(1)` defining the column name in the SMF section
+#'     which should be used as row names for the `SummarizedExperiment`.
+#'     Defaults to `"SMF_ID"`.
+#'
+#' @param smfCols. named `character` defining which SMF section columns should
+#'     be use to characterize each feature.
+#'
+#' @return A `SummarizedExperiment` object.
+#'
+#' @importFrom SummarizedExperiment SummarizedExperiment
+#'
+#' @importMethodsFrom SummarizedExperiment rowData
+#'
+#' @importMethodsFrom SummarizedExperiment colData
+#'
+#' @importFrom stats setNames
+#'
+#' @importFrom stats reshape
+#'
+#' @author Gabriele Tomè
+#'
+#' @export
+makeSummarizedExperimentFromMzTabM <- function(mzt, assayName = 1L,
+                                    rowIdCol = "SMF_ID", smfCols. = smfCols()) {
+    ## Extract sampleData from MTD section
+    sampleData <- mtdToSampleData(mtd(mzt))
+    se <- SummarizedExperiment(colData = sampleData)
+
+    ## If SMF section is present add as assay
+    if (nrow(smf(mzt))){
+        smf <- smf(mzt)
+        if (is.matrix(smf))
+            smf <- as.data.frame(smf, stringsAsFactors = FALSE)
+        smf$SFH <- NULL
+
+        if (rowIdCol != "SMF_ID" && !rowIdCol %in% colnames(smf))
+            stop("Column '", rowIdCol, "' not found in the SMF section.",
+                call. = FALSE)
+
+        if (rowIdCol != "SMF_ID")
+            rownames(smf) <- smf[, rowIdCol]
+
+        featureData <- .smfToFeatureData(smf, smfCols. = smfCols.)
+        assayData <- .smfToAssayData(smf, sampleData = sampleData)
+
+        sampleData  <- sampleData[colnames(assayData), , drop = FALSE]
+        se <- SummarizedExperiment(
+            assays = setNames(list(assayData), assayName),
+            rowData = featureData,
+            colData = sampleData)
+    }
+    se
+}
+
 #' @rdname SummarizedExperiment-mzTab-M
 #'
 #' @export
@@ -392,4 +467,95 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
     colnames(xcols) <- names(smfCols.)
     do.call(smfCreate, c(list(x = as.matrix(assay(x, assayName))),
                          as.list(xcols)))
+}
+
+#' Helper function to convert a long format MTD section to a wide format
+#' `data.frame`.
+#'
+#' The function takes a two columns `data.frame` containing a subsection of the
+#' MTD section in long format and return a `data,frame` in wide format with one
+#' row per `id`.
+#'
+#' @param mtd_sub 2-column `data.frame` containing a subsection of the MTD
+#'     section.
+#'
+#' @return `data.frame` in wide format with one row per `id`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.mtd_long_to_wide <- function(mtd_sub) {
+    df_l <- data.frame(id = sub("^([^-]+)(-.*)?$", "\\1", mtd_sub[, 1]),
+                        field = sub("^[^-]+-?", "", mtd_sub[, 1]),
+                        value = mtd_sub[, 2])
+    if (any(df_l$field == ""))
+        df_l[df_l$field == "", "field"] <- "name"
+    df_w <- reshape(df_l, idvar = "id", timevar = "field", direction = "wide")
+    colnames(df_w) <- sub("^value\\.", "", colnames(df_w))
+    df_w
+}
+
+#' Helper function to extract the feature data from a SMF section and convert it
+#' to a `data.frame` suitable for the `rowData()` of a `SummarizedExperiment`.
+#'
+#' The resulting `data.frame` contains all columns of the SMF section except for
+#' the abundance assay columns (i.e., columns starting with `"abundance_"`) and
+#' the columns with all values being `"null"`.
+#' The column names are renamed according to the mapping provided in `smfCols.`.
+#'
+#' @param smf `data.frame` containing the SMF section.
+#'
+#' @param smfCols. named `character` defining which SMF section columns should
+#'     be use to characterize each feature.
+#'
+#' @return `data.frame` suitable for the `rowData()` of a
+#'     `SummarizedExperiment`.
+#'
+#' @importFrom data.table setnames
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.smfToFeatureData <- function(smf, smfCols. = smfCols()) {
+    ## Recover the rowData columns
+    rowdata_df <- smf[, !grepl("^abundance_", names(smf))]
+    rowdata_df <- rowdata_df[, !sapply(rowdata_df,
+                                        function(col) all(col == "null")),
+                                drop = FALSE]
+    setnames(rowdata_df, names(smfCols.), smfCols., skip_absent = TRUE)
+
+    data.frame(rowdata_df, row.names = rownames(smf))
+}
+
+#' Helper function to extract the abundance assay data from a SMF section and
+#' convert it to a `data.frame` suitable for `SummarizedExperiment`.
+#'
+#' The resulting `data.frame` contains only the abundance assay columns (i.e.,
+#' columns starting with `"abundance_assay"`) and the values are converted to
+#' `numeric`.
+#' The column names are renamed according to the rownames provided in the
+#' `sampleData` `data.frame`.
+#'
+#' @param smf `data.frame` containing the SMF section.
+#'
+#' @param sampleData `data.frame` of the `SummarizedExperiment`'s `colData()`.
+#'
+#' @return `data.frame` containing the `SummarizedExperiment` `assay`.
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.smfToAssayData <- function(smf, sampleData) {
+    ## Recover the abundance assay columns
+    assay_df <- smf[, grepl("^abundance_assay", names(smf))]
+    assay_df[assay_df == "null"] <- NA
+    assay <- do.call(cbind, lapply(assay_df, as.numeric))
+    rownames(assay) <- rownames(smf)
+
+    ## Rename with the assay names from the sampleData
+    colnames(assay) <- sub("^abundance_", "", colnames(assay))
+    colnames(assay) <- rownames(sampleData)[match(colnames(assay),
+                                                  sampleData$id)]
+
+    data.frame(assay)
 }

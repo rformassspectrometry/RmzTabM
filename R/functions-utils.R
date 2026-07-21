@@ -292,3 +292,23 @@ isCvParameter <- function(x) {
     })
     x
 }
+
+#' Expands a `data.frame` by splitting values in a single column on "|"
+#' and duplicating the other columns accordingly.
+#'
+#' @param df A `data.frame`.
+#'
+#' @param col_split `character(1)` giving the name of the column to split.
+#'
+#' @return A `data.frame` with one row per split value in `col_split`.
+#'
+#' @noRd
+.separate_multi_links <- function(df, col_split) {
+    if (!(col_split %in% names(df)))
+        stop("Column \"",col_split,"\" not present in the data frame", call. = FALSE)
+
+    split_vals <- strsplit(as.character(df[, col_split]), "\\|")
+    df <- df[rep(seq_len(nrow(df)), lengths(split_vals)), ]
+    df[, col_split] <- unlist(split_vals)
+    df
+}
