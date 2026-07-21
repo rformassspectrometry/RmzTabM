@@ -1,5 +1,14 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.18
+
+- Initial version of `makeSummarizedExperimentFromMzTabM()` to convert `mzTabM`
+  object with MTD+SMF to `SummarizedExperiment`.
+- Add helper function `mtdToSampleData()`, inverse function of
+  `mtdFromSampleData()`.
+- Fix minor bug `mtdFromSampleData`.
+- Update tests and vignette.
+
 ## Changes in version 0.97.17
 
 - Update and simplify the `SummarizedExperiment` export example in the vignette.

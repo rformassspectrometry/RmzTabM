@@ -139,3 +139,14 @@ test_that(".NAtonull works", {
   expect_equal(result$chr, c("a", "null", "b"))
   expect_named(result, c("num", "chr"))
 })
+
+test_that(".separate_multi_links works", {
+    df <- data.frame(id = 1:2, assay_refs = c("a|b", "c"),
+                      stringsAsFactors = FALSE)
+    res <- .separate_multi_links(df, "assay_refs")
+    expect_equal(nrow(res), 3)
+    expect_equal(res$assay_refs, c("a", "b", "c"))
+    expect_equal(res$id, c(1, 1, 2))
+
+    expect_error(.separate_multi_links(df, "missing_col"), "not present")
+})

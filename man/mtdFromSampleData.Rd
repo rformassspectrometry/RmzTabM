@@ -344,6 +344,9 @@ m <- mtdFromSampleData(
     assayCols = c(assay = "assay_info"))
 m
 }
+\seealso{
+\code{\link[=mtdToSampleData]{mtdToSampleData()}} for the inverse function.
+}
 \author{
 Johannes Rainer
 }

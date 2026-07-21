@@ -4,6 +4,7 @@
 \alias{SummarizedExperiment-mzTab-M}
 \alias{MzTabM,SummarizedExperiment-method}
 \alias{smf,SummarizedExperiment-method}
+\alias{makeSummarizedExperimentFromMzTabM}
 \alias{smfCols}
 \title{Create a mzTab-M file from a \code{SummarizedExperiment} object}
 \usage{
@@ -24,6 +25,13 @@
 )
 
 \S4method{smf}{SummarizedExperiment}(object, smfCols. = smfCols(), assayName = 1L)
+
+makeSummarizedExperimentFromMzTabM(
+  mzt,
+  assayName = 1L,
+  rowIdCol = "SMF_ID",
+  smfCols. = smfCols()
+)
 
 smfCols(
   exp_mass_to_charge = "exp_mass_to_charge",
@@ -105,24 +113,23 @@ to match the length of parameter \code{groups}. \code{NA} or \code{""} has to be
 provided for groups for which no unit should be reported. By default
 (\code{group_unit = character()}) no unit is reported for any group.}
 
-\item{smfCols.}{For \code{MzTabM()} and \code{smf()}: named \code{character} defining which
-column names in the \code{SummarizedExperiment}'s \code{rowData()} (values of
-\code{smfCols.}) contain information for which feature characteristics
-(names of \code{smfCols.}).
-Mappings to columns not present in the \code{SummarizedExperiment}'s
-\code{rowData()} are ignored. Supports also the definition of additional,
-optional columns to be added as \emph{opt} columns to the SMF section. For
-\code{MzTabM()}: an empty \code{character()} (the default) will skip generation
-of the SMF section.}
+\item{smfCols.}{named \code{character} defining which SMF section columns should
+be use to characterize each feature.}
 
-\item{assayName}{For \code{MzTabM()} or \code{smf()}: a \code{character(1)} defining the
-name of the \code{SummarizedExperiment}'s assay that contains the abundances.}
+\item{assayName}{\code{character(1)} defining the name of the assay to be used
+for the \code{SummarizedExperiment} assay. Defaults to \code{1L}.}
 
 \item{...}{For \code{MzTabM()}: additional arguments to be passed to
 \code{\link[=mtdFromSampleData]{mtdFromSampleData()}} such as \code{average_function}, \code{variation_function}
 or \code{description}}
 
 \item{object}{A \code{SummarizedExperiment}.}
+
+\item{mzt}{A \code{MzTabM} object.}
+
+\item{rowIdCol}{\code{character(1)} defining the column name in the SMF section
+which should be used as row names for the \code{SummarizedExperiment}.
+Defaults to \code{"SMF_ID"}.}
 
 \item{exp_mass_to_charge}{For \code{smfCols()}: \code{character(1)} defining the
 column name in the \code{SummarizedExperiment}'s \code{rowData()} containing the
@@ -174,6 +181,8 @@ the number of opt columns provided in \code{...}. Optional.}
 \item \code{smfCols()} returns a named \code{character} vector.
 \item \code{smf()} returns a \code{data.frame}.
 }
+
+A \code{SummarizedExperiment} object.
 }
 \description{
 The \code{MzTabM()} method for the \link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment}
@@ -197,6 +206,15 @@ used to extract and compile the MTD section.
 \code{MzTabM()} methods allows to define the mapping between feature \emph{fields}
 and column names of the \code{rowData()} containing the relevant information.
 }
+
+\code{makeSummarizedExperimentFromMzTabM} converts the content of an \code{MzTabM}
+object into a \code{SummarizedExperiment} object. Sample information is extracted
+from the \emph{MTD} (metadata) section and used to populate the \code{colData} of the
+resulting object, while feature-level quantification values and feature
+annotations are extracted from the \emph{SMF} section and used to populate the
+assay data and \code{rowData}, respectively.
+If the \code{MzTabM} object does not contain any small molecule feature data, a
+\code{SummarizedExperiment} with only \code{colData} populated is returned.
 }
 \section{Generate mzTab-M content from a \code{SummarizedExperiment}}{
 
@@ -323,4 +341,6 @@ head(smf(m))
 }
 \author{
 Johannes Rainer, Philippine Louail, Gabriele Tomè
+
+Gabriele Tomè
 }
