@@ -1600,16 +1600,19 @@ mtdToSampleData <- function(mtd) {
                                         fields), ]
         study_var_grp_w <- .mtd_long_to_wide(study_var_grp_field)
         study_var_grp_w$group <- parseCvParameter(study_var_grp_w$name, 3)
+        study_var_grp_w <- .separate_multi_links(study_var_grp_w,
+                                            "study_variable_ref")
 
         if (all(study_var_grp_w$group != "undefined")) {
             study_var_field <- mtd[grepl("^study_variable\\[([0-9]+)\\]",
                                             fields), ]
-            cols <- c("name", "assay_refs", "group_ref")
+            cols <- c("name", "assay_refs", "id")
             study_var_w <- .mtd_long_to_wide(study_var_field)[, cols]
             study_var_w <- .separate_multi_links(study_var_w, "assay_refs")
 
-            study_l <- merge(study_var_w, study_var_grp_w[, c("id", "group")],
-                                by.x = "group_ref", by.y = "id")
+            study_l <- merge(study_var_w,
+                            study_var_grp_w[, c("study_variable_ref", "group")],
+                            by.x = "id", by.y = "study_variable_ref")
             cols_study <- c("assay_refs", "group", "name")
             study_w <- reshape(study_l[, cols_study], idvar = "assay_refs",
                                 timevar = "group", direction = "wide")

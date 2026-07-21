@@ -5,7 +5,9 @@
 \alias{MzTabM-class}
 \alias{MzTabM,missing-method}
 \alias{mtd}
+\alias{sml}
 \alias{smf}
+\alias{sme}
 \alias{MzTabM,dfmatrix-method}
 \alias{mtd,MzTabM-method}
 \alias{sml,MzTabM-method}
@@ -49,8 +51,8 @@ Methods for this class allow adding or updating information and validating
 its content.
 
 New instances can be created using the \code{MzTabM()} function providing the
-content for the MTD, SML, SMF and SML sections (through parameters \code{mtd},
-\code{sml}, \code{smf}, and \code{sml}, respectively).
+content for the MTD, SML, SMF and SME sections (through parameters \code{mtd},
+\code{sml}, \code{smf}, and \code{sme}, respectively).
 }
 \section{MTD section; adding or getting metadata}{
 
@@ -70,7 +72,9 @@ Various functions are available to get or set metadata information of a
 \section{SMF section; adding or getting small feature abundance matrix}{
 
 \itemize{
+\item \code{sml()}: returns the SML summary matrix of an \code{MzTabM} object.
 \item \code{smf()}: returns the SMF feature abundance matrix of an \code{MzTabM} object.
+\item \code{sme()}: returns the SME evidence matrix of an \code{MzTabM} object.
 }
 }
 

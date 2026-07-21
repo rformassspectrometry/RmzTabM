@@ -9,7 +9,11 @@
 #'
 #' @aliases mtd
 #'
+#' @aliases sml
+#'
 #' @aliases smf
+#'
+#' @aliases sme
 #'
 #' @description
 #'
@@ -18,8 +22,8 @@
 #' its content.
 #'
 #' New instances can be created using the `MzTabM()` function providing the
-#' content for the MTD, SML, SMF and SML sections (through parameters `mtd`,
-#' `sml`, `smf`, and `sml`, respectively).
+#' content for the MTD, SML, SMF and SME sections (through parameters `mtd`,
+#' `sml`, `smf`, and `sme`, respectively).
 #'
 #' @section MTD section; adding or getting metadata:
 #'
@@ -35,7 +39,9 @@
 #'
 #' @section SMF section; adding or getting small feature abundance matrix:
 #'
+#' - `sml()`: returns the SML summary matrix of an `MzTabM` object.
 #' - `smf()`: returns the SMF feature abundance matrix of an `MzTabM` object.
+#' - `sme()`: returns the SME evidence matrix of an `MzTabM` object.
 #'
 #' @param mtd Two-column `matrix` or `data.frame` with the MTD content (see
 #'     [MTD-export] for details and expected format/content).
