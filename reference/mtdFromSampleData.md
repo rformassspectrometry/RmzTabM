@@ -350,6 +350,11 @@ variables using the `groups` parameter.
   information. Through `...` additional optional columns with sample
   information can be provided.
 
+## See also
+
+[`mtdToSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdToSampleData.md)
+for the inverse function.
+
 ## Author
 
 Johannes Rainer

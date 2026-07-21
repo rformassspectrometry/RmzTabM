@@ -36,6 +36,15 @@ respectively.
   methods allows to define the mapping between feature *fields* and
   column names of the `rowData()` containing the relevant information.
 
+`makeSummarizedExperimentFromMzTabM` converts the content of an `MzTabM`
+object into a `SummarizedExperiment` object. Sample information is
+extracted from the *MTD* (metadata) section and used to populate the
+`colData` of the resulting object, while feature-level quantification
+values and feature annotations are extracted from the *SMF* section and
+used to populate the assay data and `rowData`, respectively. If the
+`MzTabM` object does not contain any small molecule feature data, a
+`SummarizedExperiment` with only `colData` populated is returned.
+
 ## Usage
 
 ``` r
@@ -58,6 +67,13 @@ MzTabM(
 
 # S4 method for class 'SummarizedExperiment'
 smf(object, smfCols. = smfCols(), assayName = 1L)
+
+makeSummarizedExperimentFromMzTabM(
+  mzt,
+  assayName = 1L,
+  rowIdCol = "SMF_ID",
+  smfCols. = smfCols()
+)
 
 smfCols(
   exp_mass_to_charge = "exp_mass_to_charge",
@@ -199,31 +215,13 @@ smfCols(
 
 - smfCols.:
 
-  For
-  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
-  and
-  [`smf()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md):
-  named `character` defining which column names in the
-  `SummarizedExperiment`'s
-  [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
-  (values of `smfCols.`) contain information for which feature
-  characteristics (names of `smfCols.`). Mappings to columns not present
-  in the `SummarizedExperiment`'s
-  [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
-  are ignored. Supports also the definition of additional, optional
-  columns to be added as *opt* columns to the SMF section. For
-  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md):
-  an empty [`character()`](https://rdrr.io/r/base/character.html) (the
-  default) will skip generation of the SMF section.
+  named `character` defining which SMF section columns should be use to
+  characterize each feature.
 
 - assayName:
 
-  For
-  [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
-  or
-  [`smf()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md):
-  a `character(1)` defining the name of the `SummarizedExperiment`'s
-  assay that contains the abundances.
+  `character(1)` defining the name of the assay to be used for the
+  `SummarizedExperiment` assay. Defaults to `1L`.
 
 - ...:
 
@@ -236,6 +234,16 @@ smfCols(
 - object:
 
   A `SummarizedExperiment`.
+
+- mzt:
+
+  A `MzTabM` object.
+
+- rowIdCol:
+
+  `character(1)` defining the column name in the SMF section which
+  should be used as row names for the `SummarizedExperiment`. Defaults
+  to `"SMF_ID"`.
 
 - exp_mass_to_charge:
 
@@ -326,6 +334,8 @@ smfCols(
 - [`smf()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
   returns a `data.frame`.
 
+A `SummarizedExperiment` object.
+
 ## Generate mzTab-M content from a `SummarizedExperiment`
 
 - [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md):
@@ -383,6 +393,8 @@ smfCols(
 ## Author
 
 Johannes Rainer, Philippine Louail, Gabriele Tomè
+
+Gabriele Tomè
 
 ## Examples
 
@@ -632,7 +644,7 @@ head(mtd(m))
 #>      values                                                      
 #> [1,] "2.1.0-M"                                                   
 #> [2,] "MTBLS8735"                                                 
-#> [3,] "[,,RmzTabM,RmzTabM version 0.97.17]"                       
+#> [3,] "[,,RmzTabM,RmzTabM version 0.97.18]"                       
 #> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
 #> [5,] "POOL"                                                      
 #> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               

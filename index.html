@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.17</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.18</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
 </h2>
 <p>This is the mzTab-M R API and reference implementation.</p>
 <blockquote>
-<p><strong><em>NOTE:</em></strong> This is an <em>early</em> development version, please use at your own risk and report issues to help improve it!</p>
+<p><strong><em>NOTE:</em></strong> This is still actively developed and some part of the code base might be changed. Please report any issues to help improve it!</p>
 </blockquote>
 <p>mzTab-M is intended as a reporting standard for quantitative results from metabolomics/lipodomics approaches. This format is further intended to provide local LIMS systems as well as MS metabolomics repositories a simple way to share and combine basic information.</p>
 <p><span class="emoji" data-emoji="pushpin">📌</span> see the <a href="https://rformassspectrometry.github.io/RmzTabM/articles/rmztabm-api.html">package vignette</a> for examples and an introduction of the provided functionality.</p>
@@ -100,15 +100,15 @@
 </h2>
 <p><span class="emoji" data-emoji="information_source">ℹ️</span> <em>core functions</em> are expected to take and return single base R data types.</p>
 <ul class="task-list">
-<li><label><input type="checkbox" checked>core functionality to format metadata (MTD section)</label></li>
-<li><label><input type="checkbox" checked>core functionality to format small molecule feature (SMF section)</label></li>
-<li><label><input type="checkbox" checked>core functionality to format the (SML section)</label></li>
-<li><label><input type="checkbox" checked>core functionality to format the (SME section)</label></li>
+<li><label><input type="checkbox" checked>core functionality to format metadata (MTD section) <a href="https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.html">documentation</a></label></li>
+<li><label><input type="checkbox" checked>core functionality to format small molecule feature (SMF section) <a href="https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.html">documentation</a></label></li>
+<li><label><input type="checkbox" checked>core functionality to format the (SML section) <a href="https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.html">documentation</a></label></li>
+<li><label><input type="checkbox" checked>core functionality to format the (SME section) <a href="https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.html">documentation</a></label></li>
 <li><label><input type="checkbox">core functionality to extract metadata from an mzTab-M file and reconstruct a sample/experiment <code>data.frame</code></label></li>
 <li><label><input type="checkbox">core functionality to extract the SMF data table from an mzTab-M file</label></li>
 <li><label><input type="checkbox">core functionality to extract the SME data table from an mzTab-M file</label></li>
 <li><label><input type="checkbox">core functionality to extract the SML data table from an mzTab-M file</label></li>
-<li><label><input type="checkbox" checked>high-level functionality to simplify exporting experimental data in mzTab-M format.</label></li>
+<li><label><input type="checkbox" checked>high-level functionality to simplify exporting experimental data in mzTab-M format. <a href="https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html">documentation</a></label></li>
 <li><label><input type="checkbox">support for mzTab-M JSON format</label></li>
 <li><label><input type="checkbox">mzTab-M file validation</label></li>
 </ul>
@@ -177,7 +177,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.9000.</p>
 </div>
 
     </footer>

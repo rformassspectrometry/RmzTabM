@@ -33,6 +33,7 @@
 
 - [`MzTabM(`*`<SummarizedExperiment>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
   [`smf(`*`<SummarizedExperiment>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+  [`makeSummarizedExperimentFromMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
   [`smfCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
   :
 
@@ -78,6 +79,9 @@
   :
 
   mzTab-M *study variables* metadata information
+
+- [`mtdToSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdToSampleData.md)
+  : Reconstruct a sample data frame from mzTab-M MTD content
 
 - [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)

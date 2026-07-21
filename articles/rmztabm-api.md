@@ -541,7 +541,7 @@ mtd(mzt) |> head()
          values
     [1,] "2.1.0-M"
     [2,] "MTBLS8735"
-    [3,] "[,,RmzTabM,RmzTabM version 0.97.17]"
+    [3,] "[,,RmzTabM,RmzTabM version 0.97.18]"
     [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
     [5,] "POOL"
     [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
@@ -668,7 +668,7 @@ getMtdField(mzt, "software")
 ```
 
                               software[1]                           software[2]
-    "[,,RmzTabM,RmzTabM version 0.97.17]"      "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.97.18]"      "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -711,6 +711,62 @@ given that we intentionally generated an MTD+SMF file.
 
 writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
 ```
+
+#### Importing an MTD+SMF mzTab-M file
+
+The mzTab-M file generated above can be read back into R using the
+[`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
+function. The file in verified usign the mzTab-M validator and loaded
+into a `MzTabM` object.
+
+``` r
+
+mzt_r <- readMzTabM(file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
+mzt_r
+```
+
+    Object of class MzTabM
+    mzTab-M version 2.1.0-M
+     MTD section with 210 rows.
+     SMF section with 9068 rows and 22 columns.
+
+Now we have a `MzTabM` object with the MTD and SMF sections loaded. To
+make it easier to work with the data, we can convert it to a
+`SummarizedExperiment` object using the
+[`makeSummarizedExperimentFromMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+function. By default, the function will use as feature IDs the values in
+the columns `SMF_ID` and keep the column names of the `rowData` as
+reported in the SMF header. In this case, we want to use the original
+feature IDs from the `rowData` of the `SummarizedExperiment` object that
+are in the optional SMF field `opt_global_feature_id`. We also specify
+the mapping of the SMF fields to the original `rowData` columns using
+the `smfCols` define above.
+
+``` r
+
+se_r <- makeSummarizedExperimentFromMzTabM(
+    mzt_r,
+    rowIdCol = "opt_global_feature_id",
+    smfCols. = smf_cols,
+    assayName = "raw_filled"
+)
+se_r
+```
+
+    class: SummarizedExperiment
+    dim: 9068 10
+    metadata(0):
+    assays(1): raw_filled
+    rownames(9068): FT0001 FT0002 ... FT9067 FT9068
+    rowData names(4): SMF_ID mzmed rtmed opt_global_feature_id
+    colnames(10): MS_QC_POOL_1_POS.mzML MS_A_POS.mzML ... MS_F_POS.mzML
+      MS_QC_POOL_4_POS.mzML
+    colData names(18): id sample_ref ... phenotype blood_sample_type
+
+The reconstructed `SummarizedExperiment` contains the same measurement
+data. Differences in `rowData` and `colData` reflect that only fields
+present in the SMF and MTD sections are loaded and that column names
+follow the mzTab-M specification.
 
 ### Low-level functions
 
@@ -1749,7 +1805,7 @@ General utility functions include:
 sessionInfo()
 ```
 
-    R version 4.6.0 (2026-04-24)
+    R version 4.6.1 (2026-06-24)
     Platform: x86_64-pc-linux-gnu
     Running under: Ubuntu 24.04.4 LTS
 
@@ -1774,21 +1830,21 @@ sessionInfo()
 
     other attached packages:
      [1] pander_0.6.6                SummarizedExperiment_1.43.0
-     [3] Biobase_2.73.1              GenomicRanges_1.65.0
+     [3] Biobase_2.73.1              GenomicRanges_1.65.1
      [5] Seqinfo_1.3.0               IRanges_2.47.2
-     [7] S4Vectors_0.51.3            BiocGenerics_0.59.7
+     [7] S4Vectors_0.51.5            BiocGenerics_0.59.10
      [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.97.17
+    [11] matrixStats_1.5.0           RmzTabM_0.97.18
 
     loaded via a namespace (and not attached):
-     [1] cli_3.6.6           knitr_1.51          rlang_1.2.0
-     [4] xfun_0.59           otel_0.2.0          data.table_1.18.4
+     [1] cli_3.6.6           knitr_1.51          rlang_1.3.0
+     [4] xfun_0.60           otel_0.2.0          data.table_1.18.4
      [7] DelayedArray_0.39.3 jsonlite_2.0.0      htmltools_0.5.9
-    [10] rmarkdown_2.31      grid_4.6.0          evaluate_1.0.5
+    [10] rmarkdown_2.31      grid_4.6.1          evaluate_1.0.5
     [13] abind_1.4-8         fastmap_1.2.0       yaml_2.3.12
-    [16] compiler_4.6.0      Rcpp_1.1.1-1.1      XVector_0.53.0
+    [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.53.0
     [19] lattice_0.22-9      digest_0.6.39       SparseArray_1.13.2
-    [22] Matrix_1.7-5        tools_4.6.0         S4Arrays_1.13.0    
+    [22] Matrix_1.7-5        tools_4.6.1         S4Arrays_1.13.0    
 
 ## References
 

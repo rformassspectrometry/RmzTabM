@@ -2,6 +2,18 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.18
+
+- Initial version of
+  [`makeSummarizedExperimentFromMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
+  to convert `mzTabM` object with MTD+SMF to `SummarizedExperiment`.
+- Add helper function
+  [`mtdToSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdToSampleData.md),
+  inverse function of
+  [`mtdFromSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md).
+- Fix minor bug `mtdFromSampleData`.
+- Update tests and vignette.
+
 ### Changes in version 0.97.17
 
 - Update and simplify the `SummarizedExperiment` export example in the

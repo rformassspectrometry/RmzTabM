@@ -19,7 +19,15 @@ assay() (abundance matrix). The smfCols. parameter of the smf() and
 MzTabM() methods allows to define the mapping between feature fields
 and column names of the rowData() containing the relevant information.
 
-"><meta property="og:description" content="The MzTabM() method for the SummarizedExperiment::SummarizedExperiment
+
+makeSummarizedExperimentFromMzTabM converts the content of an MzTabM
+object into a SummarizedExperiment object. Sample information is extracted
+from the MTD (metadata) section and used to populate the colData of the
+resulting object, while feature-level quantification values and feature
+annotations are extracted from the SMF section and used to populate the
+assay data and rowData, respectively.
+If the MzTabM object does not contain any small molecule feature data, a
+SummarizedExperiment with only colData populated is returned."><meta property="og:description" content="The MzTabM() method for the SummarizedExperiment::SummarizedExperiment
 class compiles a MzTabM data object from the content and data of the
 SummarizedExperiment object passed through the function's first parameter
 (mtd). The function extracts relevant information from the
@@ -39,7 +47,15 @@ assay() (abundance matrix). The smfCols. parameter of the smf() and
 MzTabM() methods allows to define the mapping between feature fields
 and column names of the rowData() containing the relevant information.
 
-"></head><body>
+
+makeSummarizedExperimentFromMzTabM converts the content of an MzTabM
+object into a SummarizedExperiment object. Sample information is extracted
+from the MTD (metadata) section and used to populate the colData of the
+resulting object, while feature-level quantification values and feature
+annotations are extracted from the SMF section and used to populate the
+assay data and rowData, respectively.
+If the MzTabM object does not contain any small molecule feature data, a
+SummarizedExperiment with only colData populated is returned."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -47,7 +63,7 @@ and column names of the rowData() containing the relevant information.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.17</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.18</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +112,15 @@ used to extract and compile the MTD section.</p></li>
 <code>assay()</code> (abundance matrix). The <code>smfCols.</code> parameter of the <code><a href="MzTabM.html">smf()</a></code> and
 <code><a href="MzTabM.html">MzTabM()</a></code> methods allows to define the mapping between feature <em>fields</em>
 and column names of the <code>rowData()</code> containing the relevant information.</p></li>
-</ul></div>
+</ul><p><code>makeSummarizedExperimentFromMzTabM</code> converts the content of an <code>MzTabM</code>
+object into a <code>SummarizedExperiment</code> object. Sample information is extracted
+from the <em>MTD</em> (metadata) section and used to populate the <code>colData</code> of the
+resulting object, while feature-level quantification values and feature
+annotations are extracted from the <em>SMF</em> section and used to populate the
+assay data and <code>rowData</code>, respectively.
+If the <code>MzTabM</code> object does not contain any small molecule feature data, a
+<code>SummarizedExperiment</code> with only <code>colData</code> populated is returned.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
@@ -119,6 +143,13 @@ and column names of the <code>rowData()</code> containing the relevant informati
 <span></span>
 <span><span class="co"># S4 method for class 'SummarizedExperiment'</span></span>
 <span><span class="fu"><a href="MzTabM.html">smf</a></span><span class="op">(</span><span class="va">object</span>, smfCols. <span class="op">=</span> <span class="fu">smfCols</span><span class="op">(</span><span class="op">)</span>, assayName <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">makeSummarizedExperimentFromMzTabM</span><span class="op">(</span></span>
+<span>  <span class="va">mzt</span>,</span>
+<span>  assayName <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  rowIdCol <span class="op">=</span> <span class="st">"SMF_ID"</span>,</span>
+<span>  smfCols. <span class="op">=</span> <span class="fu">smfCols</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">smfCols</span><span class="op">(</span></span>
 <span>  exp_mass_to_charge <span class="op">=</span> <span class="st">"exp_mass_to_charge"</span>,</span>
@@ -225,20 +256,13 @@ provided for groups for which no unit should be reported. By default
 
 
 <dt id="arg-smfcols-">smfCols.<a class="anchor" aria-label="anchor" href="#arg-smfcols-"></a></dt>
-<dd><p>For <code><a href="MzTabM.html">MzTabM()</a></code> and <code><a href="MzTabM.html">smf()</a></code>: named <code>character</code> defining which
-column names in the <code>SummarizedExperiment</code>'s <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> (values of
-<code>smfCols.</code>) contain information for which feature characteristics
-(names of <code>smfCols.</code>).
-Mappings to columns not present in the <code>SummarizedExperiment</code>'s
-<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> are ignored. Supports also the definition of additional,
-optional columns to be added as <em>opt</em> columns to the SMF section. For
-<code><a href="MzTabM.html">MzTabM()</a></code>: an empty <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> (the default) will skip generation
-of the SMF section.</p></dd>
+<dd><p>named <code>character</code> defining which SMF section columns should
+be use to characterize each feature.</p></dd>
 
 
 <dt id="arg-assayname">assayName<a class="anchor" aria-label="anchor" href="#arg-assayname"></a></dt>
-<dd><p>For <code><a href="MzTabM.html">MzTabM()</a></code> or <code><a href="MzTabM.html">smf()</a></code>: a <code>character(1)</code> defining the
-name of the <code>SummarizedExperiment</code>'s assay that contains the abundances.</p></dd>
+<dd><p><code>character(1)</code> defining the name of the assay to be used
+for the <code>SummarizedExperiment</code> assay. Defaults to <code>1L</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -249,6 +273,16 @@ or <code>description</code></p></dd>
 
 <dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>A <code>SummarizedExperiment</code>.</p></dd>
+
+
+<dt id="arg-mzt">mzt<a class="anchor" aria-label="anchor" href="#arg-mzt"></a></dt>
+<dd><p>A <code>MzTabM</code> object.</p></dd>
+
+
+<dt id="arg-rowidcol">rowIdCol<a class="anchor" aria-label="anchor" href="#arg-rowidcol"></a></dt>
+<dd><p><code>character(1)</code> defining the column name in the SMF section
+which should be used as row names for the <code>SummarizedExperiment</code>.
+Defaults to <code>"SMF_ID"</code>.</p></dd>
 
 
 <dt id="arg-exp-mass-to-charge">exp_mass_to_charge<a class="anchor" aria-label="anchor" href="#arg-exp-mass-to-charge"></a></dt>
@@ -321,7 +355,8 @@ the number of opt columns provided in <code>...</code>. Optional.</p></dd>
 <ul><li><p>The <code><a href="MzTabM.html">MzTabM()</a></code> function returns a <a href="MzTabM.html">MzTabM</a> object.</p></li>
 <li><p><code>smfCols()</code> returns a named <code>character</code> vector.</p></li>
 <li><p><code><a href="MzTabM.html">smf()</a></code> returns a <code>data.frame</code>.</p></li>
-</ul></div>
+</ul><p>A <code>SummarizedExperiment</code> object.</p>
+    </div>
     <div class="section level2">
     <h2 id="generate-mztab-m-content-from-a-summarizedexperiment">Generate mzTab-M content from a <code>SummarizedExperiment</code><a class="anchor" aria-label="anchor" href="#generate-mztab-m-content-from-a-summarizedexperiment"></a></h2>
 
@@ -357,6 +392,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Johannes Rainer, Philippine Louail, Gabriele Tomè</p>
+<p>Gabriele Tomè</p>
     </div>
 
     <div class="section level2">
@@ -606,7 +642,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-out co"><span class="r-pr">#&gt;</span>      values                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "2.1.0-M"                                                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "MTBLS8735"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version 0.97.17]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version 0.97.18]"                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "POOL"                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               </span>
@@ -765,7 +801,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.9000.</p>
 </div>
 
     </footer></div>
