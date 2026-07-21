@@ -1,5 +1,11 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.19
+
+- Fix issue [#46](https://github.com/rformassspectrometry/RmzTabM/issues/46)
+- Fix issue [#47](https://github.com/rformassspectrometry/RmzTabM/issues/47)
+- Add method to handle sml/sme in MzTabM object.
+
 ## Changes in version 0.97.18
 
 - Initial version of `makeSummarizedExperimentFromMzTabM()` to convert `mzTabM`
