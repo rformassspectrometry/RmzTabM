@@ -2,6 +2,7 @@
 
 ## Changes in version 0.97.19
 
+- Fix issue [#45](https://github.com/rformassspectrometry/RmzTabM/issues/45)
 - Fix issue [#46](https://github.com/rformassspectrometry/RmzTabM/issues/46)
 - Fix issue [#47](https://github.com/rformassspectrometry/RmzTabM/issues/47)
 - Add method to handle sml/sme in MzTabM object.
