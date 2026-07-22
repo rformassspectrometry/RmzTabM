@@ -13,11 +13,18 @@ setGeneric("setMtdCv", function(x, ...)
 setGeneric("setMtdContact", function(x, ...)
     standardGeneric("setMtdContact"))
 
+setGeneric("setMtdProtocol", function(x, ...)
+    standardGeneric("setMtdProtocol"))
+
 setGeneric("setMtdField", function(x, ...)
     standardGeneric("setMtdField"))
 
 setGeneric("MzTabM", function(mtd, ...) standardGeneric("MzTabM"))
 
+setGeneric("mtd", function(object, ...) standardGeneric("mtd"))
+
+setGeneric("sml", function(object, ...) standardGeneric("sml"))
+
 setGeneric("smf", function(object, ...) standardGeneric("smf"))
 
-setGeneric("mtd", function(object, ...) standardGeneric("mtd"))
+setGeneric("sme", function(object, ...) standardGeneric("sme"))

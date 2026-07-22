@@ -165,6 +165,46 @@ test_that("mtdSetContact/mtdGetContact works with MzTabM", {
     expect_equal(length(res), 4L)
 })
 
+test_that("mtdSetProtocol/mtdGetProtocol works with MzTabM", {
+    x <- MzTabM(mtd = mtdSkeleton(id = "001", software = "[,,RmzTabM,]"))
+    res <- getMtdProtocol(x)
+    expect_equal(res, NA_character_)
+
+    ## setMtdProtocol adds contact metadata fields to a valid MTD section
+    result <- setMtdProtocol(x, name = "Mass Spectrometry",
+                    type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+                    description = c("Eluting compounds were detected ..."),
+                    parameters = c("[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]"))
+    res <- getMtdProtocol(result)
+    expect_equal(res[["protocol[1]-name"]], "Mass Spectrometry")
+    expect_equal(res[["protocol[1]-type"]],
+                "[CHMO, CHMO:0000470, mass spectrometry, ]")
+    expect_equal(res[["protocol[1]-description"]],
+                "Eluting compounds were detected ...")
+    expect_equal(res[["protocol[1]-parameter[1]"]],
+                "[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]")
+
+    ## setMtdProtocol appends new contact metadata when replace = FALSE
+    mtd2 <- setMtdProtocol(result, name = c("extraction"),
+             type = c("[MSIO, MSIO:0000141, metabolite extraction,]"),
+             description = c("Extraction using 80% methanol"),
+             parameters = list("[MSIO, MSIO:0000107, quenching, [MSIO, MSIO:0000109, liquid nitrogen,]]"),
+             replace = FALSE)
+    res <- getMtdProtocol(mtd2)
+    name_rows <- res[grepl("protocol.*name$", names(res))]
+    expect_equal(length(name_rows), 2L)
+
+    ## setMtdProtocol replaces existing contact metadata when replace = TRUE
+    mtd3 <- setMtdProtocol(mtd2, name = "Test replace",
+             type = "[, , null, null]",
+             description = "Test description",
+             parameters = "[ , , null, null]", replace = TRUE)
+    res <- getMtdProtocol(mtd3)
+    name_rows <- res[grepl("protocol.*name$", names(res))]
+    expect_equal(length(name_rows), 1L)
+    expect_equal(res[["protocol[1]-name"]], "Test replace")
+})
+
 test_that("mtdGetField works with MzTabM", {
     x <- MzTabM(mtd = mtdSkeleton(id = "001", software = "[,,RmzTabM,]"))
     res <- getMtdField(x, "software")
@@ -199,14 +239,26 @@ test_that("mtdGetField works with MzTabM", {
     expect_equal(result, c("title" = "Title 1"))
 })
 
+test_that("mtd,MzTabM works", {
+    a <- MzTabM()
+    res <- mtd(a)
+    expect_equal(res, a@mtd)
+})
+
+test_that("sml,MzTabM works", {
+    a <- MzTabM()
+    res <- sml(a)
+    expect_equal(dim(res), c(0, 0))
+})
+
 test_that("smf,MzTabM works", {
     a <- MzTabM()
     res <- smf(a)
     expect_equal(dim(res), c(0, 0))
 })
 
-test_that("smf,MzTabM works", {
+test_that("sme,MzTabM works", {
     a <- MzTabM()
-    res <- mtd(a)
-    expect_equal(res, a@mtd)
+    res <- sme(a)
+    expect_equal(dim(res), c(0, 0))
 })

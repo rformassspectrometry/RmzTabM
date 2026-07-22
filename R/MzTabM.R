@@ -9,7 +9,11 @@
 #'
 #' @aliases mtd
 #'
+#' @aliases sml
+#'
 #' @aliases smf
+#'
+#' @aliases sme
 #'
 #' @description
 #'
@@ -18,8 +22,8 @@
 #' its content.
 #'
 #' New instances can be created using the `MzTabM()` function providing the
-#' content for the MTD, SML, SMF and SML sections (through parameters `mtd`,
-#' `sml`, `smf`, and `sml`, respectively).
+#' content for the MTD, SML, SMF and SME sections (through parameters `mtd`,
+#' `sml`, `smf`, and `sme`, respectively).
 #'
 #' @section MTD section; adding or getting metadata:
 #'
@@ -30,11 +34,14 @@
 #' - [getMtdDatabase()] and [setMtdDatabase()] for database information.
 #' - [getMtdCv()] and [setMtdCv()] for CV information.
 #' - [getMtdContact()] and [setMtdContact()] for contact information.
+#' - [getMtdProtocol()] and [setMtdProtocol()] for protocol information.
 #' - [getMtdField()] and [setMtdField()] for additional information.
 #'
 #' @section SMF section; adding or getting small feature abundance matrix:
 #'
+#' - `sml()`: returns the SML summary matrix of an `MzTabM` object.
 #' - `smf()`: returns the SMF feature abundance matrix of an `MzTabM` object.
+#' - `sme()`: returns the SME evidence matrix of an `MzTabM` object.
 #'
 #' @param mtd Two-column `matrix` or `data.frame` with the MTD content (see
 #'     [MTD-export] for details and expected format/content).
@@ -90,6 +97,15 @@
 #'           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 #' m
 #' getMtdContact(m)
+#'
+#' ## Add protocol metadata to an existing mzTab object
+#' m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
+#'        type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+#'        description = c("Eluting compounds were detected ..."),
+#'        parameters = paste0("[MS, MS:1000008, ionization type, ",
+#'                            "[MS,MS:1000073, electrospray ionization, ]]"))
+#' m
+#' getMtdProtocol(m)
 #'
 #' ## Add a metadata field to an existing mzTab object
 #' m <- setMtdField(m, field = "publication",
@@ -178,6 +194,16 @@ setMethod("setMtdContact", "MzTabM", function(x, name = character(),
     x
 })
 
+setMethod("setMtdProtocol", "MzTabM", function(x = matrix(),
+                                            name = character(),
+                                            type = character(),
+                                            description = character(),
+                                            parameters = character(),
+                                            replace = FALSE) {
+    x@mtd <- setMtdProtocol(x@mtd, name, type, description, parameters, replace)
+    x
+})
+
 setMethod("setMtdField", "MzTabM", function(x, field = character(),
                                             value = character(),
                                             replace = FALSE) {
@@ -205,6 +231,21 @@ setMethod("MzTabM", signature(mtd = "missing"),
               MzTabM(mtdSkeleton(id = "<replace>", software = "<replace>"))
           })
 
+
+#' @rdname MzTabM
+#'
+#' @exportMethod mtd
+setMethod("mtd", signature(object = "MzTabM"), function(object) {
+    object@mtd
+})
+
+#' @rdname MzTabM
+#'
+#' @exportMethod sml
+setMethod("sml", signature(object = "MzTabM"), function(object) {
+    object@sml
+})
+
 #' @rdname MzTabM
 #'
 #' @exportMethod smf
@@ -214,9 +255,9 @@ setMethod("smf", signature(object = "MzTabM"), function(object) {
 
 #' @rdname MzTabM
 #'
-#' @exportMethod mtd
-setMethod("mtd", signature(object = "MzTabM"), function(object) {
-    object@mtd
+#' @exportMethod sme
+setMethod("sme", signature(object = "MzTabM"), function(object) {
+    object@sme
 })
 
 setMethod("as.list", "MzTabM", function(x, ...) {

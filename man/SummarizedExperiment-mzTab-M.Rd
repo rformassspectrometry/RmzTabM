@@ -222,11 +222,11 @@ If the \code{MzTabM} object does not contain any small molecule feature data, a
 \item \code{MzTabM()}: function to compile a \link{MzTabM} object from the information
 available in the \code{SummarizedExperiment}. The resulting \code{MzTabM} object
 should be completed by adding additional metadata through e.g.
-\code{\link[=setMtdInstrument]{setMtdInstrument()}}, \code{\link[=setMtdDatabase]{setMtdDatabase()}}, \code{\link[=setMtdCv]{setMtdCv()}}, \code{\link[=setMtdContact]{setMtdContact()}}
-or \code{\link[=setMtdField]{setMtdField()}}. See \code{\link[=mtdFromSampleData]{mtdFromSampleData()}} for details and parameters
-to compile the MTD section. See \code{smf()} below for information and
-parameters to compile the SMF section. Note that the SMF section is only
-created if \code{smfCols.} is defined and not empty.
+\code{\link[=setMtdInstrument]{setMtdInstrument()}}, \code{\link[=setMtdDatabase]{setMtdDatabase()}}, \code{\link[=setMtdCv]{setMtdCv()}}, \code{\link[=setMtdContact]{setMtdContact()}},
+\code{\link[=setMtdProtocol]{setMtdProtocol()}} or \code{\link[=setMtdField]{setMtdField()}}. See \code{\link[=mtdFromSampleData]{mtdFromSampleData()}} for
+details and parameters to compile the MTD section. See \code{smf()} below for
+information and parameters to compile the SMF section. Note that the SMF
+section is only created if \code{smfCols.} is defined and not empty.
 See \link{MTD-export} for more details on the mzTab-M metadata and \link{SMF-export}
 for fields/columns to characterize features in an SMF section.
 \item \code{smf()}: generate a SMF matrix from a \code{SummarizedExperiment}. The

@@ -72,6 +72,8 @@
 #'   in an MTD section.
 #' - [setMtdContact()]/[getMtdContact()]: set/get contact Metadata in an MTD
 #'   section.
+#' - [setMtdProtocol()]/[getMtdProtocol()]: set/get protocol Metadata in an MTD
+#'   section.
 #' - [setMtdField()]/[getMtdField()]: set/get a Metadata Field in an MTD
 #'   section.
 #'
@@ -94,7 +96,7 @@
 #'     molecule feature (SMF) and small molecule (SML) sections.
 #'
 #' @seealso [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()],
-#'     [setMtdContact()] and [setMtdField()].
+#'     [setMtdContact()], [setMtdProtocol()] and [setMtdField()].
 #'
 #' @examples
 #'
@@ -1104,23 +1106,8 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Not all column names defined with 'groups' are ",
              "present in 'x'", call. = FALSE)
     x <- as.data.frame(x[, groups, drop = FALSE])
-    ## Convert non Cv groups to Cv parameters
-    groups_cv <- groups
-    if (any(i <- !isCvParameter(groups_cv)))
-        groups_cv[i] <- paste0("[,,", groups_cv[i], ",]")
 
-    svg <- c(groups_cv, .mtd_svar_group_description(x, group_description),
-             .mtd_svar_group_type(x, group_type),
-             .mtd_svar_group_datatype(x, group_datatype),
-             .mtd_svar_group_unit(x, group_unit))
-    ## build study variable group content
-    res <- cbind(paste0("study_variable_group[",
-                        rep(seq_along(groups_cv), each = 5L),
-                        c("]", "]-description", "]-type",
-                          "]-datatype", "]-unit")),
-                 svg[order(rep(seq_along(groups_cv), 5L))])
-    ## drop rows with empty unit
-    res <- res[!(grepl("-unit$", res[, 1L]) & res[, 2L] == ""), , drop = FALSE]
+    ## Add study variables
     svar_df <- .mztab_study_variables(x, groups)
     svars <- unique(svar_df)
     l <- nrow(svars)
@@ -1141,6 +1128,7 @@ mtdStudyVariables <- function(x, groups = character(),
         stop("Length of parameter 'description' has to be equal to ",
              "the number of study variables", call. = FALSE)
     ## Add study variables
+    res <- matrix(ncol = 2)
     for (i in seq_len(nrow(svars))) {
         current_svar <- svars$study_variable[i]
         current_grp <- svars$study_variable_group[i]
@@ -1153,19 +1141,37 @@ mtdStudyVariables <- function(x, groups = character(),
                      paste0("study_variable[", i, "]-average_function"),
                      paste0("study_variable[", i, "]-variation_function"),
                      paste0("study_variable[", i, "]-description"),
-                     paste0("study_variable[", i, "]-group_ref"),
                      current_svar,
                      paste0("assay[", which(x[, current_grp] %in% current_svar),
                             "]", collapse = "|"),
                      average_function[i],
                      variation_function[i],
-                     description[i],
-                     paste0("study_variable_group[",
-                            match(current_grp, groups), "]"))
+                     description[i])
                    )
         )
     }
-    res
+
+    ## Convert non Cv groups to Cv parameters
+    groups_cv <- groups
+    if (any(i <- !isCvParameter(groups_cv)))
+        groups_cv[i] <- paste0("[,,", groups_cv[i], ",]")
+
+    svg <- c(groups_cv, .mtd_svar_group_description(x, group_description),
+             .mtd_svar_group_type(x, group_type),
+             .mtd_svar_group_datatype(x, group_datatype),
+             .mtd_svar_group_unit(x, group_unit),
+             .mtd_svar_group_variable_ref(svars))
+    ## build study variable group content
+    svar_g_df <- matrix(ncol = 2,
+                        c(paste0("study_variable_group[",
+                        rep(seq_along(groups_cv), each = 6L),
+                        c("]", "]-description", "]-type",
+                          "]-datatype", "]-unit", "]-study_variable_ref")),
+                        unlist(svg[order(rep(seq_along(groups_cv), 6L))])))
+    ## drop rows with empty unit
+    svar_g_df <- svar_g_df[!(grepl("-unit$", svar_g_df[, 1L]) &
+                            svar_g_df[, 2L] == ""), , drop = FALSE]
+    rbind(svar_g_df, res[-1, ])
 }
 
 #' @rdname mtdStudyVariables
@@ -1179,79 +1185,6 @@ mtdDefineStudyVariables <- function(x = data.frame(), groups = character()) {
         data.frame(study_variable = "undefined",
                    study_variable_group = "undefined")
     else unique(.mztab_study_variables(x, groups))
-}
-
-#' @title mzTab-M *protocol* metadata information
-#'
-#' @description
-#'
-#' The `mtdProtocol()` function assists in compiling the *protocol* information
-#' of the metadata section. Each protocol is referenced from an *assay* section
-#' (see [mtdAssay()]).
-#'
-#' For details and expected input for the various parameter it is **strongly
-#' suggested** to consult the [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section) documentation.
-#'
-#' @param name `character` with protocol name describing one or more steps of
-#'     an experimental procedure, such as sample preparation, data acquisition
-#'     or data processing.
-#'
-#' @param type `character` with the protocol type, as defined by the parameter.
-#'     Can be of length 1 or equal to `length(name)`.
-#'
-#' @param description optional `character` with the description of the protocol.
-#'     Can be of length 1 or equal to `length(name)`.
-#'
-#' @param parameters optional `character` with additional parameters of the
-#'     protocol
-#'
-#' @return two-column `character` `matrix` with the content for the protocol
-#'     metadata section.
-#'
-#' @author Gabriele Tomè
-#'
-#' @seealso [MTD-export] for other functions defining metadata information
-#'
-#' @export
-#'
-#' @examples
-#'
-#' ## Minimal example with protocol.
-#' mtdProtocol(name = c("protocol1", "protocol2", "protocol3"),
-#'             type = c("[,,,type1]", "[,,,type2]", "[,,,type3]"))
-#'
-#' ## Example with all the fields
-#' mtdProtocol(name = c("protocol1", "protocol2", "protocol3"),
-#'             type = c("[,,,type]", "[,,,type2]", "[,,,type3]"),
-#'             description = c("description1", "description2", "description3"),
-#'             parameters = list(c("param1.1", "param1.2"), "param2", "param3"))
-mtdProtocol <- function(name = character(), type = character(),
-                        description = character(), parameters = character()) {
-    if (!length(name))
-        stop("Parameter 'name' is required", call. = FALSE)
-    if (!length(type))
-        stop("Parameter 'type' is required", call. = FALSE)
-    if (!all(sapply(type, isCvParameter)))
-        stop("All entries in parameter 'type' have to be valid CV parameters",
-             call. = FALSE)
-    l = length(name)
-    s <- seq_len(l)
-    res <- cbind(mtdFields(name = name, field_prefix = "protocol"), order = s)
-    if (length(type)) {
-        if (length(type) != l) type <- rep(type[1L], l)
-        res <- rbind(res, cbind(mtdFields(type = type,
-                                           field_prefix = "protocol"), s))
-    }
-    if (length(description)) {
-        if (length(description) != l) description <- rep(description[1L], l)
-        res <- rbind(res, cbind(mtdFields(description = description,
-                                           field_prefix = "protocol"), s))
-    }
-    ## Paramters
-    if (length(parameters)) {
-        res <- rbind(res, .mtd_parameters_fields("protocol", parameters, l))
-    }
-    res[order(res[, 3L]), 1:2, drop = FALSE]
 }
 
 #' @title Sort rows in a MTD matrix to match the expected order
@@ -1667,16 +1600,19 @@ mtdToSampleData <- function(mtd) {
                                         fields), ]
         study_var_grp_w <- .mtd_long_to_wide(study_var_grp_field)
         study_var_grp_w$group <- parseCvParameter(study_var_grp_w$name, 3)
+        study_var_grp_w <- .separate_multi_links(study_var_grp_w,
+                                            "study_variable_ref")
 
         if (all(study_var_grp_w$group != "undefined")) {
             study_var_field <- mtd[grepl("^study_variable\\[([0-9]+)\\]",
                                             fields), ]
-            cols <- c("name", "assay_refs", "group_ref")
+            cols <- c("name", "assay_refs", "id")
             study_var_w <- .mtd_long_to_wide(study_var_field)[, cols]
             study_var_w <- .separate_multi_links(study_var_w, "assay_refs")
 
-            study_l <- merge(study_var_w, study_var_grp_w[, c("id", "group")],
-                                by.x = "group_ref", by.y = "id")
+            study_l <- merge(study_var_w,
+                            study_var_grp_w[, c("study_variable_ref", "group")],
+                            by.x = "id", by.y = "study_variable_ref")
             cols_study <- c("assay_refs", "group", "name")
             study_w <- reshape(study_l[, cols_study], idvar = "assay_refs",
                                 timevar = "group", direction = "wide")
@@ -2214,6 +2150,22 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
     } else rep("", ncol(x))
 }
 
+#' Helper function to compute the linkage between `study_variable_group` and
+#' `study_variable`.
+#'
+#' @return returns `study_variable_ref`
+#'
+#' @noRd
+.mtd_svar_group_variable_ref <- function(svars) {
+    svars$index <- seq_len(nrow(svars))
+    variable_ref <- lapply(unique(svars$study_variable_group), function(g) {
+        paste0("study_variable[",
+                svars[svars$study_variable_group == g, "index"],
+                "]", collapse = "|")
+    })
+    variable_ref
+}
+
 .STUDY_VARIABLE_GROUP_DATATYPE <- data.frame(
     r = c("character", "integer", "numeric", "logical", "factor",
           "character", "character", "character", "character", "character"),
@@ -2706,6 +2658,180 @@ getMtdContact <- function(x = matrix()) {
     if (inherits(x, "MzTabM")) x <- x@mtd
     .mtd_get_field(x, "^contact\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
 }
+
+#' @title Add or Update protocol Metadata  of an mzTab-M MTD section
+#'
+#' @name setMtdProtocol
+#'
+#' @aliases setMtdProtocol,dfmatrix-method setMtdProtocol,MzTabM-method
+#'
+#' @description
+#'
+#' `setMtdProtocol()` sets or updates protocol-related metadata fields within
+#' an MTD (metadata) section. When protocol metadata already exists, the
+#' function can either replace it entirely or append new values to the existing
+#' ones. Each protocol is referenced from an *assay* section (see [mtdAssay()]).
+#'
+#' `getMtdProtocol()` returns the protocol information from an MTD section.
+#'
+#' @param x A MTD section that stores metadata fields. Can be a two-column
+#'     `character` matrix, a two-column `data.frame` or a [MzTabM()] object.
+#'     Defaults to `matrix()`. If all values are `NA`, the function returns `x`
+#'     unchanged.
+#'
+#' @param name `character` with protocol name describing one or more steps of
+#'     an experimental procedure, such as sample preparation, data acquisition
+#'     or data processing.
+#'
+#' @param type `character` with the protocol type, as defined by the parameter.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param description optional `character` with the description of the protocol.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param parameters optional `character` with additional parameters of the
+#'     protocol
+#'
+#' @param replace `logical` flag controlling how pre-existing contact
+#'     metadata is handled:
+#'     \itemize{
+#'         \item `FALSE` (default): new values are appended to any existing
+#'         values.
+#'         \item `TRUE`: existing instrument metadata is discarded and
+#'         replaced entirely by the supplied arguments.
+#'     }
+#'
+#' @return
+#'
+#' - For `setMtdProtocol()`: the input object `x` updated to include the new or
+#'   merged protocol metadata fields. If `x` is empty, the empty `x`.
+#' - For `getMtdProtocol()`: a named `character` with the protocol information,
+#'   names being the field names.
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' x <- mtdSkeleton("001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#' ## Minimal example with protocol.
+#' mtd <- setMtdProtocol(x, name = c("Mass Spectrometry"),
+#'        type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+#'        description = c("Eluting compounds were detected ..."),
+#'        parameters = paste0("[MS, MS:1000008, ionization type, ",
+#'                            "[MS,MS:1000073, electrospray ionization, ]]"))
+#'
+#' ## Example with all the fields and replace the previous
+#' mtd <- setMtdProtocol(mtd, name = c("Mass Spectrometry", "extraction"),
+#'             type = c("[CHMO, CHMO:0000470, mass spectrometry, ]",
+#'                      "[MSIO, MSIO:0000141, metabolite extraction,]"),
+#'             description = c("Eluting compounds were detected ...",
+#'                             "Extraction using 80% methanol"),
+#'             parameters = list(c(paste0("[MS, MS:1000008, ionization type, ",
+#'                               "[MS,MS:1000073, electrospray ionization, ]]"),
+#'                               "param1.2"),
+#'                               paste0("[MSIO, MSIO:0000107, quenching, ",
+#'                                  "[MSIO, MSIO:0000109, liquid nitrogen,]]")),
+#'             replace = TRUE)
+#'
+#' getMtdProtocol(mtd)
+#'
+#' @exportMethod setMtdProtocol
+setMethod("setMtdProtocol", "dfmatrix", function(x = matrix(),
+                                            name = character(),
+                                            type = character(),
+                                            description = character(),
+                                            parameters = character(),
+                                            replace = FALSE) {
+    if (!all(is.na(x))) {
+        if (!length(name))
+            stop("Missing \"name\", provide a valid one.")
+        if (!length(type))
+            stop("Missing \"type\", provide a valid one.")
+        if (!length(description))
+            stop("Missing \"description\", provide a valid one.")
+        if (!length(parameters))
+            stop("Missing \"parameters\", provide a valid one.")
+        if (!all(sapply(type, isCvParameter)))
+            stop("All entries in parameter 'type' have to be valid CV ",
+                 "parameters", call. = FALSE)
+        prot <- .mtd_get_field(x, "^protocol\\[\\d+\\]", exact = FALSE,
+                                fixed = FALSE)[[1]]
+        list_param <- list(name = name, type = type,
+                            description = description, parameter = parameters)
+        if (!all(is.na(prot))) {
+            if (!replace) {
+                list_param <- Map(function(f) {
+                    c(prot[grep(f, names(prot), fixed = TRUE)],
+                      list_param[[f]])},
+                    names(list_param))
+            }
+            x <- x[!(x[, 1] %in% names(prot)), ]
+        }
+        new_prot <- do.call(.mtdProtocol, c(list_param))
+        x <- mtdSort(rbind(x, new_prot))
+    }
+    x
+})
+
+#' @rdname setMtdProtocol
+#'
+#' @export
+getMtdProtocol <- function(x = matrix()) {
+    if (inherits(x, "MzTabM")) x <- x@mtd
+    .mtd_get_field(x, "^protocol\\[\\d+\\]", exact = FALSE, fixed = FALSE)[[1]]
+}
+
+#' The `mtdProtocol()` function assists in compiling the *protocol* information
+#' of the metadata section.
+#'
+#' @param name `character` with protocol name describing one or more steps of
+#'     an experimental procedure, such as sample preparation, data acquisition
+#'     or data processing.
+#'
+#' @param type `character` with the protocol type, as defined by the parameter.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param description optional `character` with the description of the protocol.
+#'     Can be of length 1 or equal to `length(name)`.
+#'
+#' @param parameter optional `character` with additional parameters of the
+#'     protocol
+#'
+#' @return two-column `character` `matrix` with the content for the protocol
+#'     metadata section.
+#'
+#' @author Gabriele Tomè
+#'
+#' @noRd
+.mtdProtocol <- function(name = character(), type = character(),
+                        description = character(), parameter = character()) {
+    if (!length(name))
+        stop("Parameter 'name' is required", call. = FALSE)
+    if (!length(type))
+        stop("Parameter 'type' is required", call. = FALSE)
+    if (!all(sapply(type, isCvParameter)))
+        stop("All entries in parameter 'type' have to be valid CV parameters",
+             call. = FALSE)
+    l = length(name)
+    s <- seq_len(l)
+    res <- cbind(mtdFields(name = name, field_prefix = "protocol"), order = s)
+    if (length(type)) {
+        if (length(type) != l) type <- rep(type[1L], l)
+        res <- rbind(res, cbind(mtdFields(type = type,
+                                           field_prefix = "protocol"), s))
+    }
+    if (length(description)) {
+        if (length(description) != l) description <- rep(description[1L], l)
+        res <- rbind(res, cbind(mtdFields(description = description,
+                                           field_prefix = "protocol"), s))
+    }
+    ## Paramters
+    if (length(parameter)) {
+        res <- rbind(res, .mtd_parameters_fields("protocol", parameter, l))
+    }
+    res[order(res[, 3L]), 1:2, drop = FALSE]
+}
+
 
 #' @title Add or Update a Metadata Field of an mzTab-M MTD section
 #'

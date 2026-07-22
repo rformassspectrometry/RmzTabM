@@ -33,11 +33,11 @@
 #' - `MzTabM()`: function to compile a [MzTabM] object from the information
 #'   available in the `SummarizedExperiment`. The resulting `MzTabM` object
 #'   should be completed by adding additional metadata through e.g.
-#'   [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()], [setMtdContact()]
-#'   or [setMtdField()]. See [mtdFromSampleData()] for details and parameters
-#'   to compile the MTD section. See `smf()` below for information and
-#'   parameters to compile the SMF section. Note that the SMF section is only
-#'   created if `smfCols.` is defined and not empty.
+#'   [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()], [setMtdContact()],
+#'   [setMtdProtocol()] or [setMtdField()]. See [mtdFromSampleData()] for
+#'   details and parameters to compile the MTD section. See `smf()` below for
+#'   information and parameters to compile the SMF section. Note that the SMF
+#'   section is only created if `smfCols.` is defined and not empty.
 #'   See [MTD-export] for more details on the mzTab-M metadata and [SMF-export]
 #'   for fields/columns to characterize features in an SMF section.
 #'
