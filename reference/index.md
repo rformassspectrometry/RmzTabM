@@ -12,8 +12,10 @@
   : Import a mzTab-M 2.1 file
 
 - [`MzTabM(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
-  [`smf(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
   [`mtd(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  [`sml(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  [`smf(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
+  [`sme(`*`<MzTabM>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
   : mzTab-M data container
 
 - [`smeCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
@@ -57,11 +59,6 @@
   :
 
   msTab-M *ms_run* metadata fields
-
-- [`mtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdProtocol.md)
-  :
-
-  mzTab-M *protocol* metadata information
 
 - [`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
   :
@@ -110,3 +107,7 @@
 - [`setMtdInstrument(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)
   [`getMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)
   : Add, update or get instrument metadata of an mzTab-M MTD section
+
+- [`setMtdProtocol(`*`<dfmatrix>`*`)`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdProtocol.md)
+  [`getMtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdProtocol.md)
+  : Add or Update protocol Metadata of an mzTab-M MTD section

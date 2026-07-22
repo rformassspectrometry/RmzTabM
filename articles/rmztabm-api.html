@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.18</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.19</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -356,7 +356,7 @@ FT9068         1         3         3         1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Object of class MzTabM
 mzTab-M version 2.1.0-M
- MTD section with 189 rows.</code></pre>
+ MTD section with 181 rows.</code></pre>
 </div>
 </div>
 <p>This <code>MzTabM</code> object contains only metadata information, but no abundances/feature data yet. Also, some general metadata are still missing and, if exported to a mzTab-M file, it might not yet validate. We are next adding the small molecule feature (SMF) content and, in the subsequent section <em>Completing the metadata content</em>, adding eventually missing required metadata fields.</p>
@@ -420,7 +420,7 @@ FT9068         1         3         3         1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Object of class MzTabM
 mzTab-M version 2.1.0-M
- MTD section with 189 rows.
+ MTD section with 181 rows.
  SMF section with 9068 rows and 22 columns.</code></pre>
 </div>
 </div>
@@ -445,7 +445,7 @@ mzTab-M version 2.1.0-M
      values
 [1,] "2.1.0-M"
 [2,] "MTBLS8735"
-[3,] "[,,RmzTabM,RmzTabM version 0.97.18]"
+[3,] "[,,RmzTabM,RmzTabM version 0.97.19]"
 [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
 [5,] "POOL"
 [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               </code></pre>
@@ -558,7 +558,7 @@ FT0006           6911.5439                FT0006</code></pre>
 <span><span class="fu"><a href="../reference/setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">mzt</span>, <span class="st">"software"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                          software[1]                           software[2]
-"[,,RmzTabM,RmzTabM version 0.97.18]"      "[MS, MS:1001582, xcms, 4.10.0]" </code></pre>
+"[,,RmzTabM,RmzTabM version 0.97.19]"      "[MS, MS:1001582, xcms, 4.10.0]" </code></pre>
 </div>
 </div>
 <p>Also, we need to add instrument information to the <code>MzTabM</code> object.</p>
@@ -600,7 +600,7 @@ FT0006           6911.5439                FT0006</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Object of class MzTabM
 mzTab-M version 2.1.0-M
- MTD section with 210 rows.
+ MTD section with 202 rows.
  SMF section with 9068 rows and 22 columns.</code></pre>
 </div>
 </div>
@@ -623,7 +623,7 @@ rownames(9068): FT0001 FT0002 ... FT9067 FT9068
 rowData names(4): SMF_ID mzmed rtmed opt_global_feature_id
 colnames(10): MS_QC_POOL_1_POS.mzML MS_A_POS.mzML ... MS_F_POS.mzML
   MS_QC_POOL_4_POS.mzML
-colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
+colData names(18): id sample_ref ... blood_sample_type phenotype</code></pre>
 </div>
 </div>
 <p>The reconstructed <code>SummarizedExperiment</code> contains the same measurement data. Differences in <code>rowData</code> and <code>colData</code> reflect that only fields present in the SMF and MTD sections are loaded and that column names follow the mzTab-M specification.</p>
@@ -1100,8 +1100,8 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">mtd_svar</span>, style <span class="op">=</span> <span class="st">"rmarkdown"</span>, split.table <span class="op">=</span> <span class="cn">Inf</span>, justify <span class="op">=</span> <span class="st">"ll"</span><span class="op">)</span></span></code></pre></div>
 <table class="table caption-top">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 55%">
+<col style="width: 47%">
+<col style="width: 52%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -1125,20 +1125,28 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">[, , hours, ]</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">study_variable_group[1]-study_variable_ref</td>
+<td style="text-align: left;">study_variable[1]|study_variable[2]</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">study_variable_group[2]</td>
 <td style="text-align: left;">[,,genotype,]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable_group[2]-description</td>
 <td style="text-align: left;">Sample matrix column genotype</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable_group[2]-type</td>
 <td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable_group[2]-datatype</td>
 <td style="text-align: left;">xsd:string</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">study_variable_group[2]-study_variable_ref</td>
+<td style="text-align: left;">study_variable[3]|study_variable[4]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable_group[3]</td>
@@ -1157,28 +1165,28 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">xsd:string</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">study_variable_group[3]-study_variable_ref</td>
+<td style="text-align: left;">study_variable[5]|study_variable[6]</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]</td>
 <td style="text-align: left;">0h</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[1]-assay_refs</td>
 <td style="text-align: left;">assay[1]|assay[3]|assay[5]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[1]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]-description</td>
 <td style="text-align: left;">Variable timepoint, value 0h</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">study_variable[1]-group_ref</td>
-<td style="text-align: left;">study_variable_group[1]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable[2]</td>
@@ -1201,32 +1209,24 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">Variable timepoint, value 6h</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">study_variable[2]-group_ref</td>
-<td style="text-align: left;">study_variable_group[1]</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">study_variable[3]</td>
 <td style="text-align: left;">WT</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[3]-assay_refs</td>
 <td style="text-align: left;">assay[1]|assay[2]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[3]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[3]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[3]-description</td>
 <td style="text-align: left;">Variable genotype, value WT</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">study_variable[3]-group_ref</td>
-<td style="text-align: left;">study_variable_group[2]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable[4]</td>
@@ -1249,32 +1249,24 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">Variable genotype, value KO</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">study_variable[4]-group_ref</td>
-<td style="text-align: left;">study_variable_group[2]</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">study_variable[5]</td>
 <td style="text-align: left;">BB</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[5]-assay_refs</td>
 <td style="text-align: left;">assay[1]|assay[2]|assay[3]|assay[4]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[5]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[5]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[5]-description</td>
 <td style="text-align: left;">Variable operator, value BB</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">study_variable[5]-group_ref</td>
-<td style="text-align: left;">study_variable_group[3]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study_variable[6]</td>
@@ -1295,10 +1287,6 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <tr class="even">
 <td style="text-align: left;">study_variable[6]-description</td>
 <td style="text-align: left;">Variable operator, value FB</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">study_variable[6]-group_ref</td>
-<td style="text-align: left;">study_variable_group[3]</td>
 </tr>
 </tbody>
 </table>
@@ -1615,20 +1603,28 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">[, , hours, ]</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">study_variable_group[1]-study_variable_ref</td>
+<td style="text-align: left;">study_variable[1]|study_variable[2]</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">study_variable_group[2]</td>
 <td style="text-align: left;">[,,genotype,]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable_group[2]-description</td>
 <td style="text-align: left;">Sample matrix column genotype</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable_group[2]-type</td>
 <td style="text-align: left;">[STATO, STATO:0000252, categorical variable, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable_group[2]-datatype</td>
 <td style="text-align: left;">xsd:string</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_variable_group[2]-study_variable_ref</td>
+<td style="text-align: left;">study_variable[3]|study_variable[4]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable_group[3]</td>
@@ -1647,28 +1643,28 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">xsd:string</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">study_variable_group[3]-study_variable_ref</td>
+<td style="text-align: left;">study_variable[5]|study_variable[6]</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">study_variable[1]</td>
 <td style="text-align: left;">0h</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]-assay_refs</td>
 <td style="text-align: left;">assay[1]|assay[3]|assay[5]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[1]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[1]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[1]-description</td>
 <td style="text-align: left;">Variable timepoint, value 0h</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">study_variable[1]-group_ref</td>
-<td style="text-align: left;">study_variable_group[1]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable[2]</td>
@@ -1691,32 +1687,24 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">Variable timepoint, value 6h</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">study_variable[2]-group_ref</td>
-<td style="text-align: left;">study_variable_group[1]</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">study_variable[3]</td>
 <td style="text-align: left;">WT</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[3]-assay_refs</td>
 <td style="text-align: left;">assay[1]|assay[2]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[3]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[3]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[3]-description</td>
 <td style="text-align: left;">Variable genotype, value WT</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">study_variable[3]-group_ref</td>
-<td style="text-align: left;">study_variable_group[2]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable[4]</td>
@@ -1739,32 +1727,24 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">Variable genotype, value KO</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">study_variable[4]-group_ref</td>
-<td style="text-align: left;">study_variable_group[2]</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">study_variable[5]</td>
 <td style="text-align: left;">BB</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[5]-assay_refs</td>
 <td style="text-align: left;">assay[1]|assay[2]|assay[3]|assay[4]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[5]-average_function</td>
 <td style="text-align: left;">[MS, MS:1002962, mean, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">study_variable[5]-variation_function</td>
 <td style="text-align: left;">[MS, MS:1002963, variation coefficient, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">study_variable[5]-description</td>
 <td style="text-align: left;">Variable operator, value BB</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">study_variable[5]-group_ref</td>
-<td style="text-align: left;">study_variable_group[3]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study_variable[6]</td>
@@ -1787,114 +1767,110 @@ colData names(18): id sample_ref ... phenotype blood_sample_type</code></pre>
 <td style="text-align: left;">Variable operator, value FB</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">study_variable[6]-group_ref</td>
-<td style="text-align: left;">study_variable_group[3]</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">cv[1]-label</td>
 <td style="text-align: left;">MS</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[1]-full_name</td>
 <td style="text-align: left;">PSI-MS controlled vocabulary</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[1]-version</td>
 <td style="text-align: left;">4.1.138</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[1]-uri</td>
 <td style="text-align: left;">https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[2]-label</td>
 <td style="text-align: left;">PRIDE</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[2]-full_name</td>
 <td style="text-align: left;">PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[2]-version</td>
 <td style="text-align: left;">16:10:2023 11:38</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[2]-uri</td>
 <td style="text-align: left;">https://www.ebi.ac.uk/ols/ontologies/pride</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[3]-label</td>
 <td style="text-align: left;">STATO</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[3]-full_name</td>
 <td style="text-align: left;">General purpose STATistics Ontology</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[3]-version</td>
 <td style="text-align: left;">2026-04-20</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[3]-uri</td>
 <td style="text-align: left;">https://www.ebi.ac.uk/ols4/ontologies/stato</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[4]-label</td>
 <td style="text-align: left;">BTO</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[4]-full_name</td>
 <td style="text-align: left;">The BRENDA Tissue Ontology (BTO)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[4]-version</td>
 <td style="text-align: left;">2021-10-26</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[4]-uri</td>
 <td style="text-align: left;">https://www.ebi.ac.uk/ols4/ontologies/bto</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[5]-label</td>
 <td style="text-align: left;">NCBITaxon</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[5]-full_name</td>
 <td style="text-align: left;">NCBI organismal classification</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cv[5]-version</td>
 <td style="text-align: left;">2025-12-03</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">cv[5]-uri</td>
 <td style="text-align: left;">https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">database[1]</td>
 <td style="text-align: left;">[,, “no database”, null ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">database[1]-prefix</td>
 <td style="text-align: left;">null</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">database[1]-version</td>
 <td style="text-align: left;">Unknown</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">database[1]-uri</td>
 <td style="text-align: left;">null</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">small_molecule-quantification_unit</td>
 <td style="text-align: left;">[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">small_molecule_feature-quantification_unit</td>
 <td style="text-align: left;">[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">small_molecule-identification_reliability</td>
 <td style="text-align: left;">[MS, MS:1002896, compound identification confidence level, ]</td>
 </tr>
@@ -2226,7 +2202,7 @@ other attached packages:
  [5] Seqinfo_1.3.0               IRanges_2.47.2
  [7] S4Vectors_0.51.5            BiocGenerics_0.59.10
  [9] generics_0.1.4              MatrixGenerics_1.25.0
-[11] matrixStats_1.5.0           RmzTabM_0.97.18
+[11] matrixStats_1.5.0           RmzTabM_0.97.19
 
 loaded via a namespace (and not attached):
  [1] cli_3.6.6           knitr_1.51          rlang_1.3.0

@@ -3,13 +3,13 @@
 Methods for this class allow adding or updating information and validating
 its content.
 New instances can be created using the MzTabM() function providing the
-content for the MTD, SML, SMF and SML sections (through parameters mtd,
-sml, smf, and sml, respectively)."><meta property="og:description" content="The MzTabM class is a simple container for the mzTab-M data/file content.
+content for the MTD, SML, SMF and SME sections (through parameters mtd,
+sml, smf, and sme, respectively)."><meta property="og:description" content="The MzTabM class is a simple container for the mzTab-M data/file content.
 Methods for this class allow adding or updating information and validating
 its content.
 New instances can be created using the MzTabM() function providing the
-content for the MTD, SML, SMF and SML sections (through parameters mtd,
-sml, smf, and sml, respectively)."></head><body>
+content for the MTD, SML, SMF and SME sections (through parameters mtd,
+sml, smf, and sme, respectively)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ sml, smf, and sml, respectively)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.18</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.19</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,8 +52,8 @@ sml, smf, and sml, respectively)."></head><body>
 Methods for this class allow adding or updating information and validating
 its content.</p>
 <p>New instances can be created using the <code>MzTabM()</code> function providing the
-content for the MTD, SML, SMF and SML sections (through parameters <code>mtd</code>,
-<code>sml</code>, <code>smf</code>, and <code>sml</code>, respectively).</p>
+content for the MTD, SML, SMF and SME sections (through parameters <code>mtd</code>,
+<code>sml</code>, <code>smf</code>, and <code>sme</code>, respectively).</p>
     </div>
 
     <div class="section level2">
@@ -67,10 +67,16 @@ content for the MTD, SML, SMF and SML sections (through parameters <code>mtd</co
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'MzTabM'</span></span>
+<span><span class="fu">mtd</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'MzTabM'</span></span>
+<span><span class="fu">sml</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'MzTabM'</span></span>
 <span><span class="fu">smf</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'MzTabM'</span></span>
-<span><span class="fu">mtd</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">sme</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -111,13 +117,16 @@ for details and expected format/content).</p></dd>
 <li><p><code><a href="setMtdDatabase.html">getMtdDatabase()</a></code> and <code><a href="setMtdDatabase.html">setMtdDatabase()</a></code> for database information.</p></li>
 <li><p><code><a href="setMtdCv.html">getMtdCv()</a></code> and <code><a href="setMtdCv.html">setMtdCv()</a></code> for CV information.</p></li>
 <li><p><code><a href="setMtdContact.html">getMtdContact()</a></code> and <code><a href="setMtdContact.html">setMtdContact()</a></code> for contact information.</p></li>
+<li><p><code><a href="setMtdProtocol.html">getMtdProtocol()</a></code> and <code><a href="setMtdProtocol.html">setMtdProtocol()</a></code> for protocol information.</p></li>
 <li><p><code><a href="setMtdField.html">getMtdField()</a></code> and <code><a href="setMtdField.html">setMtdField()</a></code> for additional information.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="smf-section-adding-or-getting-small-feature-abundance-matrix">SMF section; adding or getting small feature abundance matrix<a class="anchor" aria-label="anchor" href="#smf-section-adding-or-getting-small-feature-abundance-matrix"></a></h2>
 
 
-<ul><li><p><code>smf()</code>: returns the SMF feature abundance matrix of an <code>MzTabM</code> object.</p></li>
+<ul><li><p><code>sml()</code>: returns the SML summary matrix of an <code>MzTabM</code> object.</p></li>
+<li><p><code>smf()</code>: returns the SMF feature abundance matrix of an <code>MzTabM</code> object.</p></li>
+<li><p><code>sme()</code>: returns the SME evidence matrix of an <code>MzTabM</code> object.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -225,13 +234,33 @@ for details and expected format/content).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        contact[1]-orcid </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   "0000-0002-1825-0097" </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add protocol metadata to an existing mzTab object</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdProtocol.html">setMtdProtocol</a></span><span class="op">(</span><span class="va">m</span>, name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mass Spectrometry"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[CHMO, CHMO:0000470, mass spectrometry, ]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Eluting compounds were detected ..."</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"[MS, MS:1000008, ionization type, "</span>,</span></span>
+<span class="r-in"><span>                           <span class="st">"[MS,MS:1000073, electrospray ionization, ]]"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 39 rows.</span>
+<span class="r-in"><span><span class="fu"><a href="setMtdProtocol.html">getMtdProtocol</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                protocol[1]-name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                             "Mass Spectrometry" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                protocol[1]-type </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                     "[CHMO, CHMO:0000470, mass spectrometry, ]" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         protocol[1]-description </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           "Eluting compounds were detected ..." </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                        protocol[1]-parameter[1] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]" </span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Add a metadata field to an existing mzTab object</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdField.html">setMtdField</a></span><span class="op">(</span><span class="va">m</span>, field <span class="op">=</span> <span class="st">"publication"</span>,</span></span>
 <span class="r-in"><span>          value <span class="op">=</span> <span class="st">"pubmed:21063943|doi:10.1007/978-1-60761-987-1_6"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 36 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 40 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, field <span class="op">=</span> <span class="st">"publication"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    publication[1] </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6" </span>

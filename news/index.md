@@ -2,6 +2,16 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.19
+
+- Fix issue
+  [\#45](https://github.com/rformassspectrometry/RmzTabM/issues/45)
+- Fix issue
+  [\#46](https://github.com/rformassspectrometry/RmzTabM/issues/46)
+- Fix issue
+  [\#47](https://github.com/rformassspectrometry/RmzTabM/issues/47)
+- Add method to handle sml/sme in MzTabM object.
+
 ### Changes in version 0.97.18
 
 - Initial version of
@@ -56,9 +66,7 @@
 
 ### Changes in version 0.97.12
 
-- Add fucntion
-  [`mtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdProtocol.md)
-  for MTD section.
+- Add fucntion `mtdProtocol()` for MTD section.
 - Update regex for CV parameter.
 - Support `ms_run-parameter`, `assay-protocol_ref`, `assay-parameter`,
   `study_variable-ms_run_ref` and `contact-orcid`.

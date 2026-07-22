@@ -347,7 +347,8 @@ A `SummarizedExperiment` object.
   [`setMtdInstrument()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md),
   [`setMtdDatabase()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.md),
   [`setMtdCv()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md),
-  [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
+  [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md),
+  [`setMtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdProtocol.md)
   or
   [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md).
   See
@@ -632,7 +633,7 @@ m <- MzTabM(se, id = "MTBLS8735", sampleCols. = s_cols, msRunCols. = m_cols,
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 156 rows.
+#>  MTD section with 149 rows.
 head(mtd(m))
 #>                             
 #> [1,] "mzTab-version"        
@@ -644,7 +645,7 @@ head(mtd(m))
 #>      values                                                      
 #> [1,] "2.1.0-M"                                                   
 #> [2,] "MTBLS8735"                                                 
-#> [3,] "[,,RmzTabM,RmzTabM version 0.97.18]"                       
+#> [3,] "[,,RmzTabM,RmzTabM version 0.97.19]"                       
 #> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
 #> [5,] "POOL"                                                      
 #> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
@@ -740,7 +741,7 @@ m <- MzTabM(se, id = "MTBLS8735", sampleCols. = s_cols, msRunCols. = m_cols,
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 156 rows.
+#>  MTD section with 149 rows.
 #>  SMF section with 9068 rows and 22 columns.
 head(smf(m))
 #>        SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer

@@ -63,7 +63,7 @@ SummarizedExperiment with only colData populated is returned."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.18</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.19</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -364,11 +364,11 @@ the number of opt columns provided in <code>...</code>. Optional.</p></dd>
 <ul><li><p><code><a href="MzTabM.html">MzTabM()</a></code>: function to compile a <a href="MzTabM.html">MzTabM</a> object from the information
 available in the <code>SummarizedExperiment</code>. The resulting <code>MzTabM</code> object
 should be completed by adding additional metadata through e.g.
-<code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>, <code><a href="setMtdDatabase.html">setMtdDatabase()</a></code>, <code><a href="setMtdCv.html">setMtdCv()</a></code>, <code><a href="setMtdContact.html">setMtdContact()</a></code>
-or <code><a href="setMtdField.html">setMtdField()</a></code>. See <code><a href="mtdFromSampleData.html">mtdFromSampleData()</a></code> for details and parameters
-to compile the MTD section. See <code><a href="MzTabM.html">smf()</a></code> below for information and
-parameters to compile the SMF section. Note that the SMF section is only
-created if <code>smfCols.</code> is defined and not empty.
+<code><a href="setMtdInstrument.html">setMtdInstrument()</a></code>, <code><a href="setMtdDatabase.html">setMtdDatabase()</a></code>, <code><a href="setMtdCv.html">setMtdCv()</a></code>, <code><a href="setMtdContact.html">setMtdContact()</a></code>,
+<code><a href="setMtdProtocol.html">setMtdProtocol()</a></code> or <code><a href="setMtdField.html">setMtdField()</a></code>. See <code><a href="mtdFromSampleData.html">mtdFromSampleData()</a></code> for
+details and parameters to compile the MTD section. See <code><a href="MzTabM.html">smf()</a></code> below for
+information and parameters to compile the SMF section. Note that the SMF
+section is only created if <code>smfCols.</code> is defined and not empty.
 See <a href="MTD-export.html">MTD-export</a> for more details on the mzTab-M metadata and <a href="SMF-export.html">SMF-export</a>
 for fields/columns to characterize features in an SMF section.</p></li>
 <li><p><code><a href="MzTabM.html">smf()</a></code>: generate a SMF matrix from a <code>SummarizedExperiment</code>. The
@@ -630,7 +630,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 156 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 149 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="MzTabM.html">mtd</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "mzTab-version"        </span>
@@ -642,7 +642,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-out co"><span class="r-pr">#&gt;</span>      values                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "2.1.0-M"                                                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "MTBLS8735"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version 0.97.18]"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version 0.97.19]"                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "POOL"                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               </span>
@@ -738,7 +738,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 156 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 149 rows.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  SMF section with 9068 rows and 22 columns.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="MzTabM.html">smf</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer</span>

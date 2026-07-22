@@ -18,7 +18,6 @@
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.html</loc></url>
-<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdProtocol.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.html</loc></url>
@@ -31,5 +30,6 @@
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdDatabase.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.html</loc></url>
 <url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/RmzTabM/reference/setMtdProtocol.html</loc></url>
 </urlset>
 

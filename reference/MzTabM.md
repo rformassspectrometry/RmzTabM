@@ -5,8 +5,8 @@ content. Methods for this class allow adding or updating information and
 validating its content.
 
 New instances can be created using the `MzTabM()` function providing the
-content for the MTD, SML, SMF and SML sections (through parameters
-`mtd`, `sml`, `smf`, and `sml`, respectively).
+content for the MTD, SML, SMF and SME sections (through parameters
+`mtd`, `sml`, `smf`, and `sme`, respectively).
 
 ## Usage
 
@@ -20,10 +20,16 @@ MzTabM(
 )
 
 # S4 method for class 'MzTabM'
+mtd(object)
+
+# S4 method for class 'MzTabM'
+sml(object)
+
+# S4 method for class 'MzTabM'
 smf(object)
 
 # S4 method for class 'MzTabM'
-mtd(object)
+sme(object)
 ```
 
 ## Arguments
@@ -81,6 +87,11 @@ Various functions are available to get or set metadata information of a
   [`setMtdContact()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)
   for contact information.
 
+- [`getMtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdProtocol.md)
+  and
+  [`setMtdProtocol()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdProtocol.md)
+  for protocol information.
+
 - [`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
   and
   [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
@@ -88,8 +99,12 @@ Various functions are available to get or set metadata information of a
 
 ## SMF section; adding or getting small feature abundance matrix
 
+- `sml()`: returns the SML summary matrix of an `MzTabM` object.
+
 - `smf()`: returns the SMF feature abundance matrix of an `MzTabM`
   object.
+
+- `sme()`: returns the SME evidence matrix of an `MzTabM` object.
 
 ## Author
 
@@ -197,13 +212,33 @@ getMtdContact(m)
 #>        contact[1]-orcid 
 #>   "0000-0002-1825-0097" 
 
+## Add protocol metadata to an existing mzTab object
+m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
+       type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+       description = c("Eluting compounds were detected ..."),
+       parameters = paste0("[MS, MS:1000008, ionization type, ",
+                           "[MS,MS:1000073, electrospray ionization, ]]"))
+m
+#> Object of class MzTabM
+#> mzTab-M version 2.1.0-M
+#>  MTD section with 39 rows.
+getMtdProtocol(m)
+#>                                                                protocol[1]-name 
+#>                                                             "Mass Spectrometry" 
+#>                                                                protocol[1]-type 
+#>                                     "[CHMO, CHMO:0000470, mass spectrometry, ]" 
+#>                                                         protocol[1]-description 
+#>                                           "Eluting compounds were detected ..." 
+#>                                                        protocol[1]-parameter[1] 
+#> "[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]" 
+
 ## Add a metadata field to an existing mzTab object
 m <- setMtdField(m, field = "publication",
           value = "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6")
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 36 rows.
+#>  MTD section with 40 rows.
 getMtdField(m, field = "publication")
 #>                                    publication[1] 
 #> "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6" 

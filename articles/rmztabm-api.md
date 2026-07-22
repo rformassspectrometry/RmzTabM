@@ -415,7 +415,7 @@ mzt
 
     Object of class MzTabM
     mzTab-M version 2.1.0-M
-     MTD section with 189 rows.
+     MTD section with 181 rows.
 
 This `MzTabM` object contains only metadata information, but no
 abundances/feature data yet. Also, some general metadata are still
@@ -513,7 +513,7 @@ mzt
 
     Object of class MzTabM
     mzTab-M version 2.1.0-M
-     MTD section with 189 rows.
+     MTD section with 181 rows.
      SMF section with 9068 rows and 22 columns.
 
 > **Note**
@@ -541,7 +541,7 @@ mtd(mzt) |> head()
          values
     [1,] "2.1.0-M"
     [2,] "MTBLS8735"
-    [3,] "[,,RmzTabM,RmzTabM version 0.97.18]"
+    [3,] "[,,RmzTabM,RmzTabM version 0.97.19]"
     [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
     [5,] "POOL"
     [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
@@ -668,7 +668,7 @@ getMtdField(mzt, "software")
 ```
 
                               software[1]                           software[2]
-    "[,,RmzTabM,RmzTabM version 0.97.18]"      "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.97.19]"      "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -727,7 +727,7 @@ mzt_r
 
     Object of class MzTabM
     mzTab-M version 2.1.0-M
-     MTD section with 210 rows.
+     MTD section with 202 rows.
      SMF section with 9068 rows and 22 columns.
 
 Now we have a `MzTabM` object with the MTD and SMF sections loaded. To
@@ -761,7 +761,7 @@ se_r
     rowData names(4): SMF_ID mzmed rtmed opt_global_feature_id
     colnames(10): MS_QC_POOL_1_POS.mzML MS_A_POS.mzML ... MS_F_POS.mzML
       MS_QC_POOL_4_POS.mzML
-    colData names(18): id sample_ref ... phenotype blood_sample_type
+    colData names(18): id sample_ref ... blood_sample_type phenotype
 
 The reconstructed `SummarizedExperiment` contains the same measurement
 data. Differences in `rowData` and `colData` reflect that only fields
@@ -1199,50 +1199,47 @@ pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
 | study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[1\]-datatype | xsd:string |
 | study_variable_group\[1\]-unit | \[, , hours, \] |
+| study_variable_group\[1\]-study_variable_ref | study_variable\[1\]\|study_variable\[2\] |
 | study_variable_group\[2\] | \[,,genotype,\] |
 | study_variable_group\[2\]-description | Sample matrix column genotype |
 | study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[2\]-datatype | xsd:string |
+| study_variable_group\[2\]-study_variable_ref | study_variable\[3\]\|study_variable\[4\] |
 | study_variable_group\[3\] | \[,,operator,\] |
 | study_variable_group\[3\]-description | Sample matrix column operator |
 | study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[3\]-datatype | xsd:string |
+| study_variable_group\[3\]-study_variable_ref | study_variable\[5\]\|study_variable\[6\] |
 | study_variable\[1\] | 0h |
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[1\]-description | Variable timepoint, value 0h |
-| study_variable\[1\]-group_ref | study_variable_group\[1\] |
 | study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[2\]-description | Variable timepoint, value 6h |
-| study_variable\[2\]-group_ref | study_variable_group\[1\] |
 | study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[3\]-description | Variable genotype, value WT |
-| study_variable\[3\]-group_ref | study_variable_group\[2\] |
 | study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[4\]-description | Variable genotype, value KO |
-| study_variable\[4\]-group_ref | study_variable_group\[2\] |
 | study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[5\]-description | Variable operator, value BB |
-| study_variable\[5\]-group_ref | study_variable_group\[3\] |
 | study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[6\]-description | Variable operator, value FB |
-| study_variable\[6\]-group_ref | study_variable_group\[3\] |
 
 For each column a *study variable group* was defined while each unique
 value in each of the specified columns was encoded as a
@@ -1353,50 +1350,47 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 | study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[1\]-datatype | xsd:string |
 | study_variable_group\[1\]-unit | \[, , hours, \] |
+| study_variable_group\[1\]-study_variable_ref | study_variable\[1\]\|study_variable\[2\] |
 | study_variable_group\[2\] | \[,,genotype,\] |
 | study_variable_group\[2\]-description | Sample matrix column genotype |
 | study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[2\]-datatype | xsd:string |
+| study_variable_group\[2\]-study_variable_ref | study_variable\[3\]\|study_variable\[4\] |
 | study_variable_group\[3\] | \[,,operator,\] |
 | study_variable_group\[3\]-description | Sample matrix column operator |
 | study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[3\]-datatype | xsd:string |
+| study_variable_group\[3\]-study_variable_ref | study_variable\[5\]\|study_variable\[6\] |
 | study_variable\[1\] | 0h |
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[1\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[1\]-description | Variable timepoint, value 0h |
-| study_variable\[1\]-group_ref | study_variable_group\[1\] |
 | study_variable\[2\] | 6h |
 | study_variable\[2\]-assay_refs | assay\[2\]\|assay\[4\]\|assay\[6\] |
 | study_variable\[2\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[2\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[2\]-description | Variable timepoint, value 6h |
-| study_variable\[2\]-group_ref | study_variable_group\[1\] |
 | study_variable\[3\] | WT |
 | study_variable\[3\]-assay_refs | assay\[1\]\|assay\[2\] |
 | study_variable\[3\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[3\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[3\]-description | Variable genotype, value WT |
-| study_variable\[3\]-group_ref | study_variable_group\[2\] |
 | study_variable\[4\] | KO |
 | study_variable\[4\]-assay_refs | assay\[3\]\|assay\[4\]\|assay\[5\]\|assay\[6\] |
 | study_variable\[4\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[4\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[4\]-description | Variable genotype, value KO |
-| study_variable\[4\]-group_ref | study_variable_group\[2\] |
 | study_variable\[5\] | BB |
 | study_variable\[5\]-assay_refs | assay\[1\]\|assay\[2\]\|assay\[3\]\|assay\[4\] |
 | study_variable\[5\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[5\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[5\]-description | Variable operator, value BB |
-| study_variable\[5\]-group_ref | study_variable_group\[3\] |
 | study_variable\[6\] | FB |
 | study_variable\[6\]-assay_refs | assay\[5\]\|assay\[6\] |
 | study_variable\[6\]-average_function | \[MS, MS:1002962, mean, \] |
 | study_variable\[6\]-variation_function | \[MS, MS:1002963, variation coefficient, \] |
 | study_variable\[6\]-description | Variable operator, value FB |
-| study_variable\[6\]-group_ref | study_variable_group\[3\] |
 | cv\[1\]-label | MS |
 | cv\[1\]-full_name | PSI-MS controlled vocabulary |
 | cv\[1\]-version | 4.1.138 |
@@ -1834,7 +1828,7 @@ sessionInfo()
      [5] Seqinfo_1.3.0               IRanges_2.47.2
      [7] S4Vectors_0.51.5            BiocGenerics_0.59.10
      [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.97.18
+    [11] matrixStats_1.5.0           RmzTabM_0.97.19
 
     loaded via a namespace (and not attached):
      [1] cli_3.6.6           knitr_1.51          rlang_1.3.0

@@ -95,18 +95,18 @@ sdata2
 #> 4.mzML [MS, MS:1000130, positive scan, ]     QC
 #> 5.mzML [MS, MS:1000130, positive scan, ]     s3
 #> 6.mzML [MS, MS:1000130, positive scan, ]     s4
-#>                                         species.1. phenotype  age
-#> 1.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]      <NA> <NA>
-#> 2.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]       CVD   35
-#> 3.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]       CTR   32
-#> 4.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]      <NA> <NA>
-#> 5.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]       CTR   43
-#> 6.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]       CVD   32
-#>        injection_index
-#> 1.mzML               1
-#> 2.mzML               2
-#> 3.mzML               3
-#> 4.mzML               4
-#> 5.mzML               5
-#> 6.mzML               6
+#>                                         species.1. injection_index phenotype
+#> 1.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]               1      <NA>
+#> 2.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]               2       CVD
+#> 3.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]               3       CTR
+#> 4.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]               4      <NA>
+#> 5.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]               5       CTR
+#> 6.mzML [NCBITaxon, NCBITaxon:9606, Homo sapiens, ]               6       CVD
+#>         age
+#> 1.mzML <NA>
+#> 2.mzML   35
+#> 3.mzML   32
+#> 4.mzML <NA>
+#> 5.mzML   43
+#> 6.mzML   32
 ```
