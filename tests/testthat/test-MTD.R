@@ -371,7 +371,7 @@ test_that("mtdAssay works", {
                            ms_run_ref = "ms_run[1]"), "have to match")
 
     res <- mtdAssay(assay = c("a", "b", "c"),
-                     ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[2]"))
+                    ms_run_ref = c("ms_run[1]", "ms_run[1]", "ms_run[2]"))
     expect_equal(
         res[, 1L],
         c("assay[1]", "assay[1]-ms_run_ref",

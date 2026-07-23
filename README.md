@@ -50,7 +50,6 @@ The R package can be installed from GitHub using the following commands:
 
 ```r
 #' Install required packages
-install.packages("devtools")
 install.packages("BiocManager")
 
 #' Install the repository
@@ -70,11 +69,11 @@ base R data types.
       [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.html)
 - [X] core functionality to format the (SME section)
       [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.html)
-- [ ] core functionality to extract metadata from an mzTab-M file and
+- [X] core functionality to extract metadata from an mzTab-M file and
       reconstruct a sample/experiment `data.frame`
-- [ ] core functionality to extract the SMF data table from an mzTab-M file
-- [ ] core functionality to extract the SME data table from an mzTab-M file
-- [ ] core functionality to extract the SML data table from an mzTab-M file
+- [X] core functionality to extract the SMF data table from an mzTab-M file
+- [X] core functionality to extract the SME data table from an mzTab-M file
+- [X] core functionality to extract the SML data table from an mzTab-M file
 - [X] high-level functionality to simplify exporting experimental data in
       mzTab-M
       format. [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
@@ -106,4 +105,10 @@ to maintain an inclusive and respectful community.
 We thank the many researchers contributing through discussions or through
 code. An potentially incomplete list of people:
 
-TODO - add names of hackathon participants, etc.
+- Nils Hoffmann
+- Steffen Neumann
+- Kozo Nishida
+- Frank Giacomoni
+- Nils Paulhe
+- Ozgur Yurekten
+- Janik Kokot

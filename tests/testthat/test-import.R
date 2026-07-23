@@ -280,12 +280,6 @@ test_that("readMzTabM works", {
     ## full file returns all four sections in correct order
     expect_identical(names(res_l), c("MTD", "SML", "SMF", "SME"))
 
-    ## Error if sections are not in the correct order
-    ## TODO: call the validator on the file
-    ## f <- write_tmp(mtd_block, SMF_block, SML_block)
-    ## res <- readMzTabM(f)
-    ## expect_error(...)
-
     ## blank lines interspersed in file do not break parsing
     f <- write_tmp(
         mtd_block[1], "",

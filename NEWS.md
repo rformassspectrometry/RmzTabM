@@ -1,5 +1,9 @@
 # RmzTabM version 0.97
 
+## Changes in version 0.97.20
+
+- Preparation to Biocondutor submission.
+
 ## Changes in version 0.97.19
 
 - Fix issue [#45](https://github.com/rformassspectrometry/RmzTabM/issues/45)
