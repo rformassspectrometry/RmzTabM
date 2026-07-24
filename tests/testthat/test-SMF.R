@@ -36,7 +36,7 @@ test_that("smfCreate works", {
 })
 
 test_that("smfSort works and keeps all columns", {
-    df <- data.frame(SMF_ID = 1:2,
+    df <- data.frame(SMF_ID = c(1,2),
                      opt_custom = c("A", "B"),
                      SFH = c("SMF", "SMF"),
                      exp_mass_to_charge = c(100.1, 100.2),
@@ -50,6 +50,6 @@ test_that("smfSort works and keeps all columns", {
                  c("SFH", "SMF_ID", "exp_mass_to_charge", "charge",
                    "retention_time_in_seconds", "opt_custom"))
     expect_equal(res$SFH, c("SMF", "SMF"))
-    expect_equal(res$SMF_ID, 1:2)
+    expect_equal(res$SMF_ID, c(1,2))
     expect_equal(res$opt_custom, c("A", "B"))
 })

@@ -273,7 +273,7 @@ smeCreate <- function(..., evidence_input_id = character(),
         stop("The argument 'ms_level' is mandatory.")
     if (!length(rank))
         stop("The argument 'rank' is mandatory.")
-    l = length(evidence_input_id)
+    l <- length(evidence_input_id)
     x <- data.frame(SEH = rep("SME", l), SME_ID = seq_len(l))
     x$evidence_input_id <- .check_fill_column(evidence_input_id, lout = l)
     x$database_identifier <- .check_fill_column(database_identifier, lout = l)
@@ -356,7 +356,7 @@ smeIdConfidenceMeasure <- function(x, mtd, nr = numeric()) {
         stop("Number row in parameter 'id_confidence_measure' has to be ",
              "equal to the number of 'evidence_input_id'", call. = FALSE)
 
-    nc = length(.mtd_get_field(mtd, "id_confidence_measure\\[\\d.*\\]$",
+    nc <- length(.mtd_get_field(mtd, "id_confidence_measure\\[\\d.*\\]$",
                                exact = FALSE, fixed = FALSE)[[1]])
     if(ncol(x) != nc)
         stop("Number column in parameter 'id_confidence_measure' has to be ",
@@ -387,7 +387,8 @@ smeSpectraRefValidator <- function(x, mtd) {
 
     ms_runs_ref <- strsplit(x, split = "|", fixed = TRUE)
     ms_runs_valid <- unlist(lapply(ms_runs_ref, function(z) {
-        all(grepl(paste0("ms_run\\[", 1:n_ms, "\\]:", collapse = "|"), z))
+        all(grepl(paste0("ms_run\\[", seq_len(n_ms), "\\]:", collapse = "|"),
+                  z))
     }))
 
     if (!all(ms_runs_valid)) {

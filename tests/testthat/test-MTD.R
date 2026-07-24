@@ -85,7 +85,7 @@ test_that("mtdMsRun works", {
                             format = "a"), "have to be defined")
     expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
-                            format = "a", id_format = 1:2),
+                            format = "a", id_format = c(1,2)),
                  "have to be defined")
     expect_error(mtdMsRun(location = c("null", "other"),
                             scan_polarity = c("positive", "negative"),
@@ -419,7 +419,7 @@ test_that("mtdAssay works", {
         c("a", "1", "[,,a, 1]", "[,,b, 3]", "b", "2", "[,,a, 2]", "[,,b, 4]"))
 
     ## multi assignment assay->ms_run
-    expect_error(mtdAssay(assay = c("a", "b"), ms_run_ref = list(1:2, NULL)),
+    expect_error(mtdAssay(assay = c("a", "b"), ms_run_ref = list(c(1,2), NULL)),
                  "At least one")
     res <- mtdAssay(assay = c("a", "b"), ms_run_ref = list(1:2, 3))
     expect_equal(
@@ -519,7 +519,7 @@ test_that("mtdStudyVariables works", {
     expect_error(mtdStudyVariables(x, groups = c("T2D", "timepoint"),
                                      average_function = "A",
                                      variation_function = "B",
-                                     description = 1:2), "'description'")
+                                     description = c(1,2)), "'description'")
     expect_error(mtdStudyVariables(x, groups = colnames(x), group_unit = "a"),
                  "match the number")
     expect_error(mtdStudyVariables(x, groups = c("T2D", "timepoint"),

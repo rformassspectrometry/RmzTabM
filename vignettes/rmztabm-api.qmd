@@ -870,7 +870,8 @@ sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
 
 And finally we need to add columns with abundance average and variation for
 study variables defined in the MTD section. Here we can use the
-`smlAddStudyVariableColumns()` helper function providing both the SML and the MTD data.
+`smlAddStudyVariableColumns()` helper function providing both the SML and the
+MTD data.
 
 ```{r sml_add_study_var, results = "asis"}
 sml <- smlAddStudyVariableColumns(sml, mtd)

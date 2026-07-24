@@ -103,7 +103,7 @@ writeMzTabM <- function(x, path, comments = character()) {
         dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
     if (!grepl(".mztab$|.mzTab$", path))
-        path = paste0(path, ".mztab")
+        path <- paste0(path, ".mztab")
 
     ## MTD
     write.table(cbind(data.frame(rep("MTD", nrow(x[["MTD"]]))),

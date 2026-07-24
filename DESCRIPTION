@@ -55,5 +55,7 @@ Suggests:
     quarto,
     pander
 VignetteBuilder: quarto
+biocViews: Infrastructure, MassSpectrometry, Metabolomics, Proteomics,
+            Preprocessing
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0

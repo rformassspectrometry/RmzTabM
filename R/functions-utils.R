@@ -306,7 +306,8 @@ isCvParameter <- function(x) {
 #' @noRd
 .separate_multi_links <- function(df, col_split) {
     if (!(col_split %in% names(df)))
-        stop("Column \"",col_split,"\" not present in the data frame", call. = FALSE)
+        stop("Column \"",col_split,"\" not present in the data frame",
+             call. = FALSE)
 
     split_vals <- strsplit(as.character(df[, col_split]), "\\|")
     df <- df[rep(seq_len(nrow(df)), lengths(split_vals)), ]
