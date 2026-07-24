@@ -1,18 +1,3 @@
-## Code related to import/export of the SME table
-
-## internal notes:
-##
-## - Create SME from user provided info
-## - have a helper function that links between SMF/SML and SME?
-## - SME should also contain averages/variation for the study variables
-##   (defined in the MTD section)
-##
-
-################################################################################
-##    Create SME section
-##
-################################################################################
-
 #' @title Creating the mzTab-M Small Molecule (SME) Table
 #'
 #' @name SME-export
@@ -258,7 +243,6 @@
 #' head(sme_final)
 #'
 #' @export
-#'
 smeCreate <- function(..., evidence_input_id = character(),
                        database_identifier = character(),
                        chemical_formula = character(),

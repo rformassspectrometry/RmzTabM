@@ -156,6 +156,4 @@ writeMzTabM <- function(x, path, comments = character()) {
                                     append = TRUE, quote = FALSE,
                                     fileEncoding = "UTF-8"))
     }
-
-    ## TODO: call the validator on the file.
 }

@@ -69,11 +69,23 @@ Various functions are available to get or set metadata information of a
 }
 }
 
-\section{SMF section; adding or getting small feature abundance matrix}{
+\section{SML section; adding or getting small summary matrix}{
 
 \itemize{
 \item \code{sml()}: returns the SML summary matrix of an \code{MzTabM} object.
+}
+}
+
+\section{SMF section; adding or getting small feature abundance matrix}{
+
+\itemize{
 \item \code{smf()}: returns the SMF feature abundance matrix of an \code{MzTabM} object.
+}
+}
+
+\section{SME section; adding or getting small evidence matrix}{
+
+\itemize{
 \item \code{sme()}: returns the SME evidence matrix of an \code{MzTabM} object.
 }
 }

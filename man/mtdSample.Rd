@@ -2,7 +2,7 @@
 % Please edit documentation in R/MTD.R
 \name{mtdSample}
 \alias{mtdSample}
-\title{msTab-M \emph{sample} metadata information}
+\title{mzTab-M \emph{sample} metadata information}
 \usage{
 mtdSample(
   ...,

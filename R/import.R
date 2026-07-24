@@ -58,8 +58,6 @@ readMzTabM <- function(path, ...) {
     if(!file.exists(path))
         stop("The file does not exist.")
 
-    ## TODO: call the validator on the file.
-
     lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
     if (length(which(!grepl("^\\s*$", lines))) == 0L)
         stop("The file is empty.")

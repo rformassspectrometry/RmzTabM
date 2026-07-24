@@ -182,7 +182,8 @@ isCvParameter <- function(x) {
     if (length(x) != lout)
         stop("Input length ", length(x), " does not match row count : ", lout)
     x[is.na(x) | x == ""] <- "null"
-    if (length(lengths)) { # process | separated elements
+    if (length(lengths)) {
+        ## process | separated elements
         ## paste null fields to the expected number of elements
         nulls <- which(x == "null")
         if (length(nulls))

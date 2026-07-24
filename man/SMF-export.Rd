@@ -97,9 +97,9 @@ compliance.
 \strong{Important:} to support the optional additional parameters passed along
 with \code{...} \strong{all} parameters (such as \code{adduct_ion},
 \code{retention_time_in_seconds} etc) have to be \strong{fully} spelled out. All
-parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix. If their length is not equal to the number of rows
-or 1, an error is raised.
+parameters are vectorized and recycled as needed to match the number of
+rows in the abundance matrix. If their length is not equal to the number
+of rows or 1, an error is raised.
 
 See also the \href{https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section}{specification of the SMF section}
 for details.
@@ -136,7 +136,7 @@ smf_final <- smfCreate(
     retention_time_in_seconds = rt_values,
     adduct_ion = adducts,
     ## Optional custom column example
-    global_custom_attribute = c("A", "B", "C")
+    custom_attribute = c("A", "B", "C")
 )
 
 ## The result contains the 'SFH' line prefix, standard columns, and
