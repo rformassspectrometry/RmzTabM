@@ -885,8 +885,52 @@ function defined in the MTD section.
 
 #### Small Evidence (SME) Table
 
-TODO
+The Small Molecule (SME) table contains evidence for annotation of small
+molecule features (defined in the SMF section). These annotations can result
+from database searches using MS2 spectra or retention time and *m/z* searches
+against an in-house annotation database. Each row provides the evidence for one
+match. Multiple matches/annotations for the same input information can be
+reported in separate rows (but using the **same** value in the
+`"evidence_input_id"` column).
 
+Below we define a `data.frame` with the evidence for features from the previous
+section's SMF table. In our example, ...
+
+```{r sme_df}
+ev_df <- data.frame(
+    evidence_input_id = c("ms_run[1]:mass=700.5255;rt=20·5",
+                          "ms_run[2]:mass=452.2782;rt=35.1",
+                          "ms_run[3]:mass=882.6210;rt=40.0"),
+    exp_mass_to_charge = c(700.5255, 452.2782, 882.6210),
+    charge = c(1, 1, 1),
+    theoretical_mass_to_charge = c(700.5281, 452.2777, 882.6224),
+    spectra_ref = c("ms_run[1]:index=7646", "ms_run[2]:index=7640",
+                    "ms_run[3]:index=7671|ms_run[3]:index=7725"),
+    identification_method = "[, , LipidDataAnalyzer, 2.11.1]",
+    ms_level = "[MS, MS:1000511, ms level, 2]")
+```
+
+With this information we can use the `smeCreate()` function to compile the SME
+table. Note that (again) we **must fully name** all function arguments to which
+we pass values. Any additional (named) parameters provided to the function
+will be added as *optional* columns (prefixed with `"opt_"`)
+
+The function require the MTD section defined earlier to validate the
+`spectra_ref` reported in the SME section.
+
+```{r smeCreate}
+sme <- smeCreate(
+    evidence_input_id = ev_df$evidence_input_id,
+    exp_mass_to_charge = ev_df$exp_mass_to_charge,
+    charge = ev_df$charge,
+    theoretical_mass_to_charge = ev_df$theoretical_mass_to_charge,
+    spectra_ref = ev_df$spectra_ref,
+    identification_method = ev_df$identification_method,
+    ms_level = ev_df$ms_level,
+    mtd = mtd
+)
+pandoc.table(sme, style = "rmarkdown", split.table = Inf)
+```
 
 ### General utility functions
 
