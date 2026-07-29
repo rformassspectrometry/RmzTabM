@@ -1101,7 +1101,7 @@ test_that("getMtdCv works", {
     expect_equal(res[["cv[1]-full_name"]], "PSI-MS controlled vocabulary")
     expect_equal(res[["cv[1]-version"]], "4.1.138")
     expect_equal(res[["cv[1]-uri"]],
-       "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo")
+       "https://www.ebi.ac.uk/ols4/ontologies/ms")
 
     x <- setMtdCv(x, label = "MS", full_name = "PSI-MS controlled vocabulary",
                  version = "4.1.11",
