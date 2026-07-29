@@ -115,7 +115,7 @@ and
 
 ## Author
 
-Philippine Louail, Johannes Rainer
+Philippine Louail, Johannes Rainer, Gabriele Tomè
 
 ## Examples
 
@@ -196,7 +196,7 @@ mtd
 #>  [5,] "MS"                                                                     
 #>  [6,] "PSI-MS controlled vocabulary"                                           
 #>  [7,] "4.1.138"                                                                
-#>  [8,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
+#>  [8,] "https://www.ebi.ac.uk/ols4/ontologies/ms"                               
 #>  [9,] "PRIDE"                                                                  
 #> [10,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [11,] "16:10:2023 11:38"                                                       
@@ -296,7 +296,7 @@ mtd
 #> [19,] "MS"                                                                     
 #> [20,] "PSI-MS controlled vocabulary"                                           
 #> [21,] "4.1.138"                                                                
-#> [22,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
+#> [22,] "https://www.ebi.ac.uk/ols4/ontologies/ms"                               
 #> [23,] "PRIDE"                                                                  
 #> [24,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [25,] "16:10:2023 11:38"                                                       

@@ -1,4 +1,4 @@
-# msTab-M *ms_run* metadata fields
+# mzTab-M *ms_run* metadata fields
 
 The `mtdMsRun()` function allows to define and format the *ms_run*
 fields of the mzTab-M metadata. The information is build on the actual

@@ -72,12 +72,11 @@ Gabriele Tomè
 ``` r
 
 ## Basic usage
-result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
+result <- readMzTabM(system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
                                    package = "RmzTabM"))
 result
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 130 rows.
-#>  SML section with 1 rows and 34 columns.
-#>  SMF section with 351 rows and 20 columns.
+#>  MTD section with 202 rows.
+#>  SMF section with 9068 rows and 22 columns.
 ```

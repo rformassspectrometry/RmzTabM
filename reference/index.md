@@ -58,12 +58,12 @@
 - [`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)
   :
 
-  msTab-M *ms_run* metadata fields
+  mzTab-M *ms_run* metadata fields
 
 - [`mtdSample()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)
   :
 
-  msTab-M *sample* metadata information
+  mzTab-M *sample* metadata information
 
 - [`mtdSkeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.md)
   : Create a skeleton MTD section with general information

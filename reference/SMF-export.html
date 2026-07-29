@@ -19,9 +19,9 @@ Orders columns according to the mzTab-M specification.
 Important: to support the optional additional parameters passed along
 with ... all parameters (such as adduct_ion,
 retention_time_in_seconds etc) have to be fully spelled out. All
-parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix. If their length is not equal to the number of rows
-or 1, an error is raised.
+parameters are vectorized and recycled as needed to match the number of
+rows in the abundance matrix. If their length is not equal to the number
+of rows or 1, an error is raised.
 See also the specification of the SMF section
 for details.
 smfSort() can be used to sort the columns of the SMF data frame
@@ -49,9 +49,9 @@ Orders columns according to the mzTab-M specification.
 Important: to support the optional additional parameters passed along
 with ... all parameters (such as adduct_ion,
 retention_time_in_seconds etc) have to be fully spelled out. All
-parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix. If their length is not equal to the number of rows
-or 1, an error is raised.
+parameters are vectorized and recycled as needed to match the number of
+rows in the abundance matrix. If their length is not equal to the number
+of rows or 1, an error is raised.
 See also the specification of the SMF section
 for details.
 smfSort() can be used to sort the columns of the SMF data frame
@@ -67,7 +67,7 @@ standard columns are in the correct order for export.
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.19</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.97.20</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,9 +114,9 @@ compliance.</p></li>
 </ul><p><strong>Important:</strong> to support the optional additional parameters passed along
 with <code>...</code> <strong>all</strong> parameters (such as <code>adduct_ion</code>,
 <code>retention_time_in_seconds</code> etc) have to be <strong>fully</strong> spelled out. All
-parameters are vectorized and recycled as needed to match the number of rows
-in the abundance matrix. If their length is not equal to the number of rows
-or 1, an error is raised.</p>
+parameters are vectorized and recycled as needed to match the number of
+rows in the abundance matrix. If their length is not equal to the number
+of rows or 1, an error is raised.</p>
 <p>See also the <a href="https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section" class="external-link">specification of the SMF section</a>
 for details.</p></li>
 <li><p><code>smfSort()</code> can be used to sort the columns of the SMF data frame
@@ -262,7 +262,7 @@ metadata (MTD) and small molecule (SML) sections.</p></div>
 <span class="r-in"><span>    retention_time_in_seconds <span class="op">=</span> <span class="va">rt_values</span>,</span></span>
 <span class="r-in"><span>    adduct_ion <span class="op">=</span> <span class="va">adducts</span>,</span></span>
 <span class="r-in"><span>    <span class="co">## Optional custom column example</span></span></span>
-<span class="r-in"><span>    global_custom_attribute <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    custom_attribute <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The result contains the 'SFH' line prefix, standard columns, and</span></span></span>
@@ -284,10 +284,10 @@ metadata (MTD) and small molecule (SML) sections.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1              100.1              105.2              110.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2              200.5              198.2              201.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3               50.0               55.0               52.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   opt_global_global_custom_attribute</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                  A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                  B</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                  C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   opt_global_custom_attribute</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                           A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                           B</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                           C</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

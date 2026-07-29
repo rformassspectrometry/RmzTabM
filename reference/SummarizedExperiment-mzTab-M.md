@@ -645,7 +645,7 @@ head(mtd(m))
 #>      values                                                      
 #> [1,] "2.1.0-M"                                                   
 #> [2,] "MTBLS8735"                                                 
-#> [3,] "[,,RmzTabM,RmzTabM version 0.97.19]"                       
+#> [3,] "[,,RmzTabM,RmzTabM version 0.97.20]"                       
 #> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
 #> [5,] "POOL"                                                      
 #> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               

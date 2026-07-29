@@ -124,118 +124,41 @@ The object contains sample information in
 
 ``` r
 
-colData(se)
+library(pander)
+pandoc.table(colData(se) |> as.data.frame(),
+             style = "rmarkdown", split.table = Inf)
 ```
 
-    DataFrame with 10 rows and 15 columns
-                          sample_name derived_spectra_data_file
-                          <character>               <character>
-    MS_QC_POOL_1_POS.mzML        POOL    FILES/MS_QC_POOL_1_P..
-    MS_A_POS.mzML                   A       FILES/MS_A_POS.mzML
-    MS_B_POS.mzML                   B       FILES/MS_B_POS.mzML
-    MS_QC_POOL_2_POS.mzML        POOL    FILES/MS_QC_POOL_2_P..
-    MS_C_POS.mzML                   C       FILES/MS_C_POS.mzML
-    MS_D_POS.mzML                   D       FILES/MS_D_POS.mzML
-    MS_QC_POOL_3_POS.mzML        POOL    FILES/MS_QC_POOL_3_P..
-    MS_E_POS.mzML                   E       FILES/MS_E_POS.mzML
-    MS_F_POS.mzML                   F       FILES/MS_F_POS.mzML
-    MS_QC_POOL_4_POS.mzML        POOL    FILES/MS_QC_POOL_4_P..
-                          metabolite_asssignment_file      source_name     organism
-                                          <character>      <character>  <character>
-    MS_QC_POOL_1_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
-    MS_A_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_A_POS Homo sapiens
-    MS_B_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_B_POS Homo sapiens
-    MS_QC_POOL_2_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
-    MS_C_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_C_POS Homo sapiens
-    MS_D_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_D_POS Homo sapiens
-    MS_QC_POOL_3_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
-    MS_E_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_E_POS Homo sapiens
-    MS_F_POS.mzML              m_MTBLS8735_LC-MS_po..         MS_F_POS Homo sapiens
-    MS_QC_POOL_4_POS.mzML      m_MTBLS8735_LC-MS_po.. MS_QC_POOL_1_POS Homo sapiens
-                          blood_sample_type         sample_type       age
-                                <character>         <character> <integer>
-    MS_QC_POOL_1_POS.mzML       blood serum                pool        NA
-    MS_A_POS.mzML              blood plasma experimental sample        53
-    MS_B_POS.mzML              blood plasma experimental sample        30
-    MS_QC_POOL_2_POS.mzML       blood serum                pool        NA
-    MS_C_POS.mzML              blood plasma experimental sample        66
-    MS_D_POS.mzML              blood plasma experimental sample        36
-    MS_QC_POOL_3_POS.mzML       blood serum                pool        NA
-    MS_E_POS.mzML              blood plasma experimental sample        66
-    MS_F_POS.mzML              blood plasma experimental sample        44
-    MS_QC_POOL_4_POS.mzML       blood serum                pool        NA
-                                 unit   phenotype injection_index
-                          <character> <character>       <integer>
-    MS_QC_POOL_1_POS.mzML        year          QC               1
-    MS_A_POS.mzML                year         CVD               2
-    MS_B_POS.mzML                year         CTR               3
-    MS_QC_POOL_2_POS.mzML        year          QC               4
-    MS_C_POS.mzML                year         CTR               5
-    MS_D_POS.mzML                year         CVD               6
-    MS_QC_POOL_3_POS.mzML        year          QC               7
-    MS_E_POS.mzML                year         CTR               8
-    MS_F_POS.mzML                year         CVD               9
-    MS_QC_POOL_4_POS.mzML        year          QC              10
-                                         species                 tissue    polarity
-                                     <character>            <character> <character>
-    MS_QC_POOL_1_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
-    MS_A_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
-    MS_B_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
-    MS_QC_POOL_2_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
-    MS_C_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
-    MS_D_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
-    MS_QC_POOL_3_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
-    MS_E_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
-    MS_F_POS.mzML         [NCBITaxon, NCBITaxo.. [BTO, BTO:0000131, b..    positive
-    MS_QC_POOL_4_POS.mzML [NCBITaxon, NCBITaxo.. [BTO, BTO:0000133, b..    positive
-                           instrument
-                          <character>
-    MS_QC_POOL_1_POS.mzML           1
-    MS_A_POS.mzML                   1
-    MS_B_POS.mzML                   1
-    MS_QC_POOL_2_POS.mzML           1
-    MS_C_POS.mzML                   1
-    MS_D_POS.mzML                   1
-    MS_QC_POOL_3_POS.mzML           1
-    MS_E_POS.mzML                   1
-    MS_F_POS.mzML                   1
-    MS_QC_POOL_4_POS.mzML           1
+|   | sample_name | derived_spectra_data_file | metabolite_asssignment_file | source_name | organism | blood_sample_type | sample_type | age | unit | phenotype | injection_index | species | tissue | polarity | instrument |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **MS_QC_POOL_1_POS.mzML** | POOL | FILES/MS_QC_POOL_1_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_QC_POOL_1_POS | Homo sapiens | blood serum | pool | NA | year | QC | 1 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000133, blood serum, \] | positive | 1 |
+| **MS_A_POS.mzML** | A | FILES/MS_A_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_A_POS | Homo sapiens | blood plasma | experimental sample | 53 | year | CVD | 2 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000131, blood plasma, \] | positive | 1 |
+| **MS_B_POS.mzML** | B | FILES/MS_B_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_B_POS | Homo sapiens | blood plasma | experimental sample | 30 | year | CTR | 3 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000131, blood plasma, \] | positive | 1 |
+| **MS_QC_POOL_2_POS.mzML** | POOL | FILES/MS_QC_POOL_2_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_QC_POOL_1_POS | Homo sapiens | blood serum | pool | NA | year | QC | 4 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000133, blood serum, \] | positive | 1 |
+| **MS_C_POS.mzML** | C | FILES/MS_C_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_C_POS | Homo sapiens | blood plasma | experimental sample | 66 | year | CTR | 5 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000131, blood plasma, \] | positive | 1 |
+| **MS_D_POS.mzML** | D | FILES/MS_D_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_D_POS | Homo sapiens | blood plasma | experimental sample | 36 | year | CVD | 6 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000131, blood plasma, \] | positive | 1 |
+| **MS_QC_POOL_3_POS.mzML** | POOL | FILES/MS_QC_POOL_3_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_QC_POOL_1_POS | Homo sapiens | blood serum | pool | NA | year | QC | 7 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000133, blood serum, \] | positive | 1 |
+| **MS_E_POS.mzML** | E | FILES/MS_E_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_E_POS | Homo sapiens | blood plasma | experimental sample | 66 | year | CTR | 8 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000131, blood plasma, \] | positive | 1 |
+| **MS_F_POS.mzML** | F | FILES/MS_F_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_F_POS | Homo sapiens | blood plasma | experimental sample | 44 | year | CVD | 9 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000131, blood plasma, \] | positive | 1 |
+| **MS_QC_POOL_4_POS.mzML** | POOL | FILES/MS_QC_POOL_4_POS.mzML | m_MTBLS8735_LC-MS_positive_hilic_metabolite_profiling_v2_maf.tsv | MS_QC_POOL_1_POS | Homo sapiens | blood serum | pool | NA | year | QC | 10 | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] | \[BTO, BTO:0000133, blood serum, \] | positive | 1 |
 
 LC-MS feature definitions and characteristics in its
 [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
 
 ``` r
 
-rowData(se)
+pandoc.table(rowData(se) |> as.data.frame() |> head(),
+             style = "rmarkdown", split.table = Inf)
 ```
 
-    DataFrame with 9068 rows and 11 columns
-               mzmed     mzmin     mzmax     rtmed     rtmin     rtmax    npeaks
-           <numeric> <numeric> <numeric> <numeric> <numeric> <numeric> <numeric>
-    FT0001   50.9898   50.9893   50.9904   203.600   201.459   208.108         8
-    FT0002   51.0590   51.0581   51.0599   191.167   190.053   194.525         9
-    FT0003   51.9866   51.9863   51.9879   203.147   201.459   207.046         7
-    FT0004   53.0204   53.0161   53.0205   203.234   200.962   217.922        10
-    FT0005   53.5208   53.5184   53.5216   203.194   201.183   209.900        10
-    ...          ...       ...       ...       ...       ...       ...       ...
-    FT9064   998.697   998.691   998.705    25.352   23.6341   26.4839         4
-    FT9065   998.779   998.758   998.784   162.691  161.5110  164.8667         8
-    FT9066   999.204   999.191   999.218   146.163  143.0103  147.9139         8
-    FT9067   999.330   999.318   999.339   157.048  154.3261  159.1735         7
-    FT9068   999.781   999.775   999.794   162.763  161.5110  164.3995         7
-                 CTR       CVD        QC  ms_level
-           <numeric> <numeric> <numeric> <integer>
-    FT0001         1         3         4         1
-    FT0002         2         3         4         1
-    FT0003         0         3         4         1
-    FT0004         3         3         4         1
-    FT0005         3         3         4         1
-    ...          ...       ...       ...       ...
-    FT9064         0         0         4         1
-    FT9065         2         2         4         1
-    FT9066         3         1         4         1
-    FT9067         3         1         3         1
-    FT9068         1         3         3         1
+|            | mzmed | mzmin | mzmax | rtmed | rtmin | rtmax | npeaks | CTR | CVD | QC  | ms_level |
+|:----------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|:---:|:---:|:---:|:--------:|
+| **FT0001** | 50.99 | 50.99 | 50.99 | 203.6 | 201.5 | 208.1 |   8    |  1  |  3  |  4  |    1     |
+| **FT0002** | 51.06 | 51.06 | 51.06 | 191.2 | 190.1 | 194.5 |   9    |  2  |  3  |  4  |    1     |
+| **FT0003** | 51.99 | 51.99 | 51.99 | 203.1 | 201.5 |  207  |   7    |  0  |  3  |  4  |    1     |
+| **FT0004** | 53.02 | 53.02 | 53.02 | 203.2 |  201  | 217.9 |   10   |  3  |  3  |  4  |    1     |
+| **FT0005** | 53.52 | 53.52 | 53.52 | 203.2 | 201.2 | 209.9 |   10   |  3  |  3  |  4  |    1     |
+| **FT0006** | 54.01 | 54.01 | 54.01 | 159.3 | 156.5 | 165.1 |   6    |  1  |  3  |  2  |    1     |
 
 and has two *assays* with feature abundances, one with the original
 integrated peak areas of identified chromatographic peaks and one with
@@ -407,8 +330,11 @@ to be used as mzTab-M *study variable groups*.
 
 ``` r
 
-mzt <- MzTabM(se, id = "MTBLS8735", sampleCols = scols,
-              msRunCols = mscols, assayCols = acols,
+mzt <- MzTabM(se,
+              id = "MTBLS8735",
+              sampleCols = scols,
+              msRunCols = mscols,
+              assayCols = acols,
               groups = c("age", "phenotype", "blood_sample_type"))
 mzt
 ```
@@ -436,36 +362,18 @@ characteristics. These are usually available in the
 
 ``` r
 
-rowData(se)
+pandoc.table(rowData(se) |> as.data.frame() |> head(),
+            style = "rmarkdown", split.table = Inf)
 ```
 
-    DataFrame with 9068 rows and 11 columns
-               mzmed     mzmin     mzmax     rtmed     rtmin     rtmax    npeaks
-           <numeric> <numeric> <numeric> <numeric> <numeric> <numeric> <numeric>
-    FT0001   50.9898   50.9893   50.9904   203.600   201.459   208.108         8
-    FT0002   51.0590   51.0581   51.0599   191.167   190.053   194.525         9
-    FT0003   51.9866   51.9863   51.9879   203.147   201.459   207.046         7
-    FT0004   53.0204   53.0161   53.0205   203.234   200.962   217.922        10
-    FT0005   53.5208   53.5184   53.5216   203.194   201.183   209.900        10
-    ...          ...       ...       ...       ...       ...       ...       ...
-    FT9064   998.697   998.691   998.705    25.352   23.6341   26.4839         4
-    FT9065   998.779   998.758   998.784   162.691  161.5110  164.8667         8
-    FT9066   999.204   999.191   999.218   146.163  143.0103  147.9139         8
-    FT9067   999.330   999.318   999.339   157.048  154.3261  159.1735         7
-    FT9068   999.781   999.775   999.794   162.763  161.5110  164.3995         7
-                 CTR       CVD        QC  ms_level
-           <numeric> <numeric> <numeric> <integer>
-    FT0001         1         3         4         1
-    FT0002         2         3         4         1
-    FT0003         0         3         4         1
-    FT0004         3         3         4         1
-    FT0005         3         3         4         1
-    ...          ...       ...       ...       ...
-    FT9064         0         0         4         1
-    FT9065         2         2         4         1
-    FT9066         3         1         4         1
-    FT9067         3         1         3         1
-    FT9068         1         3         3         1
+|            | mzmed | mzmin | mzmax | rtmed | rtmin | rtmax | npeaks | CTR | CVD | QC  | ms_level |
+|:----------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|:---:|:---:|:---:|:--------:|
+| **FT0001** | 50.99 | 50.99 | 50.99 | 203.6 | 201.5 | 208.1 |   8    |  1  |  3  |  4  |    1     |
+| **FT0002** | 51.06 | 51.06 | 51.06 | 191.2 | 190.1 | 194.5 |   9    |  2  |  3  |  4  |    1     |
+| **FT0003** | 51.99 | 51.99 | 51.99 | 203.1 | 201.5 |  207  |   7    |  0  |  3  |  4  |    1     |
+| **FT0004** | 53.02 | 53.02 | 53.02 | 203.2 |  201  | 217.9 |   10   |  3  |  3  |  4  |    1     |
+| **FT0005** | 53.52 | 53.52 | 53.52 | 203.2 | 201.2 | 209.9 |   10   |  3  |  3  |  4  |    1     |
+| **FT0006** | 54.01 | 54.01 | 54.01 | 159.3 | 156.5 | 165.1 |   6    |  1  |  3  |  2  |    1     |
 
 For our example we use column `"mzmed"` which defines the features’
 *m/z* value which can be mapped to the SMF field *exp_mass_to_charge*
@@ -504,10 +412,14 @@ the `SummarizedExperiment`’s assays will be used the SMF section.
 ``` r
 
 #' Create a MTD+SMF mzTab-M object from the SummarizedExperiment
-mzt <- MzTabM(se, id = "MTBLS8735", sampleCols = scols,
-              msRunCols = mscols, assayCols = acols,
+mzt <- MzTabM(se,
+              id = "MTBLS8735",
+              sampleCols = scols,
+              msRunCols = mscols,
+              assayCols = acols,
               groups = c("age", "phenotype", "blood_sample_type"),
-              smfCols. = smf_cols, assayName = "raw_filled")
+              smfCols. = smf_cols,
+              assayName = "raw_filled")
 mzt
 ```
 
@@ -529,79 +441,35 @@ metadata section are:
 
 ``` r
 
-mtd(mzt) |> head()
+pandoc.table(mtd(mzt) |> head(),
+            style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
-    [1,] "mzTab-version"
-    [2,] "mzTab-ID"
-    [3,] "software[1]"
-    [4,] "quantification_method"
-    [5,] "sample[1]"
-    [6,] "sample[1]-species[1]"
-         values
-    [1,] "2.1.0-M"
-    [2,] "MTBLS8735"
-    [3,] "[,,RmzTabM,RmzTabM version 0.97.19]"
-    [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
-    [5,] "POOL"
-    [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
+|   | values |
+|:---|:---|
+| mzTab-version | 2.1.0-M |
+| mzTab-ID | MTBLS8735 |
+| software\[1\] | \[,,RmzTabM,RmzTabM version 0.97.20\] |
+| quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
+| sample\[1\] | POOL |
+| sample\[1\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 
 And the first lines of the SMF section:
 
 ``` r
 
-smf(mzt) |> head()
+pandoc.table(smf(mzt) |> head(),
+            style = "rmarkdown", split.table = Inf)
 ```
 
-           SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
-    FT0001 SMF      1        null                      null       null       null
-    FT0002 SMF      2        null                      null       null       null
-    FT0003 SMF      3        null                      null       null       null
-    FT0004 SMF      4        null                      null       null       null
-    FT0005 SMF      5        null                      null       null       null
-    FT0006 SMF      6        null                      null       null       null
-           exp_mass_to_charge charge retention_time_in_seconds
-    FT0001   50.9897946401403   null          203.600077134134
-    FT0002    51.059035992328   null          191.167453757996
-    FT0003   51.9865730172271   null           203.14665178874
-    FT0004   53.0203569195002   null          203.234292327779
-    FT0005   53.5208004472819   null          203.193618564868
-    FT0006   54.0100702952703   null          159.281630787851
-           retention_time_in_seconds_start retention_time_in_seconds_end
-    FT0001                            null                          null
-    FT0002                            null                          null
-    FT0003                            null                          null
-    FT0004                            null                          null
-    FT0005                            null                          null
-    FT0006                            null                          null
-           abundance_assay[1] abundance_assay[2] abundance_assay[3]
-    FT0001           421.6162           689.2422           411.3295
-    FT0002           710.8078           875.9192           457.5920
-    FT0003           445.5711           613.4410           277.5022
-    FT0004         16994.5260         24605.7340         19766.7069
-    FT0005          3284.2664          4526.0531          3521.8221
-    FT0006         10681.7476         10009.6602          9599.9701
-           abundance_assay[4] abundance_assay[5] abundance_assay[6]
-    FT0001           481.7436           314.7567           635.2732
-    FT0002           693.6997           781.2416           648.4344
-    FT0003           497.8866           425.3774           634.9370
-    FT0004         17808.0933         22780.6683         22873.1061
-    FT0005          3379.8909          4396.0762          4317.7734
-    FT0006         10800.5449          4792.2390          7296.4262
-           abundance_assay[7] abundance_assay[8] abundance_assay[9]
-    FT0001           439.6086           570.5849           579.9360
-    FT0002           700.9716          1054.0207           534.4577
-    FT0003           449.0933           556.2544           461.0465
-    FT0004         16965.7762         23432.1252         22198.4607
-    FT0005          3270.5290          4533.8667          4161.0132
-    FT0006          2382.1788          9236.9799          6817.8785
-           abundance_assay[10] opt_global_feature_id
-    FT0001            437.0340                FT0001
-    FT0002            711.0361                FT0002
-    FT0003            232.1075                FT0003
-    FT0004          16796.4497                FT0004
-    FT0005           3142.2268                FT0005
-    FT0006           6911.5439                FT0006
+|   | SFH | SMF_ID | SME_ID_REFS | SME_ID_REF_ambiguity_code | adduct_ion | isotopomer | exp_mass_to_charge | charge | retention_time_in_seconds | retention_time_in_seconds_start | retention_time_in_seconds_end | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | abundance_assay\[7\] | abundance_assay\[8\] | abundance_assay\[9\] | abundance_assay\[10\] | opt_global_feature_id |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **FT0001** | SMF | 1 | null | null | null | null | 50.9897946401403 | null | 203.600077134134 | null | null | 421.6 | 689.2 | 411.3 | 481.7 | 314.8 | 635.3 | 439.6 | 570.6 | 579.9 | 437 | FT0001 |
+| **FT0002** | SMF | 2 | null | null | null | null | 51.059035992328 | null | 191.167453757996 | null | null | 710.8 | 875.9 | 457.6 | 693.7 | 781.2 | 648.4 | 701 | 1054 | 534.5 | 711 | FT0002 |
+| **FT0003** | SMF | 3 | null | null | null | null | 51.9865730172271 | null | 203.14665178874 | null | null | 445.6 | 613.4 | 277.5 | 497.9 | 425.4 | 634.9 | 449.1 | 556.3 | 461 | 232.1 | FT0003 |
+| **FT0004** | SMF | 4 | null | null | null | null | 53.0203569195002 | null | 203.234292327779 | null | null | 16995 | 24606 | 19767 | 17808 | 22781 | 22873 | 16966 | 23432 | 22198 | 16796 | FT0004 |
+| **FT0005** | SMF | 5 | null | null | null | null | 53.5208004472819 | null | 203.193618564868 | null | null | 3284 | 4526 | 3522 | 3380 | 4396 | 4318 | 3271 | 4534 | 4161 | 3142 | FT0005 |
+| **FT0006** | SMF | 6 | null | null | null | null | 54.0100702952703 | null | 159.281630787851 | null | null | 10682 | 10010 | 9600 | 10801 | 4792 | 7296 | 2382 | 9237 | 6818 | 6912 | FT0006 |
 
 In the next section we will complete the data adding some metadata
 fields that could not be derived from the result object.
@@ -629,7 +497,7 @@ getMtdCv(mzt)
                                                                 cv[1]-version
                                                                     "4.1.138"
                                                                     cv[1]-uri
-     "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo"
+                                   "https://www.ebi.ac.uk/ols4/ontologies/ms"
                                                                   cv[2]-label
                                                                       "PRIDE"
                                                               cv[2]-full_name
@@ -668,7 +536,7 @@ getMtdField(mzt, "software")
 ```
 
                               software[1]                           software[2]
-    "[,,RmzTabM,RmzTabM version 0.97.19]"      "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.97.20]"      "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -816,16 +684,18 @@ exp <- data.frame(
     file_name = c("s1-t1.mzML", "s1-t2.mzML", "s2-t1.mzML", "s2-t2.mzML",
                   "s3-t1.mzML", "s3-t2.mzML")
 )
-exp
+
+pandoc.table(exp, style = "rmarkdown", split.table = Inf)
 ```
 
-      sample_name sample_id timepoint genotype operator  file_name
-    1       S1_T1        S1        0h       WT       BB s1-t1.mzML
-    2       S1_T2        S1        6h       WT       BB s1-t2.mzML
-    3       S2_T1        S2        0h       KO       BB s2-t1.mzML
-    4       S2_T2        S2        6h       KO       BB s2-t2.mzML
-    5       S3_T1        S3        0h       KO       FB s3-t1.mzML
-    6       S3_T2        S3        6h       KO       FB s3-t2.mzML
+| sample_name | sample_id | timepoint | genotype | operator | file_name  |
+|:-----------:|:---------:|:---------:|:--------:|:--------:|:----------:|
+|    S1_T1    |    S1     |    0h     |    WT    |    BB    | s1-t1.mzML |
+|    S1_T2    |    S1     |    6h     |    WT    |    BB    | s1-t2.mzML |
+|    S2_T1    |    S2     |    0h     |    KO    |    BB    | s2-t1.mzML |
+|    S2_T2    |    S2     |    6h     |    KO    |    BB    | s2-t2.mzML |
+|    S3_T1    |    S3     |    0h     |    KO    |    FB    | s3-t1.mzML |
+|    S3_T2    |    S3     |    6h     |    KO    |    FB    | s3-t2.mzML |
 
 We will next compile the MTD information for the experiment using the
 individual helper functions, starting with the **Core information**:
@@ -845,35 +715,34 @@ mtd <- mtdSkeleton(
 
 ``` r
 
-library(pander)
 pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
-    |                                            |                                                                         |
-    |:-------------------------------------------|:------------------------------------------------------------------------|
-    | mzTab-version                              | 2.1.0-M                                                                 |
-    | mzTab-ID                                   | EXP_001                                                                 |
-    | software[1]                                | [MS, MS:1001582, xcms, 4.1.0]                                           |
-    | quantification_method                      | [MS, MS:1001834, LC-MS label-free quantitation analysis, ]              |
-    | cv[1]-label                                | MS                                                                      |
-    | cv[1]-full_name                            | PSI-MS controlled vocabulary                                            |
-    | cv[1]-version                              | 4.1.138                                                                 |
-    | cv[1]-uri                                  | https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo  |
-    | cv[2]-label                                | PRIDE                                                                   |
-    | cv[2]-full_name                            | PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary |
-    | cv[2]-version                              | 16:10:2023 11:38                                                        |
-    | cv[2]-uri                                  | https://www.ebi.ac.uk/ols/ontologies/pride                              |
-    | cv[3]-label                                | STATO                                                                   |
-    | cv[3]-full_name                            | General purpose STATistics Ontology                                     |
-    | cv[3]-version                              | 2026-04-20                                                              |
-    | cv[3]-uri                                  | https://www.ebi.ac.uk/ols4/ontologies/stato                             |
-    | database[1]                                | [,, "no database", null ]                                               |
-    | database[1]-prefix                         | null                                                                    |
-    | database[1]-version                        | Unknown                                                                 |
-    | database[1]-uri                            | null                                                                    |
-    | small_molecule-quantification_unit         | [PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]                 |
-    | small_molecule_feature-quantification_unit | [PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]                 |
-    | small_molecule-identification_reliability  | [MS, MS:1002896, compound identification confidence level, ]            |
+|  |  |
+|:---|:---|
+| mzTab-version | 2.1.0-M |
+| mzTab-ID | EXP_001 |
+| software\[1\] | \[MS, MS:1001582, xcms, 4.1.0\] |
+| quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
+| cv\[1\]-label | MS |
+| cv\[1\]-full_name | PSI-MS controlled vocabulary |
+| cv\[1\]-version | 4.1.138 |
+| cv\[1\]-uri | https://www.ebi.ac.uk/ols4/ontologies/ms |
+| cv\[2\]-label | PRIDE |
+| cv\[2\]-full_name | PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary |
+| cv\[2\]-version | 16:10:2023 11:38 |
+| cv\[2\]-uri | https://www.ebi.ac.uk/ols/ontologies/pride |
+| cv\[3\]-label | STATO |
+| cv\[3\]-full_name | General purpose STATistics Ontology |
+| cv\[3\]-version | 2026-04-20 |
+| cv\[3\]-uri | https://www.ebi.ac.uk/ols4/ontologies/stato |
+| database\[1\] | \[,, “no database”, null \] |
+| database\[1\]-prefix | null |
+| database\[1\]-version | Unknown |
+| database\[1\]-uri | null |
+| small_molecule-quantification_unit | \[PRIDE, PRIDE:0000330, Arbitrary quantification unit, \] |
+| small_molecule_feature-quantification_unit | \[PRIDE, PRIDE:0000330, Arbitrary quantification unit, \] |
+| small_molecule-identification_reliability | \[MS, MS:1002896, compound identification confidence level, \] |
 
 This represents some minimal information. The data of the MTD section is
 formatted as a `character` 2-column `matrix`. We could now either change
@@ -1004,18 +873,20 @@ add_cv <- mtdFields(
     uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
             "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"),
     field_prefix = "cv")
-add_cv
+
+pandoc.table(add_cv, style = "rmarkdown", split.table = Inf, justify = "ll")
 ```
 
-         [,1]              [,2]
-    [1,] "cv[1]-label"     "BTO"
-    [2,] "cv[1]-full_name" "The BRENDA Tissue Ontology (BTO)"
-    [3,] "cv[1]-version"   "2021-10-26"
-    [4,] "cv[1]-uri"       "https://www.ebi.ac.uk/ols4/ontologies/bto"
-    [5,] "cv[2]-label"     "NCBITaxon"
-    [6,] "cv[2]-full_name" "NCBI organismal classification"
-    [7,] "cv[2]-version"   "2025-12-03"
-    [8,] "cv[2]-uri"       "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"
+|                   |                                                 |
+|:------------------|:------------------------------------------------|
+| cv\[1\]-label     | BTO                                             |
+| cv\[1\]-full_name | The BRENDA Tissue Ontology (BTO)                |
+| cv\[1\]-version   | 2021-10-26                                      |
+| cv\[1\]-uri       | https://www.ebi.ac.uk/ols4/ontologies/bto       |
+| cv\[2\]-label     | NCBITaxon                                       |
+| cv\[2\]-full_name | NCBI organismal classification                  |
+| cv\[2\]-version   | 2025-12-03                                      |
+| cv\[2\]-uri       | https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon |
 
 We need to update the index of the cv, since there are already 3 CVs
 (MS, PRIDE and STATO) defined by in the metadata part. We thus replace
@@ -1394,7 +1265,7 @@ pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
 | cv\[1\]-label | MS |
 | cv\[1\]-full_name | PSI-MS controlled vocabulary |
 | cv\[1\]-version | 4.1.138 |
-| cv\[1\]-uri | https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo |
+| cv\[1\]-uri | https://www.ebi.ac.uk/ols4/ontologies/ms |
 | cv\[2\]-label | PRIDE |
 | cv\[2\]-full_name | PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary |
 | cv\[2\]-version | 16:10:2023 11:38 |
@@ -1500,57 +1371,18 @@ The SMF content is:
 
 ``` r
 
-smf
+pandoc.table(smf, style = "rmarkdown", split.table = Inf)
 ```
 
-         SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer
-    FT01 SMF      1        null                      null     [M+H]+       null
-    FT02 SMF      2        null                      null       null       null
-    FT03 SMF      3        null                      null       null       null
-    FT04 SMF      4        null                      null    [M+Na]+       null
-    FT05 SMF      5        null                      null    [M+Na]+       null
-    FT06 SMF      6        null                      null     [M+H]+       null
-    FT07 SMF      7        null                      null     [M+H]+       null
-         exp_mass_to_charge charge retention_time_in_seconds
-    FT01            195.088      1                      25.6
-    FT02              127.1   null                     128.4
-    FT03              299.2   null                      67.2
-    FT04             181.07      1                     127.3
-    FT05            218.077      1                      25.7
-    FT06            343.123      1                     167.2
-    FT07             148.06      1                     76.34
-         retention_time_in_seconds_start retention_time_in_seconds_end
-    FT01                            23.1                          26.9
-    FT02                           125.1                         130.3
-    FT03                            65.1                          69.1
-    FT04                           122.3                         134.2
-    FT05                            23.3                          26.8
-    FT06                           162.3                         172.1
-    FT07                            71.3                          81.2
-         abundance_assay[1] abundance_assay[2] abundance_assay[3]
-    FT01              200.1              260.2             256.10
-    FT02             1232.1               39.5             904.20
-    FT03               54.3              177.4              56.90
-    FT04              399.1              599.5             533.10
-    FT05              599.8             5344.1             489.90
-    FT06               23.1              332.1            3231.22
-    FT07                 NA               43.0              23.40
-         abundance_assay[4] abundance_assay[5] abundance_assay[6]
-    FT01              232.1              264.2              246.2
-    FT02               43.3             1102.4               52.1
-    FT03              201.4               43.5              187.2
-    FT04              434.2              514.5              508.3
-    FT05             5154.1              583.1              601.5
-    FT06               43.4              432.3              432.2
-    FT07              324.3               43.3               34.5
-         opt_global_feature_id
-    FT01                  FT01
-    FT02                  FT02
-    FT03                  FT03
-    FT04                  FT04
-    FT05                  FT05
-    FT06                  FT06
-    FT07                  FT07
+|   | SFH | SMF_ID | SME_ID_REFS | SME_ID_REF_ambiguity_code | adduct_ion | isotopomer | exp_mass_to_charge | charge | retention_time_in_seconds | retention_time_in_seconds_start | retention_time_in_seconds_end | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | opt_global_feature_id |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **FT01** | SMF | 1 | null | null | \[M+H\]+ | null | 195.088 | 1 | 25.6 | 23.1 | 26.9 | 200.1 | 260.2 | 256.1 | 232.1 | 264.2 | 246.2 | FT01 |
+| **FT02** | SMF | 2 | null | null | null | null | 127.1 | null | 128.4 | 125.1 | 130.3 | 1232 | 39.5 | 904.2 | 43.3 | 1102 | 52.1 | FT02 |
+| **FT03** | SMF | 3 | null | null | null | null | 299.2 | null | 67.2 | 65.1 | 69.1 | 54.3 | 177.4 | 56.9 | 201.4 | 43.5 | 187.2 | FT03 |
+| **FT04** | SMF | 4 | null | null | \[M+Na\]+ | null | 181.07 | 1 | 127.3 | 122.3 | 134.2 | 399.1 | 599.5 | 533.1 | 434.2 | 514.5 | 508.3 | FT04 |
+| **FT05** | SMF | 5 | null | null | \[M+Na\]+ | null | 218.077 | 1 | 25.7 | 23.3 | 26.8 | 599.8 | 5344 | 489.9 | 5154 | 583.1 | 601.5 | FT05 |
+| **FT06** | SMF | 6 | null | null | \[M+H\]+ | null | 343.123 | 1 | 167.2 | 162.3 | 172.1 | 23.1 | 332.1 | 3231 | 43.4 | 432.3 | 432.2 | FT06 |
+| **FT07** | SMF | 7 | null | null | \[M+H\]+ | null | 148.06 | 1 | 76.34 | 71.3 | 81.2 | NA | 43 | 23.4 | 324.3 | 43.3 | 34.5 | FT07 |
 
 Importantly,
 [`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
@@ -1633,44 +1465,15 @@ sml <- smlCreate(x = abundances_sml,
                  adduct_ions = anns$adduct,
                  uri = anns$uri,
                  note = anns$note)
-sml
+pandoc.table(sml, style = "rmarkdown", split.table = Inf)
 ```
 
-         SMH SML_ID SMF_ID_REFS               database_identifier chemical_formula
-    FT01 SML      1        null                  HMDB:HMDB0001847        C8H10N4O2
-    FT04 SML      2        null HMDB:HMDB0000122|HMDB:HMDB0000169  C6H12O6|C6H12O6
-    FT06 SML      3        null                  HMDB:HMDB0000258        C12H22O11
-    FT07 SML      4        null                  HMDB:HMDB0060475          C5H9NO4
-            smiles     inchi chemical_name
-    FT01      null      null          null
-    FT04 null|null null|null     null|null
-    FT06      null      null          null
-    FT07      null      null          null
-                                                                                           uri
-    FT01                                            http://www.hmdb.ca/metabolites/HMDB0001847
-    FT04 http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169
-    FT06                                            http://www.hmdb.ca/metabolites/HMDB0000258
-    FT07                                            http://www.hmdb.ca/metabolites/HMDB0060475
-         theoretical_neutral_mass adduct_ions reliability
-    FT01                 194.0804     [M+H]1+        null
-    FT04        180.0634|180.0634    [M+Na]1+        null
-    FT06                 342.1162     [M+H]1+        null
-    FT07                 147.0531     [M+H]1+        null
-         best_id_confidence_measure best_id_confidence_value abundance_assay[1]
-    FT01                       null                     null              200.1
-    FT04                       null                     null              399.1
-    FT06                       null                     null               23.1
-    FT07                       null                     null                 NA
-         abundance_assay[2] abundance_assay[3] abundance_assay[4]
-    FT01              260.2             256.10              232.1
-    FT04              599.5             533.10              434.2
-    FT06              332.1            3231.22               43.4
-    FT07               43.0              23.40              324.3
-         abundance_assay[5] abundance_assay[6] opt_global_note
-    FT01              264.2              246.2 manual curation
-    FT04              514.5              508.3 manual curation
-    FT06              432.3              432.2 manual curation
-    FT07               43.3               34.5 manual curation
+|   | SMH | SML_ID | SMF_ID_REFS | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri | theoretical_neutral_mass | adduct_ions | reliability | best_id_confidence_measure | best_id_confidence_value | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | opt_global_note |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **FT01** | SML | 1 | null | HMDB:HMDB0001847 | C8H10N4O2 | null | null | null | http://www.hmdb.ca/metabolites/HMDB0001847 | 194.0804 | \[M+H\]1+ | null | null | null | 200.1 | 260.2 | 256.1 | 232.1 | 264.2 | 246.2 | manual curation |
+| **FT04** | SML | 2 | null | HMDB:HMDB0000122\|HMDB:HMDB0000169 | C6H12O6\|C6H12O6 | null\|null | null\|null | null\|null | http://www.hmdb.ca/metabolites/HMDB0000122\|http://www.hmdb.ca/metabolites/HMDB0000169 | 180.0634\|180.0634 | \[M+Na\]1+ | null | null | null | 399.1 | 599.5 | 533.1 | 434.2 | 514.5 | 508.3 | manual curation |
+| **FT06** | SML | 3 | null | HMDB:HMDB0000258 | C12H22O11 | null | null | null | http://www.hmdb.ca/metabolites/HMDB0000258 | 342.1162 | \[M+H\]1+ | null | null | null | 23.1 | 332.1 | 3231 | 43.4 | 432.3 | 432.2 | manual curation |
+| **FT07** | SML | 4 | null | HMDB:HMDB0060475 | C5H9NO4 | null | null | null | http://www.hmdb.ca/metabolites/HMDB0060475 | 147.0531 | \[M+H\]1+ | null | null | null | NA | 43 | 23.4 | 324.3 | 43.3 | 34.5 | manual curation |
 
 This SML is however not yet complete. We must update the relationship
 between rows in the SML and the SMF section in column `"SMF_ID_REFS"`.
@@ -1688,96 +1491,79 @@ helper function providing both the SML and the MTD data.
 ``` r
 
 sml <- smlAddStudyVariableColumns(sml, mtd)
-sml
+pandoc.table(sml, style = "rmarkdown", split.table = Inf)
 ```
 
-         SMH SML_ID SMF_ID_REFS               database_identifier chemical_formula
-    FT01 SML      1         1|5                  HMDB:HMDB0001847        C8H10N4O2
-    FT04 SML      2           4 HMDB:HMDB0000122|HMDB:HMDB0000169  C6H12O6|C6H12O6
-    FT06 SML      3           6                  HMDB:HMDB0000258        C12H22O11
-    FT07 SML      4           7                  HMDB:HMDB0060475          C5H9NO4
-            smiles     inchi chemical_name
-    FT01      null      null          null
-    FT04 null|null null|null     null|null
-    FT06      null      null          null
-    FT07      null      null          null
-                                                                                           uri
-    FT01                                            http://www.hmdb.ca/metabolites/HMDB0001847
-    FT04 http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169
-    FT06                                            http://www.hmdb.ca/metabolites/HMDB0000258
-    FT07                                            http://www.hmdb.ca/metabolites/HMDB0060475
-         theoretical_neutral_mass adduct_ions reliability
-    FT01                 194.0804     [M+H]1+        null
-    FT04        180.0634|180.0634    [M+Na]1+        null
-    FT06                 342.1162     [M+H]1+        null
-    FT07                 147.0531     [M+H]1+        null
-         best_id_confidence_measure best_id_confidence_value abundance_assay[1]
-    FT01                       null                     null              200.1
-    FT04                       null                     null              399.1
-    FT06                       null                     null               23.1
-    FT07                       null                     null                 NA
-         abundance_assay[2] abundance_assay[3] abundance_assay[4]
-    FT01              260.2             256.10              232.1
-    FT04              599.5             533.10              434.2
-    FT06              332.1            3231.22               43.4
-    FT07               43.0              23.40              324.3
-         abundance_assay[5] abundance_assay[6] abundance_study_variable[1]
-    FT01              264.2              246.2                    240.1333
-    FT04              514.5              508.3                    482.2333
-    FT06              432.3              432.2                   1228.8733
-    FT07               43.3               34.5                          NA
-         abundance_study_variable[2] abundance_study_variable[3]
-    FT01                    246.1667                      230.15
-    FT04                    514.0000                      499.30
-    FT06                    269.2333                      177.60
-    FT07                    133.9333                          NA
-         abundance_study_variable[4] abundance_study_variable[5]
-    FT01                     249.650                     237.125
-    FT04                     497.525                     491.475
-    FT06                    1034.780                     907.455
-    FT07                     106.375                          NA
-         abundance_study_variable[6] abundance_variation_study_variable[1]
-    FT01                      255.20                             0.1453594
-    FT04                      511.40                             0.1505366
-    FT06                      432.25                             1.4209044
-    FT07                       38.90                             0.4219318
-         abundance_variation_study_variable[2]
-    FT01                            0.05707527
-    FT04                            0.16108421
-    FT06                            0.74983276
-    FT07                            1.23133754
-         abundance_variation_study_variable[3]
-    FT01                             0.1846497
-    FT04                             0.2838057
-    FT06                             1.2302702
-    FT07                                    NA
-         abundance_variation_study_variable[4]
-    FT01                            0.05536875
-    FT04                            0.08745695
-    FT06                            1.42612166
-    FT07                            1.36790894
-         abundance_variation_study_variable[5]
-    FT01                             0.1164790
-    FT04                             0.1865403
-    FT06                             1.7142351
-    FT07                             1.2926962
-         abundance_variation_study_variable[6] opt_global_note
-    FT01                          0.0498743027 manual curation
-    FT04                          0.0085726673 manual curation
-    FT06                          0.0001635875 manual curation
-    FT07                          0.1599624595 manual curation
+|   | SMH | SML_ID | SMF_ID_REFS | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri | theoretical_neutral_mass | adduct_ions | reliability | best_id_confidence_measure | best_id_confidence_value | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | abundance_study_variable\[1\] | abundance_study_variable\[2\] | abundance_study_variable\[3\] | abundance_study_variable\[4\] | abundance_study_variable\[5\] | abundance_study_variable\[6\] | abundance_variation_study_variable\[1\] | abundance_variation_study_variable\[2\] | abundance_variation_study_variable\[3\] | abundance_variation_study_variable\[4\] | abundance_variation_study_variable\[5\] | abundance_variation_study_variable\[6\] | opt_global_note |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **FT01** | SML | 1 | 1\|5 | HMDB:HMDB0001847 | C8H10N4O2 | null | null | null | http://www.hmdb.ca/metabolites/HMDB0001847 | 194.0804 | \[M+H\]1+ | null | null | null | 200.1 | 260.2 | 256.1 | 232.1 | 264.2 | 246.2 | 240.1 | 246.2 | 230.1 | 249.7 | 237.1 | 255.2 | 0.1454 | 0.05708 | 0.1846 | 0.05537 | 0.1165 | 0.04987 | manual curation |
+| **FT04** | SML | 2 | 4 | HMDB:HMDB0000122\|HMDB:HMDB0000169 | C6H12O6\|C6H12O6 | null\|null | null\|null | null\|null | http://www.hmdb.ca/metabolites/HMDB0000122\|http://www.hmdb.ca/metabolites/HMDB0000169 | 180.0634\|180.0634 | \[M+Na\]1+ | null | null | null | 399.1 | 599.5 | 533.1 | 434.2 | 514.5 | 508.3 | 482.2 | 514 | 499.3 | 497.5 | 491.5 | 511.4 | 0.1505 | 0.1611 | 0.2838 | 0.08746 | 0.1865 | 0.008573 | manual curation |
+| **FT06** | SML | 3 | 6 | HMDB:HMDB0000258 | C12H22O11 | null | null | null | http://www.hmdb.ca/metabolites/HMDB0000258 | 342.1162 | \[M+H\]1+ | null | null | null | 23.1 | 332.1 | 3231 | 43.4 | 432.3 | 432.2 | 1229 | 269.2 | 177.6 | 1035 | 907.5 | 432.2 | 1.421 | 0.7498 | 1.23 | 1.426 | 1.714 | 0.0001636 | manual curation |
+| **FT07** | SML | 4 | 7 | HMDB:HMDB0060475 | C5H9NO4 | null | null | null | http://www.hmdb.ca/metabolites/HMDB0060475 | 147.0531 | \[M+H\]1+ | null | null | null | NA | 43 | 23.4 | 324.3 | 43.3 | 34.5 | NA | 133.9 | NA | 106.4 | NA | 38.9 | 0.4219 | 1.231 | NA | 1.368 | 1.293 | 0.16 | manual curation |
 
 For each study variable in MTD a *abundance_study_variable* and
 *abundance_variation_study_variable* column were added, aggregating the
 abundance values from the respective assays with the aggregation and
 variation function defined in the MTD section.
 
-### SME
+##### Small Evidence (SME) Table
 
-#### Reading and importing
+The Small Molecule (SME) table contains evidence for annotation of small
+molecule features (defined in the SMF section). These annotations can
+result from database searches using MS2 spectra or retention time and
+*m/z* searches against an in-house annotation database. Each row
+provides the evidence for one match. Multiple matches/annotations for
+the same input information can be reported in separate rows (but using
+the **same** value in the `"evidence_input_id"` column).
 
-TODO: implement these functions moving the respective code from the
-legacy repo
+Below we define a `data.frame` with the evidence for features from the
+previous section’s SMF table. In our example, …
+
+``` r
+
+ev_df <- data.frame(
+    evidence_input_id = c("ms_run[1]:mass=700.5255;rt=20·5",
+                          "ms_run[2]:mass=452.2782;rt=35.1",
+                          "ms_run[3]:mass=882.6210;rt=40.0"),
+    exp_mass_to_charge = c(700.5255, 452.2782, 882.6210),
+    charge = c(1, 1, 1),
+    theoretical_mass_to_charge = c(700.5281, 452.2777, 882.6224),
+    spectra_ref = c("ms_run[1]:index=7646", "ms_run[2]:index=7640",
+                    "ms_run[3]:index=7671|ms_run[3]:index=7725"),
+    identification_method = "[, , LipidDataAnalyzer, 2.11.1]",
+    ms_level = "[MS, MS:1000511, ms level, 2]")
+```
+
+With this information we can use the
+[`smeCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
+function to compile the SME table. Note that (again) we **must fully
+name** all function arguments to which we pass values. Any additional
+(named) parameters provided to the function will be added as *optional*
+columns (prefixed with `"opt_"`)
+
+The function require the MTD section defined earlier to validate the
+`spectra_ref` reported in the SME section.
+
+``` r
+
+sme <- smeCreate(
+    evidence_input_id = ev_df$evidence_input_id,
+    exp_mass_to_charge = ev_df$exp_mass_to_charge,
+    charge = ev_df$charge,
+    theoretical_mass_to_charge = ev_df$theoretical_mass_to_charge,
+    spectra_ref = ev_df$spectra_ref,
+    identification_method = ev_df$identification_method,
+    ms_level = ev_df$ms_level,
+    mtd = mtd
+)
+pandoc.table(sme, style = "rmarkdown", split.table = Inf)
+```
+
+    | SEH | SME_ID |        evidence_input_id        | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri  | derivatized_form | adduct_ions | exp_mass_to_charge | charge | theoretical_mass_to_charge |                spectra_ref                 |      identification_method      |           ms_level            | rank |
+    |:---:|:------:|:-------------------------------:|:-------------------:|:----------------:|:------:|:-----:|:-------------:|:----:|:----------------:|:-----------:|:------------------:|:------:|:--------------------------:|:------------------------------------------:|:-------------------------------:|:-----------------------------:|:----:|
+    | SME |   1    | ms_run[1]:mass=700.5255;rt=20·5 |        null         |       null       |  null  | null  |     null      | null |       null       |    null     |      700.5255      |   1    |          700.5281          |            ms_run[1]:index=7646            | [, , LipidDataAnalyzer, 2.11.1] | [MS, MS:1000511, ms level, 2] |  1   |
+    | SME |   2    | ms_run[2]:mass=452.2782;rt=35.1 |        null         |       null       |  null  | null  |     null      | null |       null       |    null     |      452.2782      |   1    |          452.2777          |            ms_run[2]:index=7640            | [, , LipidDataAnalyzer, 2.11.1] | [MS, MS:1000511, ms level, 2] |  1   |
+    | SME |   3    | ms_run[3]:mass=882.6210;rt=40.0 |        null         |       null       |  null  | null  |     null      | null |       null       |    null     |      882.621       |   1    |          882.6224          | ms_run[3]:index=7671\|ms_run[3]:index=7725 | [, , LipidDataAnalyzer, 2.11.1] | [MS, MS:1000511, ms level, 2] |  1   |
 
 #### General utility functions
 
@@ -1828,7 +1614,7 @@ sessionInfo()
      [5] Seqinfo_1.3.0               IRanges_2.47.2
      [7] S4Vectors_0.51.5            BiocGenerics_0.59.10
      [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.97.19
+    [11] matrixStats_1.5.0           RmzTabM_0.97.20
 
     loaded via a namespace (and not attached):
      [1] cli_3.6.6           knitr_1.51          rlang_1.3.0
@@ -1838,7 +1624,7 @@ sessionInfo()
     [13] abind_1.4-8         fastmap_1.2.0       yaml_2.3.12
     [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.53.0
     [19] lattice_0.22-9      digest_0.6.39       SparseArray_1.13.2
-    [22] Matrix_1.7-5        tools_4.6.1         S4Arrays_1.13.0    
+    [22] Matrix_1.7-6        tools_4.6.1         S4Arrays_1.13.0    
 
 ## References
 

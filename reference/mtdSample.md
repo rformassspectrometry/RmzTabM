@@ -1,4 +1,4 @@
-# msTab-M *sample* metadata information
+# mzTab-M *sample* metadata information
 
 The `mtdSample()` function aids in creating and formatting the
 (optional) sample information from the mzTab-M metadata section. If

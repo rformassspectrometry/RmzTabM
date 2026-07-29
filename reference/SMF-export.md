@@ -178,7 +178,7 @@ smf_final <- smfCreate(
     retention_time_in_seconds = rt_values,
     adduct_ion = adducts,
     ## Optional custom column example
-    global_custom_attribute = c("A", "B", "C")
+    custom_attribute = c("A", "B", "C")
 )
 
 ## The result contains the 'SFH' line prefix, standard columns, and
@@ -200,8 +200,8 @@ head(smf_final)
 #> 1              100.1              105.2              110.3
 #> 2              200.5              198.2              201.0
 #> 3               50.0               55.0               52.1
-#>   opt_global_global_custom_attribute
-#> 1                                  A
-#> 2                                  B
-#> 3                                  C
+#>   opt_global_custom_attribute
+#> 1                           A
+#> 2                           B
+#> 3                           C
 ```

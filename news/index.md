@@ -2,6 +2,10 @@
 
 ## RmzTabM version 0.97
 
+### Changes in version 0.97.20
+
+- Preparation to Biocondutor submission.
+
 ### Changes in version 0.97.19
 
 - Fix issue

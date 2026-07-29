@@ -54,7 +54,6 @@ The R package can be installed from GitHub using the following commands:
 ``` r
 
 #' Install required packages
-install.packages("devtools")
 install.packages("BiocManager")
 
 #' Install the repository
@@ -122,4 +121,10 @@ to maintain an inclusive and respectful community.
 We thank the many researchers contributing through discussions or
 through code. An potentially incomplete list of people:
 
-TODO - add names of hackathon participants, etc.
+- Nils Hoffmann
+- Steffen Neumann
+- Kozo Nishida
+- Frank Giacomoni
+- Nils Paulhe
+- Ozgur Yurekten
+- Janik Kokot

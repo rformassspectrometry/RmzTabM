@@ -97,12 +97,16 @@ Various functions are available to get or set metadata information of a
   [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)
   for additional information.
 
-## SMF section; adding or getting small feature abundance matrix
+## SML section; adding or getting small summary matrix
 
 - `sml()`: returns the SML summary matrix of an `MzTabM` object.
 
+## SMF section; adding or getting small feature abundance matrix
+
 - `smf()`: returns the SMF feature abundance matrix of an `MzTabM`
   object.
+
+## SME section; adding or getting small evidence matrix
 
 - `sme()`: returns the SME evidence matrix of an `MzTabM` object.
 
@@ -172,7 +176,7 @@ getMtdCv(m)
 #>                                                             cv[1]-version 
 #>                                                                 "4.1.138" 
 #>                                                                 cv[1]-uri 
-#>  "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
+#>                                "https://www.ebi.ac.uk/ols4/ontologies/ms" 
 #>                                                               cv[2]-label 
 #>                                                                   "PRIDE" 
 #>                                                           cv[2]-full_name 

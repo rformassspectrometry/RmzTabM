@@ -27,7 +27,7 @@ mtdSkeleton(
     "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary",
     "General purpose STATistics Ontology"),
   cv_version = c("4.1.138", "16:10:2023 11:38", "2026-04-20"),
-  cv_uri = c("https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo",
+  cv_uri = c("https://www.ebi.ac.uk/ols4/ontologies/ms",
     "https://www.ebi.ac.uk/ols/ontologies/pride",
     "https://www.ebi.ac.uk/ols4/ontologies/stato"),
   database = c("[,, \"no database\", null ]"),
@@ -179,7 +179,7 @@ mtd[, 2]
 #>  [5] "MS"                                                                     
 #>  [6] "PSI-MS controlled vocabulary"                                           
 #>  [7] "4.1.138"                                                                
-#>  [8] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
+#>  [8] "https://www.ebi.ac.uk/ols4/ontologies/ms"                               
 #>  [9] "PRIDE"                                                                  
 #> [10] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [11] "16:10:2023 11:38"                                                       
@@ -321,7 +321,7 @@ mtd
 #> [14,] "MS"                                                                     
 #> [15,] "PSI-MS controlled vocabulary"                                           
 #> [16,] "4.1.138"                                                                
-#> [17,] "https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo" 
+#> [17,] "https://www.ebi.ac.uk/ols4/ontologies/ms"                               
 #> [18,] "PRIDE"                                                                  
 #> [19,] "PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary"
 #> [20,] "16:10:2023 11:38"                                                       
