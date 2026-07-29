@@ -1,19 +1,3 @@
-## Code related to import/export of the SML table
-
-## internal notes:
-##
-## - Create SML from user provided info
-## - have a helper function that links between SMF and SML?
-## - SML should be a subset of the SMF
-## - SML should also contain averages/variation for the study variables
-##   (defined in the MTD section)
-##
-
-################################################################################
-##    Create SML section
-##
-################################################################################
-
 #' @title Creating the mzTab-M Small Molecule (SML) Table
 #'
 #' @name SML-export
@@ -403,8 +387,3 @@ smlAddStudyVariableColumns <- function(x, mtd) {
     }
     smlSort(x)
 }
-
-################################################################################
-##    Parse SML section
-##
-################################################################################

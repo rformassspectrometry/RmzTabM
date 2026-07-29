@@ -519,8 +519,9 @@ smfCols <- function(exp_mass_to_charge = "exp_mass_to_charge",
 .smfToFeatureData <- function(smf, smfCols. = smfCols()) {
     ## Recover the rowData columns
     rowdata_df <- smf[, !grepl("^abundance_", names(smf))]
-    rowdata_df <- rowdata_df[, !sapply(rowdata_df,
-                                        function(col) all(col == "null")),
+    rowdata_df <- rowdata_df[, !vapply(rowdata_df,
+                                        function(col) all(col == "null"),
+                                        FUN.VALUE = logical(1)),
                                 drop = FALSE]
     setnames(rowdata_df, names(smfCols.), smfCols., skip_absent = TRUE)
 

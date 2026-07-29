@@ -2,7 +2,7 @@
 % Please edit documentation in R/MTD.R
 \name{mtdMsRun}
 \alias{mtdMsRun}
-\title{msTab-M \emph{ms_run} metadata fields}
+\title{mzTab-M \emph{ms_run} metadata fields}
 \usage{
 mtdMsRun(
   location = character(),

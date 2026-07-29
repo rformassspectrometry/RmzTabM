@@ -130,8 +130,8 @@ test_that("isCvParameter works", {
 
 test_that(".NAtonull works", {
   df <- data.frame(
-    num  = c(1, NA, 3),
-    chr  = c("a", "", "b")
+    num = c(1, NA, 3),
+    chr = c("a", "", "b")
   )
   result <- .NAtonull(df)
   expect_true(is.data.frame(result))

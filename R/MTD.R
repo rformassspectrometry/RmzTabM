@@ -1,5 +1,3 @@
-## Code related to import/export of the MTD element
-
 ################################################################################
 ##    Create MTD section
 ##
@@ -90,7 +88,7 @@
 #' - one assay is (generally) one sample, but the same sample can be measured
 #'   with multiple assays (i.e., technical replicates).
 #'
-#' @author Philippine Louail, Johannes Rainer
+#' @author Philippine Louail, Johannes Rainer, Gabriele Tomè
 #'
 #' @seealso [SMF-export] and [SML-export] for creating and formatting the small
 #'     molecule feature (SMF) and small molecule (SML) sections.
@@ -323,7 +321,7 @@ mtdFields <- function(..., field_prefix = "") {
         unlist(dots, use.names = FALSE),
         .prefix_zero(rep(l, length(n)))
     )
-    res[order(res[, 3L]), 1:2, drop = FALSE]
+    res[order(res[, 3L]), c(1,2), drop = FALSE]
 }
 
 #' @title Create a skeleton MTD section with general information
@@ -470,7 +468,7 @@ mtdSkeleton <- function(id = character(),
                         cv_version = c("4.1.138",
                                        "16:10:2023 11:38",
                                        "2026-04-20"),
-                        cv_uri = c("https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo",
+                        cv_uri = c("https://www.ebi.ac.uk/ols4/ontologies/ms",
                                    "https://www.ebi.ac.uk/ols/ontologies/pride",
                                    "https://www.ebi.ac.uk/ols4/ontologies/stato"),
                         database = c("[,, \"no database\", null ]"),
@@ -503,7 +501,7 @@ mtdSkeleton <- function(id = character(),
     mtdSort(sk)
 }
 
-#' @title msTab-M *sample* metadata information
+#' @title mzTab-M *sample* metadata information
 #'
 #' @description
 #'
@@ -643,10 +641,10 @@ mtdSample <- function(..., sample = character(), species = list(),
     }
     ## optional fields ("custom") passed through `...`
     res <- rbind(res, .mtd_custom_fields(..., expected_length = l))
-    res[order(res[, 3L]), 1:2, drop = FALSE]
+    res[order(res[, 3L]), c(1,2), drop = FALSE]
 }
 
-#' @title msTab-M *ms_run* metadata fields
+#' @title mzTab-M *ms_run* metadata fields
 #'
 #' @description
 #'
@@ -795,7 +793,7 @@ mtdMsRun <- function(location = character(),
     if (length(parameters)) {
         res <- rbind(res, .mtd_parameters_fields("ms_run", parameters, l))
     }
-    res[order(res[, 3L]), 1:2, drop = FALSE]
+    res[order(res[, 3L]), c(1,2), drop = FALSE]
 }
 
 #' @title mzTab-M *assay* metadata information
@@ -944,7 +942,7 @@ mtdAssay <- function(..., assay = character(), external_uri = character(),
     ## Optional "custom" fields passed through ...
     res <- rbind(
         res, .mtd_custom_fields(..., expected_length = l, prefix = "assay"))
-    res[order(res[, 3L]), 1:2, drop = FALSE]
+    res[order(res[, 3L]), c(1,2), drop = FALSE]
 }
 
 #' @title mzTab-M *study variables* metadata information
@@ -1202,6 +1200,15 @@ mtdDefineStudyVariables <- function(x = data.frame(), groups = character()) {
 #' @author Johannes Rainer
 #'
 #' @seealso [MTD-export] for other functions defining metadata information
+#'
+#' @examples
+#'
+#' ## Minimal MTD section
+#' mtd <- mtdSkeleton(id = "001", software = "[MS, MS:1001582, xmcs, 4.0.0]")
+#'
+#' mtdSort(mtd)
+#'
+#' mtd
 #'
 #' @export
 mtdSort <- function(x) {
@@ -1673,7 +1680,7 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
 #'
 #' Helper function to create the CV entrie(s) for an mzTab-M file.
 #'
-#' @note all paramters have to have the same length.
+#' @note all parameters have to have the same length.
 #'
 #' @param label `character` with the label of the CV(s)
 #'
@@ -1695,6 +1702,25 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
                uri = uri, field_prefix = "cv")
 }
 
+#' @description
+#'
+#' Helper function to create the database entrie(s) for an mzTab-M file.
+#'
+#' @note all parameters have to have the same length.
+#'
+#' @param database `character` with the name of the database(s)
+#'
+#' @param prefix `character` with the prefix used for the database(s)
+#'
+#' @param version `character` with the version of the database(s)
+#'
+#' @param uri `character`
+#'
+#' @return two column `character` `matrix`.
+#'
+#' @author Philippine Louail, Johannes Rainer
+#'
+#' @noRd
 .database <- function(database = character(), prefix = character(),
                       version = character(), uri = character()) {
     if (!length(database)) return(matrix(NA_character_, ncol = 2, nrow = 0))
@@ -1792,6 +1818,8 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
     }))
 }
 
+#' Helper to format the `ms_run[1-n]` label
+#'
 #' @param x would be sequence from 1 to number of runs
 #'
 #' @param name the name of the field
@@ -2212,12 +2240,9 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
 #'
 #' @param replace `logical` flag controlling how pre-existing instrument
 #'     metadata is handled:
-#'     \itemize{
-#'         \item `FALSE` (default): new values are appended to any existing
-#'         values.
-#'         \item `TRUE`: existing instrument metadata is discarded and
-#'         replaced entirely by the supplied arguments.
-#'     }
+#'     - `FALSE` (default): new values are appended to any existing values.
+#'     - `TRUE`: existing instrument metadata is discarded and replaced
+#'       entirely by the supplied arguments.
 #'
 #' @return
 #'
@@ -2333,12 +2358,9 @@ getMtdInstrument <- function(x = matrix()) {
 #'
 #' @param replace `logical` flag controlling how pre-existing database
 #'     metadata is handled:
-#'     \itemize{
-#'         \item `FALSE` (default): new values are appended to any existing
-#'         values.
-#'         \item `TRUE`: existing instrument metadata is discarded and
-#'         replaced entirely by the supplied arguments.
-#'     }
+#'     - `FALSE` (default): new values are appended to any existing values.
+#'     - `TRUE`: existing instrument metadata is discarded and replaced
+#'       entirely by the supplied arguments.
 #'
 #' @return
 #'
@@ -2461,12 +2483,9 @@ getMtdDatabase <- function(x = matrix()) {
 #'
 #' @param replace `logical` flag controlling how pre-existing CV
 #'     metadata is handled:
-#'     \itemize{
-#'         \item `FALSE` (default): new values are appended to any existing
-#'         values.
-#'         \item `TRUE`: existing instrument metadata is discarded and
-#'         replaced entirely by the supplied arguments.
-#'     }
+#'     - `FALSE` (default): new values are appended to any existing values.
+#'     - `TRUE`: existing instrument metadata is discarded and replaced
+#'       entirely by the supplied arguments.
 #'
 #' @return
 #'
@@ -2573,12 +2592,9 @@ getMtdCv <- function(x = matrix()) {
 #'
 #' @param replace `logical` flag controlling how pre-existing contact
 #'     metadata is handled:
-#'     \itemize{
-#'         \item `FALSE` (default): new values are appended to any existing
-#'         values.
-#'         \item `TRUE`: existing instrument metadata is discarded and
-#'         replaced entirely by the supplied arguments.
-#'     }
+#'     - `FALSE` (default): new values are appended to any existing values.
+#'     - `TRUE`: existing instrument metadata is discarded and replaced
+#'       entirely by the supplied arguments.
 #'
 #' @return
 #'
@@ -2694,12 +2710,9 @@ getMtdContact <- function(x = matrix()) {
 #'
 #' @param replace `logical` flag controlling how pre-existing contact
 #'     metadata is handled:
-#'     \itemize{
-#'         \item `FALSE` (default): new values are appended to any existing
-#'         values.
-#'         \item `TRUE`: existing instrument metadata is discarded and
-#'         replaced entirely by the supplied arguments.
-#'     }
+#'     - `FALSE` (default): new values are appended to any existing values.
+#'     - `TRUE`: existing instrument metadata is discarded and replaced
+#'       entirely by the supplied arguments.
 #'
 #' @return
 #'
@@ -2751,7 +2764,7 @@ setMethod("setMtdProtocol", "dfmatrix", function(x = matrix(),
             stop("Missing \"description\", provide a valid one.")
         if (!length(parameters))
             stop("Missing \"parameters\", provide a valid one.")
-        if (!all(sapply(type, isCvParameter)))
+        if (!all(vapply(type, isCvParameter, FUN.VALUE = logical(1))))
             stop("All entries in parameter 'type' have to be valid CV ",
                  "parameters", call. = FALSE)
         prot <- .mtd_get_field(x, "^protocol\\[\\d+\\]", exact = FALSE,
@@ -2809,10 +2822,10 @@ getMtdProtocol <- function(x = matrix()) {
         stop("Parameter 'name' is required", call. = FALSE)
     if (!length(type))
         stop("Parameter 'type' is required", call. = FALSE)
-    if (!all(sapply(type, isCvParameter)))
+    if (!all(vapply(type, isCvParameter, FUN.VALUE = logical(1))))
         stop("All entries in parameter 'type' have to be valid CV parameters",
              call. = FALSE)
-    l = length(name)
+    l <- length(name)
     s <- seq_len(l)
     res <- cbind(mtdFields(name = name, field_prefix = "protocol"), order = s)
     if (length(type)) {
@@ -2829,7 +2842,7 @@ getMtdProtocol <- function(x = matrix()) {
     if (length(parameter)) {
         res <- rbind(res, .mtd_parameters_fields("protocol", parameter, l))
     }
-    res[order(res[, 3L]), 1:2, drop = FALSE]
+    res[order(res[, 3L]), c(1,2), drop = FALSE]
 }
 
 
@@ -2862,12 +2875,9 @@ getMtdProtocol <- function(x = matrix()) {
 #' @param replace `logical` flag controlling how pre-existing field
 #'     metadata is handled. Valid only for indexed fields, unique fields are
 #'     always replaced.
-#'     \itemize{
-#'         \item `FALSE` (default): new values are appended to any existing
-#'         values.
-#'         \item `TRUE`: existing instrument metadata is discarded and
-#'         replaced entirely by the supplied arguments.
-#'     }
+#'     - `FALSE` (default): new values are appended to any existing values.
+#'     - `TRUE`: existing instrument metadata is discarded and replaced
+#'       entirely by the supplied arguments.
 #'
 #' @return
 #'

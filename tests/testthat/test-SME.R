@@ -178,7 +178,7 @@ test_that("smeCreate works", {
 })
 
 test_that("smeSort works and keeps all columns", {
-    df <- data.frame(SME_ID = 1:2,
+    df <- data.frame(SME_ID = c(1,2),
                      opt_custom = c("A", "B"),
                      SEH = c("SME", "SME"),
                      exp_mass_to_charge = c(700.5255, 452.2782),
@@ -193,7 +193,7 @@ test_that("smeSort works and keeps all columns", {
                  c("SEH", "SME_ID", "evidence_input_id", "exp_mass_to_charge",
                    "charge", "opt_custom"))
     expect_equal(res$SEH, c("SME", "SME"))
-    expect_equal(res$SME_ID, 1:2)
+    expect_equal(res$SME_ID, c(1,2))
     expect_equal(res$opt_custom, c("A", "B"))
 })
 

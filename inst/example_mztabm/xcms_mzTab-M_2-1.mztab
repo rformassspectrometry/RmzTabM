@@ -1,6 +1,20 @@
 MTD	mzTab-version	2.1.0-M
-MTD	mzTab-ID	xcms_mzTab-M_2-1
-MTD	software[1]	[MS, MS:1001582, xcms, 4.8.0]
+MTD	mzTab-ID	xcms_mzTab-M_2-1_v3
+MTD	instrument[1]-name	[MS, MS:1000449, LTQ Orbitrap,]
+MTD	instrument[1]-source	[MS, MS:1000073, ESI,]
+MTD	instrument[1]-analyzer[1]	[MS, MS:1000291, linear ion trap,]
+MTD	instrument[1]-detector	[MS, MS:1000253, electron multiplier,]
+MTD	software[1]	[MS, MS:1001582, xcms, 4.10.1]
+MTD	publication[1]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
+MTD	publication[2]	pubmed:21063943|doi:10.1007/978-1-60761-987-1_6
+MTD	contact[1]-name	author_1
+MTD	contact[1]-affiliation	EURAC
+MTD	contact[1]-email	author_1@mail.com
+MTD	contact[1]-orcid	0000-0000-0000-0001
+MTD	contact[2]-name	author_2
+MTD	contact[2]-affiliation	EURAC
+MTD	contact[2]-email	author_2@mail.com
+MTD	contact[2]-orcid	0000-0000-0000-0002
 MTD	quantification_method	[MS, MS:1001834, LC-MS label-free quantitation analysis, ]
 MTD	sample[1]	ko15.CDF
 MTD	sample[2]	ko16.CDF
@@ -12,20 +26,28 @@ MTD	sample[7]	wt21.CDF
 MTD	sample[8]	wt22.CDF
 MTD	ms_run[1]-location	ko15.CDF
 MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[1]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[2]-location	ko16.CDF
 MTD	ms_run[2]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[2]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[3]-location	ko21.CDF
 MTD	ms_run[3]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[3]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[4]-location	ko22.CDF
 MTD	ms_run[4]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[4]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[5]-location	wt15.CDF
 MTD	ms_run[5]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[5]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[6]-location	wt16.CDF
 MTD	ms_run[6]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[6]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[7]-location	wt21.CDF
 MTD	ms_run[7]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[7]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	ms_run[8]-location	wt22.CDF
 MTD	ms_run[8]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
+MTD	ms_run[8]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
 MTD	assay[1]	ko15.CDF
 MTD	assay[1]-sample_ref	sample[1]
 MTD	assay[1]-ms_run_ref	ms_run[1]
@@ -50,50 +72,46 @@ MTD	assay[7]-ms_run_ref	ms_run[7]
 MTD	assay[8]	wt22.CDF
 MTD	assay[8]-sample_ref	sample[8]
 MTD	assay[8]-ms_run_ref	ms_run[8]
-MTD	study_variable_group[1]	sample_group
+MTD	study_variable_group[1]	[,,sample_group,]
 MTD	study_variable_group[1]-description	Sample matrix column sample_group
 MTD	study_variable_group[1]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[1]-datatype	xsd:string
-MTD	study_variable_group[2]	experiment
+MTD	study_variable_group[1]-study_variable_ref	study_variable[1]|study_variable[2]
+MTD	study_variable_group[2]	[,,experiment,]
 MTD	study_variable_group[2]-description	Sample matrix column experiment
 MTD	study_variable_group[2]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[2]-datatype	xsd:string
+MTD	study_variable_group[2]-study_variable_ref	study_variable[3]|study_variable[4]|study_variable[5]|study_variable[6]
 MTD	study_variable[1]	KO
 MTD	study_variable[1]-assay_refs	assay[1]|assay[2]|assay[3]|assay[4]
 MTD	study_variable[1]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[1]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[1]-description	Variable sample_group, value KO
-MTD	study_variable[1]-group_refs	study_variable_group[1]
 MTD	study_variable[2]	WT
 MTD	study_variable[2]-assay_refs	assay[5]|assay[6]|assay[7]|assay[8]
 MTD	study_variable[2]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[2]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[2]-description	Variable sample_group, value WT
-MTD	study_variable[2]-group_refs	study_variable_group[1]
 MTD	study_variable[3]	exp1
 MTD	study_variable[3]-assay_refs	assay[1]|assay[5]
 MTD	study_variable[3]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[3]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[3]-description	Variable experiment, value exp1
-MTD	study_variable[3]-group_refs	study_variable_group[2]
 MTD	study_variable[4]	exp2
 MTD	study_variable[4]-assay_refs	assay[2]|assay[6]
 MTD	study_variable[4]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[4]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[4]-description	Variable experiment, value exp2
-MTD	study_variable[4]-group_refs	study_variable_group[2]
 MTD	study_variable[5]	exp3
 MTD	study_variable[5]-assay_refs	assay[3]|assay[7]
 MTD	study_variable[5]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[5]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[5]-description	Variable experiment, value exp3
-MTD	study_variable[5]-group_refs	study_variable_group[2]
 MTD	study_variable[6]	exp4
 MTD	study_variable[6]-assay_refs	assay[4]|assay[8]
 MTD	study_variable[6]-average_function	[MS, MS:1002962, mean, ]
 MTD	study_variable[6]-variation_function	[MS, MS:1002963, variation coefficient, ]
 MTD	study_variable[6]-description	Variable experiment, value exp4
-MTD	study_variable[6]-group_refs	study_variable_group[2]
 MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary
 MTD	cv[1]-version	4.1.138
@@ -106,18 +124,20 @@ MTD	cv[3]-label	STATO
 MTD	cv[3]-full_name	General purpose STATistics Ontology
 MTD	cv[3]-version	2026-04-20
 MTD	cv[3]-uri	https://www.ebi.ac.uk/ols4/ontologies/stato
-MTD	database[1]	[,, "no database", null ]
-MTD	database[1]-prefix	null
-MTD	database[1]-version	Unknown
-MTD	database[1]-uri	null
+MTD	cv[4]-label	MS_test
+MTD	cv[4]-full_name	PSI-MS controlled vocabulary
+MTD	cv[4]-version	4.1.11
+MTD	cv[4]-uri	https://purl.obolibrary.org/obo/ms.obo
+MTD	database[1]	[MIRIAM, MIR:00100079, HMDB, ]
+MTD	database[1]-prefix	hmdb
+MTD	database[1]-version	3.6
+MTD	database[1]-uri	http://www.hmdb.ca/
 MTD	small_molecule-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule_feature-quantification_unit	[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]
 MTD	small_molecule-identification_reliability	[MS, MS:1002896, compound identification confidence level, ]
+COM	This is just a file to test the export function.
 
-SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	abundance_study_variable[1]	abundance_study_variable[2]	abundance_study_variable[3]	abundance_study_variable[4]	abundance_study_variable[5]	abundance_study_variable[6]	abundance_variation_study_variable[1]	abundance_variation_study_variable[2]	abundance_variation_study_variable[3]	abundance_variation_study_variable[4]	abundance_variation_study_variable[5]	abundance_variation_study_variable[6]
-SML	1	null	null	null	null	null	null	null	null	null	4	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null
-
-SFH	SMF_ID	SME_ID_REFS	SME_ID_REF_ambiguity_code	adduct_ion	isotopomer	exp_mass_to_charge	charge	retention_time_in_seconds	retention_time_in_seconds_start	retention_time_in_seconds_end	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	opt_global_feature_id
+SFH	SMF_ID	SME_ID_REFS	SME_ID_REF_ambiguity_code	adduct_ion	isotopomer	exp_mass_to_charge	charge	retention_time_in_seconds	retention_time_in_seconds_start	retention_time_in_seconds_end	abundance_assay[1]	abundance_assay[2]	abundance_assay[3]	abundance_assay[4]	abundance_assay[5]	abundance_assay[6]	abundance_assay[7]	abundance_assay[8]	opt_global_global_feature_id
 SMF	1	null	null	null	null	200.100006103516	null	2902.63382922675	2882.60316302447	2922.66449542903	135162.428407749	506848.884266667	111657.261670206	169955.62859091	209929.433576849	141607.943949552	226853.693692024	138341.180952096	FT001
 SMF	2	null	null	null	null	205	null	2789.9005512558	2782.95486324401	2796.53064719492	1924712.01585714	1757150.9648	1383416.71600001	1180288.23946428	2129885.09357143	1634341.9855862	1623589.16537837	1354004.93486208	FT002
 SMF	3	null	null	null	null	206	null	2789.40482144152	2781.38918200882	2794.21878124394	213659.293920001	289500.67003846	164380.669404861	178285.697566665	253825.557279999	241844.442068965	240605.963052631	185399.474615384	FT003

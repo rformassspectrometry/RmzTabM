@@ -37,10 +37,16 @@
 #' - [getMtdProtocol()] and [setMtdProtocol()] for protocol information.
 #' - [getMtdField()] and [setMtdField()] for additional information.
 #'
-#' @section SMF section; adding or getting small feature abundance matrix:
+#' @section SML section; adding or getting small summary matrix:
 #'
 #' - `sml()`: returns the SML summary matrix of an `MzTabM` object.
+#'
+#' @section SMF section; adding or getting small feature abundance matrix:
+#'
 #' - `smf()`: returns the SMF feature abundance matrix of an `MzTabM` object.
+#'
+#' @section SME section; adding or getting small evidence matrix:
+#'
 #' - `sme()`: returns the SME evidence matrix of an `MzTabM` object.
 #'
 #' @param mtd Two-column `matrix` or `data.frame` with the MTD content (see
@@ -303,12 +309,4 @@ setAs("MzTabM", "list", function(from, to) {
     if (nrow(x@sme))
         l[["SME"]] <- x@sme
     l
-}
-
-#' Use the official validator to run a validity check including semantic
-#' validity
-#'
-#' @noRd
-.mztab_semantic_validation <- function(x) {
-    ## Use the validator... write content to temp file and run the validator.
 }

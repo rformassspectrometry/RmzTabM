@@ -49,7 +49,7 @@
 #' @examples
 #'
 #' ## Basic usage
-#' result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
+#' result <- readMzTabM(system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
 #'                                    package = "RmzTabM"))
 #' result
 #'
@@ -57,8 +57,6 @@
 readMzTabM <- function(path, ...) {
     if(!file.exists(path))
         stop("The file does not exist.")
-
-    ## TODO: call the validator on the file.
 
     lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
     if (length(which(!grepl("^\\s*$", lines))) == 0L)

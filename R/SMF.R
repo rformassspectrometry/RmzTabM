@@ -1,10 +1,3 @@
-## Code related to import/export of the SMF element
-
-################################################################################
-##    Create SMF section
-##
-################################################################################
-
 #' @title Create the mzTab-M Small Molecule Feature (SMF) Table
 #'
 #' @name SMF-export
@@ -35,9 +28,9 @@
 #'   **Important:** to support the optional additional parameters passed along
 #'   with `...` **all** parameters (such as `adduct_ion`,
 #'   `retention_time_in_seconds` etc) have to be **fully** spelled out. All
-#'   parameters are vectorized and recycled as needed to match the number of rows
-#'   in the abundance matrix. If their length is not equal to the number of rows
-#'   or 1, an error is raised.
+#'   parameters are vectorized and recycled as needed to match the number of
+#'   rows in the abundance matrix. If their length is not equal to the number
+#'   of rows or 1, an error is raised.
 #'
 #'   See also the [specification of the SMF section](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#64-small-molecule-feature-smf-section)
 #'   for details.
@@ -128,7 +121,7 @@
 #'     retention_time_in_seconds = rt_values,
 #'     adduct_ion = adducts,
 #'     ## Optional custom column example
-#'     global_custom_attribute = c("A", "B", "C")
+#'     custom_attribute = c("A", "B", "C")
 #' )
 #'
 #' ## The result contains the 'SFH' line prefix, standard columns, and
@@ -191,8 +184,3 @@ smfSort <- function(x) {
     "^abundance_assay\\[\\d+\\]$",
     "^opt_"
 )
-
-################################################################################
-##    Parse SMF section
-##
-################################################################################

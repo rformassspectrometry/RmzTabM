@@ -234,5 +234,5 @@ molecule feature (SMF) and small molecule (SML) sections.
 \code{\link[=setMtdContact]{setMtdContact()}}, \code{\link[=setMtdProtocol]{setMtdProtocol()}} and \code{\link[=setMtdField]{setMtdField()}}.
 }
 \author{
-Philippine Louail, Johannes Rainer
+Philippine Louail, Johannes Rainer, Gabriele Tomè
 }
