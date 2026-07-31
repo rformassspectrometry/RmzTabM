@@ -1,5 +1,11 @@
 # Changelog
 
+## RmzTabM version 0.99
+
+### Changes in version 0.99.0
+
+- Bioconductor submission.
+
 ## RmzTabM version 0.97
 
 ### Changes in version 0.97.20

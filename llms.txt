@@ -3,7 +3,7 @@
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/RmzTabM/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3AR-CMD-check-bioc)
+[![Test-R-universe](https://github.com/RforMassSpectrometry/RmzTabM/workflows/Test-R-universe/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3ATest-R-universe)
 [![codecov](https://codecov.io/gh/rformassspectrometry/RmzTabM/graph/badge.svg?token=v2UTVt3UrA)](https://codecov.io/gh/rformassspectrometry/RmzTabM)
 
 ## Welcome to **RmzTabM**!
