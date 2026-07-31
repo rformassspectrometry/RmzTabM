@@ -62,6 +62,11 @@ sme(object)
 
   `MzTabM` object.
 
+## Value
+
+See the help pages for the respective functions for information on their
+returned value(s).
+
 ## MTD section; adding or getting metadata
 
 Various functions are available to get or set metadata information of a

@@ -45,6 +45,11 @@ writeMzTabM(x, path, comments = character())
   `character` vector of comments to add to the file. The comments will
   be written after the `MTD` section and before any other section.
 
+## Value
+
+The function does not return a value but writes the content the
+specified file.
+
 ## Author
 
 Gabriele Tomè

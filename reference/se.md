@@ -19,6 +19,10 @@ The data set contains two abundance matrices (*assays*):
   assay `"raw"` but with missing values replaced by the MS signal
   measured in the expected peak area for the respective ions/features.
 
+## Value
+
+`data(se)` returns a `SummarizedExperiment`.
+
 ## Examples
 
 ``` r

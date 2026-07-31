@@ -84,6 +84,11 @@ data generation:
 - [`setMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)/[`getMtdField()`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md):
   set/get a Metadata Field in an MTD section.
 
+## Value
+
+Return values are described in the help pages of the respective
+functions.
+
 ## Note
 
 The general relationship between *ms_run*, *assay* and *sample*:

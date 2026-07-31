@@ -18,6 +18,14 @@ The *RmzTabM* package supports mzTab-M version **2.1**.
 
 ## Installation
 
+The package can be installed from Bioconductor with:
+
+``` r
+
+install.packages("BiocManager")
+BiocManager::install("RmzTabM")
+```
+
 ## General information on the mzTab-M format
 
 The mzTab-M format consists of four cross-referenced data tables:
@@ -449,7 +457,7 @@ pandoc.table(mtd(mzt) |> head(),
 |:---|:---|
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | MTBLS8735 |
-| software\[1\] | \[,,RmzTabM,RmzTabM version 0.97.20\] |
+| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.0\] |
 | quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
 | sample\[1\] | POOL |
 | sample\[1\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
@@ -535,8 +543,8 @@ mzt <- setMtdField(mzt, "software", "[MS, MS:1001582, xcms, 4.10.0]")
 getMtdField(mzt, "software")
 ```
 
-                              software[1]                           software[2]
-    "[,,RmzTabM,RmzTabM version 0.97.20]"      "[MS, MS:1001582, xcms, 4.10.0]" 
+                             software[1]                          software[2]
+    "[,,RmzTabM,RmzTabM version 0.99.0]"     "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -1511,13 +1519,16 @@ variation function defined in the MTD section.
 The Small Molecule (SME) table contains evidence for annotation of small
 molecule features (defined in the SMF section). These annotations can
 result from database searches using MS2 spectra or retention time and
-*m/z* searches against an in-house annotation database. Each row
-provides the evidence for one match. Multiple matches/annotations for
-the same input information can be reported in separate rows (but using
-the **same** value in the `"evidence_input_id"` column).
+*m/z* searches against an in-house or reference annotation database.
+Each row provides the evidence for one match. Multiple
+matches/annotations for the same input information can be reported in
+separate rows (but using the **same** value in the `"evidence_input_id"`
+column).
 
 Below we define a `data.frame` with the evidence for features from the
-previous section’s SMF table. In our example, …
+previous section’s SMF table. Note that this example is just for
+illustration purposes and does **not** provide a real annotation results
+for our example data set.
 
 ``` r
 
@@ -1610,11 +1621,11 @@ sessionInfo()
 
     other attached packages:
      [1] pander_0.6.6                SummarizedExperiment_1.43.0
-     [3] Biobase_2.73.1              GenomicRanges_1.65.1
+     [3] Biobase_2.73.2              GenomicRanges_1.65.1
      [5] Seqinfo_1.3.0               IRanges_2.47.2
-     [7] S4Vectors_0.51.5            BiocGenerics_0.59.10
+     [7] S4Vectors_0.51.6            BiocGenerics_0.59.10
      [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.97.20
+    [11] matrixStats_1.5.0           RmzTabM_0.99.0
 
     loaded via a namespace (and not attached):
      [1] cli_3.6.6           knitr_1.51          rlang_1.3.0
