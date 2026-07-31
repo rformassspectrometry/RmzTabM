@@ -45,6 +45,10 @@ for details and expected format/content).}
 
 \item{object}{\code{MzTabM} object.}
 }
+\value{
+See the help pages for the respective functions for information on their
+returned value(s).
+}
 \description{
 The \code{MzTabM} class is a simple container for the mzTab-M data/file content.
 Methods for this class allow adding or updating information and validating

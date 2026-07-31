@@ -3,6 +3,9 @@
 \name{MTD-export}
 \alias{MTD-export}
 \title{Defining and exporting the mzTab-M metadata table}
+\value{
+Return values are described in the help pages of the respective functions.
+}
 \description{
 The metadata section/table of the mzTab-M definition is comprehensive, but
 also tricky to define. The \emph{RmzTabM} package provides a variety of utility

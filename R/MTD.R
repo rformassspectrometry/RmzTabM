@@ -96,6 +96,10 @@
 #' @seealso [setMtdInstrument()], [setMtdDatabase()], [setMtdCv()],
 #'     [setMtdContact()], [setMtdProtocol()] and [setMtdField()].
 #'
+#' @return
+#'
+#' Return values are described in the help pages of the respective functions.
+#'
 #' @examples
 #'
 #' ## Building the mzTab-M metadata information from a `data.frame` with sample

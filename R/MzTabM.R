@@ -67,6 +67,11 @@
 #'
 #' @name MzTabM
 #'
+#' @return
+#'
+#' See the help pages for the respective functions for information on their
+#' returned value(s).
+#'
 #' @examples
 #'
 #' ## Create a minimal mzTab-M with only MTD content.

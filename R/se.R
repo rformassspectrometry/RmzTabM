@@ -23,6 +23,8 @@
 #'
 #' @name se
 #'
+#' @return `data(se)` returns a `SummarizedExperiment`.
+#'
 #' @examples
 #'
 #' ## Load the data

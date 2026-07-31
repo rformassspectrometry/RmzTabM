@@ -1,6 +1,6 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.97.20
+Version: 0.99.0
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
@@ -34,7 +34,7 @@ Description:
     allow to format and parse the individual sections of the mzTab-M format.
     These functions are designed to be re-used by other packages implementing
     import/export of results in mzTab-M.
-Depends: R (>= 4.4)
+Depends: R (>= 4.6)
 Encoding: UTF-8
 License: Artistic-2.0
 URL: https://github.com/RforMassSpectrometry/RmzTabM
@@ -55,7 +55,6 @@ Suggests:
     quarto,
     pander
 VignetteBuilder: quarto
-biocViews: Infrastructure, MassSpectrometry, Metabolomics, Proteomics,
-            Preprocessing
+biocViews: Infrastructure, MassSpectrometry, Metabolomics, Proteomics
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0

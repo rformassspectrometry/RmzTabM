@@ -3,6 +3,9 @@
 \name{se}
 \alias{se}
 \title{Quantified LC-MS preprocessing result test data from Metabonaut}
+\value{
+\code{data(se)} returns a \code{SummarizedExperiment}.
+}
 \description{
 The \code{se} variable is a \code{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment()}}
 object representing the results from a \emph{xcms}-based pre-processing of an

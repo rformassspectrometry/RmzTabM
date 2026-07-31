@@ -1,15 +1,12 @@
 # R implementation for mzTab-M
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/RmzTabM/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3AR-CMD-check-bioc)
 [![codecov](https://codecov.io/gh/rformassspectrometry/RmzTabM/graph/badge.svg?token=v2UTVt3UrA)](https://codecov.io/gh/rformassspectrometry/RmzTabM)
 
 ## Welcome to **RmzTabM**!
 
 This is the mzTab-M R API and reference implementation.
-
-> **_NOTE:_**  This is still actively developed and some part of the code base
-> might be changed. Please report any issues to help improve it!
 
 mzTab-M is intended as a reporting standard for quantitative results from
 metabolomics/lipodomics approaches. This format is further intended to provide
@@ -46,14 +43,14 @@ mzTab-M has been developed with a view to support the following general tasks:
 
 ## Installation
 
-The R package can be installed from GitHub using the following commands:
+The R package can be installed from Bioconductor using:
 
 ```r
 #' Install required packages
 install.packages("BiocManager")
 
-#' Install the repository
-BiocManager::install("RforMassSpectrometry/RmzTabM")
+#' Install the package
+BiocManager::install("RmzTabM")
 ```
 
 ## 🛠️ Development status

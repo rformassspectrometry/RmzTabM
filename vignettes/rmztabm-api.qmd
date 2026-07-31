@@ -30,6 +30,13 @@ The *RmzTabM* package supports mzTab-M version **2.1**.
 
 # Installation
 
+The package can be installed from Bioconductor with:
+
+```{r install_package, eval = FALSE}
+install.packages("BiocManager")
+BiocManager::install("RmzTabM")
+```
+
 # General information on the mzTab-M format
 
 The mzTab-M format consists of four cross-referenced data tables: metadata
@@ -888,13 +895,14 @@ function defined in the MTD section.
 The Small Molecule (SME) table contains evidence for annotation of small
 molecule features (defined in the SMF section). These annotations can result
 from database searches using MS2 spectra or retention time and *m/z* searches
-against an in-house annotation database. Each row provides the evidence for one
-match. Multiple matches/annotations for the same input information can be
-reported in separate rows (but using the **same** value in the
-`"evidence_input_id"` column).
+against an in-house or reference annotation database. Each row provides the
+evidence for one match. Multiple matches/annotations for the same input
+information can be reported in separate rows (but using the **same** value in
+the `"evidence_input_id"` column).
 
 Below we define a `data.frame` with the evidence for features from the previous
-section's SMF table. In our example, ...
+section's SMF table. Note that this example is just for illustration purposes
+and does **not** provide a real annotation results for our example data set.
 
 ```{r sme_df}
 ev_df <- data.frame(
