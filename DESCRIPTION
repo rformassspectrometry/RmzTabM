@@ -29,7 +29,8 @@ Authors@R: c(
 	   )
 Description:
     The RmzTabM package provides functions to read and write files in the
-    HUPO-PSI mzTab-M file format. This package represents the reference
+    HUPO-PSI mzTab-M file format for reporting of results from metabolomics and
+    lipidomics experiments. This package represents the reference
     implementation for mzTab-M import/export for R. Core, low level functions
     allow to format and parse the individual sections of the mzTab-M format.
     These functions are designed to be re-used by other packages implementing
