@@ -87,9 +87,10 @@ high-level functionality to simplify exporting experimental data in
 mzTab-M format.
 [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
 
-support for mzTab-M JSON format
+support for mzTab-M JSON format (will come eventually later)
 
-mzTab-M file validation
+mzTab-M file validation (will be added once the java validator for
+mzTab-M version 2.1 becomes available)
 
 👀 see also the package
 [NEWS](https://rformassspectrometry.github.io/RmzTabM/NEWS.md) for

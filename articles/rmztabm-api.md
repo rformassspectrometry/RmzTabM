@@ -10,7 +10,7 @@ respective metabolomics/lipidomics result objects in this format.
 For a general overview of the mzTab-M format see [this
 figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
 
-![](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+![](images/figure-mztab-sections.png)
 
 mzTab-M format
 
@@ -457,7 +457,7 @@ pandoc.table(mtd(mzt) |> head(),
 |:---|:---|
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | MTBLS8735 |
-| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.0\] |
+| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.1\] |
 | quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
 | sample\[1\] | POOL |
 | sample\[1\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
@@ -544,7 +544,7 @@ getMtdField(mzt, "software")
 ```
 
                              software[1]                          software[2]
-    "[,,RmzTabM,RmzTabM version 0.99.0]"     "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.99.1]"     "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -1625,7 +1625,7 @@ sessionInfo()
      [5] Seqinfo_1.3.0               IRanges_2.47.2
      [7] S4Vectors_0.51.6            BiocGenerics_0.59.10
      [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.99.0
+    [11] matrixStats_1.5.0           RmzTabM_0.99.1
 
     loaded via a namespace (and not attached):
      [1] cli_3.6.6           knitr_1.51          rlang_1.3.0

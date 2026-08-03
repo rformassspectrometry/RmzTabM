@@ -2,6 +2,10 @@
 
 ## RmzTabM version 0.99
 
+### Changes in version 0.99.1
+
+- Address Bioconductor review process comments.
+
 ### Changes in version 0.99.0
 
 - Bioconductor submission.
