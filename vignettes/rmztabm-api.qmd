@@ -24,7 +24,7 @@ metabolomics/lipidomics result objects in this format.
 
 For a general overview of the mzTab-M format see [this figure](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png).
 
-![mzTab-M format](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/img/media/figure-mztab-sections.png)
+![mzTab-M format](images/figure-mztab-sections.png)
 
 The *RmzTabM* package supports mzTab-M version **2.1**.
 

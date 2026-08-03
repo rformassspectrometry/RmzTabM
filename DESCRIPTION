@@ -1,6 +1,6 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
@@ -46,7 +46,9 @@ SystemRequirements:
 Imports:
     data.table,
     methods,
-    SummarizedExperiment
+    SummarizedExperiment,
+    stats,
+    utils
 Suggests:
     testthat,
     pkgdown,

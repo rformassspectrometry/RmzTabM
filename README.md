@@ -74,8 +74,9 @@ base R data types.
 - [X] high-level functionality to simplify exporting experimental data in
       mzTab-M
       format. [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
-- [ ] support for mzTab-M JSON format
-- [ ] mzTab-M file validation
+- [ ] support for mzTab-M JSON format (will come eventually later)
+- [ ] mzTab-M file validation (will be added once the java validator for mzTab-M
+      version 2.1 becomes available)
 
 :eyes: see also the package [NEWS](NEWS.md) for updates.
 
