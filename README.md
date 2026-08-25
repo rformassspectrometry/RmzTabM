@@ -2,6 +2,7 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Test-R-universe](https://github.com/RforMassSpectrometry/RmzTabM/workflows/Test-R-universe/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3ATest-R-universe)
+[![years in bioc](http://bioconductor.org/shields/years-in-bioc/RmzTabM.svg)](https://bioconductor.org/packages/RmzTabM)
 [![codecov](https://codecov.io/gh/rformassspectrometry/RmzTabM/graph/badge.svg?token=v2UTVt3UrA)](https://codecov.io/gh/rformassspectrometry/RmzTabM)
 
 ## Welcome to **RmzTabM**!
