@@ -317,9 +317,12 @@ setMethod("MzTabM", signature(mtd = "SummarizedExperiment"),
                   group_type = group_type, group_datatype = group_datatype,
                   group_unit = group_unit, ...))
               res <- MzTabM(mtd = mtdSort(m))
-              if (length(smfCols.))
+              if (length(smfCols.)) {
+                  res@mtd <- setMtdField(mtd(res), field = "mzTab-profile",
+                                    value = "M+F", replace = TRUE)
                   res@smf <- .smf_from_summarized_experiment(
                       mtd, smfCols. = smfCols., assayName = assayName)
+              }
               res
           })
 

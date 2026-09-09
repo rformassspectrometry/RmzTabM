@@ -4,6 +4,7 @@ test_that("writeMzTabM works", {
     mtd_block <- c(
         "MTD\tmzTab-version\t2.1.0-M",
         "MTD\tmzTab-ID\t1",
+        "MTD\tmzTab-profile\tM",
         "MTD\tcontact[1]-name\tJuergen Hartler",
         "MTD\tcontact[1]-email\tjuergen.hartler@uni-graz.at",
         "MTD\tcontact[1]-affiliation\tInstitute of Pharmaceutical Sciences, University of Graz, Universitaetsplatz 1/I, 8010 Graz, Austria",
@@ -227,40 +228,40 @@ test_that("writeMzTabM works", {
     x <- MzTabM(mtd = mtd_block)
     expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML in a pregenerated file
-    x <- list("MTD" = mtd_block, "SML" = SML_block)
+    x <- MzTabM(mtd = mtd_block, sml = SML_block)
     expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML+SMF in a pregenerated file
-    x <- list("MTD" = mtd_block, "SML" = SML_block, "SMF" = SMF_block)
+    x <- MzTabM(mtd = mtd_block, sml = SML_block, smf = SMF_block)
     expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SML+SMF+SME in a pregenerated file
-    x <- list("MTD" = mtd_block, "SML" = SML_block, "SMF" = SMF_block,
-              "SME" = SME_block)
+    x <- MzTabM(mtd = mtd_block, sml = SML_block, smf = SMF_block,
+              sme = SME_block)
     expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SMF in a pregenerated file
-    x <- list("MTD" = mtd_block, "SMF" = SMF_block)
+    x <- MzTabM(mtd = mtd_block, smf = SMF_block)
     expect_no_error(writeMzTabM(x, path = f))
     ## Test save MTD+SMF+SME in a pregenerated file
-    x <- list("MTD" = mtd_block, "SMF" = SMF_block, "SME" = SME_block)
+    x <- MzTabM(mtd = mtd_block, smf = SMF_block, sme = SME_block)
     expect_no_error(writeMzTabM(x, path = f))
 
     ## Test comments
-    x <- list("MTD" = mtd_block, "SML" = SML_block)
+    x <- MzTabM(mtd = mtd_block, sml = SML_block)
     expect_no_error(writeMzTabM(x, path = f, comments = "Comment 1"))
     expect_no_error(writeMzTabM(x, path = f,
                                  comments = c("Comment 1", "Comment 2")))
 
     ## Test save only MTD in a not-existing directory
     f <- file.path(tempdir(), "not_existing_dir", "example.mztab")
-    x <- list("MTD" = mtd_block)
+    x <- MzTabM(mtd = mtd_block)
     expect_no_error(writeMzTabM(x, path = f))
 
     ## Test save only MTD in a not-existing directory without extension
     f <- file.path(tempdir(), "not_existing_dir_2", "example_no_ext")
-    x <- list("MTD" = mtd_block)
+    x <- MzTabM(mtd = mtd_block)
     expect_no_error(writeMzTabM(x, path = f))
 
     ## Test save only MTD in a not-existing directory without filename
     f <- file.path(tempdir(), "not_existing_dir_2/")
-    x <- list("MTD" = mtd_block)
+    x <- MzTabM(mtd = mtd_block)
     expect_no_error(writeMzTabM(x, path = f))
 })

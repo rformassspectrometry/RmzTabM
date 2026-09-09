@@ -43,6 +43,8 @@ test_that(".database works", {
 test_that("mtdSkeleton works", {
     expect_error(mtdSkeleton(), "'id' is required")
     expect_error(mtdSkeleton(id = "1"), "'software' is required")
+    expect_error(mtdSkeleton(id = "1", software = "Fancy software",
+                     mztab_profile = "Invalid"), "'mztab_profile' is invalid")
     res <- mtdSkeleton(id = "1", software = "Fancy software")
     expect_true(is.matrix(res))
     expect_true(is.character(res))
@@ -1497,4 +1499,21 @@ test_that("mtdFromSampleData and mtdToSampleData works", {
     expect_equal(unname(res), c("QC", "A", "B"))
     res <- getMtdField(m, "study_variable\\[\\d\\]-assay_refs")
     expect_equal(unname(res), c("assay[1]", "assay[2]", "assay[3]"))
+})
+
+
+test_that(".mtdProtocol works", {
+    expect_error(.mtdProtocol(), "'name' is required")
+    expect_error(.mtdProtocol(name = "Mass Spectrometry"), "'type' is required")
+    expect_error(.mtdProtocol(name = "Mass Spectrometry", type = c("invalid")),
+                 "'type' have to be valid CV")
+
+    ## Check if duplicate correctl
+    res <- .mtdProtocol(name = c("Mass Spectrometry"),
+                    type = c("[CHMO, CHMO:0000470, mass spectrometry, ]",
+                             "[CHMO, CHMO:0000470, mass spectrometry, ]"),
+                    description = c("Eluting compounds were detected ...",
+                                    "Eluting compounds were detected ..."),
+                    parameter = c("[MS, MS:1000008, ionization type, [MS,MS:1000073, electrospray ionization, ]]"))
+    expect_equal(nrow(res), 4)
 })

@@ -4,6 +4,7 @@ test_that("readMzTabM works", {
     mtd_block <- c(
         "MTD\tmzTab-version\t2.1.0-M",
         "MTD\tmzTab-ID\t1",
+        "MTD\tmzTab-profile\tM",
         "MTD\tcontact[1]-name\tJuergen Hartler",
         "MTD\tcontact[1]-email\tjuergen.hartler@uni-graz.at",
         "MTD\tcontact[1]-affiliation\tInstitute of Pharmaceutical Sciences, University of Graz, Universitaetsplatz 1/I, 8010 Graz, Austria",
