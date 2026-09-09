@@ -232,6 +232,12 @@ setMethod("MzTabM", signature(mtd = "dfmatrix"),
                    sml = matrix(ncol = 0, nrow = 0),
                    smf = matrix(ncol = 0, nrow = 0),
                    sme = matrix(ncol = 0, nrow = 0)) {
+              profile <- paste0("M",
+                                ifelse(nrow(sml), "+S", ""),
+                                ifelse(nrow(smf), "+F", ""),
+                                ifelse(nrow(sme), "+E", ""))
+              mtd <- setMtdField(mtd, field = "mzTab-profile",
+                                 value = profile, replace = TRUE)
               res <- new("MzTabM", mtd = mtd, sml = sml, smf = smf, sme = sme)
               validObject(res)
               res
@@ -297,6 +303,10 @@ setAs("MzTabM", "list", function(from, to) {
         msg <- c(msg, "MTD has to be a matrix with two columns")
     if (r_sme &! r_smf)
         msg <- c(msg, "SMF section needs to be defined if SME is present")
+    profile <- getMtdField(x@mtd, "mzTab-profile")
+    if (r_mtd & !(profile %in% .PROFILES))
+        msg <- c(msg, paste0("Profile '", profile, "' invalid. Please provide ",
+                            "a valid set of parameter"))
     msg
 }
 

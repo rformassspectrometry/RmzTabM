@@ -1,6 +1,6 @@
 Package: RmzTabM
 Title: R API for the mzTab-M Reference Implementation
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: c(
     person(given = "Nils",
            family = "Hoffmann",
@@ -60,4 +60,4 @@ Suggests:
 VignetteBuilder: quarto
 biocViews: Infrastructure, MassSpectrometry, Metabolomics, Proteomics
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

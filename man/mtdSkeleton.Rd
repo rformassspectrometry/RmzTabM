@@ -26,7 +26,8 @@ mtdSkeleton(
     "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
   small_molecule_identification_reliability =
     "[MS, MS:1002896, compound identification confidence level, ]",
-  mztab_version = "2.1.0-M"
+  mztab_version = "2.1.0-M",
+  mztab_profile = "M"
 )
 }
 \arguments{
@@ -77,6 +78,8 @@ system used for giving reliability / confidence codes to small molecule
 identifications MUST be specified if not using the default codes.}
 
 \item{mztab_version}{\code{character(1)} defining the mzTab-M version of the file.}
+
+\item{mztab_profile}{\code{character(1)} defining the mzTab-M profile of the file.}
 }
 \value{
 two-column \code{character} \code{matrix} that should be expanded with

@@ -46,17 +46,27 @@ exportMethods(setMtdProtocol)
 exportMethods(sme)
 exportMethods(smf)
 exportMethods(sml)
-importFrom(SummarizedExperiment,SummarizedExperiment)
-importFrom(SummarizedExperiment,assay)
-importFrom(SummarizedExperiment,assayNames)
-importFrom(SummarizedExperiment,rowData)
-importFrom(data.table,fread)
-importFrom(data.table,setnames)
-importFrom(methods,new)
-importFrom(methods,validObject)
-importFrom(stats,reshape)
-importFrom(stats,setNames)
-importFrom(utils,packageVersion)
-importFrom(utils,write.table)
+importFrom(SummarizedExperiment,
+  SummarizedExperiment,
+  assay,
+  assayNames,
+  rowData
+)
+importFrom(data.table,
+  fread,
+  setnames
+)
+importFrom(methods,
+  new,
+  validObject
+)
+importFrom(stats,
+  reshape,
+  setNames
+)
+importFrom(utils,
+  packageVersion,
+  write.table
+)
 importMethodsFrom(SummarizedExperiment,colData)
 importMethodsFrom(SummarizedExperiment,rowData)
