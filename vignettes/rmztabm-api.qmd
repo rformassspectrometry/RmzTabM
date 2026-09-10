@@ -473,12 +473,13 @@ individual helper functions, starting with the **Core information**: this
 comprises general information about the experiment. A minimal set of fields
 can be compiled using the `mtdSkeleton()` function. We have to provide an ID
 for the experiment and in addition we specify the software used to process the
-data:
+data. Since this example adds all sections to MzTab-M, the profile field is already set to `"M+S+F+E"`:
 
 ```{r mtdskeleton}
 mtd <- mtdSkeleton(
     id = "EXP_001",
-    software = "[MS, MS:1001582, xcms, 4.1.0]"
+    software = "[MS, MS:1001582, xcms, 4.1.0]",
+    mztab_profile = "M+S+F+E"
 )
 ```
 

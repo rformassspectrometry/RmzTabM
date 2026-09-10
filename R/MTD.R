@@ -393,6 +393,15 @@ mtdFields <- function(..., field_prefix = "") {
 #'
 #' @param mztab_version `character(1)` defining the mzTab-M version of the file.
 #'
+#' @param mztab_profile `character(1)` defining the mzTab-M profile of the file.
+#'     The available profiles are:
+#'     - `"M"`: Only Metadata
+#'     - `"M+S"`: Metadata + Small Molecule section ("SML")
+#'     - `"M+F"`: Metadata + Small Molecule Feature section ("SMF")
+#'     - `"M+S+F"`: Metadata + SML + SMF
+#'     - `"M+F+E"`: Metadata + SMF + Small Molecule Evidence section ("SME")
+#'     - `"M+S+F+E"`: Metadata + SML + SMF + SME
+#'
 #' @return two-column `character` `matrix` that should be expanded with
 #'     additional fields (such as *title*, *description* etc) and
 #'     information (with the help from the `mtdFields()` function).
@@ -482,14 +491,19 @@ mtdSkeleton <- function(id = character(),
                         small_molecule_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
                         small_molecule_feature_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
                         small_molecule_identification_reliability = "[MS, MS:1002896, compound identification confidence level, ]",
-                        mztab_version = "2.1.0-M") {
+                        mztab_version = "2.1.0-M",
+                        mztab_profile = c("M", "M+S", "M+F", "M+S+F",
+                                          "M+F+E", "M+S+F+E")) {
     if (!length(id)) stop("Parameter 'id' is required", call. = FALSE)
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
     if (!isCvParameter(software))
         software <- paste0("[,,", software, ",]")
+    mztab_profile <- match.arg(mztab_profile)
+
     sk <- rbind(
         c("mzTab-version", mztab_version),
         c("mzTab-ID", id),
+        c("mzTab-profile", mztab_profile),
         mtdFields(software, field_prefix = "software"),
         c("quantification_method", quantification_method),
         .cv(cv_label, cv_full_name, cv_version, cv_uri),
@@ -1922,6 +1936,7 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
 .MTD_FIELD_ORDER <- c(
     "^mzTab-version",
     "^mzTab-ID",
+    "^mzTab-profile",
     "^title",
     "^description",
     "^sample_processing",
@@ -1954,6 +1969,7 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
 .MTD_UNIQUE_FIELD <- c(
     "mzTab-version",
     "mzTab-ID",
+    "mzTab-profile",
     "title",
     "description",
     "quantification_method",
@@ -1963,6 +1979,18 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
     "colunit-small_molecule$",
     "colunit-small_molecule_feature",
     "colunit-small_molecule_evidence"
+)
+
+#' Define the available profiles for mzTab-M 2.1
+#'
+#' @noRd
+.PROFILES <- c(
+    "M",
+    "M+S",
+    "M+F",
+    "M+S+F",
+    "M+F+E",
+    "M+S+F+E"
 )
 
 ################################################################################
@@ -2943,7 +2971,7 @@ setMethod("setMtdField", "dfmatrix", function(x = matrix(),
             }
             new_field <- mtdFields(value, field_prefix = field)
         }
-        x <- mtdSort(rbind(x, new_field))
+        x <- mtdSort(rbind(setNames(x, colnames(new_field)), new_field))
     }
     x
 })

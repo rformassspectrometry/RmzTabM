@@ -4,6 +4,7 @@ test_that("readMzTabM works", {
     mtd_block <- c(
         "MTD\tmzTab-version\t2.1.0-M",
         "MTD\tmzTab-ID\t1",
+        "MTD\tmzTab-profile\tM",
         "MTD\tcontact[1]-name\tJuergen Hartler",
         "MTD\tcontact[1]-email\tjuergen.hartler@uni-graz.at",
         "MTD\tcontact[1]-affiliation\tInstitute of Pharmaceutical Sciences, University of Graz, Universitaetsplatz 1/I, 8010 Graz, Austria",
@@ -243,7 +244,7 @@ test_that("readMzTabM works", {
     ## SML section is present and is a matrix when SMH is in file
     f <- write_tmp(mtd_block, "\n", SML_block)
     res <- readMzTabM(f)
-    res_l <- as.list(res)
+    res_l <- as(res, "list")
     expect_true(!is.null(res_l[["SML"]]))
     expect_true(is.matrix(res_l[["SML"]]))
     expected_cols <- strsplit(SML_block[1], "\t")[[1]]

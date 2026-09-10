@@ -1,5 +1,9 @@
 # RmzTabM version 0.99
 
+## Changes in version 0.99.2
+
+- Adding support to `"mzTab-profile"` field.
+
 ## Changes in version 0.99.1
 
 - Address Bioconductor review process comments.
