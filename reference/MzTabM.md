@@ -128,7 +128,7 @@ m <- MzTabM(mtd = mtdSkeleton(id = "001", software = "[,,RmzTabM,]"))
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 23 rows.
+#>  MTD section with 24 rows.
 
 ## Add instrument information to the MTD section
 m <- setMtdInstrument(m, name = "[MS, MS:1000449, LTQ Orbitrap,]",
@@ -138,7 +138,7 @@ m <- setMtdInstrument(m, name = "[MS, MS:1000449, LTQ Orbitrap,]",
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 27 rows.
+#>  MTD section with 28 rows.
 getMtdInstrument(m)
 #>                       instrument[1]-name 
 #>        "[MS, MS:1000449, LTQ Orbitrap,]" 
@@ -157,7 +157,7 @@ m <- setMtdDatabase(m, name = "[MIRIAM, MIR:00100079, HMDB, ]",
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 27 rows.
+#>  MTD section with 28 rows.
 getMtdDatabase(m)
 #>                      database[1]               database[1]-prefix 
 #> "[MIRIAM, MIR:00100079, HMDB, ]"                           "hmdb" 
@@ -172,7 +172,7 @@ m <- setMtdCv(m, label = "MS",
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 31 rows.
+#>  MTD section with 32 rows.
 getMtdCv(m)
 #>                                                               cv[1]-label 
 #>                                                                      "MS" 
@@ -214,7 +214,7 @@ m <- setMtdContact(m, name = "Name Surname",
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 35 rows.
+#>  MTD section with 36 rows.
 getMtdContact(m)
 #>         contact[1]-name  contact[1]-affiliation        contact[1]-email 
 #>          "Name Surname"                "PSI-MS" "name.surname@mail.com" 
@@ -230,7 +230,7 @@ m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 39 rows.
+#>  MTD section with 40 rows.
 getMtdProtocol(m)
 #>                                                                protocol[1]-name 
 #>                                                             "Mass Spectrometry" 
@@ -247,7 +247,7 @@ m <- setMtdField(m, field = "publication",
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 40 rows.
+#>  MTD section with 41 rows.
 getMtdField(m, field = "publication")
 #>                                    publication[1] 
 #> "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6" 

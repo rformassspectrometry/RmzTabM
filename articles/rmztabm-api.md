@@ -20,11 +20,9 @@ The *RmzTabM* package supports mzTab-M version **2.1**.
 
 The package can be installed from Bioconductor with:
 
-``` r
-
-install.packages("BiocManager")
-BiocManager::install("RmzTabM")
-```
+\
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"BiocManager"``)`\
+`BiocManager``::`[`install`](https://bioconductor.github.io/BiocManager/reference/install.html)`(``"RmzTabM"``)`
 
 ## General information on the mzTab-M format
 
@@ -57,10 +55,8 @@ For a description of the mzTab-M format and the set of mandatory and
 optional fields refer to the official [format
 definition](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc).
 
-``` r
-
-library(RmzTabM)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`RmzTabM`](https://github.com/RforMassSpectrometry/RmzTabM)`)`
 
 ### High-level, user faced functions
 
@@ -92,11 +88,9 @@ data.
 > [`mtdFromSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)
 > to generate a metadata section from a *sample* `data.frame`.
 
-``` r
-
-#' required packages
-library(SummarizedExperiment)
-```
+\
+`#' required packages`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`SummarizedExperiment`](https://bioconductor.org/packages/SummarizedExperiment)`)`
 
 #### Get the *Metabonaut* result object
 
@@ -109,12 +103,10 @@ The result from the *xcms*-based preprocessing, a `SummarizedExperiment`
 object, is included within the *RmzTabM* package as the `se` data set,
 which we load below.
 
-``` r
-
-#' Load the Metabonaut preprocessing result
-data(se)
-se
-```
+\
+`#' Load the Metabonaut preprocessing result`\
+[`data`](https://rdrr.io/r/utils/data.html)`(``se``)`\
+`se`
 
     class: SummarizedExperiment
     dim: 9068 10
@@ -130,12 +122,10 @@ se
 The object contains sample information in
 [`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
 
-``` r
-
-library(pander)
-pandoc.table(colData(se) |> as.data.frame(),
-             style = "rmarkdown", split.table = Inf)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`pander`](https://rapporter.github.io/pander/)`)`\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(`[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)`` ``|>`` `[`as.data.frame`](https://rdrr.io/r/base/as.data.frame.html)`(``)``,`\
+`             style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |   | sample_name | derived_spectra_data_file | metabolite_asssignment_file | source_name | organism | blood_sample_type | sample_type | age | unit | phenotype | injection_index | species | tissue | polarity | instrument |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -153,11 +143,9 @@ pandoc.table(colData(se) |> as.data.frame(),
 LC-MS feature definitions and characteristics in its
 [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
 
-``` r
-
-pandoc.table(rowData(se) |> as.data.frame() |> head(),
-             style = "rmarkdown", split.table = Inf)
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(`[`rowData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)`` ``|>`` `[`as.data.frame`](https://rdrr.io/r/base/as.data.frame.html)`(``)`` ``|>`` `[`head`](https://rdrr.io/r/utils/head.html)`(``)``,`\
+`             style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |            | mzmed | mzmin | mzmax | rtmed | rtmin | rtmax | npeaks | CTR | CVD | QC  | ms_level |
 |:----------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|:---:|:---:|:---:|:--------:|
@@ -172,10 +160,8 @@ and has two *assays* with feature abundances, one with the original
 integrated peak areas of identified chromatographic peaks and one with
 additional gap-filled abundances.
 
-``` r
-
-assayNames(se)
-```
+\
+[`assayNames`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)`
 
     [1] "raw"        "raw_filled"
 
@@ -191,10 +177,8 @@ and related measurements is ideally added to the
 For the present data set sample characteristics such as the species and
 tissue are defined in columns `"species"` and `"tissue"`:
 
-``` r
-
-colData(se)$species
-```
+\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``species`
 
      [1] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
      [2] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
@@ -207,10 +191,8 @@ colData(se)$species
      [9] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
     [10] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"
 
-``` r
-
-colData(se)$tissue
-```
+\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``tissue`
 
      [1] "[BTO, BTO:0000133, blood serum, ]"  "[BTO, BTO:0000131, blood plasma, ]"
      [3] "[BTO, BTO:0000131, blood plasma, ]" "[BTO, BTO:0000133, blood serum, ]"
@@ -229,10 +211,8 @@ Also measurement-related information are defined in the
 [`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html),
 including the polarity:
 
-``` r
-
-colData(se)$polarity
-```
+\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``polarity`
 
      [1] "positive" "positive" "positive" "positive" "positive" "positive"
      [7] "positive" "positive" "positive" "positive"
@@ -253,40 +233,32 @@ helper functions. We use for example the content of the column
 columns `"species"`, `"tissue"` and `"sample_type"` is used for mzTab-M
 sample fields `species`, `tissue` and `sample_type`.
 
-``` r
-
-colData(se)$sample_name
-```
+\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``sample_name`
 
      [1] "POOL" "A"    "B"    "POOL" "C"    "D"    "POOL" "E"    "F"    "POOL"
 
-``` r
-
-#' define mapping of `colData()` column names to mzTab-M sample fields
-scols <- sampleCols(sample = "sample_name", species = "species",
-                    tissue = "tissue", sample_type = "sample_type")
-```
+\
+`` #' define mapping of `colData()` column names to mzTab-M sample fields ``\
+`scols`` ``<-`` `[`sampleCols`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)`(``sample ``=`` ``"sample_name"``, species ``=`` ``"species"``,`\
+`                    tissue ``=`` ``"tissue"``, sample_type ``=`` ``"sample_type"``)`
 
 Similarly we specify columns from the same
 [`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
 with information on individual MS runs (and assays):
 
-``` r
-
-#' Define columns for MS run and assays
-mscols <- msRunCols(location = "derived_spectra_data_file",
-                    instrument_ref = "instrument", scan_polarity = "polarity")
-acols <- assayCols(assay = "derived_spectra_data_file")
-```
+\
+`#' Define columns for MS run and assays`\
+`mscols`` ``<-`` `[`msRunCols`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)`(``location ``=`` ``"derived_spectra_data_file"``,`\
+`                    instrument_ref ``=`` ``"instrument"``, scan_polarity ``=`` ``"polarity"``)`\
+`acols`` ``<-`` `[`assayCols`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFromSampleData.md)`(``assay ``=`` ``"derived_spectra_data_file"``)`
 
 The column `"derived_spectra_data_file"` contains the MS data file name
 which we use both to define the MS runs and assays (assuming thus a 1:1
 mapping between them).
 
-``` r
-
-colData(se)$derived_spectra_data_file
-```
+\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``derived_spectra_data_file`
 
      [1] "FILES/MS_QC_POOL_1_POS.mzML" "FILES/MS_A_POS.mzML"
      [3] "FILES/MS_B_POS.mzML"         "FILES/MS_QC_POOL_2_POS.mzML"
@@ -303,28 +275,22 @@ defined in
 [`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
 columns `"blood_sample_type"`, `"age"` and `"phenotype"`.
 
-``` r
-
-#' technical variable: the sample matrix
-colData(se)$blood_sample_type
-```
+\
+`#' technical variable: the sample matrix`\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``blood_sample_type`
 
      [1] "blood serum"  "blood plasma" "blood plasma" "blood serum"  "blood plasma"
      [6] "blood plasma" "blood serum"  "blood plasma" "blood plasma" "blood serum" 
 
-``` r
-
-#' phenotype of study samples or QC for QC samples
-colData(se)$phenotype
-```
+\
+`#' phenotype of study samples or QC for QC samples`\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``phenotype`
 
      [1] "QC"  "CVD" "CTR" "QC"  "CTR" "CVD" "QC"  "CTR" "CVD" "QC" 
 
-``` r
-
-#' age of study participants; NA for QC samples
-colData(se)$age
-```
+\
+`#' age of study participants; NA for QC samples`\
+[`colData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``age`
 
      [1] NA 53 30 NA 66 36 NA 66 44 NA
 
@@ -336,20 +302,18 @@ Parameter `groups` defines the column names of the
 [`colData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)
 to be used as mzTab-M *study variable groups*.
 
-``` r
-
-mzt <- MzTabM(se,
-              id = "MTBLS8735",
-              sampleCols = scols,
-              msRunCols = mscols,
-              assayCols = acols,
-              groups = c("age", "phenotype", "blood_sample_type"))
-mzt
-```
+\
+`mzt`` ``<-`` `[`MzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)`(``se``,`\
+`              id ``=`` ``"MTBLS8735"``,`\
+`              sampleCols ``=`` ``scols``,`\
+`              msRunCols ``=`` ``mscols``,`\
+`              assayCols ``=`` ``acols``,`\
+`              groups ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"age"``, ``"phenotype"``, ``"blood_sample_type"``)``)`\
+`mzt`
 
     Object of class MzTabM
     mzTab-M version 2.1.0-M
-     MTD section with 181 rows.
+     MTD section with 182 rows.
 
 This `MzTabM` object contains only metadata information, but no
 abundances/feature data yet. Also, some general metadata are still
@@ -368,11 +332,9 @@ characteristics. These are usually available in the
 `SummarizedExperiment`s
 [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
 
-``` r
-
-pandoc.table(rowData(se) |> as.data.frame() |> head(),
-            style = "rmarkdown", split.table = Inf)
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(`[`rowData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)`` ``|>`` `[`as.data.frame`](https://rdrr.io/r/base/as.data.frame.html)`(``)`` ``|>`` `[`head`](https://rdrr.io/r/utils/head.html)`(``)``,`\
+`            style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |            | mzmed | mzmin | mzmax | rtmed | rtmin | rtmax | npeaks | CTR | CVD | QC  | ms_level |
 |:----------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|:---:|:---:|:---:|:--------:|
@@ -392,10 +354,8 @@ of the individual features from the `SummarizedExperiment`, which we add
 as a column `"feature_id"` to the
 [`rowData()`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html):
 
-``` r
-
-rowData(se)$feature_id <- rownames(se)
-```
+\
+[`rowData`](https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html)`(``se``)``$``feature_id`` ``<-`` `[`rownames`](https://rdrr.io/r/base/colnames.html)`(``se``)`
 
 Similar to the metadata column mappings above, we define a mapping of
 SMF fields to
@@ -404,12 +364,10 @@ columns using the
 [`smfCols()`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)
 helper function:
 
-``` r
-
-smf_cols <- smfCols(exp_mass_to_charge = "mzmed",
-                    retention_time_in_seconds = "rtmed",
-                    feature_id = "feature_id")
-```
+\
+`smf_cols`` ``<-`` `[`smfCols`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)`(``exp_mass_to_charge ``=`` ``"mzmed"``,`\
+`                    retention_time_in_seconds ``=`` ``"rtmed"``,`\
+`                    feature_id ``=`` ``"feature_id"``)`
 
 Providing these additional SMF mapping in the
 [`MzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)
@@ -417,23 +375,21 @@ call above will compile a `MzTabM` object with an MTD and SMF section
 from the `SummarizedExperiment`. Parameter `assayName` defines which of
 the `SummarizedExperiment`’s assays will be used the SMF section.
 
-``` r
-
-#' Create a MTD+SMF mzTab-M object from the SummarizedExperiment
-mzt <- MzTabM(se,
-              id = "MTBLS8735",
-              sampleCols = scols,
-              msRunCols = mscols,
-              assayCols = acols,
-              groups = c("age", "phenotype", "blood_sample_type"),
-              smfCols. = smf_cols,
-              assayName = "raw_filled")
-mzt
-```
+\
+`#' Create a MTD+SMF mzTab-M object from the SummarizedExperiment`\
+`mzt`` ``<-`` `[`MzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)`(``se``,`\
+`              id ``=`` ``"MTBLS8735"``,`\
+`              sampleCols ``=`` ``scols``,`\
+`              msRunCols ``=`` ``mscols``,`\
+`              assayCols ``=`` ``acols``,`\
+`              groups ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"age"``, ``"phenotype"``, ``"blood_sample_type"``)``,`\
+`              smfCols. ``=`` ``smf_cols``,`\
+`              assayName ``=`` ``"raw_filled"``)`\
+`mzt`
 
     Object of class MzTabM
     mzTab-M version 2.1.0-M
-     MTD section with 181 rows.
+     MTD section with 182 rows.
      SMF section with 9068 rows and 22 columns.
 
 > **Note**
@@ -447,28 +403,24 @@ This `mzt` variable contains now the mzTab-M content that could be
 extracted from the `SummarizedExperiment`. The first rows of the
 metadata section are:
 
-``` r
-
-pandoc.table(mtd(mzt) |> head(),
-            style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(`[`mtd`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)`(``mzt``)`` ``|>`` `[`head`](https://rdrr.io/r/utils/head.html)`(``)``,`\
+`            style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |   | values |
 |:---|:---|
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | MTBLS8735 |
-| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.1\] |
+| mzTab-profile | M+F |
+| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.2\] |
 | quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
 | sample\[1\] | POOL |
-| sample\[1\]-species\[1\] | \[NCBITaxon, NCBITaxon:9606, Homo sapiens, \] |
 
 And the first lines of the SMF section:
 
-``` r
-
-pandoc.table(smf(mzt) |> head(),
-            style = "rmarkdown", split.table = Inf)
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(`[`smf`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM.md)`(``mzt``)`` ``|>`` `[`head`](https://rdrr.io/r/utils/head.html)`(``)``,`\
+`            style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |   | SFH | SMF_ID | SME_ID_REFS | SME_ID_REF_ambiguity_code | adduct_ion | isotopomer | exp_mass_to_charge | charge | retention_time_in_seconds | retention_time_in_seconds_start | retention_time_in_seconds_end | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | abundance_assay\[7\] | abundance_assay\[8\] | abundance_assay\[9\] | abundance_assay\[10\] | opt_global_feature_id |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -493,10 +445,8 @@ are not added by default. The
 function can be used to get the set of defined controlled vocabularies
 (ontologies) in the `MzTabM` object:
 
-``` r
-
-getMtdCv(mzt)
-```
+\
+[`getMtdCv`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md)`(``mzt``)`
 
                                                                   cv[1]-label
                                                                          "MS"
@@ -525,51 +475,43 @@ getMtdCv(mzt)
 
 We therefore need to add the two missing vocabularies:
 
-``` r
-
-mzt <- setMtdCv(mzt, label = c("BTO", "NCBITaxon"),
-                full_name = c("The BRENDA Tissue Ontology (BTO)",
-                              "NCBI organismal classification"),
-                version = c("2021-10-26", "2025-12-03"),
-                uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
-                        "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"))
-```
+\
+`mzt`` ``<-`` `[`setMtdCv`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdCv.md)`(``mzt``, label ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"BTO"``, ``"NCBITaxon"``)``,`\
+`                full_name ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"The BRENDA Tissue Ontology (BTO)"``,`\
+`                              ``"NCBI organismal classification"``)``,`\
+`                version ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"2021-10-26"``, ``"2025-12-03"``)``,`\
+`                uri ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"https://www.ebi.ac.uk/ols4/ontologies/bto"``,`\
+`                        ``"https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"``)``)`
 
 Also, we add *xcms* as software to the `MzTabM`:
 
-``` r
-
-mzt <- setMtdField(mzt, "software", "[MS, MS:1001582, xcms, 4.10.0]")
-getMtdField(mzt, "software")
-```
+\
+`mzt`` ``<-`` `[`setMtdField`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)`(``mzt``, ``"software"``, ``"[MS, MS:1001582, xcms, 4.10.0]"``)`\
+[`getMtdField`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)`(``mzt``, ``"software"``)`
 
                              software[1]                          software[2]
-    "[,,RmzTabM,RmzTabM version 0.99.1]"     "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.99.2]"     "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
-``` r
-
-#' Adding MS instrument information.
-mzt <- setMtdInstrument(
-    mzt, name = "[MS, MS:1002584, AB Sciex TripleTOF 5600+, ]",
-    source = "[MS, MS:1000073, ESI, ]",
-    analyzer = c(`analyzer[1]` =
-                     "[MS, MS:1003763, quadrupole time-of-flight instrument, ]"),
-    detector = "[,,null,null]")
-```
+\
+`#' Adding MS instrument information.`\
+`mzt`` ``<-`` `[`setMtdInstrument`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdInstrument.md)`(`\
+`    ``mzt``, name ``=`` ``"[MS, MS:1002584, AB Sciex TripleTOF 5600+, ]"``,`\
+`    source ``=`` ``"[MS, MS:1000073, ESI, ]"``,`\
+`    analyzer ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``` `analyzer[1]`  ```=`\
+`                     ``"[MS, MS:1003763, quadrupole time-of-flight instrument, ]"``)``,`\
+`    detector ``=`` ``"[,,null,null]"``)`
 
 And at last we add also contact information:
 
-``` r
-
-mzt <- setMtdContact(
-    mzt, name = c("Johannes Rainer", "Philippine Louail"),
-    affiliation= c("Institute for Biomedicine, Eurac Research, Bolzano, Italy",
-                   "Institute for Biomedicine, Eurac Research, Bolzano, Italy"),
-    email = c("johannes.rainer@eurac.edu", "philippine.louail@eurac.edu"),
-    orcid = c("0000-0002-6977-7147", "0009-0007-5429-6846"))
-```
+\
+`mzt`` ``<-`` `[`setMtdContact`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdContact.md)`(`\
+`    ``mzt``, name ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Johannes Rainer"``, ``"Philippine Louail"``)``,`\
+`    affiliation``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Institute for Biomedicine, Eurac Research, Bolzano, Italy"``,`\
+`                   ``"Institute for Biomedicine, Eurac Research, Bolzano, Italy"``)``,`\
+`    email ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"johannes.rainer@eurac.edu"``, ``"philippine.louail@eurac.edu"``)``,`\
+`    orcid ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"0000-0002-6977-7147"``, ``"0009-0007-5429-6846"``)``)`
 
 Now we have a complete mzTab-M content compiled and can proceed to
 export it.
@@ -583,10 +525,8 @@ file was generated successfully, returning only a single Info message.
 This message notes the absence of the SML section, which is expected
 given that we intentionally generated an MTD+SMF file.
 
-``` r
-
-writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
-```
+\
+[`writeMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)`(``mzt``, path ``=`` `[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
 
 #### Importing an MTD+SMF mzTab-M file
 
@@ -595,15 +535,13 @@ The mzTab-M file generated above can be read back into R using the
 function. The file in verified usign the mzTab-M validator and loaded
 into a `MzTabM` object.
 
-``` r
-
-mzt_r <- readMzTabM(file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
-mzt_r
-```
+\
+`mzt_r`` ``<-`` `[`readMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`\
+`mzt_r`
 
     Object of class MzTabM
     mzTab-M version 2.1.0-M
-     MTD section with 202 rows.
+     MTD section with 203 rows.
      SMF section with 9068 rows and 22 columns.
 
 Now we have a `MzTabM` object with the MTD and SMF sections loaded. To
@@ -618,16 +556,14 @@ are in the optional SMF field `opt_global_feature_id`. We also specify
 the mapping of the SMF fields to the original `rowData` columns using
 the `smfCols` define above.
 
-``` r
-
-se_r <- makeSummarizedExperimentFromMzTabM(
-    mzt_r,
-    rowIdCol = "opt_global_feature_id",
-    smfCols. = smf_cols,
-    assayName = "raw_filled"
-)
-se_r
-```
+\
+`se_r`` ``<-`` `[`makeSummarizedExperimentFromMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.md)`(`\
+`    ``mzt_r``,`\
+`    rowIdCol ``=`` ``"opt_global_feature_id"``,`\
+`    smfCols. ``=`` ``smf_cols``,`\
+`    assayName ``=`` ``"raw_filled"`\
+`)`\
+`se_r`
 
     class: SummarizedExperiment
     dim: 9068 10
@@ -680,21 +616,19 @@ each measured at two different time points. An additional column
 *genotype* specifies the genotype of the individual samples and a column
 *operator* the initials of the researcher extracting the samples.
 
-``` r
-
-#' Define a simple data.frame of the measured samples of an experiment
-exp <- data.frame(
-    sample_name = c("S1_T1", "S1_T2", "S2_T1", "S2_T2", "S3_T1", "S3_T2"),
-    sample_id = c("S1", "S1", "S2", "S2", "S3", "S3"),
-    timepoint = c("0h", "6h", "0h", "6h", "0h", "6h"),
-    genotype = c("WT", "WT", "KO", "KO", "KO", "KO"),
-    operator = c("BB", "BB", "BB", "BB", "FB", "FB"),
-    file_name = c("s1-t1.mzML", "s1-t2.mzML", "s2-t1.mzML", "s2-t2.mzML",
-                  "s3-t1.mzML", "s3-t2.mzML")
-)
-
-pandoc.table(exp, style = "rmarkdown", split.table = Inf)
-```
+\
+`#' Define a simple data.frame of the measured samples of an experiment`\
+`exp`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
+`    sample_name ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"S1_T1"``, ``"S1_T2"``, ``"S2_T1"``, ``"S2_T2"``, ``"S3_T1"``, ``"S3_T2"``)``,`\
+`    sample_id ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"S1"``, ``"S1"``, ``"S2"``, ``"S2"``, ``"S3"``, ``"S3"``)``,`\
+`    timepoint ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"0h"``, ``"6h"``, ``"0h"``, ``"6h"``, ``"0h"``, ``"6h"``)``,`\
+`    genotype ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"WT"``, ``"WT"``, ``"KO"``, ``"KO"``, ``"KO"``, ``"KO"``)``,`\
+`    operator ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"BB"``, ``"BB"``, ``"BB"``, ``"BB"``, ``"FB"``, ``"FB"``)``,`\
+`    file_name ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"s1-t1.mzML"``, ``"s1-t2.mzML"``, ``"s2-t1.mzML"``, ``"s2-t2.mzML"``,`\
+`                  ``"s3-t1.mzML"``, ``"s3-t2.mzML"``)`\
+`)`\
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``exp``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 | sample_name | sample_id | timepoint | genotype | operator | file_name  |
 |:-----------:|:---------:|:---------:|:--------:|:--------:|:----------:|
@@ -711,25 +645,25 @@ this comprises general information about the experiment. A minimal set
 of fields can be compiled using the
 [`mtdSkeleton()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.md)
 function. We have to provide an ID for the experiment and in addition we
-specify the software used to process the data:
+specify the software used to process the data. Since this example adds
+all sections to MzTab-M, the profile field is already set to
+`"M+S+F+E"`:
 
-``` r
+\
+`mtd`` ``<-`` `[`mtdSkeleton`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSkeleton.md)`(`\
+`    id ``=`` ``"EXP_001"``,`\
+`    software ``=`` ``"[MS, MS:1001582, xcms, 4.1.0]"``,`\
+`    mztab_profile ``=`` ``"M+S+F+E"`\
+`)`
 
-mtd <- mtdSkeleton(
-    id = "EXP_001",
-    software = "[MS, MS:1001582, xcms, 4.1.0]"
-)
-```
-
-``` r
-
-pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``mtd``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |  |  |
 |:---|:---|
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | EXP_001 |
+| mzTab-profile | M+S+F+E |
 | software\[1\] | \[MS, MS:1001582, xcms, 4.1.0\] |
 | quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
 | cv\[1\]-label | MS |
@@ -761,35 +695,29 @@ the
 [mzTab-M](https://github.com/HUPO-PSI/mzTab-M/blob/main/specification_documents/mzTab_format_specification_2_1-M.adoc#62-metadata-section)
 format definition for other supported fields.
 
-``` r
-
-mtd <- rbind(
-    mtd,
-    c("title", "Experiment 1 preprocessed data"),
-    c("description", "The preprocessed data of the experiment 1.")
-)
-```
+\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(`\
+`    ``mtd``,`\
+`    `[`c`](https://rdrr.io/r/base/c.html)`(``"title"``, ``"Experiment 1 preprocessed data"``)``,`\
+`    `[`c`](https://rdrr.io/r/base/c.html)`(``"description"``, ``"The preprocessed data of the experiment 1."``)`\
+`)`
 
 To help with formatting we can also use the
 [`mtdFields()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)
 function. Below we use this function to add information about the MS
 instrumentation to the MTD section:
 
-``` r
+\
+`instr`` ``<-`` `[`mtdFields`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)`(`\
+`    name ``=`` ``"[MS, MS:1000449, LTQ Orbitrap,]"``,`\
+`    source ``=`` ``"[MS, MS:1000073, ESI,]"``,`\
+``     `analyzer[1]`  ```=`` ``"[MS, MS:1000291, linear ion trap,]"``,`\
+`    detector ``=`` ``"[MS, MS:1000253, electron multiplier,]"``,`\
+`    field_prefix ``=`` ``"instrument"`\
+`)`
 
-instr <- mtdFields(
-    name = "[MS, MS:1000449, LTQ Orbitrap,]",
-    source = "[MS, MS:1000073, ESI,]",
-    `analyzer[1]` = "[MS, MS:1000291, linear ion trap,]",
-    detector = "[MS, MS:1000253, electron multiplier,]",
-    field_prefix = "instrument"
-)
-```
-
-``` r
-
-pandoc.table(instr, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``instr``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |                               |                                          |
 |:------------------------------|:-----------------------------------------|
@@ -800,10 +728,8 @@ pandoc.table(instr, style = "rmarkdown", split.table = Inf, justify = "ll")
 
 And we add that information to the `mtd` variable.
 
-``` r
-
-mtd <- rbind(mtd, instr)
-```
+\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(``mtd``, ``instr``)`
 
 The next category of metadata information is **sample information**.
 This comprises (optional) information on individual samples that were
@@ -820,23 +746,19 @@ does **not** support partial or positional matching of parameters; for
 each of the parameters the **full parameter name** has to be used (i.e.,
 `sample = ...` instead of `sam = ...` or `s = ...`).
 
-``` r
+\
+`mtd_s`` ``<-`` `[`mtdSample`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSample.md)`(`\
+`    sample ``=`` `[`unique`](https://rdrr.io/r/base/unique.html)`(``exp``$``sample_id``)``,`\
+`    species ``=`` ``"[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"``,`\
+`    tissue ``=`` ``"[BTO, BTO:0000759, liver, ]"``,`\
+`    cell_type ``=`` ``"[CL, CL:0000182, hepatocyte, ]"``,`\
+`    `[`c`](https://rdrr.io/r/base/c.html)`(``"[,,Extraction date, 2011-12-21]"``,`\
+`      ``"[,,Extraction date, 2011-12-22]"``,`\
+`      ``"[,,Extraction date, 2011-12-23]"``)`\
+`    ``)`
 
-mtd_s <- mtdSample(
-    sample = unique(exp$sample_id),
-    species = "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]",
-    tissue = "[BTO, BTO:0000759, liver, ]",
-    cell_type = "[CL, CL:0000182, hepatocyte, ]",
-    c("[,,Extraction date, 2011-12-21]",
-      "[,,Extraction date, 2011-12-22]",
-      "[,,Extraction date, 2011-12-23]")
-    )
-```
-
-``` r
-
-pandoc.table(mtd_s, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``mtd_s``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |                            |                                               |
 |:---------------------------|:----------------------------------------------|
@@ -871,19 +793,17 @@ metadata section. We use the
 function for this. For a CV entry we need to provide a *label*, the
 *full_name*, the *version* and the *uri*:
 
-``` r
-
-add_cv <- mtdFields(
-    label = c("BTO", "NCBITaxon"),
-    full_name = c("The BRENDA Tissue Ontology (BTO)",
-                  "NCBI organismal classification"),
-    version = c("2021-10-26", "2025-12-03"),
-    uri = c("https://www.ebi.ac.uk/ols4/ontologies/bto",
-            "https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"),
-    field_prefix = "cv")
-
-pandoc.table(add_cv, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+`add_cv`` ``<-`` `[`mtdFields`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdFields.md)`(`\
+`    label ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"BTO"``, ``"NCBITaxon"``)``,`\
+`    full_name ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"The BRENDA Tissue Ontology (BTO)"``,`\
+`                  ``"NCBI organismal classification"``)``,`\
+`    version ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"2021-10-26"``, ``"2025-12-03"``)``,`\
+`    uri ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"https://www.ebi.ac.uk/ols4/ontologies/bto"``,`\
+`            ``"https://www.ebi.ac.uk/ols4/ontologies/ncbitaxon"``)``,`\
+`    field_prefix ``=`` ``"cv"``)`\
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``add_cv``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |                   |                                                 |
 |:------------------|:------------------------------------------------|
@@ -901,20 +821,16 @@ We need to update the index of the cv, since there are already 3 CVs
 next the `"1"` with `"4"` and `"2"` with `"5"` and append this CV term
 to the metadata section.
 
-``` r
-
-add_cv[, 1L] <- sub("1", "4", add_cv[, 1L])
-add_cv[, 1L] <- sub("2", "5", add_cv[, 1L])
-mtd <- rbind(mtd, add_cv)
-```
+\
+`add_cv``[``, ``1L``]`` ``<-`` `[`sub`](https://rdrr.io/r/base/grep.html)`(``"1"``, ``"4"``, ``add_cv``[``, ``1L``]``)`\
+`add_cv``[``, ``1L``]`` ``<-`` `[`sub`](https://rdrr.io/r/base/grep.html)`(``"2"``, ``"5"``, ``add_cv``[``, ``1L``]``)`\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(``mtd``, ``add_cv``)`
 
 We can then add the sample information to the `mtd` variable by simply
 [`rbind()`](https://rdrr.io/r/base/cbind.html)ing it.
 
-``` r
-
-mtd <- rbind(mtd, mtd_s)
-```
+\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(``mtd``, ``mtd_s``)`
 
 Next we compile **MS run information** of the experiment using the
 [`mtdMsRun()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)
@@ -924,19 +840,15 @@ file names and locations. For our example we use the file names reported
 in the sample data frame and specify the polarity of the measurement
 runs.
 
-``` r
+\
+`mtd_msr`` ``<-`` `[`mtdMsRun`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdMsRun.md)`(`\
+`    location ``=`` ``exp``$``file_name``,`\
+`    format ``=`` ``"[MS, MS:1000584, mzML file, ]"``,`\
+`    id_format ``=`` ``"[MS, MS:1000530, mzML unique identifier, ]"``,`\
+`    scan_polarity ``=`` ``"positive"``)`
 
-mtd_msr <- mtdMsRun(
-    location = exp$file_name,
-    format = "[MS, MS:1000584, mzML file, ]",
-    id_format = "[MS, MS:1000530, mzML unique identifier, ]",
-    scan_polarity = "positive")
-```
-
-``` r
-
-pandoc.table(mtd_msr, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``mtd_msr``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |   | values |
 |:---|:---|
@@ -970,10 +882,8 @@ location and format of the respective file as well as the polarity in
 which the data was acquired. We can combine this data with the `mtd`
 variable.
 
-``` r
-
-mtd <- rbind(mtd, mtd_msr)
-```
+\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(``mtd``, ``mtd_msr``)`
 
 Next we define the **assay information**. Generally, each measurement
 (MS run) is associated to one assay, but also more complex
@@ -989,22 +899,18 @@ provide in addition also the (optional, but suggested) reference to the
 original sample. Note that each assay must represent one column in the
 following feature abundance table (SMF).
 
-``` r
-
-mtd_a <- mtdAssay(
-    assay = exp$sample_name,
-    sample_ref = c("sample[1]", "sample[1]", "sample[2]", "sample[2]",
-                   "sample[3]", "sample[3]"),
-    ms_run_ref = paste0("ms_run[", seq_len(nrow(exp)), "]")
-)
-```
+\
+`mtd_a`` ``<-`` `[`mtdAssay`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdAssay.md)`(`\
+`    assay ``=`` ``exp``$``sample_name``,`\
+`    sample_ref ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"sample[1]"``, ``"sample[1]"``, ``"sample[2]"``, ``"sample[2]"``,`\
+`                   ``"sample[3]"``, ``"sample[3]"``)``,`\
+`    ms_run_ref ``=`` `[`paste0`](https://rdrr.io/r/base/paste.html)`(``"ms_run["``, `[`seq_len`](https://rdrr.io/r/base/seq.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``exp``)``)``, ``"]"``)`\
+`)`
 
 The result formatted *assay information* is shown in the table below.
 
-``` r
-
-pandoc.table(mtd_a, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``mtd_a``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |                       |             |
 |:----------------------|:------------|
@@ -1029,10 +935,8 @@ pandoc.table(mtd_a, style = "rmarkdown", split.table = Inf, justify = "ll")
 
 We add this information to the `mtd` variable.
 
-``` r
-
-mtd <- rbind(mtd, mtd_a)
-```
+\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(``mtd``, ``mtd_a``)`
 
 At last we compile the **study variable information** of our example
 experiment. This should capture all experiment-relevant study variables
@@ -1057,19 +961,15 @@ In our example we define in addition an optional *unit* for the study
 variable *timepoint*. Units have to be provided in CV parameter format;
 for study variable groups without unit `""` or `NA` has to be used.
 
-``` r
-
-mtd_svar <- mtdStudyVariables(
-    exp, groups = c("timepoint", "genotype", "operator"),
-    group_unit = c("[, , hours, ]", "", ""))
-```
+\
+`mtd_svar`` ``<-`` `[`mtdStudyVariables`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdStudyVariables.md)`(`\
+`    ``exp``, groups ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"timepoint"``, ``"genotype"``, ``"operator"``)``,`\
+`    group_unit ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"[, , hours, ]"``, ``""``, ``""``)``)`
 
 The formatted data is shown in the table below.
 
-``` r
-
-pandoc.table(mtd_svar, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``mtd_svar``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |  |  |
 |:---|:---|
@@ -1131,34 +1031,29 @@ average and variance of the abundance values for that variable value.
 
 We next add the study variable information to the `mtd` variable.
 
-``` r
-
-mtd <- rbind(mtd, mtd_svar)
-```
+\
+`mtd`` ``<-`` `[`rbind`](https://rdrr.io/r/base/cbind.html)`(``mtd``, ``mtd_svar``)`
 
 At last we sort the elements according to the expected order in the MTD
 section using the
 [`mtdSort()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.md)
 function.
 
-``` r
-
-mtd <- mtdSort(mtd)
-```
+\
+`mtd`` ``<-`` `[`mtdSort`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdSort.md)`(``mtd``)`
 
 This two-column `matrix` could now be saved to a text file using a
 tabulator (`"\t"`) as a field separator. The full metadata header is
 shown in the table below.
 
-``` r
-
-pandoc.table(mtd, style = "rmarkdown", split.table = Inf, justify = "ll")
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``mtd``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``, justify ``=`` ``"ll"``)`
 
 |   |   |
 |:---|:---|
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | EXP_001 |
+| mzTab-profile | M+S+F+E |
 | title | Experiment 1 preprocessed data |
 | description | The preprocessed data of the experiment 1. |
 | instrument\[1\]-name | \[MS, MS:1000449, LTQ Orbitrap,\] |
@@ -1319,18 +1214,16 @@ the *assay* definition in the metadata (defined above with the
 function). Our example data consists of quantification of 7 features in
 6 measurements (assays) of 3 samples.
 
-``` r
-
-abundances <- cbind(c(200.1, 1232.1, 54.3, 399.1, 599.8, 23.1, NA),
-                    c(260.2, 39.5, 177.4, 599.5, 5344.1, 332.1, 43.0),
-                    c(256.1, 904.2, 56.9, 533.1, 489.9, 3231.22, 23.4),
-                    c(232.1, 43.3, 201.4, 434.2, 5154.1, 43.4, 324.3),
-                    c(264.2, 1102.4, 43.5, 514.5, 583.1, 432.3, 43.3),
-                    c(246.2, 52.1, 187.2, 508.3, 601.5, 432.2, 34.5))
-colnames(abundances) <- exp$sample_name
-rownames(abundances) <- c("FT01", "FT02", "FT03", "FT04", "FT05",
-                          "FT06", "FT07")
-```
+\
+`abundances`` ``<-`` `[`cbind`](https://rdrr.io/r/base/cbind.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``200.1``, ``1232.1``, ``54.3``, ``399.1``, ``599.8``, ``23.1``, ``NA``)``,`\
+`                    `[`c`](https://rdrr.io/r/base/c.html)`(``260.2``, ``39.5``, ``177.4``, ``599.5``, ``5344.1``, ``332.1``, ``43.0``)``,`\
+`                    `[`c`](https://rdrr.io/r/base/c.html)`(``256.1``, ``904.2``, ``56.9``, ``533.1``, ``489.9``, ``3231.22``, ``23.4``)``,`\
+`                    `[`c`](https://rdrr.io/r/base/c.html)`(``232.1``, ``43.3``, ``201.4``, ``434.2``, ``5154.1``, ``43.4``, ``324.3``)``,`\
+`                    `[`c`](https://rdrr.io/r/base/c.html)`(``264.2``, ``1102.4``, ``43.5``, ``514.5``, ``583.1``, ``432.3``, ``43.3``)``,`\
+`                    `[`c`](https://rdrr.io/r/base/c.html)`(``246.2``, ``52.1``, ``187.2``, ``508.3``, ``601.5``, ``432.2``, ``34.5``)``)`\
+[`colnames`](https://rdrr.io/r/base/colnames.html)`(``abundances``)`` ``<-`` ``exp``$``sample_name`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``abundances``)`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``"FT01"``, ``"FT02"``, ``"FT03"``, ``"FT04"``, ``"FT05"``,`\
+`                          ``"FT06"``, ``"FT07"``)`
 
 We next define also a `data.frame` with the feature characteristics from
 the MS measurement run (one row per feature and columns with *m/z*,
@@ -1339,18 +1232,16 @@ charge). Note that without any annotation (and hence a SML and SME
 section) adduct and charge information will not be available for the SMF
 table.
 
-``` r
-
-feature_info <- data.frame(
-    mzmed = c(195.088, 127.1, 299.2, 181.07, 218.077, 343.123, 148.06),
-    rtmed = c(25.6, 128.4, 67.2, 127.3, 25.7, 167.2, 76.34),
-    rtmin = c(23.1, 125.1, 65.1, 122.3, 23.3, 162.3, 71.3),
-    rtmax = c(26.9, 130.3, 69.1, 134.2, 26.8, 172.1, 81.2),
-    adduct = c("[M+H]+", NA, NA, "[M+Na]+", "[M+Na]+", "[M+H]+", "[M+H]+"),
-    charge = c(1L, NA, NA, 1L, 1L, 1L, 1L)
-)
-rownames(feature_info) <- rownames(abundances)
-```
+\
+`feature_info`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
+`    mzmed ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``195.088``, ``127.1``, ``299.2``, ``181.07``, ``218.077``, ``343.123``, ``148.06``)``,`\
+`    rtmed ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``25.6``, ``128.4``, ``67.2``, ``127.3``, ``25.7``, ``167.2``, ``76.34``)``,`\
+`    rtmin ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``23.1``, ``125.1``, ``65.1``, ``122.3``, ``23.3``, ``162.3``, ``71.3``)``,`\
+`    rtmax ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``26.9``, ``130.3``, ``69.1``, ``134.2``, ``26.8``, ``172.1``, ``81.2``)``,`\
+`    adduct ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"[M+H]+"``, ``NA``, ``NA``, ``"[M+Na]+"``, ``"[M+Na]+"``, ``"[M+H]+"``, ``"[M+H]+"``)``,`\
+`    charge ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``1L``, ``NA``, ``NA``, ``1L``, ``1L``, ``1L``, ``1L``)`\
+`)`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``feature_info``)`` ``<-`` `[`rownames`](https://rdrr.io/r/base/colnames.html)`(``abundances``)`
 
 We can now feed this information to the
 [`smfCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)
@@ -1362,25 +1253,21 @@ feature annotations/columns can be passed to the function through it’s
 named, i.e., `x =` or `charge =` since the function does not support
 positional matching of its arguments.
 
-``` r
-
-smf <- smfCreate(
-    x = abundances,
-    exp_mass_to_charge = feature_info$mzmed,
-    retention_time_in_seconds = feature_info$rtmed,
-    retention_time_in_seconds_start = feature_info$rtmin,
-    retention_time_in_seconds_end = feature_info$rtmax,
-    charge = feature_info$charge,
-    adduct_ion = feature_info$adduct,
-    feature_id = rownames(feature_info))
-```
+\
+`smf`` ``<-`` `[`smfCreate`](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.md)`(`\
+`    x ``=`` ``abundances``,`\
+`    exp_mass_to_charge ``=`` ``feature_info``$``mzmed``,`\
+`    retention_time_in_seconds ``=`` ``feature_info``$``rtmed``,`\
+`    retention_time_in_seconds_start ``=`` ``feature_info``$``rtmin``,`\
+`    retention_time_in_seconds_end ``=`` ``feature_info``$``rtmax``,`\
+`    charge ``=`` ``feature_info``$``charge``,`\
+`    adduct_ion ``=`` ``feature_info``$``adduct``,`\
+`    feature_id ``=`` `[`rownames`](https://rdrr.io/r/base/colnames.html)`(``feature_info``)``)`
 
 The SMF content is:
 
-``` r
-
-pandoc.table(smf, style = "rmarkdown", split.table = Inf)
-```
+\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``smf``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |   | SFH | SMF_ID | SME_ID_REFS | SME_ID_REF_ambiguity_code | adduct_ion | isotopomer | exp_mass_to_charge | charge | retention_time_in_seconds | retention_time_in_seconds_start | retention_time_in_seconds_end | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | opt_global_feature_id |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -1418,44 +1305,40 @@ the table but reference the two features in the SMF table. For the
 ambiguous annotation of *FT04* we report both annotations, separated by
 a `"|"`. The two features without annotation are not reported.
 
-``` r
-
-anns <- data.frame(
-    id = c("HMDB:HMDB0001847",
-           "HMDB:HMDB0000122|HMDB:HMDB0000169",
-           "HMDB:HMDB0000258",
-           "HMDB:HMDB0060475"),
-    formula = c("C8H10N4O2",
-                "C6H12O6|C6H12O6",
-                "C12H22O11",
-                "C5H9NO4"),
-    neutral_mass = c(194.0804,
-                     "180.0634|180.0634",
-                     342.1162,
-                     147.0531),
-    name = c("caffeine",
-             "glucose|mannose",
-             "sucrose",
-             "DL-glutamate"),
-    adduct = c("[M+H]1+",
-               "[M+Na]1+",
-               "[M+H]1+",
-               "[M+H]1+"),
-    uri = c("http://www.hmdb.ca/metabolites/HMDB0001847",
-            "http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169",
-            "http://www.hmdb.ca/metabolites/HMDB0000258",
-            "http://www.hmdb.ca/metabolites/HMDB0060475"),
-    note = c("manual curation")
-)
-```
+\
+`anns`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
+`    id ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"HMDB:HMDB0001847"``,`\
+`           ``"HMDB:HMDB0000122|HMDB:HMDB0000169"``,`\
+`           ``"HMDB:HMDB0000258"``,`\
+`           ``"HMDB:HMDB0060475"``)``,`\
+`    formula ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"C8H10N4O2"``,`\
+`                ``"C6H12O6|C6H12O6"``,`\
+`                ``"C12H22O11"``,`\
+`                ``"C5H9NO4"``)``,`\
+`    neutral_mass ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``194.0804``,`\
+`                     ``"180.0634|180.0634"``,`\
+`                     ``342.1162``,`\
+`                     ``147.0531``)``,`\
+`    name ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"caffeine"``,`\
+`             ``"glucose|mannose"``,`\
+`             ``"sucrose"``,`\
+`             ``"DL-glutamate"``)``,`\
+`    adduct ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"[M+H]1+"``,`\
+`               ``"[M+Na]1+"``,`\
+`               ``"[M+H]1+"``,`\
+`               ``"[M+H]1+"``)``,`\
+`    uri ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"http://www.hmdb.ca/metabolites/HMDB0001847"``,`\
+`            ``"http://www.hmdb.ca/metabolites/HMDB0000122|http://www.hmdb.ca/metabolites/HMDB0000169"``,`\
+`            ``"http://www.hmdb.ca/metabolites/HMDB0000258"``,`\
+`            ``"http://www.hmdb.ca/metabolites/HMDB0060475"``)``,`\
+`    note ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"manual curation"``)`\
+`)`
 
 We next subset the feature abundance matrix for the selected (and
 annotated) molecules we want to report.
 
-``` r
-
-abundances_sml <- abundances[c(1, 4, 6, 7), ]
-```
+\
+`abundances_sml`` ``<-`` ``abundances``[`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``4``, ``6``, ``7``)``, ``]`
 
 With this information we can use the
 [`smlCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
@@ -1464,17 +1347,15 @@ name** all function arguments to which we pass values. Any additional
 (named) parameters provided to the function (like `note = anns$note`
 below) will be added as *optional* columns (prefixed with `"opt_"`)
 
-``` r
-
-sml <- smlCreate(x = abundances_sml,
-                 database_identifier = anns$id,
-                 chemical_formula = anns$formula,
-                 theoretical_neutral_mass = anns$neutral_mass,
-                 adduct_ions = anns$adduct,
-                 uri = anns$uri,
-                 note = anns$note)
-pandoc.table(sml, style = "rmarkdown", split.table = Inf)
-```
+\
+`sml`` ``<-`` `[`smlCreate`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)`(``x ``=`` ``abundances_sml``,`\
+`                 database_identifier ``=`` ``anns``$``id``,`\
+`                 chemical_formula ``=`` ``anns``$``formula``,`\
+`                 theoretical_neutral_mass ``=`` ``anns``$``neutral_mass``,`\
+`                 adduct_ions ``=`` ``anns``$``adduct``,`\
+`                 uri ``=`` ``anns``$``uri``,`\
+`                 note ``=`` ``anns``$``note``)`\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``sml``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |   | SMH | SML_ID | SMF_ID_REFS | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri | theoretical_neutral_mass | adduct_ions | reliability | best_id_confidence_measure | best_id_confidence_value | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | opt_global_note |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -1486,21 +1367,17 @@ pandoc.table(sml, style = "rmarkdown", split.table = Inf)
 This SML is however not yet complete. We must update the relationship
 between rows in the SML and the SMF section in column `"SMF_ID_REFS"`.
 
-``` r
-
-sml$SMF_ID_REFS = c("1|5", "4", "6", "7")
-```
+\
+`sml``$``SMF_ID_REFS`` ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"1|5"``, ``"4"``, ``"6"``, ``"7"``)`
 
 And finally we need to add columns with abundance average and variation
 for study variables defined in the MTD section. Here we can use the
 [`smlAddStudyVariableColumns()`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)
 helper function providing both the SML and the MTD data.
 
-``` r
-
-sml <- smlAddStudyVariableColumns(sml, mtd)
-pandoc.table(sml, style = "rmarkdown", split.table = Inf)
-```
+\
+`sml`` ``<-`` `[`smlAddStudyVariableColumns`](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.md)`(``sml``, ``mtd``)`\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``sml``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
 |   | SMH | SML_ID | SMF_ID_REFS | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri | theoretical_neutral_mass | adduct_ions | reliability | best_id_confidence_measure | best_id_confidence_value | abundance_assay\[1\] | abundance_assay\[2\] | abundance_assay\[3\] | abundance_assay\[4\] | abundance_assay\[5\] | abundance_assay\[6\] | abundance_study_variable\[1\] | abundance_study_variable\[2\] | abundance_study_variable\[3\] | abundance_study_variable\[4\] | abundance_study_variable\[5\] | abundance_study_variable\[6\] | abundance_variation_study_variable\[1\] | abundance_variation_study_variable\[2\] | abundance_variation_study_variable\[3\] | abundance_variation_study_variable\[4\] | abundance_variation_study_variable\[5\] | abundance_variation_study_variable\[6\] | opt_global_note |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -1530,20 +1407,18 @@ previous section’s SMF table. Note that this example is just for
 illustration purposes and does **not** provide a real annotation results
 for our example data set.
 
-``` r
-
-ev_df <- data.frame(
-    evidence_input_id = c("ms_run[1]:mass=700.5255;rt=20·5",
-                          "ms_run[2]:mass=452.2782;rt=35.1",
-                          "ms_run[3]:mass=882.6210;rt=40.0"),
-    exp_mass_to_charge = c(700.5255, 452.2782, 882.6210),
-    charge = c(1, 1, 1),
-    theoretical_mass_to_charge = c(700.5281, 452.2777, 882.6224),
-    spectra_ref = c("ms_run[1]:index=7646", "ms_run[2]:index=7640",
-                    "ms_run[3]:index=7671|ms_run[3]:index=7725"),
-    identification_method = "[, , LipidDataAnalyzer, 2.11.1]",
-    ms_level = "[MS, MS:1000511, ms level, 2]")
-```
+\
+`ev_df`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
+`    evidence_input_id ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"ms_run[1]:mass=700.5255;rt=20·5"``,`\
+`                          ``"ms_run[2]:mass=452.2782;rt=35.1"``,`\
+`                          ``"ms_run[3]:mass=882.6210;rt=40.0"``)``,`\
+`    exp_mass_to_charge ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``700.5255``, ``452.2782``, ``882.6210``)``,`\
+`    charge ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``1``)``,`\
+`    theoretical_mass_to_charge ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``700.5281``, ``452.2777``, ``882.6224``)``,`\
+`    spectra_ref ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"ms_run[1]:index=7646"``, ``"ms_run[2]:index=7640"``,`\
+`                    ``"ms_run[3]:index=7671|ms_run[3]:index=7725"``)``,`\
+`    identification_method ``=`` ``"[, , LipidDataAnalyzer, 2.11.1]"``,`\
+`    ms_level ``=`` ``"[MS, MS:1000511, ms level, 2]"``)`
 
 With this information we can use the
 [`smeCreate()`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)
@@ -1555,20 +1430,18 @@ columns (prefixed with `"opt_"`)
 The function require the MTD section defined earlier to validate the
 `spectra_ref` reported in the SME section.
 
-``` r
-
-sme <- smeCreate(
-    evidence_input_id = ev_df$evidence_input_id,
-    exp_mass_to_charge = ev_df$exp_mass_to_charge,
-    charge = ev_df$charge,
-    theoretical_mass_to_charge = ev_df$theoretical_mass_to_charge,
-    spectra_ref = ev_df$spectra_ref,
-    identification_method = ev_df$identification_method,
-    ms_level = ev_df$ms_level,
-    mtd = mtd
-)
-pandoc.table(sme, style = "rmarkdown", split.table = Inf)
-```
+\
+`sme`` ``<-`` `[`smeCreate`](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.md)`(`\
+`    evidence_input_id ``=`` ``ev_df``$``evidence_input_id``,`\
+`    exp_mass_to_charge ``=`` ``ev_df``$``exp_mass_to_charge``,`\
+`    charge ``=`` ``ev_df``$``charge``,`\
+`    theoretical_mass_to_charge ``=`` ``ev_df``$``theoretical_mass_to_charge``,`\
+`    spectra_ref ``=`` ``ev_df``$``spectra_ref``,`\
+`    identification_method ``=`` ``ev_df``$``identification_method``,`\
+`    ms_level ``=`` ``ev_df``$``ms_level``,`\
+`    mtd ``=`` ``mtd`\
+`)`\
+[`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``sme``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
     | SEH | SME_ID |        evidence_input_id        | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri  | derivatized_form | adduct_ions | exp_mass_to_charge | charge | theoretical_mass_to_charge |                spectra_ref                 |      identification_method      |           ms_level            | rank |
     |:---:|:------:|:-------------------------------:|:-------------------:|:----------------:|:------:|:-----:|:-------------:|:----:|:----------------:|:-----------:|:------------------:|:------:|:--------------------------:|:------------------------------------------:|:-------------------------------:|:-----------------------------:|:----:|
@@ -1591,10 +1464,8 @@ General utility functions include:
 
 ## Session information
 
-``` r
-
-sessionInfo()
-```
+\
+[`sessionInfo`](https://rdrr.io/r/utils/sessionInfo.html)`(``)`
 
     R version 4.6.1 (2026-06-24)
     Platform: x86_64-pc-linux-gnu
@@ -1620,22 +1491,22 @@ sessionInfo()
     [8] base
 
     other attached packages:
-     [1] pander_0.6.6                SummarizedExperiment_1.43.0
-     [3] Biobase_2.73.2              GenomicRanges_1.65.1
-     [5] Seqinfo_1.3.0               IRanges_2.47.2
-     [7] S4Vectors_0.51.6            BiocGenerics_0.59.10
-     [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.99.1
+     [1] pander_0.6.6                SummarizedExperiment_1.42.0
+     [3] Biobase_2.72.0              GenomicRanges_1.64.0
+     [5] Seqinfo_1.2.0               IRanges_2.46.0
+     [7] S4Vectors_0.50.3            BiocGenerics_0.58.1
+     [9] generics_0.1.4              MatrixGenerics_1.24.0
+    [11] matrixStats_1.5.0           RmzTabM_0.99.2
 
     loaded via a namespace (and not attached):
-     [1] cli_3.6.6           knitr_1.51          rlang_1.3.0
-     [4] xfun_0.60           otel_0.2.0          data.table_1.18.4
-     [7] DelayedArray_0.39.3 jsonlite_2.0.0      htmltools_0.5.9
-    [10] rmarkdown_2.31      grid_4.6.1          evaluate_1.0.5
+     [1] cli_3.6.6           knitr_1.52          rlang_1.3.0
+     [4] xfun_0.61           otel_0.2.0          data.table_1.18.6.1
+     [7] DelayedArray_0.38.2 jsonlite_2.0.0      htmltools_0.5.9
+    [10] rmarkdown_2.32      grid_4.6.1          evaluate_1.0.5
     [13] abind_1.4-8         fastmap_1.2.0       yaml_2.3.12
-    [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.53.0
-    [19] lattice_0.22-9      digest_0.6.39       SparseArray_1.13.2
-    [22] Matrix_1.7-6        tools_4.6.1         S4Arrays_1.13.0    
+    [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.52.0
+    [19] lattice_0.23-1      digest_0.6.39       SparseArray_1.12.3
+    [22] Matrix_1.7-6        tools_4.6.1         S4Arrays_1.12.1    
 
 ## References
 

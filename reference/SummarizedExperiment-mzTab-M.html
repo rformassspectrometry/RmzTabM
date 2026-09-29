@@ -55,7 +55,7 @@ resulting object, while feature-level quantification values and feature
 annotations are extracted from the SMF section and used to populate the
 assay data and rowData, respectively.
 If the MzTabM object does not contain any small molecule feature data, a
-SummarizedExperiment with only colData populated is returned."></head><body>
+SummarizedExperiment with only colData populated is returned."><meta property="og:image" content="https://rformassspectrometry.github.io/RmzTabM/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -63,7 +63,7 @@ SummarizedExperiment with only colData populated is returned."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,8 +87,7 @@ SummarizedExperiment with only colData populated is returned."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Create a mzTab-M file from a <code>SummarizedExperiment</code> object</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Create a mzTab-M file from a <code>SummarizedExperiment</code> object</h1>
       <small class="dont-index">Source: <a href="https://github.com/RforMassSpectrometry/RmzTabM/blob/main/R/SummarizedExperiment.R" class="external-link"><code>R/SummarizedExperiment.R</code></a></small>
       <div class="d-none name"><code>SummarizedExperiment-mzTab-M.Rd</code></div>
     </div>
@@ -437,17 +436,14 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     IQR, mad, sd, var, xtabs</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:utils’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     data</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     as.data.frame, basename, cbind, colnames, dirname, do.call,</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     duplicated, eval, evalq, get, grep, grepl, is.unsorted, lapply,</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     mapply, match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     rank, rbind, rownames, sapply, saveRDS, scale, sequence, table,</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     tapply, transform, unique, unsplit, which.max, which.min</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     rank, rbind, rownames, sapply, saveRDS, table, tapply, unique,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     unsplit, which.max, which.min</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: S4Vectors</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘S4Vectors’</span>
@@ -630,22 +626,22 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 149 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 150 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="MzTabM.html">mtd</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "mzTab-version"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "mzTab-ID"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "software[1]"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "quantification_method"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "sample[1]"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "sample[1]-species[1]" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "mzTab-profile"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "software[1]"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "quantification_method"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "sample[1]"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      values                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "2.1.0-M"                                                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "MTBLS8735"                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "[,,RmzTabM,RmzTabM version 0.99.1]"                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "POOL"                                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "M"                                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "[,,RmzTabM,RmzTabM version 0.99.2]"                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "POOL"                                                      </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Importantly, depending on the provided information, the MTD section might</span></span></span>
 <span class="r-in"><span><span class="co">## be needed to be completed. See also the help for `MzTabM` for more</span></span></span>
@@ -738,7 +734,7 @@ section. See <a href="SMF-export.html">SMF-export</a> for details on the individ
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 149 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 150 rows.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  SMF section with 9068 rows and 22 columns.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="MzTabM.html">smf</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer</span>

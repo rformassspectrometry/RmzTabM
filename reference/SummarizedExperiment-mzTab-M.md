@@ -440,17 +440,14 @@ library(SummarizedExperiment)
 #> The following objects are masked from ‘package:stats’:
 #> 
 #>     IQR, mad, sd, var, xtabs
-#> The following object is masked from ‘package:utils’:
-#> 
-#>     data
 #> The following objects are masked from ‘package:base’:
 #> 
 #>     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
 #>     as.data.frame, basename, cbind, colnames, dirname, do.call,
 #>     duplicated, eval, evalq, get, grep, grepl, is.unsorted, lapply,
 #>     mapply, match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-#>     rank, rbind, rownames, sapply, saveRDS, scale, sequence, table,
-#>     tapply, transform, unique, unsplit, which.max, which.min
+#>     rank, rbind, rownames, sapply, saveRDS, table, tapply, unique,
+#>     unsplit, which.max, which.min
 #> Loading required package: S4Vectors
 #> 
 #> Attaching package: ‘S4Vectors’
@@ -633,22 +630,22 @@ m <- MzTabM(se, id = "MTBLS8735", sampleCols. = s_cols, msRunCols. = m_cols,
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 149 rows.
+#>  MTD section with 150 rows.
 head(mtd(m))
 #>                             
 #> [1,] "mzTab-version"        
 #> [2,] "mzTab-ID"             
-#> [3,] "software[1]"          
-#> [4,] "quantification_method"
-#> [5,] "sample[1]"            
-#> [6,] "sample[1]-species[1]" 
+#> [3,] "mzTab-profile"        
+#> [4,] "software[1]"          
+#> [5,] "quantification_method"
+#> [6,] "sample[1]"            
 #>      values                                                      
 #> [1,] "2.1.0-M"                                                   
 #> [2,] "MTBLS8735"                                                 
-#> [3,] "[,,RmzTabM,RmzTabM version 0.99.1]"                        
-#> [4,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
-#> [5,] "POOL"                                                      
-#> [6,] "[NCBITaxon, NCBITaxon:9606, Homo sapiens, ]"               
+#> [3,] "M"                                                         
+#> [4,] "[,,RmzTabM,RmzTabM version 0.99.2]"                        
+#> [5,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
+#> [6,] "POOL"                                                      
 
 ## Importantly, depending on the provided information, the MTD section might
 ## be needed to be completed. See also the help for `MzTabM` for more
@@ -741,7 +738,7 @@ m <- MzTabM(se, id = "MTBLS8735", sampleCols. = s_cols, msRunCols. = m_cols,
 m
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 149 rows.
+#>  MTD section with 150 rows.
 #>  SMF section with 9068 rows and 22 columns.
 head(smf(m))
 #>        SFH SMF_ID SME_ID_REFS SME_ID_REF_ambiguity_code adduct_ion isotopomer

@@ -9,7 +9,7 @@ Methods for this class allow adding or updating information and validating
 its content.
 New instances can be created using the MzTabM() function providing the
 content for the MTD, SML, SMF and SME sections (through parameters mtd,
-sml, smf, and sme, respectively)."></head><body>
+sml, smf, and sme, respectively)."><meta property="og:image" content="https://rformassspectrometry.github.io/RmzTabM/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ sml, smf, and sme, respectively)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,8 +41,7 @@ sml, smf, and sme, respectively)."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>mzTab-M data container</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>mzTab-M data container</h1>
       <small class="dont-index">Source: <a href="https://github.com/RforMassSpectrometry/RmzTabM/blob/main/R/MzTabM.R" class="external-link"><code>R/MzTabM.R</code></a></small>
       <div class="d-none name"><code>MzTabM.Rd</code></div>
     </div>
@@ -156,7 +155,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 23 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 24 rows.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Add instrument information to the MTD section</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="setMtdInstrument.html">setMtdInstrument</a></span><span class="op">(</span><span class="va">m</span>, name <span class="op">=</span> <span class="st">"[MS, MS:1000449, LTQ Orbitrap,]"</span>,</span></span>
@@ -166,7 +165,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 27 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 28 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdInstrument.html">getMtdInstrument</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       instrument[1]-name </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        "[MS, MS:1000449, LTQ Orbitrap,]" </span>
@@ -185,7 +184,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 27 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 28 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdDatabase.html">getMtdDatabase</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      database[1]               database[1]-prefix </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "[MIRIAM, MIR:00100079, HMDB, ]"                           "hmdb" </span>
@@ -200,7 +199,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 31 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 32 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdCv.html">getMtdCv</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                               cv[1]-label </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                      "MS" </span>
@@ -242,7 +241,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 35 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 36 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdContact.html">getMtdContact</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         contact[1]-name  contact[1]-affiliation        contact[1]-email </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          "Name Surname"                "PSI-MS" "name.surname@mail.com" </span>
@@ -258,7 +257,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 39 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 40 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdProtocol.html">getMtdProtocol</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                protocol[1]-name </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                             "Mass Spectrometry" </span>
@@ -275,7 +274,7 @@ returned value(s).</p>
 <span class="r-in"><span><span class="va">m</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 40 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 41 rows.</span>
 <span class="r-in"><span><span class="fu"><a href="setMtdField.html">getMtdField</a></span><span class="op">(</span><span class="va">m</span>, field <span class="op">=</span> <span class="st">"publication"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    publication[1] </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "pubmed:21063943|doi:10.1007/978-1-60761-987-1_6" </span>

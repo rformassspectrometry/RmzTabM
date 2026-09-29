@@ -77,6 +77,6 @@ result <- readMzTabM(system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
 result
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M
-#>  MTD section with 202 rows.
+#>  MTD section with 203 rows.
 #>  SMF section with 9068 rows and 22 columns.
 ```
