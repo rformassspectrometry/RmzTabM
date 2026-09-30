@@ -1491,22 +1491,22 @@ General utility functions include:
     [8] base
 
     other attached packages:
-     [1] pander_0.6.6                SummarizedExperiment_1.42.0
-     [3] Biobase_2.72.0              GenomicRanges_1.64.0
-     [5] Seqinfo_1.2.0               IRanges_2.46.0
-     [7] S4Vectors_0.50.3            BiocGenerics_0.58.1
-     [9] generics_0.1.4              MatrixGenerics_1.24.0
+     [1] pander_0.6.6                SummarizedExperiment_1.43.0
+     [3] Biobase_2.73.2              GenomicRanges_1.65.4
+     [5] Seqinfo_1.3.2               IRanges_2.47.5
+     [7] S4Vectors_0.51.10           BiocGenerics_0.59.12
+     [9] generics_0.1.4              MatrixGenerics_1.25.0
     [11] matrixStats_1.5.0           RmzTabM_0.99.2
 
     loaded via a namespace (and not attached):
      [1] cli_3.6.6           knitr_1.52          rlang_1.3.0
      [4] xfun_0.61           otel_0.2.0          data.table_1.18.6.1
-     [7] DelayedArray_0.38.2 jsonlite_2.0.0      htmltools_0.5.9
+     [7] DelayedArray_0.39.7 jsonlite_2.0.0      htmltools_0.5.9
     [10] rmarkdown_2.32      grid_4.6.1          evaluate_1.0.5
     [13] abind_1.4-8         fastmap_1.2.0       yaml_2.3.12
-    [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.52.0
-    [19] lattice_0.23-1      digest_0.6.39       SparseArray_1.12.3
-    [22] Matrix_1.7-6        tools_4.6.1         S4Arrays_1.12.1    
+    [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.53.0
+    [19] lattice_0.23-1      digest_0.6.39       SparseArray_1.13.3
+    [22] Matrix_1.7-6        tools_4.6.1         S4Arrays_1.13.1    
 
 ## References
 
