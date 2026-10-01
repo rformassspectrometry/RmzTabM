@@ -1,15 +1,13 @@
 # R implementation for mzTab-M
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/RmzTabM/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3AR-CMD-check-bioc)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Test-R-universe](https://github.com/RforMassSpectrometry/RmzTabM/workflows/Test-R-universe/badge.svg)](https://github.com/RforMassSpectrometry/RmzTabM/actions?query=workflow%3ATest-R-universe)
+[![years in bioc](http://bioconductor.org/shields/years-in-bioc/RmzTabM.svg)](https://bioconductor.org/packages/RmzTabM)
 [![codecov](https://codecov.io/gh/rformassspectrometry/RmzTabM/graph/badge.svg?token=v2UTVt3UrA)](https://codecov.io/gh/rformassspectrometry/RmzTabM)
 
 ## Welcome to **RmzTabM**!
 
 This is the mzTab-M R API and reference implementation.
-
-> **_NOTE:_**  This is still actively developed and some part of the code base
-> might be changed. Please report any issues to help improve it!
 
 mzTab-M is intended as a reporting standard for quantitative results from
 metabolomics/lipodomics approaches. This format is further intended to provide
@@ -46,15 +44,14 @@ mzTab-M has been developed with a view to support the following general tasks:
 
 ## Installation
 
-The R package can be installed from GitHub using the following commands:
+The R package can be installed from Bioconductor using:
 
 ```r
 #' Install required packages
-install.packages("devtools")
 install.packages("BiocManager")
 
-#' Install the repository
-BiocManager::install("RforMassSpectrometry/RmzTabM")
+#' Install the package
+BiocManager::install("RmzTabM")
 ```
 
 ## 🛠️ Development status
@@ -70,16 +67,17 @@ base R data types.
       [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.html)
 - [X] core functionality to format the (SME section)
       [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.html)
-- [ ] core functionality to extract metadata from an mzTab-M file and
+- [X] core functionality to extract metadata from an mzTab-M file and
       reconstruct a sample/experiment `data.frame`
-- [ ] core functionality to extract the SMF data table from an mzTab-M file
-- [ ] core functionality to extract the SME data table from an mzTab-M file
-- [ ] core functionality to extract the SML data table from an mzTab-M file
+- [X] core functionality to extract the SMF data table from an mzTab-M file
+- [X] core functionality to extract the SME data table from an mzTab-M file
+- [X] core functionality to extract the SML data table from an mzTab-M file
 - [X] high-level functionality to simplify exporting experimental data in
       mzTab-M
       format. [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
-- [ ] support for mzTab-M JSON format
-- [ ] mzTab-M file validation
+- [ ] support for mzTab-M JSON format (will come eventually later)
+- [ ] mzTab-M file validation (will be added once the java validator for mzTab-M
+      version 2.1 becomes available)
 
 :eyes: see also the package [NEWS](NEWS.md) for updates.
 
@@ -106,4 +104,10 @@ to maintain an inclusive and respectful community.
 We thank the many researchers contributing through discussions or through
 code. An potentially incomplete list of people:
 
-TODO - add names of hackathon participants, etc.
+- Nils Hoffmann
+- Steffen Neumann
+- Kozo Nishida
+- Frank Giacomoni
+- Nils Paulhe
+- Ozgur Yurekten
+- Janik Kokot

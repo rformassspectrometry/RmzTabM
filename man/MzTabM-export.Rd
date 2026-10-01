@@ -16,6 +16,10 @@ writeMzTabM(x, path, comments = character())
 comments will be written after the \code{MTD} section and before any other
 section.}
 }
+\value{
+The function does not return a value but writes the content the specified
+file.
+}
 \description{
 Write and validate an mzTab-M (version 2.1) file.
 

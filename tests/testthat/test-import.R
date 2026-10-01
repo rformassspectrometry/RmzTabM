@@ -4,6 +4,7 @@ test_that("readMzTabM works", {
     mtd_block <- c(
         "MTD\tmzTab-version\t2.1.0-M",
         "MTD\tmzTab-ID\t1",
+        "MTD\tmzTab-profile\tM",
         "MTD\tcontact[1]-name\tJuergen Hartler",
         "MTD\tcontact[1]-email\tjuergen.hartler@uni-graz.at",
         "MTD\tcontact[1]-affiliation\tInstitute of Pharmaceutical Sciences, University of Graz, Universitaetsplatz 1/I, 8010 Graz, Austria",
@@ -243,7 +244,7 @@ test_that("readMzTabM works", {
     ## SML section is present and is a matrix when SMH is in file
     f <- write_tmp(mtd_block, "\n", SML_block)
     res <- readMzTabM(f)
-    res_l <- as.list(res)
+    res_l <- as(res, "list")
     expect_true(!is.null(res_l[["SML"]]))
     expect_true(is.matrix(res_l[["SML"]]))
     expected_cols <- strsplit(SML_block[1], "\t")[[1]]
@@ -279,12 +280,6 @@ test_that("readMzTabM works", {
 
     ## full file returns all four sections in correct order
     expect_identical(names(res_l), c("MTD", "SML", "SMF", "SME"))
-
-    ## Error if sections are not in the correct order
-    ## TODO: call the validator on the file
-    ## f <- write_tmp(mtd_block, SMF_block, SML_block)
-    ## res <- readMzTabM(f)
-    ## expect_error(...)
 
     ## blank lines interspersed in file do not break parsing
     f <- write_tmp(

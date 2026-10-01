@@ -9,7 +9,11 @@
 #'
 #' @aliases mtd
 #'
+#' @aliases sml
+#'
 #' @aliases smf
+#'
+#' @aliases sme
 #'
 #' @description
 #'
@@ -18,8 +22,8 @@
 #' its content.
 #'
 #' New instances can be created using the `MzTabM()` function providing the
-#' content for the MTD, SML, SMF and SML sections (through parameters `mtd`,
-#' `sml`, `smf`, and `sml`, respectively).
+#' content for the MTD, SML, SMF and SME sections (through parameters `mtd`,
+#' `sml`, `smf`, and `sme`, respectively).
 #'
 #' @section MTD section; adding or getting metadata:
 #'
@@ -30,11 +34,20 @@
 #' - [getMtdDatabase()] and [setMtdDatabase()] for database information.
 #' - [getMtdCv()] and [setMtdCv()] for CV information.
 #' - [getMtdContact()] and [setMtdContact()] for contact information.
+#' - [getMtdProtocol()] and [setMtdProtocol()] for protocol information.
 #' - [getMtdField()] and [setMtdField()] for additional information.
+#'
+#' @section SML section; adding or getting small summary matrix:
+#'
+#' - `sml()`: returns the SML summary matrix of an `MzTabM` object.
 #'
 #' @section SMF section; adding or getting small feature abundance matrix:
 #'
 #' - `smf()`: returns the SMF feature abundance matrix of an `MzTabM` object.
+#'
+#' @section SME section; adding or getting small evidence matrix:
+#'
+#' - `sme()`: returns the SME evidence matrix of an `MzTabM` object.
 #'
 #' @param mtd Two-column `matrix` or `data.frame` with the MTD content (see
 #'     [MTD-export] for details and expected format/content).
@@ -53,6 +66,11 @@
 #' @author Johannes Rainer
 #'
 #' @name MzTabM
+#'
+#' @return
+#'
+#' See the help pages for the respective functions for information on their
+#' returned value(s).
 #'
 #' @examples
 #'
@@ -90,6 +108,15 @@
 #'           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 #' m
 #' getMtdContact(m)
+#'
+#' ## Add protocol metadata to an existing mzTab object
+#' m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
+#'        type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+#'        description = c("Eluting compounds were detected ..."),
+#'        parameters = paste0("[MS, MS:1000008, ionization type, ",
+#'                            "[MS,MS:1000073, electrospray ionization, ]]"))
+#' m
+#' getMtdProtocol(m)
 #'
 #' ## Add a metadata field to an existing mzTab object
 #' m <- setMtdField(m, field = "publication",
@@ -178,6 +205,16 @@ setMethod("setMtdContact", "MzTabM", function(x, name = character(),
     x
 })
 
+setMethod("setMtdProtocol", "MzTabM", function(x = matrix(),
+                                            name = character(),
+                                            type = character(),
+                                            description = character(),
+                                            parameters = character(),
+                                            replace = FALSE) {
+    x@mtd <- setMtdProtocol(x@mtd, name, type, description, parameters, replace)
+    x
+})
+
 setMethod("setMtdField", "MzTabM", function(x, field = character(),
                                             value = character(),
                                             replace = FALSE) {
@@ -195,6 +232,12 @@ setMethod("MzTabM", signature(mtd = "dfmatrix"),
                    sml = matrix(ncol = 0, nrow = 0),
                    smf = matrix(ncol = 0, nrow = 0),
                    sme = matrix(ncol = 0, nrow = 0)) {
+              profile <- paste0("M",
+                                ifelse(nrow(sml), "+S", ""),
+                                ifelse(nrow(smf), "+F", ""),
+                                ifelse(nrow(sme), "+E", ""))
+              mtd <- setMtdField(mtd, field = "mzTab-profile",
+                                 value = profile, replace = TRUE)
               res <- new("MzTabM", mtd = mtd, sml = sml, smf = smf, sme = sme)
               validObject(res)
               res
@@ -205,6 +248,21 @@ setMethod("MzTabM", signature(mtd = "missing"),
               MzTabM(mtdSkeleton(id = "<replace>", software = "<replace>"))
           })
 
+
+#' @rdname MzTabM
+#'
+#' @exportMethod mtd
+setMethod("mtd", signature(object = "MzTabM"), function(object) {
+    object@mtd
+})
+
+#' @rdname MzTabM
+#'
+#' @exportMethod sml
+setMethod("sml", signature(object = "MzTabM"), function(object) {
+    object@sml
+})
+
 #' @rdname MzTabM
 #'
 #' @exportMethod smf
@@ -214,9 +272,9 @@ setMethod("smf", signature(object = "MzTabM"), function(object) {
 
 #' @rdname MzTabM
 #'
-#' @exportMethod mtd
-setMethod("mtd", signature(object = "MzTabM"), function(object) {
-    object@mtd
+#' @exportMethod sme
+setMethod("sme", signature(object = "MzTabM"), function(object) {
+    object@sme
 })
 
 setMethod("as.list", "MzTabM", function(x, ...) {
@@ -245,6 +303,31 @@ setAs("MzTabM", "list", function(from, to) {
         msg <- c(msg, "MTD has to be a matrix with two columns")
     if (r_sme &! r_smf)
         msg <- c(msg, "SMF section needs to be defined if SME is present")
+    profile <- getMtdField(x@mtd, "mzTab-profile")
+    if (r_mtd & !(profile %in% .PROFILES))
+        msg <- c(msg, paste0("Profile '", profile, "' invalid. Please provide ",
+                            "a valid set of parameter"))
+    ## Verify if profile match the section in the file
+    if (r_mtd & r_sml & !(profile %in% grep("S", .PROFILES, value = TRUE)))
+        msg <- c(msg, paste0("SML section defined but not present in ",
+                             "'mzTab-profile' field"))
+    if (r_mtd & !r_sml & (profile %in% grep("S", .PROFILES, value = TRUE)))
+        msg <- c(msg, paste0("SML section present in 'mzTab-profile' field ",
+                            "but section not defined"))
+    if (r_mtd & r_smf & !(profile %in% grep("F", .PROFILES, value = TRUE)))
+        msg <- c(msg, paste0("SMF section defined but not present in ",
+                             "'mzTab-profile' field"))
+    if (r_mtd & !r_smf & (profile %in% grep("F", .PROFILES, value = TRUE)))
+        msg <- c(msg, paste0("SMF section present in 'mzTab-profile' field ",
+                            "but section not defined"))
+    if (r_mtd & r_sme & !(profile %in% grep("E", .PROFILES, value = TRUE)))
+        msg <- c(msg, paste0("SME section defined but not present in ",
+                             "'mzTab-profile' field"))
+    if (r_mtd & !r_sme & (profile %in% grep("E", .PROFILES, value = TRUE)))
+        msg <- c(msg, paste0("SME section present in 'mzTab-profile' field ",
+                            "but section not defined"))
+
+
     msg
 }
 
@@ -262,12 +345,4 @@ setAs("MzTabM", "list", function(from, to) {
     if (nrow(x@sme))
         l[["SME"]] <- x@sme
     l
-}
-
-#' Use the official validator to run a validity check including semantic
-#' validity
-#'
-#' @noRd
-.mztab_semantic_validation <- function(x) {
-    ## Use the validator... write content to temp file and run the validator.
 }

@@ -5,10 +5,14 @@
 \alias{MzTabM-class}
 \alias{MzTabM,missing-method}
 \alias{mtd}
+\alias{sml}
 \alias{smf}
+\alias{sme}
 \alias{MzTabM,dfmatrix-method}
-\alias{smf,MzTabM-method}
 \alias{mtd,MzTabM-method}
+\alias{sml,MzTabM-method}
+\alias{smf,MzTabM-method}
+\alias{sme,MzTabM-method}
 \title{mzTab-M data container}
 \usage{
 \S4method{MzTabM}{dfmatrix}(
@@ -18,9 +22,13 @@
   sme = matrix(ncol = 0, nrow = 0)
 )
 
+\S4method{mtd}{MzTabM}(object)
+
+\S4method{sml}{MzTabM}(object)
+
 \S4method{smf}{MzTabM}(object)
 
-\S4method{mtd}{MzTabM}(object)
+\S4method{sme}{MzTabM}(object)
 }
 \arguments{
 \item{mtd}{Two-column \code{matrix} or \code{data.frame} with the MTD content (see
@@ -37,14 +45,18 @@ for details and expected format/content).}
 
 \item{object}{\code{MzTabM} object.}
 }
+\value{
+See the help pages for the respective functions for information on their
+returned value(s).
+}
 \description{
 The \code{MzTabM} class is a simple container for the mzTab-M data/file content.
 Methods for this class allow adding or updating information and validating
 its content.
 
 New instances can be created using the \code{MzTabM()} function providing the
-content for the MTD, SML, SMF and SML sections (through parameters \code{mtd},
-\code{sml}, \code{smf}, and \code{sml}, respectively).
+content for the MTD, SML, SMF and SME sections (through parameters \code{mtd},
+\code{sml}, \code{smf}, and \code{sme}, respectively).
 }
 \section{MTD section; adding or getting metadata}{
 
@@ -56,7 +68,15 @@ Various functions are available to get or set metadata information of a
 \item \code{\link[=getMtdDatabase]{getMtdDatabase()}} and \code{\link[=setMtdDatabase]{setMtdDatabase()}} for database information.
 \item \code{\link[=getMtdCv]{getMtdCv()}} and \code{\link[=setMtdCv]{setMtdCv()}} for CV information.
 \item \code{\link[=getMtdContact]{getMtdContact()}} and \code{\link[=setMtdContact]{setMtdContact()}} for contact information.
+\item \code{\link[=getMtdProtocol]{getMtdProtocol()}} and \code{\link[=setMtdProtocol]{setMtdProtocol()}} for protocol information.
 \item \code{\link[=getMtdField]{getMtdField()}} and \code{\link[=setMtdField]{setMtdField()}} for additional information.
+}
+}
+
+\section{SML section; adding or getting small summary matrix}{
+
+\itemize{
+\item \code{sml()}: returns the SML summary matrix of an \code{MzTabM} object.
 }
 }
 
@@ -64,6 +84,13 @@ Various functions are available to get or set metadata information of a
 
 \itemize{
 \item \code{smf()}: returns the SMF feature abundance matrix of an \code{MzTabM} object.
+}
+}
+
+\section{SME section; adding or getting small evidence matrix}{
+
+\itemize{
+\item \code{sme()}: returns the SME evidence matrix of an \code{MzTabM} object.
 }
 }
 
@@ -103,6 +130,15 @@ m <- setMtdContact(m, name = "Name Surname",
           email = "name.surname@mail.com", orcid = "0000-0002-1825-0097")
 m
 getMtdContact(m)
+
+## Add protocol metadata to an existing mzTab object
+m <- setMtdProtocol(m, name = c("Mass Spectrometry"),
+       type = c("[CHMO, CHMO:0000470, mass spectrometry, ]"),
+       description = c("Eluting compounds were detected ..."),
+       parameters = paste0("[MS, MS:1000008, ionization type, ",
+                           "[MS,MS:1000073, electrospray ionization, ]]"))
+m
+getMtdProtocol(m)
 
 ## Add a metadata field to an existing mzTab object
 m <- setMtdField(m, field = "publication",

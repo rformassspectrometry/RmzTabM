@@ -130,12 +130,23 @@ test_that("isCvParameter works", {
 
 test_that(".NAtonull works", {
   df <- data.frame(
-    num  = c(1, NA, 3),
-    chr  = c("a", "", "b")
+    num = c(1, NA, 3),
+    chr = c("a", "", "b")
   )
   result <- .NAtonull(df)
   expect_true(is.data.frame(result))
   expect_equal(result$num, c("1", "null", "3"))
   expect_equal(result$chr, c("a", "null", "b"))
   expect_named(result, c("num", "chr"))
+})
+
+test_that(".separate_multi_links works", {
+    df <- data.frame(id = 1:2, assay_refs = c("a|b", "c"),
+                      stringsAsFactors = FALSE)
+    res <- .separate_multi_links(df, "assay_refs")
+    expect_equal(nrow(res), 3)
+    expect_equal(res$assay_refs, c("a", "b", "c"))
+    expect_equal(res$id, c(1, 1, 2))
+
+    expect_error(.separate_multi_links(df, "missing_col"), "not present")
 })

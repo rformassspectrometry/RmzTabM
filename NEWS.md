@@ -1,9 +1,63 @@
-# RmzTabM version 0.97
+# RmzTabM version 0.99
 
-## Changes in version 0.97.18
+## Changes in version 0.99.3
 
 - Add function `mzTabMValidator()` for the validation of the MzTab-M files
   before the import and after the export.
+
+## Changes in version 0.99.2
+
+- Adding support to `"mzTab-profile"` field.
+
+## Changes in version 0.99.1
+
+- Address Bioconductor review process comments.
+
+## Changes in version 0.99.0
+
+- Bioconductor submission.
+
+# RmzTabM version 0.97
+
+## Changes in version 0.97.20
+
+- Preparation to Biocondutor submission.
+
+## Changes in version 0.97.19
+
+- Fix issue [#45](https://github.com/rformassspectrometry/RmzTabM/issues/45)
+- Fix issue [#46](https://github.com/rformassspectrometry/RmzTabM/issues/46)
+- Fix issue [#47](https://github.com/rformassspectrometry/RmzTabM/issues/47)
+- Add method to handle sml/sme in MzTabM object.
+
+## Changes in version 0.97.18
+
+- Initial version of `makeSummarizedExperimentFromMzTabM()` to convert `mzTabM`
+  object with MTD+SMF to `SummarizedExperiment`.
+- Add helper function `mtdToSampleData()`, inverse function of
+  `mtdFromSampleData()`.
+- Fix minor bug `mtdFromSampleData`.
+- Update tests and vignette.
+
+## Changes in version 0.97.20
+
+- Preparation to Biocondutor submission.
+
+## Changes in version 0.97.19
+
+- Fix issue [#45](https://github.com/rformassspectrometry/RmzTabM/issues/45)
+- Fix issue [#46](https://github.com/rformassspectrometry/RmzTabM/issues/46)
+- Fix issue [#47](https://github.com/rformassspectrometry/RmzTabM/issues/47)
+- Add method to handle sml/sme in MzTabM object.
+
+## Changes in version 0.97.18
+
+- Initial version of `makeSummarizedExperimentFromMzTabM()` to convert `mzTabM`
+  object with MTD+SMF to `SummarizedExperiment`.
+- Add helper function `mtdToSampleData()`, inverse function of
+  `mtdFromSampleData()`.
+- Fix minor bug `mtdFromSampleData`.
+- Update tests and vignette.
 
 ## Changes in version 0.97.17
 

@@ -3,6 +3,7 @@
 #' @name MzTabM-export
 #'
 #' @description
+#'
 #' Write and validate an mzTab-M (version 2.1) file.
 #'
 #' The writer recognises the four standard sections:
@@ -34,6 +35,11 @@
 #' @importFrom utils write.table
 #'
 #' @author Gabriele Tomè
+#'
+#' @return
+#'
+#' The function does not return a value but writes the content the specified
+#' file.
 #'
 #' @examples
 #'
@@ -103,7 +109,7 @@ writeMzTabM <- function(x, path, comments = character()) {
         dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
     if (!grepl(".mztab$|.mzTab$", path))
-        path = paste0(path, ".mztab")
+        path <- paste0(path, ".mztab")
 
     ## MTD
     write.table(cbind(data.frame(rep("MTD", nrow(x[["MTD"]]))),

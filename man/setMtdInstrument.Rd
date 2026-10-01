@@ -42,10 +42,9 @@ experiment. (e.g., \code{"[MS, MS:1000253, electron multiplier,]"}).}
 \item{replace}{\code{logical} flag controlling how pre-existing instrument
 metadata is handled:
 \itemize{
-\item \code{FALSE} (default): new values are appended to any existing
-values.
-\item \code{TRUE}: existing instrument metadata is discarded and
-replaced entirely by the supplied arguments.
+\item \code{FALSE} (default): new values are appended to any existing values.
+\item \code{TRUE}: existing instrument metadata is discarded and replaced
+entirely by the supplied arguments.
 }}
 }
 \value{

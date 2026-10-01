@@ -49,7 +49,7 @@
 #' @examples
 #'
 #' ## Basic usage
-#' result <- readMzTabM(system.file("mztabm/out","xcms_mzTab-M_2-1_v2.mzTab",
+#' result <- readMzTabM(system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
 #'                                    package = "RmzTabM"))
 #' result
 #'
