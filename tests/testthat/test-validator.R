@@ -126,10 +126,8 @@ test_that("mzTabMValidator works", {
     expect_error(mzTabMValidator("non_existing_file.mzTab"),
                  "The file does not exist")
 
-    mztab_file <- system.file("mztabm/out","riken-lipidomics-r-mtd-sml.mztab",
+    mztab_file <- system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
                                 package = "RmzTabM")
-    with_mocked_bindings(Sys.which = function(...) "", .package = "base",
-        expect_error(mzTabMValidator(mztab_file), "Java is required"))
 
     ## Validation with errors -> error
     expect_error(suppressWarnings(mzTabMValidator(mztab_file)),

@@ -27,15 +27,12 @@ mzTabMValidator <- function(mztab_file) {
     if (!file.exists(mztab_file))
         stop("The file does not exist.")
 
-    if (Sys.which("java") == "")
-        stop("Java is required but was not found on your PATH. ", call. = FALSE)
+    ## Get Java validator if not already cached
+    validator_java <- mzTabMValidator_download()
 
-    validator_jar <- system.file("java", "jmztabm-validator.jar",
-                                 package = "RmzTabM")
-
-    ## Capture stdout/stderr of the jar execution.
-    raw_output <- system2(command = "java",
-                          args = c("-jar", validator_jar, "-c", mztab_file),
+    ## Capture stdout/stderr of the Java execution.
+    raw_output <- system2(command = validator_java,
+                          args = c("-c", mztab_file),
                           stdout = TRUE, stderr = TRUE)
     result <- parse_validation_output(raw_output)
 
@@ -129,4 +126,48 @@ parse_validation_output <- function(validator_output) {
     list(finished = finished, total_messages = total_messages,
          total_issues = total_issues, n_errors = n_errors,
          n_warnings = n_warnings, n_info = n_info, messages = messages)
+}
+
+
+#' @importFrom BiocFileCache BiocFileCache bfcquery bfcneedsupdate
+#' @importFrom BiocFileCache bfcremove bfcrpath bfcpath
+#' @importFrom jsonlite fromJSON
+#' @importFrom cli hash_file_sha256
+#'
+#' @export
+mzTabMValidator_download <- function(tag = "dev-latest", force = FALSE) {
+    sys <- Sys.info()[["sysname"]]
+    asset <- switch(sys,
+                    Linux = "jmztabm-validator-amd64-linux",
+                    Darwin = "jmztabm-validator-aarch64-macos",
+                    Windows = "jmztabm-validator-amd64-windows.exe",
+                    stop("Unsupported platform: ", sys))
+
+    # Remote metadata (size + sha256) for the requested release
+    rel <- fromJSON(paste0(
+    "https://api.github.com/repos/lifs-tools/jmzTab-m/releases/tags/", tag))
+    a <- rel$assets[rel$assets$name == asset, ]
+    if (!nrow(a)) stop("Asset '", asset, "' not found in release '", tag, "'")
+
+    # Is there a valid cached copy?
+    rname <- paste(tag, asset, sep = "_")
+    bfc <- BiocFileCache()
+    cached <- bfcquery(bfc, rname, exact = TRUE)
+    to_update <- !nrow(cached) || (is.null(a$digest) || is.na(a$digest) ||
+            hash_file_sha256(bfcpath(bfc, cached$rid[1])) !=
+                sub("^sha256:", "", a$digest))
+
+    if (force | to_update) {
+        if (nrow(cached))
+            bfcremove(bfc, cached$rid)
+
+        path <- bfcrpath(bfc, rnames = rname,
+                        fpath = a$browser_download_url, exact = TRUE)
+
+        if (sys != "Windows")
+            Sys.chmod(path, "755")  # make executable
+    } else
+        path <- bfcpath(bfc, cached$rid[1])
+
+    path
 }

@@ -107,17 +107,17 @@ MTD	study_variable_group[1]	[,,age,]
 MTD	study_variable_group[1]-description	Sample matrix column age
 MTD	study_variable_group[1]-type	[STATO, STATO:0000251, continuous variable, ]
 MTD	study_variable_group[1]-datatype	xsd:integer
-MTD	study_variable_group[1]-study_variable_ref	study_variable[1]|study_variable[2]|study_variable[3]|study_variable[4]|study_variable[5]|study_variable[6]
+MTD	study_variable_group[1]-study_variable_refs	study_variable[1]|study_variable[2]|study_variable[3]|study_variable[4]|study_variable[5]|study_variable[6]
 MTD	study_variable_group[2]	[,,phenotype,]
 MTD	study_variable_group[2]-description	Sample matrix column phenotype
 MTD	study_variable_group[2]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[2]-datatype	xsd:string
-MTD	study_variable_group[2]-study_variable_ref	study_variable[7]|study_variable[8]|study_variable[9]
+MTD	study_variable_group[2]-study_variable_refs	study_variable[7]|study_variable[8]|study_variable[9]
 MTD	study_variable_group[3]	[,,blood_sample_type,]
 MTD	study_variable_group[3]-description	Sample matrix column blood_sample_type
 MTD	study_variable_group[3]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[3]-datatype	xsd:string
-MTD	study_variable_group[3]-study_variable_ref	study_variable[10]|study_variable[11]
+MTD	study_variable_group[3]-study_variable_refs	study_variable[10]|study_variable[11]
 MTD	study_variable[1]	NA
 MTD	study_variable[1]-assay_refs	assay[1]|assay[4]|assay[7]|assay[10]
 MTD	study_variable[1]-average_function	[MS, MS:1002962, mean, ]

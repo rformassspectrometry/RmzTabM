@@ -76,12 +76,12 @@ MTD	study_variable_group[1]	[,,sample_group,]
 MTD	study_variable_group[1]-description	Sample matrix column sample_group
 MTD	study_variable_group[1]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[1]-datatype	xsd:string
-MTD	study_variable_group[1]-study_variable_ref	study_variable[1]|study_variable[2]
+MTD	study_variable_group[1]-study_variable_refs	study_variable[1]|study_variable[2]
 MTD	study_variable_group[2]	[,,experiment,]
 MTD	study_variable_group[2]-description	Sample matrix column experiment
 MTD	study_variable_group[2]-type	[STATO, STATO:0000252, categorical variable, ]
 MTD	study_variable_group[2]-datatype	xsd:string
-MTD	study_variable_group[2]-study_variable_ref	study_variable[3]|study_variable[4]|study_variable[5]|study_variable[6]
+MTD	study_variable_group[2]-study_variable_refs	study_variable[3]|study_variable[4]|study_variable[5]|study_variable[6]
 MTD	study_variable[1]	KO
 MTD	study_variable[1]-assay_refs	assay[1]|assay[2]|assay[3]|assay[4]
 MTD	study_variable[1]-average_function	[MS, MS:1002962, mean, ]

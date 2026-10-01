@@ -49,7 +49,10 @@ Imports:
     methods,
     SummarizedExperiment,
     stats,
-    utils
+    utils,
+    BiocFileCache,
+    cli,
+    jsonlite
 Suggests:
     testthat,
     alabaster.se,
