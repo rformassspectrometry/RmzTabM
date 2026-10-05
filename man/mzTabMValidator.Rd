@@ -23,6 +23,10 @@ mzTab-M 2.1 specification. The function captures the output of the validator
 and parses it to determine if the validation was successful, and to extract
 any validation messages (errors, warnings, info).
 }
+\seealso{
+\link{mzTabMValidator_download} to determine the path of the cached
+jmztabm-validator binary.
+}
 \author{
 Gabriele Tomè
 }

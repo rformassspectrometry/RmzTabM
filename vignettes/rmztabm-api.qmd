@@ -368,9 +368,10 @@ Now we have a complete mzTab-M content compiled and can proceed to export it.
 The MzTabM object, containing the MTD and SMF sections, is ready for export to
 an mzTab-M file. Following generation, the file is verified using the mzTab-M
 validator. The validation report confirms that the file was generated
-successfully, returning only a single Info message. This message notes the
-absence of the SML section, which is expected given that we intentionally
-generated an MTD+SMF file.
+successfully, returning only two Info message. These message notes highlight the
+presence of the `small_molecule-quantification_unit` and `database` fields in
+the MTD section, noting that they are not necessary since the SML and SME
+sections are not present.
 
 ```{r writemztabm}
 writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
@@ -411,6 +412,21 @@ The reconstructed `SummarizedExperiment` contains the same measurement data.
 Differences in `rowData` and `colData` reflect that only fields present in the
 SMF and MTD sections are loaded and that column names follow the mzTab-M
 specification.
+
+### Validation of the mzTab-M file
+
+A mzTab-M file can be validated using the `validateMzTabM()` function. This
+function is the R interface to the
+[jmztabm-validator](https://github.com/lifs-tools/jmzTab-m) which is a tool that
+checks the compliance of mzTab-M files with the mzTab-M format specification.
+The validator checks for the presence of mandatory fields, the correct
+formatting of values, and the consistency of cross-references between sections.
+The functions `readMzTabM()` and `writeMzTabM()` automatically validate the
+mzTab-M file after reading or writing, respectively.
+
+```{r mztabm_validation}
+mzTabMValidator(file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
+```
 
 ## Low-level functions
 
@@ -879,7 +895,7 @@ will be added as *optional* columns (prefixed with `"opt_"`)
 The function require the MTD section defined earlier to validate the
 `spectra_ref` reported in the SME section.
 
-```{r smeCreate}
+```{r smeCreate, results = "asis"}
 sme <- smeCreate(
     evidence_input_id = ev_df$evidence_input_id,
     exp_mass_to_charge = ev_df$exp_mass_to_charge,

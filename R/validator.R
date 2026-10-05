@@ -22,6 +22,9 @@
 #'
 #' @importFrom utils capture.output
 #'
+#' @seealso [mzTabMValidator_download] to determine the path of the cached
+#'     jmztabm-validator binary.
+#'
 #' @export
 mzTabMValidator <- function(mztab_file) {
     if (!file.exists(mztab_file))
@@ -129,10 +132,37 @@ parse_validation_output <- function(validator_output) {
 }
 
 
+#' @title Download the jmztabm-validator binary
+#'
+#' @name mzTabMValidator_download
+#'
+#' @description
+#' This function downloads the jmztabm-validator binary for the current
+#' platform (*Linux*, *macOS*, or *Windows*) from the GitHub releases of the
+#' [jmztabm-validator repository](https://github.com/lifs-tools/jmzTab-m/releases).
+#' It caches the downloaded binary using *BiocFileCache* to avoid repeated downloads.
+#'
+#' @param tag `character(1)` specifying the release tag to download. Defaults
+#'     `"dev-latest"`.
+#'
+#' @param force `logical(1)` indicating whether to force re-download of the
+#'     binary even if a cached copy exists.
+#'
+#' @return `character(1)` with the path of the jmztabm-validator.
+#'
 #' @importFrom BiocFileCache BiocFileCache bfcquery bfcneedsupdate
+#'
 #' @importFrom BiocFileCache bfcremove bfcrpath bfcpath
+#'
 #' @importFrom jsonlite fromJSON
+#'
 #' @importFrom cli hash_file_sha256
+#'
+#' @author Gabriele Tomè
+#'
+#' @examples
+#'
+#' mzTabMValidator_download()
 #'
 #' @export
 mzTabMValidator_download <- function(tag = "dev-latest", force = FALSE) {
@@ -143,29 +173,32 @@ mzTabMValidator_download <- function(tag = "dev-latest", force = FALSE) {
                     Windows = "jmztabm-validator-amd64-windows.exe",
                     stop("Unsupported platform: ", sys))
 
-    # Remote metadata (size + sha256) for the requested release
-    rel <- fromJSON(paste0(
-    "https://api.github.com/repos/lifs-tools/jmzTab-m/releases/tags/", tag))
-    a <- rel$assets[rel$assets$name == asset, ]
-    if (!nrow(a)) stop("Asset '", asset, "' not found in release '", tag, "'")
-
-    # Is there a valid cached copy?
     rname <- paste(tag, asset, sep = "_")
     bfc <- BiocFileCache()
     cached <- bfcquery(bfc, rname, exact = TRUE)
-    to_update <- !nrow(cached) || (is.null(a$digest) || is.na(a$digest) ||
-            hash_file_sha256(bfcpath(bfc, cached$rid[1])) !=
-                sub("^sha256:", "", a$digest))
 
-    if (force | to_update) {
-        if (nrow(cached))
-            bfcremove(bfc, cached$rid)
+    if(force | !nrow(cached)){
+        # Remote metadata (size + sha256) for the requested release
+        rel <- fromJSON(paste0(
+        "https://api.github.com/repos/lifs-tools/jmzTab-m/releases/tags/", tag))
+        a <- rel$assets[rel$assets$name == asset, ]
+        if (!nrow(a))
+            stop("Asset '", asset, "' not found in release '", tag, "'")
 
-        path <- bfcrpath(bfc, rnames = rname,
-                        fpath = a$browser_download_url, exact = TRUE)
+        to_update <- is.null(a$digest) || is.na(a$digest) ||
+                hash_file_sha256(bfcpath(bfc, cached$rid[1])) !=
+                    sub("^sha256:", "", a$digest)
 
-        if (sys != "Windows")
-            Sys.chmod(path, "755")  # make executable
+        if (to_update) {
+            if (nrow(cached))
+                bfcremove(bfc, cached$rid)
+
+            path <- bfcrpath(bfc, rnames = rname,
+                            fpath = a$browser_download_url, exact = TRUE)
+
+            if (sys != "Windows")
+                Sys.chmod(path, "755")  # make executable
+        }
     } else
         path <- bfcpath(bfc, cached$rid[1])
 
