@@ -20,6 +20,8 @@ export(mtdSkeleton)
 export(mtdSort)
 export(mtdStudyVariables)
 export(mtdToSampleData)
+export(mzTabMValidator)
+export(mzTabMValidator_download)
 export(parseCvParameter)
 export(readMzTabM)
 export(sampleCols)
@@ -46,16 +48,26 @@ exportMethods(setMtdProtocol)
 exportMethods(sme)
 exportMethods(smf)
 exportMethods(sml)
+importFrom(BiocFileCache,
+  BiocFileCache,
+  bfcneedsupdate,
+  bfcpath,
+  bfcquery,
+  bfcremove,
+  bfcrpath
+)
 importFrom(SummarizedExperiment,
   SummarizedExperiment,
   assay,
   assayNames,
   rowData
 )
+importFrom(cli,hash_file_sha256)
 importFrom(data.table,
   fread,
   setnames
 )
+importFrom(jsonlite,fromJSON)
 importFrom(methods,
   new,
   validObject
@@ -65,6 +77,7 @@ importFrom(stats,
   setNames
 )
 importFrom(utils,
+  capture.output,
   packageVersion,
   write.table
 )

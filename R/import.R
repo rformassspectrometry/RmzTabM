@@ -70,6 +70,9 @@ readMzTabM <- function(path, ...) {
         stop("The file is not in the mzTab-M format. Missing \"SFH\" header
               for SMF section, which is required if SME section is present.")
 
+    ## Validate input mzTab-M file
+    validation_res <- mzTabMValidator(path)
+
     out <- list()
     ## MTD
     mtd_lines <- grep("^MTD\\t", lines, value = TRUE)

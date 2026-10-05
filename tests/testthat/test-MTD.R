@@ -549,7 +549,7 @@ test_that("mtdStudyVariables works", {
                    "study_variable_group[1]-description",
                    "study_variable_group[1]-type",
                    "study_variable_group[1]-datatype",
-                   "study_variable_group[1]-study_variable_ref",
+                   "study_variable_group[1]-study_variable_refs",
                    "study_variable[1]",
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
@@ -586,13 +586,13 @@ test_that("mtdStudyVariables works", {
                    "study_variable_group[1]-description",
                    "study_variable_group[1]-type",
                    "study_variable_group[1]-datatype",
-                   "study_variable_group[1]-study_variable_ref",
+                   "study_variable_group[1]-study_variable_refs",
                    "study_variable_group[2]",
                    "study_variable_group[2]-description",
                    "study_variable_group[2]-type",
                    "study_variable_group[2]-datatype",
                    "study_variable_group[2]-unit",
-                   "study_variable_group[2]-study_variable_ref",
+                   "study_variable_group[2]-study_variable_refs",
                    "study_variable[1]",
                    "study_variable[1]-assay_refs",
                    "study_variable[1]-average_function",
@@ -654,7 +654,7 @@ test_that("mtdStudyVariables works", {
                               "study_variable_group[1]-description",
                               "study_variable_group[1]-type",
                               "study_variable_group[1]-datatype",
-                              "study_variable_group[1]-study_variable_ref",
+                              "study_variable_group[1]-study_variable_refs",
                               "study_variable[1]",
                               "study_variable[1]-assay_refs",
                               "study_variable[1]-average_function",
@@ -680,13 +680,13 @@ test_that("mtdStudyVariables works", {
     expect_match(res[res[, 1L] == "study_variable_group[1]-type", 2L], "cate")
     expect_match(res[res[, 1L] == "study_variable_group[2]-type", 2L], "conti")
     expect_match(res[res[, 1L] == "study_variable_group[3]-type", 2L], "cate")
-    expect_equal(res[res[, 1L] == "study_variable_group[1]-study_variable_ref",
+    expect_equal(res[res[, 1L] == "study_variable_group[1]-study_variable_refs",
                      2L],
                  "study_variable[1]|study_variable[2]")
-    expect_equal(res[res[, 1L] == "study_variable_group[2]-study_variable_ref",
+    expect_equal(res[res[, 1L] == "study_variable_group[2]-study_variable_refs",
                     2L],
                  "study_variable[3]|study_variable[4]")
-    expect_equal(res[res[, 1L] == "study_variable_group[3]-study_variable_ref",
+    expect_equal(res[res[, 1L] == "study_variable_group[3]-study_variable_refs",
                      2L],
                  "study_variable[5]|study_variable[6]|study_variable[7]")
     expect_equal(res[res[, 1L] == "study_variable[1]", 2L], "TRUE")

@@ -398,7 +398,6 @@ mtdFields <- function(..., field_prefix = "") {
 #'     - `"M"`: Only Metadata
 #'     - `"M+S"`: Metadata + Small Molecule section ("SML")
 #'     - `"M+F"`: Metadata + Small Molecule Feature section ("SMF")
-#'     - `"M+S+F"`: Metadata + SML + SMF
 #'     - `"M+F+E"`: Metadata + SMF + Small Molecule Evidence section ("SME")
 #'     - `"M+S+F+E"`: Metadata + SML + SMF + SME
 #'
@@ -492,8 +491,8 @@ mtdSkeleton <- function(id = character(),
                         small_molecule_feature_quantification_unit = "[PRIDE, PRIDE:0000330, Arbitrary quantification unit, ]",
                         small_molecule_identification_reliability = "[MS, MS:1002896, compound identification confidence level, ]",
                         mztab_version = "2.1.0-M",
-                        mztab_profile = c("M", "M+S", "M+F", "M+S+F",
-                                          "M+F+E", "M+S+F+E")) {
+                        mztab_profile = c("M", "M+S", "M+F",
+                                            "M+F+E", "M+S+F+E")) {
     if (!length(id)) stop("Parameter 'id' is required", call. = FALSE)
     if (!length(software)) stop("Parameter 'software' is required", call.=FALSE)
     if (!isCvParameter(software))
@@ -1182,7 +1181,7 @@ mtdStudyVariables <- function(x, groups = character(),
                         c(paste0("study_variable_group[",
                         rep(seq_along(groups_cv), each = 6L),
                         c("]", "]-description", "]-type",
-                          "]-datatype", "]-unit", "]-study_variable_ref")),
+                          "]-datatype", "]-unit", "]-study_variable_refs")),
                         unlist(svg[order(rep(seq_along(groups_cv), 6L))])))
     ## drop rows with empty unit
     svar_g_df <- svar_g_df[!(grepl("-unit$", svar_g_df[, 1L]) &
@@ -1626,7 +1625,7 @@ mtdToSampleData <- function(mtd) {
         study_var_grp_w <- .mtd_long_to_wide(study_var_grp_field)
         study_var_grp_w$group <- parseCvParameter(study_var_grp_w$name, 3)
         study_var_grp_w <- .separate_multi_links(study_var_grp_w,
-                                            "study_variable_ref")
+                                            "study_variable_refs")
 
         if (all(study_var_grp_w$group != "undefined")) {
             study_var_field <- mtd[grepl("^study_variable\\[([0-9]+)\\]",
@@ -1636,8 +1635,9 @@ mtdToSampleData <- function(mtd) {
             study_var_w <- .separate_multi_links(study_var_w, "assay_refs")
 
             study_l <- merge(study_var_w,
-                            study_var_grp_w[, c("study_variable_ref", "group")],
-                            by.x = "id", by.y = "study_variable_ref")
+                            study_var_grp_w[, c("study_variable_refs",
+                                                "group")],
+                            by.x = "id", by.y = "study_variable_refs")
             cols_study <- c("assay_refs", "group", "name")
             study_w <- reshape(study_l[, cols_study], idvar = "assay_refs",
                                 timevar = "group", direction = "wide")
@@ -1988,7 +1988,6 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
     "M",
     "M+S",
     "M+F",
-    "M+S+F",
     "M+F+E",
     "M+S+F+E"
 )
@@ -2213,7 +2212,7 @@ assayCols <- function(assay = "assay", external_uri = "external_uri",
 #' Helper function to compute the linkage between `study_variable_group` and
 #' `study_variable`.
 #'
-#' @return returns `study_variable_ref`
+#' @return returns `study_variable_refs`
 #'
 #' @noRd
 .mtd_svar_group_variable_ref <- function(svars) {

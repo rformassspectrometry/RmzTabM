@@ -130,24 +130,22 @@ test_that("readMzTabM works", {
         "MTD\tstudy_variable_group[1]-description\tSample",
         "MTD\tstudy_variable_group[1]-type\t[STATO, STATO:0000252, categorical variable, ]",
         "MTD\tstudy_variable_group[1]-datatype\txsd:string",
+        "MTD\tstudy_variable_group[1]-study_variable_refs\tstudy_variable[1]|study_variable[2]|study_variable[3]",
         "MTD\tstudy_variable[1]\tmouse liver 1",
         "MTD\tstudy_variable[1]-description\tmouse liver 1",
         "MTD\tstudy_variable[1]-average_function\t[MS, MS:1002962, The arithmetic mean, ]",
         "MTD\tstudy_variable[1]-variation_function\t[MS, MS:1002963, The coefficient of variation, ]",
         "MTD\tstudy_variable[1]-assay_refs\tassay[1]|assay[2]|assay[3]|assay[4]|assay[5]",
-        "MTD\tstudy_variable[1]-group_ref\tstudy_variable_group[1]",
         "MTD\tstudy_variable[2]\tmouse liver 2",
         "MTD\tstudy_variable[2]-description\tmouse liver 2",
         "MTD\tstudy_variable[2]-average_function\t[MS, MS:1002962, The arithmetic mean, ]",
         "MTD\tstudy_variable[2]-variation_function\t[MS, MS:1002963, The coefficient of variation, ]",
         "MTD\tstudy_variable[2]-assay_refs\tassay[6]|assay[7]|assay[8]|assay[9]|assay[10]",
-        "MTD\tstudy_variable[2]-group_ref\tstudy_variable_group[1]",
         "MTD\tstudy_variable[3]\tmouse liver 3",
         "MTD\tstudy_variable[3]-description\tmouse liver 3",
         "MTD\tstudy_variable[3]-average_function\t[MS, MS:1002962, The arithmetic mean, ]",
         "MTD\tstudy_variable[3]-variation_function\t[MS, MS:1002963, The coefficient of variation, ]",
         "MTD\tstudy_variable[3]-assay_refs\tassay[11]|assay[12]|assay[13]|assay[14]|assay[15]",
-        "MTD\tstudy_variable[3]-group_ref\tstudy_variable_group[1]",
         "MTD\tcv[1]-label\tMS",
         "MTD\tcv[1]-uri\thttps://www.ebi.ac.uk/ols/ontologies/ms",
         "MTD\tcv[1]-version\t20-06-2018",
@@ -184,6 +182,11 @@ test_that("readMzTabM works", {
         "MTD\tdatabase[1]-uri\thttps://github.com/ThallingerLab/LDA2",
         "MTD\tdatabase[1]-version\t2.11.1",
         "MTD\tid_confidence_measure[1]\t[MS, MS:1002890, fragmentation score, ]"
+    )
+
+    SML_only_block <- c(
+    "SMH\tSML_ID\tSMF_ID_REFS\tdatabase_identifier\tchemical_formula\tsmiles\tinchi\tchemical_name\turi\ttheoretical_neutral_mass\tadduct_ions\treliability\tbest_id_confidence_measure\tbest_id_confidence_value\tabundance_assay[1]\tabundance_assay[2]\tabundance_assay[3]\tabundance_assay[4]\tabundance_assay[5]\tabundance_assay[6]\tabundance_assay[7]\tabundance_assay[8]\tabundance_assay[9]\tabundance_assay[10]\tabundance_assay[11]\tabundance_assay[12]\tabundance_assay[13]\tabundance_assay[14]\tabundance_assay[15]\tabundance_study_variable[1]\tabundance_study_variable[2]\tabundance_study_variable[3]\tabundance_variation_study_variable[1]\tabundance_variation_study_variable[2]\tabundance_variation_study_variable[3]\topt_global_lipid_species\topt_global_lipid_lda_species",
+    "SML\t1\tnull\tlda2:LPS 11:1\tC17H32NO9P\tnull\tnull\tLPS 11:1\tnull\t425.181468792\t[M-H]-\t3\t[MS, MS:1002890, fragmentation score, ]\tnull\t32605.1391601563\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\tnull\t32605.1391601563\t0\t0\tNaN\tNaN\tNaN\tLPS 11:1\tLPS 11:1_38.45"
     )
 
     SML_block <- c(
@@ -242,18 +245,26 @@ test_that("readMzTabM works", {
     expect_equal(as.character(res_l[["MTD"]][1, 2]), "2.1.0-M")
 
     ## SML section is present and is a matrix when SMH is in file
-    f <- write_tmp(mtd_block, "\n", SML_block)
+    mtd_block[3] <- "MTD\tmzTab-profile\tM+S"
+    f <- write_tmp(mtd_block, "\n", SML_only_block)
     res <- readMzTabM(f)
     res_l <- as(res, "list")
     expect_true(!is.null(res_l[["SML"]]))
     expect_true(is.matrix(res_l[["SML"]]))
-    expected_cols <- strsplit(SML_block[1], "\t")[[1]]
+    expected_cols <- strsplit(SML_only_block[1], "\t")[[1]]
     expect_identical(colnames(res_l[["SML"]]), expected_cols)
     expect_equal(nrow(res_l[["SML"]]), 1)
     expect_equal(as.character(res_l[["SML"]][1, "SML_ID"]), "1")
 
-    ## SMF section is present and is a matrix when SFH is in file
+    ## SMF + SML error
+    mtd_block[3] <- "MTD\tmzTab-profile\tM+S+F"
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block)
+    expect_error(suppressWarnings(readMzTabM(f)),
+                "not a supported mzTab-profile.")
+
+    ## SMF only
+    mtd_block[3] <- "MTD\tmzTab-profile\tM+F"
+    f <- write_tmp(mtd_block, "\n", SMF_block)
     res <- readMzTabM(f)
     res_l <- as.list(res)
     expect_true(!is.null(res_l[["SMF"]]))
@@ -266,6 +277,7 @@ test_that("readMzTabM works", {
                  "424.1772")
 
     ## SME section is present when both SFH and SEH are in file
+    mtd_block[3] <- "MTD\tmzTab-profile\tM+S+F+E"
     f <- write_tmp(mtd_block, "\n", SML_block, "\n", SMF_block, "\n", SME_block)
     res <- readMzTabM(f)
     res_l <- as.list(res)
@@ -282,10 +294,11 @@ test_that("readMzTabM works", {
     expect_identical(names(res_l), c("MTD", "SML", "SMF", "SME"))
 
     ## blank lines interspersed in file do not break parsing
+    mtd_block[3] <- "MTD\tmzTab-profile\tM+S"
     f <- write_tmp(
         mtd_block[1], "",
         mtd_block[2:length(mtd_block)], "",
-        SML_block
+        SML_only_block
     )
     res <- readMzTabM(f)
     res_l <- as.list(res)
@@ -293,7 +306,7 @@ test_that("readMzTabM works", {
     expect_equal(nrow(res_l[["MTD"]]), length(mtd_block))
 
     ## extra fread arguments via ... are accepted without error
-    f <- write_tmp(mtd_block, SML_block)
+    f <- write_tmp(mtd_block, SML_only_block)
     # nThread is a valid fread argument; if ... forwarding is broken this errors
     expect_no_error(readMzTabM(f, nThread = 1L))
 })

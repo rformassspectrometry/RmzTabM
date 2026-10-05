@@ -9,3 +9,5 @@ Makefile
 local_data
 README.Rmd
 
+^doc$
+^Meta$

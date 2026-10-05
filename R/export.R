@@ -162,4 +162,13 @@ writeMzTabM <- function(x, path, comments = character()) {
                                     append = TRUE, quote = FALSE,
                                     fileEncoding = "UTF-8"))
     }
+
+    ## Validate the mzTab-M file
+    tryCatch({
+        validation_res <- mzTabMValidator(path)
+    }, error = function(e) {
+        file.remove(path)
+        stop("mzTab validation failed: ", e$message)
+    })
+    validation_res
 }
