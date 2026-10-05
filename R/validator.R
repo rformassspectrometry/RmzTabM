@@ -185,7 +185,8 @@ mzTabMValidator_download <- function(tag = "dev-latest", force = FALSE) {
         if (!nrow(a))
             stop("Asset '", asset, "' not found in release '", tag, "'")
 
-        to_update <- !nrow(cached) || is.null(a$digest) || is.na(a$digest) ||
+        to_update <- force || !nrow(cached) ||
+                is.null(a$digest) || is.na(a$digest) ||
                 hash_file_sha256(bfcpath(bfc, cached$rid[1])) !=
                     sub("^sha256:", "", a$digest)
 

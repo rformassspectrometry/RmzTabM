@@ -154,3 +154,12 @@ test_that("mzTabMValidator works", {
                                           text = character())
                 ))
 })
+
+test_that("mzTabMValidator_download works", {
+    path <- mzTabMValidator_download()
+    expect_true(file.exists(path))
+
+    path_2 <- mzTabMValidator_download(force = TRUE)
+    expect_true(file.exists(path_2))
+    expect_true(path != path_2)
+})
