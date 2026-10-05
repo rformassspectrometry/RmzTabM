@@ -30,11 +30,11 @@ mzTabMValidator <- function(mztab_file) {
     if (!file.exists(mztab_file))
         stop("The file does not exist.")
 
-    ## Get Java validator if not already cached
-    validator_java <- mzTabMValidator_download()
+    ## Get path validator if not already cached
+    validator_path <- mzTabMValidator_download()
 
-    ## Capture stdout/stderr of the Java execution.
-    raw_output <- system2(command = validator_java,
+    ## Capture stdout/stderr of the execution.
+    raw_output <- system2(command = validator_path,
                           args = c("-c", mztab_file),
                           stdout = TRUE, stderr = TRUE)
     result <- parse_validation_output(raw_output)
@@ -178,7 +178,7 @@ mzTabMValidator_download <- function(tag = "dev-latest", force = FALSE) {
     cached <- bfcquery(bfc, rname, exact = TRUE)
 
     if(force | !nrow(cached)){
-        # Remote metadata (size + sha256) for the requested release
+        ## Remote metadata (size + sha256) for the requested release
         rel <- fromJSON(paste0(
         "https://api.github.com/repos/lifs-tools/jmzTab-m/releases/tags/", tag))
         a <- rel$assets[rel$assets$name == asset, ]
@@ -197,7 +197,7 @@ mzTabMValidator_download <- function(tag = "dev-latest", force = FALSE) {
                             fpath = a$browser_download_url, exact = TRUE)
 
             if (sys != "Windows")
-                Sys.chmod(path, "755")  # make executable
+                Sys.chmod(path, "755")  ## make executable
         }
     } else
         path <- bfcpath(bfc, cached$rid[1])
