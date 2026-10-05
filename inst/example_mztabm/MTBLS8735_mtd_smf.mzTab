@@ -1,10 +1,11 @@
 MTD	mzTab-version	2.1.0-M
 MTD	mzTab-ID	MTBLS8735
+MTD	mzTab-profile	M+F
 MTD	instrument[1]-name	[MS, MS:1002584, AB Sciex TripleTOF 5600+, ]
 MTD	instrument[1]-source	[MS, MS:1000073, ESI, ]
 MTD	instrument[1]-analyzer[1]	[MS, MS:1003763, quadrupole time-of-flight instrument, ]
 MTD	instrument[1]-detector	[,,null,null]
-MTD	software[1]	[,,RmzTabM,RmzTabM version 0.97.20]
+MTD	software[1]	[,,RmzTabM,RmzTabM version 0.99.3]
 MTD	software[2]	[MS, MS:1001582, xcms, 4.10.0]
 MTD	contact[1]-name	Johannes Rainer
 MTD	contact[1]-affiliation	Institute for Biomedicine, Eurac Research, Bolzano, Italy
@@ -176,7 +177,7 @@ MTD	study_variable[11]-description	Variable blood_sample_type, value blood plasm
 MTD	cv[1]-label	MS
 MTD	cv[1]-full_name	PSI-MS controlled vocabulary
 MTD	cv[1]-version	4.1.138
-MTD	cv[1]-uri	https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+MTD	cv[1]-uri	https://www.ebi.ac.uk/ols4/ontologies/ms
 MTD	cv[2]-label	PRIDE
 MTD	cv[2]-full_name	PRIDE PRoteomics IDEntifications (PRIDE) database controlled vocabulary
 MTD	cv[2]-version	16:10:2023 11:38

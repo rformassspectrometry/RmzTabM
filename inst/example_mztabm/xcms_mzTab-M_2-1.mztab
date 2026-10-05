@@ -1,5 +1,6 @@
 MTD	mzTab-version	2.1.0-M
 MTD	mzTab-ID	xcms_mzTab-M_2-1_v3
+MTD	mzTab-profile	M+F
 MTD	instrument[1]-name	[MS, MS:1000449, LTQ Orbitrap,]
 MTD	instrument[1]-source	[MS, MS:1000073, ESI,]
 MTD	instrument[1]-analyzer[1]	[MS, MS:1000291, linear ion trap,]
