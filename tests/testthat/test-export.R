@@ -227,6 +227,7 @@ test_that("writeMzTabM works", {
     expect_error(writeMzTabM(x = list(), path = f), "MTD section")
     x <- list("MTD" = mtd_block, "SME" = SME_block)
     expect_error(writeMzTabM(x, path = f), "Missing \"SFH\" section")
+    expect_false(file.exists(f))
 
     ## Test save only MTD in a pregenerated file
     x <- list("MTD" = mtd_block)
