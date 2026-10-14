@@ -209,6 +209,12 @@ through code. An potentially incomplete list of people:
 - [`mtdToSampleData()`](https://rformassspectrometry.github.io/RmzTabM/reference/mtdToSampleData.md)
   : Reconstruct a sample data frame from mzTab-M MTD content
 
+- [`mzTabMValidator()`](https://rformassspectrometry.github.io/RmzTabM/reference/mzTabMValidator.md)
+  : Validate an mzTab-M file using the jmztabm-validator
+
+- [`mzTabMValidator_download()`](https://rformassspectrometry.github.io/RmzTabM/reference/mzTabMValidator_download.md)
+  : Download the jmztabm-validator binary
+
 - [`parseCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   [`isCvParameter()`](https://rformassspectrometry.github.io/RmzTabM/reference/parseCvParameter.md)
   : Utility functions for CV parameters

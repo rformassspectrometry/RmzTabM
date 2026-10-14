@@ -27,7 +27,7 @@ Column names of `SMH`, `SFH` and `SEH` are used as section headers.
 ## Usage
 
 ``` r
-writeMzTabM(x, path, comments = character())
+writeMzTabM(x, path, comments = character(), validate = TRUE)
 ```
 
 ## Arguments
@@ -45,10 +45,15 @@ writeMzTabM(x, path, comments = character())
   `character` vector of comments to add to the file. The comments will
   be written after the `MTD` section and before any other section.
 
+- validate:
+
+  `logical(1)` to run the validation on the exported file. Default:
+  `TRUE`.
+
 ## Value
 
-The function does not return a value but writes the content the
-specified file.
+The function does not return a value but, if the validation is
+performed, it writes the validation report.
 
 ## Author
 
@@ -98,8 +103,43 @@ x <- list("MTD" = mtd)
 filepath <- file.path(tempdir(), "example.mztab")
 
 result <- writeMzTabM(x, path = filepath)
+#> Validation finished successfully: 4 message(s) found, including:
+#>  - Info(s): 4
+#>  - Warning(s): 0
+#>  - Error(s): 0
+#> 
+#> Validation messages:
+#>   level code line_no
+#> 1  Info 2057      -1
+#> 2  Info 2057      -1
+#> 3  Info 2057      -1
+#> 4  Info 2057      -1
+#>                                                                                                                                                         text
+#> 1 "quantification_method" is present but the profile "M" has no "small molecule summary (SML)/small molecule feature (SMF)" section that would require it.\r
+#> 2                 "small_molecule-quantification_unit" is present but the profile "M" has no "small molecule summary (SML)" section that would require it.\r
+#> 3         "small_molecule_feature-quantification_unit" is present but the profile "M" has no "small molecule feature (SMF)" section that would require it.\r
+#> 4                                          "database" is present but the profile "M" has no "small molecule evidence (SME)" section that would require it.\r
 
 ## Add comments
 comments <- c("Test comment")
 results <- writeMzTabM(x, path = filepath, comments = comments)
+#> Validation finished successfully: 4 message(s) found, including:
+#>  - Info(s): 4
+#>  - Warning(s): 0
+#>  - Error(s): 0
+#> 
+#> Validation messages:
+#>   level code line_no
+#> 1  Info 2057      -1
+#> 2  Info 2057      -1
+#> 3  Info 2057      -1
+#> 4  Info 2057      -1
+#>                                                                                                                                                         text
+#> 1 "quantification_method" is present but the profile "M" has no "small molecule summary (SML)/small molecule feature (SMF)" section that would require it.\r
+#> 2                 "small_molecule-quantification_unit" is present but the profile "M" has no "small molecule summary (SML)" section that would require it.\r
+#> 3         "small_molecule_feature-quantification_unit" is present but the profile "M" has no "small molecule feature (SMF)" section that would require it.\r
+#> 4                                          "database" is present but the profile "M" has no "small molecule evidence (SME)" section that would require it.\r
+
+## Run without the validate
+results <- writeMzTabM(x, path = filepath, validate = FALSE)
 ```

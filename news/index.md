@@ -2,6 +2,13 @@
 
 ## RmzTabM version 0.99
 
+### Changes in version 0.99.3
+
+- Add function
+  [`mzTabMValidator()`](https://rformassspectrometry.github.io/RmzTabM/reference/mzTabMValidator.md)
+  for the validation of the MzTab-M files before the import and after
+  the export.
+
 ### Changes in version 0.99.2
 
 - Adding support to `"mzTab-profile"` field.

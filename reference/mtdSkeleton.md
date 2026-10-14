@@ -41,7 +41,7 @@ mtdSkeleton(
   small_molecule_identification_reliability =
     "[MS, MS:1002896, compound identification confidence level, ]",
   mztab_version = "2.1.0-M",
-  mztab_profile = c("M", "M+S", "M+F", "M+S+F", "M+F+E", "M+S+F+E")
+  mztab_profile = c("M", "M+S", "M+F", "M+F+E", "M+S+F+E")
 )
 ```
 
@@ -131,8 +131,6 @@ mtdSkeleton(
   - `"M+S"`: Metadata + Small Molecule section ("SML")
 
   - `"M+F"`: Metadata + Small Molecule Feature section ("SMF")
-
-  - `"M+S+F"`: Metadata + SML + SMF
 
   - `"M+F+E"`: Metadata + SMF + Small Molecule Evidence section ("SME")
 

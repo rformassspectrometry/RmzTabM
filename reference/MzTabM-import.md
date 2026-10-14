@@ -32,7 +32,7 @@ column names.
 ## Usage
 
 ``` r
-readMzTabM(path, ...)
+readMzTabM(path, validate = TRUE, ...)
 ```
 
 ## Arguments
@@ -40,6 +40,10 @@ readMzTabM(path, ...)
 - path:
 
   `character(1)` with the path to the mzTab-M file.
+
+- validate:
+
+  `logical(1)` to run the validation on the file. Default: `TRUE`.
 
 - ...:
 
@@ -74,6 +78,28 @@ Gabriele Tomè
 ## Basic usage
 result <- readMzTabM(system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
                                    package = "RmzTabM"))
+#> Validation finished successfully: 2 message(s) found, including:
+#>  - Info(s): 2
+#>  - Warning(s): 0
+#>  - Error(s): 0
+#> 
+#> Validation messages:
+#>   level code line_no
+#> 1  Info 2057      -1
+#> 2  Info 2057      -1
+#>                                                                                                                                           text
+#> 1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
+#> 2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
+result
+#> Object of class MzTabM
+#> mzTab-M version 2.1.0-M
+#>  MTD section with 203 rows.
+#>  SMF section with 9068 rows and 22 columns.
+
+## Read without validation
+result <- readMzTabM(system.file("example_mztabm","MTBLS8735_mtd_smf.mzTab",
+                                   package = "RmzTabM"),
+                     validate = FALSE)
 result
 #> Object of class MzTabM
 #> mzTab-M version 2.1.0-M

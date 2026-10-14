@@ -440,17 +440,14 @@ library(SummarizedExperiment)
 #> The following objects are masked from ‘package:stats’:
 #> 
 #>     IQR, mad, sd, var, xtabs
-#> The following object is masked from ‘package:utils’:
-#> 
-#>     data
 #> The following objects are masked from ‘package:base’:
 #> 
 #>     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
 #>     as.data.frame, basename, cbind, colnames, dirname, do.call,
 #>     duplicated, eval, evalq, get, grep, grepl, is.unsorted, lapply,
 #>     mapply, match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-#>     rank, rbind, rownames, sapply, saveRDS, scale, sequence, table,
-#>     tapply, transform, unique, unsplit, which.max, which.min
+#>     rank, rbind, rownames, sapply, saveRDS, table, tapply, unique,
+#>     unsplit, which.max, which.min
 #> Loading required package: S4Vectors
 #> 
 #> Attaching package: ‘S4Vectors’
@@ -646,7 +643,7 @@ head(mtd(m))
 #> [1,] "2.1.0-M"                                                   
 #> [2,] "MTBLS8735"                                                 
 #> [3,] "M"                                                         
-#> [4,] "[,,RmzTabM,RmzTabM version 0.99.2]"                        
+#> [4,] "[,,RmzTabM,RmzTabM version 0.99.3]"                        
 #> [5,] "[MS, MS:1001834, LC-MS label-free quantitation analysis, ]"
 #> [6,] "POOL"                                                      
 

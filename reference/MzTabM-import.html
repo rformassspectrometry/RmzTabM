@@ -47,7 +47,7 @@ row; its two-column key–value structure is returned without column names."><me
 
     <a class="navbar-brand me-2" href="../index.html">RmzTabM</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@ row; its two-column key–value structure is returned without column names.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readMzTabM</span><span class="op">(</span><span class="va">path</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readMzTabM</span><span class="op">(</span><span class="va">path</span>, validate <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -108,6 +108,11 @@ row; its two-column key–value structure is returned without column names.</p>
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p><code>character(1)</code> with the path to the mzTab-M file.</p></dd>
+
+
+<dt id="arg-validate">validate<a class="anchor" aria-label="anchor" href="#arg-validate"></a></dt>
+<dd><p><code>logical(1)</code> to run the validation on the file.
+Default: <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -138,6 +143,28 @@ header row. Present only when both <code>SFH</code> and <code>SEH</code> are fou
 <span class="r-in"><span><span class="co">## Basic usage</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">readMzTabM</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_mztabm"</span>,<span class="st">"MTBLS8735_mtd_smf.mzTab"</span>,</span></span>
 <span class="r-in"><span>                                   package <span class="op">=</span> <span class="st">"RmzTabM"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Validation finished successfully: 2 message(s) found, including:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	- Info(s): 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	- Warning(s): 0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	- Error(s): 0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Validation messages:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   level code line_no</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1  Info 2057      -1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2  Info 2057      -1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>                                                                                                                                           text</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r</span>
+<span class="r-in"><span><span class="va">result</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MTD section with 203 rows.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  SMF section with 9068 rows and 22 columns.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Read without validation</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">readMzTabM</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_mztabm"</span>,<span class="st">"MTBLS8735_mtd_smf.mzTab"</span>,</span></span>
+<span class="r-in"><span>                                   package <span class="op">=</span> <span class="st">"RmzTabM"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                     validate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class MzTabM</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mzTab-M version 2.1.0-M</span>

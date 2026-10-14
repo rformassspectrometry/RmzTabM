@@ -412,7 +412,7 @@ metadata section are:
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | MTBLS8735 |
 | mzTab-profile | M+F |
-| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.2\] |
+| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.3\] |
 | quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
 | sample\[1\] | POOL |
 
@@ -490,7 +490,7 @@ Also, we add *xcms* as software to the `MzTabM`:
 [`getMtdField`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)`(``mzt``, ``"software"``)`
 
                              software[1]                          software[2]
-    "[,,RmzTabM,RmzTabM version 0.99.2]"     "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.99.3]"     "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -521,12 +521,57 @@ export it.
 The MzTabM object, containing the MTD and SMF sections, is ready for
 export to an mzTab-M file. Following generation, the file is verified
 using the mzTab-M validator. The validation report confirms that the
-file was generated successfully, returning only a single Info message.
-This message notes the absence of the SML section, which is expected
-given that we intentionally generated an MTD+SMF file.
+file was generated successfully, returning only two Info message. These
+message notes highlight the presence of the
+`small_molecule-quantification_unit` and `database` fields in the MTD
+section, noting that they are not necessary since the SML and SME
+sections are not present.
 
 \
 [`writeMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)`(``mzt``, path ``=`` `[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
+
+    Validation finished successfully: 2 message(s) found, including:
+
+        - Info(s): 2
+
+        - Warning(s): 0
+
+        - Error(s): 0
+
+    Validation messages:
+
+      level code line_no
+    1  Info 2057      -1
+    2  Info 2057      -1
+                                                                                                                                              text
+    1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
+    2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
+
+    $finished
+    [1] TRUE
+
+    $total_messages
+    [1] 2
+
+    $total_issues
+    [1] 0
+
+    $n_errors
+    [1] 0
+
+    $n_warnings
+    [1] 0
+
+    $n_info
+    [1] 2
+
+    $messages
+      level code line_no
+    1  Info 2057      -1
+    2  Info 2057      -1
+                                                                                                                                              text
+    1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
+    2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
 
 #### Importing an MTD+SMF mzTab-M file
 
@@ -536,7 +581,26 @@ function. The file in verified usign the mzTab-M validator and loaded
 into a `MzTabM` object.
 
 \
-`mzt_r`` ``<-`` `[`readMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`\
+`mzt_r`` ``<-`` `[`readMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
+
+    Validation finished successfully: 2 message(s) found, including:
+
+        - Info(s): 2
+
+        - Warning(s): 0
+
+        - Error(s): 0
+
+    Validation messages:
+
+      level code line_no
+    1  Info 2057      -1
+    2  Info 2057      -1
+                                                                                                                                              text
+    1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
+    2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
+
+\
 `mzt_r`
 
     Object of class MzTabM
@@ -579,6 +643,67 @@ The reconstructed `SummarizedExperiment` contains the same measurement
 data. Differences in `rowData` and `colData` reflect that only fields
 present in the SMF and MTD sections are loaded and that column names
 follow the mzTab-M specification.
+
+#### Validation of the mzTab-M file
+
+A mzTab-M file can be validated using the `validateMzTabM()` function.
+This function is the R interface to the
+[jmztabm-validator](https://github.com/lifs-tools/jmzTab-m) which is a
+tool that checks the compliance of mzTab-M files with the mzTab-M format
+specification. The validator checks for the presence of mandatory
+fields, the correct formatting of values, and the consistency of
+cross-references between sections. The functions
+[`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
+and
+[`writeMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)
+automatically validate the mzTab-M file after reading or writing,
+respectively.
+
+\
+[`mzTabMValidator`](https://rformassspectrometry.github.io/RmzTabM/reference/mzTabMValidator.md)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
+
+    Validation finished successfully: 2 message(s) found, including:
+
+        - Info(s): 2
+
+        - Warning(s): 0
+
+        - Error(s): 0
+
+    Validation messages:
+
+      level code line_no
+    1  Info 2057      -1
+    2  Info 2057      -1
+                                                                                                                                              text
+    1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
+    2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
+
+    $finished
+    [1] TRUE
+
+    $total_messages
+    [1] 2
+
+    $total_issues
+    [1] 0
+
+    $n_errors
+    [1] 0
+
+    $n_warnings
+    [1] 0
+
+    $n_info
+    [1] 2
+
+    $messages
+      level code line_no
+    1  Info 2057      -1
+    2  Info 2057      -1
+                                                                                                                                              text
+    1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
+    2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
 
 ### Low-level functions
 
@@ -978,17 +1103,17 @@ The formatted data is shown in the table below.
 | study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[1\]-datatype | xsd:string |
 | study_variable_group\[1\]-unit | \[, , hours, \] |
-| study_variable_group\[1\]-study_variable_ref | study_variable\[1\]\|study_variable\[2\] |
+| study_variable_group\[1\]-study_variable_refs | study_variable\[1\]\|study_variable\[2\] |
 | study_variable_group\[2\] | \[,,genotype,\] |
 | study_variable_group\[2\]-description | Sample matrix column genotype |
 | study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[2\]-datatype | xsd:string |
-| study_variable_group\[2\]-study_variable_ref | study_variable\[3\]\|study_variable\[4\] |
+| study_variable_group\[2\]-study_variable_refs | study_variable\[3\]\|study_variable\[4\] |
 | study_variable_group\[3\] | \[,,operator,\] |
 | study_variable_group\[3\]-description | Sample matrix column operator |
 | study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[3\]-datatype | xsd:string |
-| study_variable_group\[3\]-study_variable_ref | study_variable\[5\]\|study_variable\[6\] |
+| study_variable_group\[3\]-study_variable_refs | study_variable\[5\]\|study_variable\[6\] |
 | study_variable\[1\] | 0h |
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
@@ -1124,17 +1249,17 @@ shown in the table below.
 | study_variable_group\[1\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[1\]-datatype | xsd:string |
 | study_variable_group\[1\]-unit | \[, , hours, \] |
-| study_variable_group\[1\]-study_variable_ref | study_variable\[1\]\|study_variable\[2\] |
+| study_variable_group\[1\]-study_variable_refs | study_variable\[1\]\|study_variable\[2\] |
 | study_variable_group\[2\] | \[,,genotype,\] |
 | study_variable_group\[2\]-description | Sample matrix column genotype |
 | study_variable_group\[2\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[2\]-datatype | xsd:string |
-| study_variable_group\[2\]-study_variable_ref | study_variable\[3\]\|study_variable\[4\] |
+| study_variable_group\[2\]-study_variable_refs | study_variable\[3\]\|study_variable\[4\] |
 | study_variable_group\[3\] | \[,,operator,\] |
 | study_variable_group\[3\]-description | Sample matrix column operator |
 | study_variable_group\[3\]-type | \[STATO, STATO:0000252, categorical variable, \] |
 | study_variable_group\[3\]-datatype | xsd:string |
-| study_variable_group\[3\]-study_variable_ref | study_variable\[5\]\|study_variable\[6\] |
+| study_variable_group\[3\]-study_variable_refs | study_variable\[5\]\|study_variable\[6\] |
 | study_variable\[1\] | 0h |
 | study_variable\[1\]-assay_refs | assay\[1\]\|assay\[3\]\|assay\[5\] |
 | study_variable\[1\]-average_function | \[MS, MS:1002962, mean, \] |
@@ -1443,11 +1568,11 @@ The function require the MTD section defined earlier to validate the
 `)`\
 [`pandoc.table`](https://rdrr.io/pkg/pander/man/pandoc.table.return.html)`(``sme``, style ``=`` ``"rmarkdown"``, split.table ``=`` ``Inf``)`
 
-    | SEH | SME_ID |        evidence_input_id        | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri  | derivatized_form | adduct_ions | exp_mass_to_charge | charge | theoretical_mass_to_charge |                spectra_ref                 |      identification_method      |           ms_level            | rank |
-    |:---:|:------:|:-------------------------------:|:-------------------:|:----------------:|:------:|:-----:|:-------------:|:----:|:----------------:|:-----------:|:------------------:|:------:|:--------------------------:|:------------------------------------------:|:-------------------------------:|:-----------------------------:|:----:|
-    | SME |   1    | ms_run[1]:mass=700.5255;rt=20·5 |        null         |       null       |  null  | null  |     null      | null |       null       |    null     |      700.5255      |   1    |          700.5281          |            ms_run[1]:index=7646            | [, , LipidDataAnalyzer, 2.11.1] | [MS, MS:1000511, ms level, 2] |  1   |
-    | SME |   2    | ms_run[2]:mass=452.2782;rt=35.1 |        null         |       null       |  null  | null  |     null      | null |       null       |    null     |      452.2782      |   1    |          452.2777          |            ms_run[2]:index=7640            | [, , LipidDataAnalyzer, 2.11.1] | [MS, MS:1000511, ms level, 2] |  1   |
-    | SME |   3    | ms_run[3]:mass=882.6210;rt=40.0 |        null         |       null       |  null  | null  |     null      | null |       null       |    null     |      882.621       |   1    |          882.6224          | ms_run[3]:index=7671\|ms_run[3]:index=7725 | [, , LipidDataAnalyzer, 2.11.1] | [MS, MS:1000511, ms level, 2] |  1   |
+| SEH | SME_ID | evidence_input_id | database_identifier | chemical_formula | smiles | inchi | chemical_name | uri | derivatized_form | adduct_ions | exp_mass_to_charge | charge | theoretical_mass_to_charge | spectra_ref | identification_method | ms_level | rank |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| SME | 1 | ms_run\[1\]:mass=700.5255;rt=20·5 | null | null | null | null | null | null | null | null | 700.5255 | 1 | 700.5281 | ms_run\[1\]:index=7646 | \[, , LipidDataAnalyzer, 2.11.1\] | \[MS, MS:1000511, ms level, 2\] | 1 |
+| SME | 2 | ms_run\[2\]:mass=452.2782;rt=35.1 | null | null | null | null | null | null | null | null | 452.2782 | 1 | 452.2777 | ms_run\[2\]:index=7640 | \[, , LipidDataAnalyzer, 2.11.1\] | \[MS, MS:1000511, ms level, 2\] | 1 |
+| SME | 3 | ms_run\[3\]:mass=882.6210;rt=40.0 | null | null | null | null | null | null | null | null | 882.621 | 1 | 882.6224 | ms_run\[3\]:index=7671\|ms_run\[3\]:index=7725 | \[, , LipidDataAnalyzer, 2.11.1\] | \[MS, MS:1000511, ms level, 2\] | 1 |
 
 #### General utility functions
 
@@ -1491,22 +1616,30 @@ General utility functions include:
     [8] base
 
     other attached packages:
-     [1] pander_0.6.6                SummarizedExperiment_1.43.0
-     [3] Biobase_2.73.2              GenomicRanges_1.65.4
-     [5] Seqinfo_1.3.2               IRanges_2.47.5
-     [7] S4Vectors_0.51.10           BiocGenerics_0.59.12
-     [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.99.2
+     [1] pander_0.6.6                SummarizedExperiment_1.42.0
+     [3] Biobase_2.72.0              GenomicRanges_1.64.0
+     [5] Seqinfo_1.2.0               IRanges_2.46.0
+     [7] S4Vectors_0.50.3            BiocGenerics_0.58.1
+     [9] generics_0.1.4              MatrixGenerics_1.24.0
+    [11] matrixStats_1.5.0           RmzTabM_0.99.3
 
     loaded via a namespace (and not attached):
-     [1] cli_3.6.6           knitr_1.52          rlang_1.3.0
-     [4] xfun_0.61           otel_0.2.0          data.table_1.18.6.1
-     [7] DelayedArray_0.39.7 jsonlite_2.0.0      htmltools_0.5.9
-    [10] rmarkdown_2.32      grid_4.6.1          evaluate_1.0.5
-    [13] abind_1.4-8         fastmap_1.2.0       yaml_2.3.12
-    [16] compiler_4.6.1      Rcpp_1.1.2          XVector_0.53.0
-    [19] lattice_0.23-1      digest_0.6.39       SparseArray_1.13.3
-    [22] Matrix_1.7-6        tools_4.6.1         S4Arrays_1.13.1    
+     [1] SparseArray_1.12.3  RSQLite_3.53.3      lattice_0.23-1
+     [4] digest_0.6.39       magrittr_2.0.5      evaluate_1.0.5
+     [7] grid_4.6.1          fastmap_1.2.0       blob_1.3.0
+    [10] jsonlite_2.0.0      Matrix_1.7-6        DBI_1.3.0
+    [13] purrr_1.2.2         httr2_1.3.0         abind_1.4-8
+    [16] cli_3.6.6           rlang_1.3.0         XVector_0.52.0
+    [19] dbplyr_2.6.0        bit64_4.8.6         withr_3.0.3
+    [22] cachem_1.1.0        DelayedArray_0.38.2 yaml_2.3.12
+    [25] otel_0.2.0          S4Arrays_1.12.1     tools_4.6.1
+    [28] memoise_2.0.1       dplyr_1.2.1         filelock_1.0.3
+    [31] curl_8.0.0          vctrs_0.7.3         R6_2.6.1
+    [34] BiocFileCache_3.2.0 lifecycle_1.0.5     bit_4.6.0
+    [37] pkgconfig_2.0.3     pillar_1.11.1       Rcpp_1.1.2
+    [40] data.table_1.18.6.1 glue_1.8.1          xfun_0.61
+    [43] tibble_3.3.1        tidyselect_1.2.1    knitr_1.52
+    [46] htmltools_0.5.9     rmarkdown_2.32      compiler_4.6.1     
 
 ## References
 
