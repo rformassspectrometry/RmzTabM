@@ -81,7 +81,7 @@
   : Reconstruct a sample data frame from mzTab-M MTD content
 
 - [`mzTabMValidator()`](https://rformassspectrometry.github.io/RmzTabM/reference/mzTabMValidator.md)
-  : Validate an mzTab-M file using the jmztabm-validator
+  : Validate an mzTab-M file using the official jmztabm-validator
 
 - [`mzTabMValidator_download()`](https://rformassspectrometry.github.io/RmzTabM/reference/mzTabMValidator_download.md)
   : Download the jmztabm-validator binary

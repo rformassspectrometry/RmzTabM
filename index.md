@@ -89,8 +89,7 @@ mzTab-M format.
 
 support for mzTab-M JSON format (will come eventually later)
 
-mzTab-M file validation (will be added once the java validator for
-mzTab-M version 2.1 becomes available)
+mzTab-M file validation.
 
 👀 see also the package
 [NEWS](https://rformassspectrometry.github.io/RmzTabM/NEWS.md) for

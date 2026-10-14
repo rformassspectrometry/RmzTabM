@@ -518,17 +518,19 @@ export it.
 
 #### Export to an MTD+SMF mzTab-M file
 
-The MzTabM object, containing the MTD and SMF sections, is ready for
-export to an mzTab-M file. Following generation, the file is verified
-using the mzTab-M validator. The validation report confirms that the
-file was generated successfully, returning only two Info message. These
-message notes highlight the presence of the
-`small_molecule-quantification_unit` and `database` fields in the MTD
-section, noting that they are not necessary since the SML and SME
-sections are not present.
+The `MzTabM` object, containing the MTD and SMF sections, is ready for
+export to an mzTab-M file. The
+[`writeMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)
+function, following generation, verifies the file using the *official*
+mzTab-M validator. The first time the function is called, the validator
+for the specific operating system is downloaded and locally cached
+(avoiding thus the need to download the validator again). The function
+requires therefore however an active internet connection. If internet
+connectivity is not available, the validation can be disabled by setting
+`validate = FALSE`.
 
 \
-[`writeMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)`(``mzt``, path ``=`` `[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
+`res`` ``<-`` `[`writeMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-export.md)`(``mzt``, path ``=`` `[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
 
     Validation finished successfully: 2 message(s) found, including:
 
@@ -547,38 +549,16 @@ sections are not present.
     1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
     2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
 
-    $finished
-    [1] TRUE
-
-    $total_messages
-    [1] 2
-
-    $total_issues
-    [1] 0
-
-    $n_errors
-    [1] 0
-
-    $n_warnings
-    [1] 0
-
-    $n_info
-    [1] 2
-
-    $messages
-      level code line_no
-    1  Info 2057      -1
-    2  Info 2057      -1
-                                                                                                                                              text
-    1 "small_molecule-quantification_unit" is present but the profile "M+F" has no "small molecule summary (SML)" section that would require it.\r
-    2                          "database" is present but the profile "M+F" has no "small molecule evidence (SME)" section that would require it.\r
+The validation report confirms that the file was generated successfully,
+returning only two *Info* messages that can be safely ignored.
 
 #### Importing an MTD+SMF mzTab-M file
 
 The mzTab-M file generated above can be read back into R using the
 [`readMzTabM()`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)
-function. The file in verified usign the mzTab-M validator and loaded
-into a `MzTabM` object.
+function. Before importing, the file is verified using the mzTab-M
+validator and loaded into a `MzTabM` object. To disable validation set
+`validate = FALSE`.
 
 \
 `mzt_r`` ``<-`` `[`readMzTabM`](https://rformassspectrometry.github.io/RmzTabM/reference/MzTabM-import.md)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(`[`tempdir`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``"MTBLS8735_mtd_smf.mzTab"``)``)`
@@ -1616,26 +1596,26 @@ General utility functions include:
     [8] base
 
     other attached packages:
-     [1] pander_0.6.6                SummarizedExperiment_1.42.0
-     [3] Biobase_2.72.0              GenomicRanges_1.64.0
-     [5] Seqinfo_1.2.0               IRanges_2.46.0
-     [7] S4Vectors_0.50.3            BiocGenerics_0.58.1
-     [9] generics_0.1.4              MatrixGenerics_1.24.0
+     [1] pander_0.6.6                SummarizedExperiment_1.43.0
+     [3] Biobase_2.73.2              GenomicRanges_1.65.4
+     [5] Seqinfo_1.3.2               IRanges_2.47.5
+     [7] S4Vectors_0.51.10           BiocGenerics_0.59.12
+     [9] generics_0.1.4              MatrixGenerics_1.25.0
     [11] matrixStats_1.5.0           RmzTabM_0.99.3
 
     loaded via a namespace (and not attached):
-     [1] SparseArray_1.12.3  RSQLite_3.53.3      lattice_0.23-1
+     [1] SparseArray_1.13.4  RSQLite_3.53.3      lattice_0.23-1
      [4] digest_0.6.39       magrittr_2.0.5      evaluate_1.0.5
      [7] grid_4.6.1          fastmap_1.2.0       blob_1.3.0
     [10] jsonlite_2.0.0      Matrix_1.7-6        DBI_1.3.0
     [13] purrr_1.2.2         httr2_1.3.0         abind_1.4-8
-    [16] cli_3.6.6           rlang_1.3.0         XVector_0.52.0
+    [16] cli_3.6.6           rlang_1.3.0         XVector_0.53.0
     [19] dbplyr_2.6.0        bit64_4.8.6         withr_3.0.3
-    [22] cachem_1.1.0        DelayedArray_0.38.2 yaml_2.3.12
-    [25] otel_0.2.0          S4Arrays_1.12.1     tools_4.6.1
+    [22] cachem_1.1.0        DelayedArray_0.39.8 yaml_2.3.12
+    [25] otel_0.2.0          S4Arrays_1.13.2     tools_4.6.1
     [28] memoise_2.0.1       dplyr_1.2.1         filelock_1.0.3
     [31] curl_8.0.0          vctrs_0.7.3         R6_2.6.1
-    [34] BiocFileCache_3.2.0 lifecycle_1.0.5     bit_4.6.0
+    [34] BiocFileCache_3.3.0 lifecycle_1.0.5     bit_4.6.0
     [37] pkgconfig_2.0.3     pillar_1.11.1       Rcpp_1.1.2
     [40] data.table_1.18.6.1 glue_1.8.1          xfun_0.61
     [43] tibble_3.3.1        tidyselect_1.2.1    knitr_1.52
@@ -1643,6 +1623,7 @@ General utility functions include:
 
 ## References
 
-Louail, Philippine, Vilhelm Suksi, Kozo Nishida, Marilyn De Graeve, and
-Johannes Rainer. 2026. *Rformassspectrometry/Metabonaut: V1.5.0*. April.
-<https://doi.org/10.5281/zenodo.19450619>.
+Louail, Philippine, Marilyn De Graeve, Alexandru Mahmoud, et al. 2026.
+“Metabonaut: An Open Educational Resource for Learning Reproducible,
+Script-Based Untargeted LC-MS/MS Metabolomics.” *Metabolomics* 22 (5):
+165. <https://doi.org/10.1007/s11306-026-02538-x>.

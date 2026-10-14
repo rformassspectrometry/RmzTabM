@@ -1,12 +1,13 @@
-# Validate an mzTab-M file using the jmztabm-validator
+# Validate an mzTab-M file using the official jmztabm-validator
 
 `mzTabMValidator()` validates the mzTab-M file using the
-jmztabm-validator, which is a Java-based tool that checks the compliance
-of mzTab-M files with the mzTab-M 2.1 specification. The function
-captures the output of the validator and parses it to determine if the
-validation was successful, and to extract any validation messages
-(errors, warnings, info). If the validation fails due to errors the
-function stop and generate an error.
+[jmztabm-validator](https://github.com/lifs-tools/jmzTab-m/releases),
+which is a Java-based tool that checks the compliance of mzTab-M files
+with the mzTab-M 2.1 specification. The function captures the output of
+the validator and parses it to determine if the validation was
+successful, and to extract any validation messages (errors, warnings,
+info). If the validation fails due to errors the function stops and
+generates an error.
 
 ## Usage
 
