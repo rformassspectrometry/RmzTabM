@@ -375,23 +375,28 @@ Now we have a complete mzTab-M content compiled and can proceed to export it.
 
 ### Export to an MTD+SMF mzTab-M file
 
-The MzTabM object, containing the MTD and SMF sections, is ready for export to
-an mzTab-M file. Following generation, the file is verified using the mzTab-M
-validator. The validation report confirms that the file was generated
-successfully, returning only two Info message. These message notes highlight the
-presence of the `small_molecule-quantification_unit` and `database` fields in
-the MTD section, noting that they are not necessary since the SML and SME
-sections are not present.
+The `MzTabM` object, containing the MTD and SMF sections, is ready for export to
+an mzTab-M file. The `writeMzTabM()` function, following generation, verifies
+the file using the *official* mzTab-M validator. The first time the function is
+called, the validator for the specific operating system is downloaded and
+locally cached (avoiding thus the need to download the validator again). The
+function requires therefore however an active internet connection. If internet
+connectivity is not available, the validation can be disabled by setting
+`validate = FALSE`.
 
 ```{r writemztabm}
-writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
+res <- writeMzTabM(mzt, path = file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
 ```
+
+The validation report confirms that the file was generated successfully,
+returning only two *Info* messages that can be safely ignored.
 
 ### Importing an MTD+SMF mzTab-M file
 
 The mzTab-M file generated above can be read back into R using the
-`readMzTabM()` function. The file in verified usign the mzTab-M validator and
-loaded into a `MzTabM` object.
+`readMzTabM()` function. Before importing, the file is verified using the
+mzTab-M validator and loaded into a `MzTabM` object. To disable validation set
+`validate = FALSE`.
 
 ```{r readmztabm}
 mzt_r <- readMzTabM(file.path(tempdir(), "MTBLS8735_mtd_smf.mzTab"))
@@ -492,7 +497,9 @@ individual helper functions, starting with the **Core information**: this
 comprises general information about the experiment. A minimal set of fields
 can be compiled using the `mtdSkeleton()` function. We have to provide an ID
 for the experiment and in addition we specify the software used to process the
-data. Since this example adds all sections to MzTab-M, the profile field is already set to `"M+S+F+E"`:
+data. Since this example adds all sections to MzTab-M, the profile field is
+already set to `"M+S+F+E"`:
+
 
 ```{r mtdskeleton}
 mtd <- mtdSkeleton(

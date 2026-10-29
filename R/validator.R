@@ -1,15 +1,16 @@
-
-#' @title Validate an mzTab-M file using the jmztabm-validator
+#' @title Validate an mzTab-M file using the official jmztabm-validator
 #'
 #' @name mzTabMValidator
 #'
 #' @description
-#' `mzTabMValidator()` validates the mzTab-M file using the jmztabm-validator,
+#'
+#' `mzTabMValidator()` validates the mzTab-M file using the
+#' [jmztabm-validator](https://github.com/lifs-tools/jmzTab-m/releases),
 #' which is a Java-based tool that checks the compliance of mzTab-M files with
 #' the mzTab-M 2.1 specification. The function captures the output of the
 #' validator and parses it to determine if the validation was successful, and
 #' to extract any validation messages (errors, warnings, info). If the
-#' validation fails due to errors the function stop and generate an error.
+#' validation fails due to errors the function stops and generates an error.
 #'
 #' @param mztab_file `character(1)` with the path to the mzTab-M file to
 #'     validate.
@@ -143,7 +144,8 @@ parse_validation_output <- function(validator_output) {
 #' This function downloads the jmztabm-validator binary for the current
 #' platform (*Linux*, *macOS*, or *Windows*) from the GitHub releases of the
 #' [jmztabm-validator repository](https://github.com/lifs-tools/jmzTab-m/releases).
-#' It caches the downloaded binary using *BiocFileCache* to avoid repeated downloads.
+#' It caches the downloaded binary using *BiocFileCache* to avoid repeated
+#' downloads.
 #'
 #' @param tag `character(1)` specifying the release tag to download. Defaults
 #'     `"dev-latest"`.
@@ -165,6 +167,7 @@ parse_validation_output <- function(validator_output) {
 #'
 #' @examples
 #'
+#' ## Download and cache the operating system-specific validator
 #' mzTabMValidator_download()
 #'
 #' @export

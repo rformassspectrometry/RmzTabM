@@ -2,7 +2,7 @@
 % Please edit documentation in R/validator.R
 \name{mzTabMValidator}
 \alias{mzTabMValidator}
-\title{Validate an mzTab-M file using the jmztabm-validator}
+\title{Validate an mzTab-M file using the official jmztabm-validator}
 \usage{
 mzTabMValidator(mztab_file = character())
 }
@@ -17,12 +17,13 @@ number of errors and warnings, and a data frame with the details of each
 validation message. If the validation fails it return a error.
 }
 \description{
-\code{mzTabMValidator()} validates the mzTab-M file using the jmztabm-validator,
+\code{mzTabMValidator()} validates the mzTab-M file using the
+\href{https://github.com/lifs-tools/jmzTab-m/releases}{jmztabm-validator},
 which is a Java-based tool that checks the compliance of mzTab-M files with
 the mzTab-M 2.1 specification. The function captures the output of the
 validator and parses it to determine if the validation was successful, and
 to extract any validation messages (errors, warnings, info). If the
-validation fails due to errors the function stop and generate an error.
+validation fails due to errors the function stops and generates an error.
 }
 \seealso{
 \link{mzTabMValidator_download} to determine the path of the cached

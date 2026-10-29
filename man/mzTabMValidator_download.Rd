@@ -20,10 +20,12 @@ binary even if a cached copy exists.}
 This function downloads the jmztabm-validator binary for the current
 platform (\emph{Linux}, \emph{macOS}, or \emph{Windows}) from the GitHub releases of the
 \href{https://github.com/lifs-tools/jmzTab-m/releases}{jmztabm-validator repository}.
-It caches the downloaded binary using \emph{BiocFileCache} to avoid repeated downloads.
+It caches the downloaded binary using \emph{BiocFileCache} to avoid repeated
+downloads.
 }
 \examples{
 
+## Download and cache the operating system-specific validator
 mzTabMValidator_download()
 
 }
