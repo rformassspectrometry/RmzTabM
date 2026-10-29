@@ -28,27 +28,35 @@ MTD	sample[8]	wt22.CDF
 MTD	ms_run[1]-location	ko15.CDF
 MTD	ms_run[1]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[1]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[1]-instrument_ref	instrument[1]
 MTD	ms_run[2]-location	ko16.CDF
 MTD	ms_run[2]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[2]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[2]-instrument_ref	instrument[1]
 MTD	ms_run[3]-location	ko21.CDF
 MTD	ms_run[3]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[3]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[3]-instrument_ref	instrument[1]
 MTD	ms_run[4]-location	ko22.CDF
 MTD	ms_run[4]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[4]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[4]-instrument_ref	instrument[1]
 MTD	ms_run[5]-location	wt15.CDF
 MTD	ms_run[5]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[5]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[5]-instrument_ref	instrument[1]
 MTD	ms_run[6]-location	wt16.CDF
 MTD	ms_run[6]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[6]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[6]-instrument_ref	instrument[1]
 MTD	ms_run[7]-location	wt21.CDF
 MTD	ms_run[7]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[7]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[7]-instrument_ref	instrument[1]
 MTD	ms_run[8]-location	wt22.CDF
 MTD	ms_run[8]-scan_polarity[1]	[MS, MS:1000130, positive scan, ]
 MTD	ms_run[8]-parameter[1]	[MS, MS:1000031, instrument model, [MS, MS:1000449, LTQ Orbitrap,]]
+MTD	ms_run[8]-instrument_ref	instrument[1]
 MTD	assay[1]	ko15.CDF
 MTD	assay[1]-sample_ref	sample[1]
 MTD	assay[1]-ms_run_ref	ms_run[1]

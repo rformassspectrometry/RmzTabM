@@ -284,7 +284,7 @@ isCvParameter <- function(x) {
     ## Character columns: "" to "null"
     char_cols <- vapply(x, is.character, FUN.VALUE = logical(1L))
     x[char_cols] <- lapply(x[char_cols], function(z) {
-        ifelse(z == "", "null", z)
+        ifelse(z == "" | is.na(z), "null", z)
     })
     ## Numeric colums: NA to "null"
     numeric_cols <- vapply(x, is.numeric, FUN.VALUE = logical(1L))

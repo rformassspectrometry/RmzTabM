@@ -137,7 +137,7 @@ writeMzTabM <- function(x, path, comments = character(), validate = TRUE) {
 
     ## SML
     if ("SML" %in% names(x)) {
-        sml <- .NAtonull(x[["SML"]])
+        sml <- .NAtonull(as.data.frame(x[["SML"]]))
         suppressWarnings(write.table(as.data.frame(sml), file = path,
                                     sep = "\t", row.names = FALSE,
                                     append = TRUE, quote = FALSE,
@@ -149,7 +149,7 @@ writeMzTabM <- function(x, path, comments = character(), validate = TRUE) {
     }
     ## SMF
     if ("SMF" %in% names(x)) {
-        smf <- .NAtonull(x[["SMF"]])
+        smf <- .NAtonull(as.data.frame(x[["SMF"]]))
         suppressWarnings(write.table(as.data.frame(smf), file = path,
                                     sep = "\t", row.names = FALSE,
                                     append = TRUE, quote = FALSE,
@@ -162,7 +162,7 @@ writeMzTabM <- function(x, path, comments = character(), validate = TRUE) {
     }
     ## SME
     if ("SME" %in% names(x)) {
-        sme <- .NAtonull(x[["SME"]])
+        sme <- .NAtonull(as.data.frame(x[["SME"]]))
         suppressWarnings(write.table(as.data.frame(sme), file = path,
                                     sep = "\t", row.names = FALSE,
                                     append = TRUE, quote = FALSE,
