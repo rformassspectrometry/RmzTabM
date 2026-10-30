@@ -126,7 +126,6 @@ test_that("mzTabMValidator works", {
     expect_error(mzTabMValidator("non_existing_file.mzTab"),
                  "The file does not exist")
 
-
     mztab_file <- system.file("mztabm/in",
                                 "LDA_v2.11.1_MTBLS396_short_error.mzTab",
                                 package = "RmzTabM")

@@ -120,7 +120,9 @@ parse_validation_output <- function(validator_output) {
         n_warnings <- sum(tolower(messages$level) == "warn")
         n_info <- sum(tolower(messages$level) == "info")
     } else {
-        n_errors <- sum(grepl("ERROR", validator_output))
+        n_errors <- sum(grepl("ERROR", validator_output)) -
+                        sum(grepl("logback", validator_output) &
+                            grepl("ERROR", validator_output))
         ## Subtract logback config warning
         n_warnings <- sum(grepl("WARN", validator_output)) -
                         sum(grepl("logback", validator_output) &
