@@ -62,34 +62,27 @@ The R package can be installed from Bioconductor using:
 ℹ️ *core functions* are expected to take and return single base R data
 types.
 
-core functionality to format metadata (MTD section)
-[documentation](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.html)
-
-core functionality to format small molecule feature (SMF section)
-[documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.html)
-
-core functionality to format the (SML section)
-[documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.html)
-
-core functionality to format the (SME section)
-[documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.html)
-
-core functionality to extract metadata from an mzTab-M file and
-reconstruct a sample/experiment `data.frame`
-
-core functionality to extract the SMF data table from an mzTab-M file
-
-core functionality to extract the SME data table from an mzTab-M file
-
-core functionality to extract the SML data table from an mzTab-M file
-
-high-level functionality to simplify exporting experimental data in
-mzTab-M format.
-[documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
-
-support for mzTab-M JSON format (will come eventually later)
-
-mzTab-M file validation.
+- [x] core functionality to format metadata (MTD section)
+  [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/MTD-export.html)
+- [x] core functionality to format small molecule feature (SMF section)
+  [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SMF-export.html)
+- [x] core functionality to format the (SML section)
+  [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SML-export.html)
+- [x] core functionality to format the (SME section)
+  [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SME-export.html)
+- [x] core functionality to extract metadata from an mzTab-M file and
+  reconstruct a sample/experiment `data.frame`
+- [x] core functionality to extract the SMF data table from an mzTab-M
+  file
+- [x] core functionality to extract the SME data table from an mzTab-M
+  file
+- [x] core functionality to extract the SML data table from an mzTab-M
+  file
+- [x] high-level functionality to simplify exporting experimental data
+  in mzTab-M format.
+  [documentation](https://rformassspectrometry.github.io/RmzTabM/reference/SummarizedExperiment-mzTab-M.html)
+- [ ] support for mzTab-M JSON format (will come eventually later)
+- [x] mzTab-M file validation.
 
 👀 see also the package
 [NEWS](https://rformassspectrometry.github.io/RmzTabM/NEWS.md) for

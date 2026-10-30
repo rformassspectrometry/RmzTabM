@@ -2,6 +2,14 @@
 
 ## RmzTabM version 0.99
 
+### Changes in version 0.99.4
+
+- Fix issue
+  [\#56](https://github.com/rformassspectrometry/RmzTabM/issues/56) due
+  to new validator release
+  [jmzTab-m/#233](https://github.com/lifs-tools/jmzTab-m/pull/233).
+- Fix `.NAtonull()` when `character` columns have `NA`.
+
 ### Changes in version 0.99.3
 
 - Add function

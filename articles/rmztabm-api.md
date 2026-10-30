@@ -412,7 +412,7 @@ metadata section are:
 | mzTab-version | 2.1.0-M |
 | mzTab-ID | MTBLS8735 |
 | mzTab-profile | M+F |
-| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.3\] |
+| software\[1\] | \[,,RmzTabM,RmzTabM version 0.99.4\] |
 | quantification_method | \[MS, MS:1001834, LC-MS label-free quantitation analysis, \] |
 | sample\[1\] | POOL |
 
@@ -490,7 +490,7 @@ Also, we add *xcms* as software to the `MzTabM`:
 [`getMtdField`](https://rformassspectrometry.github.io/RmzTabM/reference/setMtdField.md)`(``mzt``, ``"software"``)`
 
                              software[1]                          software[2]
-    "[,,RmzTabM,RmzTabM version 0.99.3]"     "[MS, MS:1001582, xcms, 4.10.0]" 
+    "[,,RmzTabM,RmzTabM version 0.99.4]"     "[MS, MS:1001582, xcms, 4.10.0]" 
 
 Also, we need to add instrument information to the `MzTabM` object.
 
@@ -1574,7 +1574,7 @@ General utility functions include:
 
     R version 4.6.1 (2026-06-24)
     Platform: x86_64-pc-linux-gnu
-    Running under: Ubuntu 24.04.4 LTS
+    Running under: Ubuntu 24.04.5 LTS
 
     Matrix products: default
     BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -1596,28 +1596,28 @@ General utility functions include:
     [8] base
 
     other attached packages:
-     [1] pander_0.6.6                SummarizedExperiment_1.43.0
-     [3] Biobase_2.73.2              GenomicRanges_1.65.4
-     [5] Seqinfo_1.3.2               IRanges_2.47.5
-     [7] S4Vectors_0.51.10           BiocGenerics_0.59.12
-     [9] generics_0.1.4              MatrixGenerics_1.25.0
-    [11] matrixStats_1.5.0           RmzTabM_0.99.3
+     [1] pander_0.6.6                SummarizedExperiment_1.42.0
+     [3] Biobase_2.72.0              GenomicRanges_1.64.0
+     [5] Seqinfo_1.2.0               IRanges_2.46.0
+     [7] S4Vectors_0.50.3            BiocGenerics_0.58.1
+     [9] generics_0.1.4              MatrixGenerics_1.24.0
+    [11] matrixStats_1.5.0           RmzTabM_0.99.4
 
     loaded via a namespace (and not attached):
-     [1] SparseArray_1.13.4  RSQLite_3.53.3      lattice_0.23-1
+     [1] SparseArray_1.12.3  RSQLite_3.53.3      lattice_0.23-1
      [4] digest_0.6.39       magrittr_2.0.5      evaluate_1.0.5
      [7] grid_4.6.1          fastmap_1.2.0       blob_1.3.0
     [10] jsonlite_2.0.0      Matrix_1.7-6        DBI_1.3.0
     [13] purrr_1.2.2         httr2_1.3.0         abind_1.4-8
-    [16] cli_3.6.6           rlang_1.3.0         XVector_0.53.0
+    [16] cli_3.6.6           rlang_1.3.0         XVector_0.52.0
     [19] dbplyr_2.6.0        bit64_4.8.6         withr_3.0.3
-    [22] cachem_1.1.0        DelayedArray_0.39.8 yaml_2.3.12
-    [25] otel_0.2.0          S4Arrays_1.13.2     tools_4.6.1
+    [22] cachem_1.1.0        DelayedArray_0.38.2 yaml_2.3.12
+    [25] otel_0.2.0          S4Arrays_1.12.1     tools_4.6.1
     [28] memoise_2.0.1       dplyr_1.2.1         filelock_1.0.3
-    [31] curl_8.0.0          vctrs_0.7.3         R6_2.6.1
-    [34] BiocFileCache_3.3.0 lifecycle_1.0.5     bit_4.6.0
+    [31] curl_8.1.0          vctrs_0.7.3         R6_2.6.1
+    [34] BiocFileCache_3.2.0 lifecycle_1.0.5     bit_4.6.0
     [37] pkgconfig_2.0.3     pillar_1.11.1       Rcpp_1.1.2
-    [40] data.table_1.18.6.1 glue_1.8.1          xfun_0.61
+    [40] data.table_1.18.6.1 glue_1.8.1          xfun_0.62
     [43] tibble_3.3.1        tidyselect_1.2.1    knitr_1.52
     [46] htmltools_0.5.9     rmarkdown_2.32      compiler_4.6.1     
 

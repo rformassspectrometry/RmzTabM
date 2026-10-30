@@ -27,13 +27,13 @@ Source:
 [`DESCRIPTION`](https://github.com/RforMassSpectrometry/RmzTabM/blob/main/DESCRIPTION)
 
 Rainer J, Louail P, Tomè G (2026). *RmzTabM: R API for the mzTab-M
-Reference Implementation*. R package version 0.99.3,
+Reference Implementation*. R package version 0.99.4,
 <https://github.com/RforMassSpectrometry/RmzTabM>.
 
 @Manual{,\
   title = {RmzTabM: R API for the mzTab-M Reference Implementation},\
   author = {Johannes Rainer and Philippine Louail and Gabriele Tomè},\
   year = {2026},\
-  note = {R package version 0.99.3},\
+  note = {R package version 0.99.4},\
   url = {https://github.com/RforMassSpectrometry/RmzTabM},\
 }
